@@ -51,5 +51,30 @@ if ( ! function_exists('url'))
     }
 }
 
+if ( ! function_exists('action')) 
+{
+    /**
+     * Use it for form actions.
+     *
+     * @param string $uri
+     * @param mixed $method
+     * @return void
+     */
+    function action($uri = '', $method = null)
+    {
+        if (is_null($uri)) {
+            return "action=''" . ' ';
+        }
+        
+        if (!is_null($method) && $method === 'post' || $method === 'get') {
+            return "action='" . site_url($uri) . "'" .' '. "method='" . $method . "'" . ' ';
+        }
+
+        return "action='" . site_url($uri) . "'" . ' ';
+    }
+}
+
+
+
 /* ------------------------------- Uri Functions ---------------------------------*/
 
