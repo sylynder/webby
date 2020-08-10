@@ -74,7 +74,22 @@ if ( ! function_exists('action'))
     }
 }
 
-
+if ( ! function_exists('active_link')) 
+{
+    /**
+    * Use it to set active or current url for 
+    * css classes. Default class name is (active)
+    */
+    function active_link($link, $class = null)
+    {
+        if ($class !== null) {
+            return ci()->uri->uri_string() === $link ? 'class='.$class : '';
+        } 
+        
+        return ci()->uri->uri_string() === $link ? 'class='.'active' : '';
+        
+    }
+}
 
 /* ------------------------------- Uri Functions ---------------------------------*/
 
