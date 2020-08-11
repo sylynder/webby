@@ -37,3 +37,28 @@ if ( ! function_exists('unique_id'))
         return substr(bin2hex($bytes), 0, $length);
     }
 }
+
+/* ------------------------------- String Functions ---------------------------------*/
+
+if ( ! function_exists('dot')) 
+{
+    /**
+     * Check if dot exists in string
+     * and replace with forward slash
+     *
+     * @param string $string
+     * @return void
+     */
+    function dot(string $string)
+    {
+        if (strstr($string, '/')) {
+            $string = $string;
+        }
+
+        if (strstr($string, '.')) {
+            $string = str_replace('.', '/', $string);
+        }
+
+        return $string;
+    }
+}
