@@ -78,3 +78,19 @@ if ( ! function_exists('str_left_zeros'))
     }
 }
 
+if ( ! function_exists('str_right_zeros')) 
+{
+    /**
+     * suffix zeros at the end of a string
+     *
+     * @param mixed $value
+     * @param int $length
+     * @return void
+     */
+    function str_right_zeros($value, $length)
+    {
+        return str_pad($value, $length, '0', STR_PAD_RIGHT);
+    }
+}
+
+
