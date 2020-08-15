@@ -91,5 +91,19 @@ if ( ! function_exists('active_link'))
     }
 }
 
+if ( ! function_exists('uri_segment')) 
+{
+    /**
+     * Undocumented function
+     *
+     * @param string $n
+     * @param mixed $no_result
+     * @return void
+     */
+    function uri_segment($n, $no_result = NULL)
+    {
+        return ci()->uri->segment($n, $no_result);
+    }
+}
 /* ------------------------------- Uri Functions ---------------------------------*/
 
