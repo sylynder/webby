@@ -107,3 +107,24 @@ if ( ! function_exists('uri_segment'))
 }
 /* ------------------------------- Uri Functions ---------------------------------*/
 
+/* ------------------------------- Loader Functions ---------------------------------*/
+
+if ( ! function_exists('load_language')) 
+{
+    /**
+     * load a language file 
+     *
+     * @param string $langfile
+     * @param string $idiom
+     * @param boolean $return
+     * @param boolean $add_suffix
+     * @param string $alt_path
+     * @return void
+     */
+    function load_language($langfile, $idiom = '', $return = false, $add_suffix = true, $alt_path = '')
+    {
+        ci()->lang->load($langfile, $idiom, $return, $add_suffix, $alt_path);
+    }
+}
+
+
