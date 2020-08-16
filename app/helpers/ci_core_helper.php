@@ -127,4 +127,18 @@ if ( ! function_exists('load_language'))
     }
 }
 
-
+if ( ! function_exists('language')) 
+{
+    /**
+     * specify a line to use 
+     * from the language file
+     *
+     * @param string $line
+     * @param boolean $log_errors
+     * @return void
+     */
+    function language($line, $log_errors = true)
+    {
+        return ci()->lang->line($line, $log_errors);
+    }
+}
