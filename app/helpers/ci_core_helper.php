@@ -112,12 +112,12 @@ if ( ! function_exists('uri_segment'))
 if ( ! function_exists('use_library')) 
 {
     /**
-     * Load a library and instantiate
+     * Use a library/libraries and instantiate
      *
      * @param string|array $library
      * @param array $params
      * @param string $object_name
-     * @return object
+     * @return void
      */
     function use_library($library, $params = NULL, $object_name = NULL)
     {
@@ -131,18 +131,34 @@ if ( ! function_exists('use_library'))
 if ( ! function_exists('use_model')) 
 {
     /**
-     * Load a model and instantiate
+     * Use a model/models and instantiate
      *
      * @param string|array $model
      * @param string $name
      * @param boolean $db_conn
-     * @return object
+     * @return void
      */
-    function use_model($model, $name = '', $db_conn = false): object
+    function use_model($model, $name = '', $db_conn = false)
     {
         $model = with_dot($model);
 
         ci()->load->model($model, $name, $db_conn);
+    }
+}
+
+if ( ! function_exists('use_helper')) 
+{
+    /**
+     * Use a helper/helpers
+     *
+     * @param string|array $helper
+     * @return void
+     */
+    function use_helper($helper): object
+    {
+        $helper = with_dot($helper);
+
+        ci()->load->helper($helper);
     }
 }
 
