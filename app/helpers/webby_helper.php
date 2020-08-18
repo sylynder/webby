@@ -63,6 +63,46 @@ if ( ! function_exists('dot'))
     }
 }
 
+if ( ! function_exists('with_dot')) 
+{
+
+    /**
+     * Check if dot exists in string
+     * Also checks if string is array
+     * and replace with forward slash
+     * 
+     * 
+     * @param string|array $string
+     * @return void
+     */
+    function with_dot($string)
+    {
+        $output = [];
+
+        if (is_array($string)) {
+
+            foreach ($string as $key => $value)
+            {
+                
+                if (is_int($key))
+                {
+                    $output[] = dot($value);
+                }
+                else
+                {
+                    $output[] = dot($value);
+                }
+            }
+        }
+
+        if (!is_array($string)) {
+            $output = dot($string);
+        }
+
+        return $output;
+    }
+}
+
 if ( ! function_exists('str_left_zeros')) 
 {
     /**
