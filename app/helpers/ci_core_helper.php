@@ -109,6 +109,25 @@ if ( ! function_exists('uri_segment'))
 
 /* ------------------------------- Loader Functions ---------------------------------*/
 
+if ( ! function_exists('use_library')) 
+{
+    /**
+     * Load a library and instantiate
+     *
+     * @param string|array $library
+     * @param array $params
+     * @param string $object_name
+     * @return object
+     */
+    function use_library($library, $params = NULL, $object_name = NULL)
+    {
+
+        $library = with_dot($library);
+
+        ci()->load->library($library, $params, $object_name);
+    }
+}
+
 if ( ! function_exists('load_language')) 
 {
     /**
