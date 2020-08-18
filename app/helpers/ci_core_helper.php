@@ -128,6 +128,24 @@ if ( ! function_exists('use_library'))
     }
 }
 
+if ( ! function_exists('use_model')) 
+{
+    /**
+     * Load a model and instantiate
+     *
+     * @param string|array $model
+     * @param string $name
+     * @param boolean $db_conn
+     * @return object
+     */
+    function use_model($model, $name = '', $db_conn = false): object
+    {
+        $model = with_dot($model);
+
+        ci()->load->model($model, $name, $db_conn);
+    }
+}
+
 if ( ! function_exists('load_language')) 
 {
     /**
