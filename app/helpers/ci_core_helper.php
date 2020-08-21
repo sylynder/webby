@@ -51,6 +51,19 @@ if ( ! function_exists('url'))
     }
 }
 
+if (!function_exists('void_url')) 
+{
+    /**
+     * A function that adds a void url
+     *
+     * @return void
+     */
+    function void_url()
+    {
+        echo 'javascript:void(0)';
+    }
+}
+
 if ( ! function_exists('action')) 
 {
     /**
