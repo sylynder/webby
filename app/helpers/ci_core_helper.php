@@ -118,6 +118,35 @@ if ( ! function_exists('uri_segment'))
         return ci()->uri->segment($n, $no_result);
     }
 }
+
+if (!function_exists('go_back')) 
+{
+    /**
+     * Go back using Html5 previous history
+     *
+     * @param string $text
+     * @param string $style
+     * @return void
+     */
+    function go_back($text, $style = null)
+    {
+        echo '<a class="' . $style . '" href="javascript:window.history.go(-1);">' . $text . '</a>';
+    }
+}
+
+if (!function_exists('html5_back')) 
+{
+    /**
+     * Alias of go_back function
+     * To be used in href
+     *
+     * @return void
+     */
+    function html5_back()
+    {
+        return 'javascript:window.history.go(-1)';
+    }
+}
 /* ------------------------------- Uri Functions ---------------------------------*/
 
 /* ------------------------------- Loader Functions ---------------------------------*/
