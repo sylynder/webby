@@ -97,7 +97,7 @@ switch (ENVIRONMENT)
  * This variable must contain the name of your "system" directory.
  * Set the path if it is not in the same directory as this file.
  */
-	$system_path = '../vendor/sylynder/codeigniter/framework';
+	$system_path = __DIR__ . '/../vendor/sylynder/codeigniter/framework';
 
 /*
  *---------------------------------------------------------------
@@ -114,7 +114,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = '../app';
+	$application_folder = __DIR__ . '/../engine/Core';
 
 /*
  *---------------------------------------------------------------
@@ -129,7 +129,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$view_folder = '';
+	$view_folder = __DIR__ . '/../app/Views'; 
 
 
 /*
