@@ -266,7 +266,7 @@ define('COMPOSERPATH', str_replace('\\', DIRECTORY_SEPARATOR, $composer_director
 define('WRITABLEPATH', str_replace('\\', DIRECTORY_SEPARATOR, $writable_directory));
 
 // Path to the engine folder
-define('ENGINEPATH', str_replace('CORE' . DIRECTORY_SEPARATOR, '', BASEPATH));
+define('ENGINEPATH', __DIR__ . '/../engine');
 
 // Path to the root folder
 define('ROOTPATH', str_replace('engine' . DIRECTORY_SEPARATOR, '', ENGINEPATH));
@@ -297,34 +297,34 @@ define('SYSDIR',
 );
 
 // Path to Stubs APPROOT . 'cli/Commands' . DIRECTORY_SEPARATOR;
-define('STUBSPATH', ENGINEPATH . 'Sylynder/Views/Console/stubs' . DIRECTORY_SEPARATOR);
+// define('STUBSPATH', ENGINEPATH . 'Sylynder/Views/Console/stubs' . DIRECTORY_SEPARATOR);
 
-define('COMMANDPATH', APPROOT . 'Cli/Commands' . DIRECTORY_SEPARATOR);
+// define('COMMANDPATH', APPROOT . 'Cli/Commands' . DIRECTORY_SEPARATOR);
 
 // The path to the "application" folder
-if (is_dir($common_directory)) {
+if (is_dir($core_directory)) {
     
-    if (($_temp = realpath($common_directory)) !== false) {
-        $common_directory = $_temp;
+    if (($_temp = realpath($core_directory)) !== false) {
+        $core_directory = $_temp;
     }
 
-    define('APPPATH', $common_directory . DIRECTORY_SEPARATOR);
+    define('APPPATH', $core_directory . DIRECTORY_SEPARATOR);
 } else {
 
-    if (!is_dir(BASEPATH . $common_directory . DIRECTORY_SEPARATOR)) {
+    if (!is_dir(BASEPATH . $core_directory . DIRECTORY_SEPARATOR)) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
-        echo 'Your common directory path does not appear to be set correctly. Please open the public/index.php file and set a correct the path on line ' . $common_directory_line;
+        echo 'Your common directory path does not appear to be set correctly. Please open the public/index.php file and set a correct the path on line ' . $core_directory_line;
         exit(3); // EXIT_CONFIG
     }
 
-    define('APPPATH', BASEPATH . $common_directory . DIRECTORY_SEPARATOR);
+    define('APPPATH', BASEPATH . $core_directory . DIRECTORY_SEPARATOR);
 }
 
 /*
  * We set these constant because we don't want
  * to change APPPATH and BASEPATH Since codeigniter uses them
  */
-define('COMMONPATH', APPPATH);
+define('COREPATH', APPPATH);
 define('CIPATH', BASEPATH);
 
 
