@@ -63,6 +63,29 @@ if ( ! function_exists('dot'))
     }
 }
 
+if ( ! function_exists('dot')) 
+{
+    /**
+     * Check if dot exists in string
+     * and replace with forward slash
+     *
+     * @param string $string
+     * @return void
+     */
+    function dot_to_slash(string $string)
+    {
+        if (strstr($string, '/')) {
+            $string = $string;
+        }
+
+        if (strstr($string, '.')) {
+            $string = str_replace('.', '/', $string);
+        }
+
+        return $string;
+    }
+}
+
 if ( ! function_exists('with_dot')) 
 {
 
