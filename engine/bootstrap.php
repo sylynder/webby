@@ -285,7 +285,7 @@ define('ROOTPATH', str_replace('engine' . DIRECTORY_SEPARATOR, '', ENGINEPATH));
  */
 define('APPROOT', ROOTPATH . 'app/');
 
-// Name of the "system folder"
+// Name of the "codeigniter folder"
 define('SYSDIR',
     trim(
         strrchr(
@@ -301,7 +301,8 @@ define('SYSDIR',
 
 // define('COMMANDPATH', APPROOT . 'Cli/Commands' . DIRECTORY_SEPARATOR);
 
-// The path to the "application" folder
+// This used to be the "application" folder for codeigniter
+// The path to "core" folder
 if (is_dir($core_directory)) {
     
     if (($_temp = realpath($core_directory)) !== false) {
@@ -331,14 +332,14 @@ define('CIPATH', BASEPATH);
 // The path to the "views" folder
 if (!is_dir($view_directory)) {
 
-    if (!empty($view_directory) && is_dir(APPPATH . $view_directory . DIRECTORY_SEPARATOR)) {
-        $view_directory = APPPATH . $view_directory;
-    } elseif (!is_dir(APPPATH . 'views' . DIRECTORY_SEPARATOR)) {
+    if (!empty($view_directory) && is_dir(COREPATH . $view_directory . DIRECTORY_SEPARATOR)) {
+        $view_directory = COREPATH . $view_directory;
+    } elseif (!is_dir(COREPATH . 'views' . DIRECTORY_SEPARATOR)) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
         echo 'Your view folder path does not appear to be set correctly. Please open the public/index.php file and set a correct the path on line ' . $view_directory_line;
         exit(3); // EXIT_CONFIG
     } else {
-        $view_directory = APPPATH . 'views';
+        $view_directory = COREPATH . 'views';
     }
 }
 
@@ -355,7 +356,7 @@ if (is_dir($asset_directory)) {
     define('ASSET', $asset_directory . DIRECTORY_SEPARATOR);
 } else {
 
-    if (!is_dir(BASEPATH . $asset_directory . DIRECTORY_SEPARATOR)) {
+    if (!is_dir(CIPATH . $asset_directory . DIRECTORY_SEPARATOR)) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
         echo 'Your assets folder path does not appear to be set correctly. Please open the public/index.php file and set a correct the path on line ' . $asset_directory_line;
         exit(3); // EXIT_CONFIG
@@ -369,7 +370,7 @@ if (is_dir($upload_directory)) {
     define('UPLOADPATH', $upload_directory . DIRECTORY_SEPARATOR);
 } else {
 
-    if (!is_dir(BASEPATH . $upload_directory . DIRECTORY_SEPARATOR)) {
+    if (!is_dir(CIPATH . $upload_directory . DIRECTORY_SEPARATOR)) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
         echo 'Your uploads data folder path does not appear to be set correctly. Please open the public/index.php file and set a correct the path on line '. $upload_directory_line;
         exit(3); // EXIT_CONFIG
