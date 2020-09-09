@@ -107,7 +107,7 @@ if ( ! function_exists('active_link'))
 if ( ! function_exists('uri_segment')) 
 {
     /**
-     * Undocumented function
+     * Alias for CodeIgniter's $this->uri->segment
      *
      * @param string $n
      * @param mixed $no_result
@@ -177,6 +177,19 @@ if ( ! function_exists('get'))
     function get($index = null, $xss_clean = null)
     {
         return ci()->input->get($index, $xss_clean);
+    }
+}
+
+if ( ! function_exists('is_ajax_request')) 
+{
+    /**
+     * Check whether request is an ajax request
+     *
+     * @return boolean
+     */
+    function is_ajax_request()
+    {
+        return ci()->input->is_ajax_request();
     }
 }
 
