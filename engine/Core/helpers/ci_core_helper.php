@@ -194,6 +194,43 @@ if ( ! function_exists('ip_address'))
     }
 }
 
+if ( ! function_exists('raw_input_stream')) 
+{
+    /**
+     * Holds a cache of php://input contents
+     *
+     * @return void
+     */
+    function raw_input_stream()
+    {
+        return ci()->input->raw_input_stream;
+    }
+}
+
+if ( ! function_exists('raw_input_contents')) 
+{
+    /**
+     * Get a uri and treat as php://input contents
+     *
+     * @param string|array $uri
+     * @return void
+     */
+    function raw_input_contents($uri = null)
+    {
+
+        if ( ! is_null($uri) && ! is_array($uri)) {
+            return file_get_contents($uri);
+        }
+
+        //@Todo: Will implement a logic here
+        if (is_null($uri) && is_array($uri)) {
+            //return file_get_contents("do something");
+        }
+
+        return raw_input_stream();
+    }
+}
+
 /* ------------------------------- Loader Functions ---------------------------------*/
 
 if ( ! function_exists('use_library')) 
