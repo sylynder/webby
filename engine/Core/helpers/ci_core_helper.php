@@ -153,7 +153,7 @@ if (!function_exists('html5_back'))
 if ( ! function_exists('post')) 
 {
     /**
-     * function to set only post methods
+     * Function to set only post methods
      *
      * @param string $index
      * @param bool $xss_clean
@@ -162,6 +162,35 @@ if ( ! function_exists('post'))
     function post($index = null, $xss_clean = null)
     {
         return ci()->input->post($index, $xss_clean);
+    }
+}
+
+if ( ! function_exists('get')) 
+{
+    /**
+     * Function to set only get methods
+     *
+     * @param $string $index
+     * @param bool $xss_clean
+     * @return void
+     */
+    function get($index = null, $xss_clean = null)
+    {
+        return ci()->input->get($index, $xss_clean);
+    }
+}
+
+if ( ! function_exists('ip_address')) 
+{
+    /**
+     * Alias of IP Address Fetching from 
+     * CodeIgniter's Input Class
+     *
+     * @return void
+     */
+    function ip_address()
+    {
+        return ci()->input->ip_address();
     }
 }
 
