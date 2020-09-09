@@ -193,6 +193,21 @@ if ( ! function_exists('is_ajax_request'))
     }
 }
 
+if ( ! function_exists('server')) 
+{
+    /**
+     * Function to set only server methods
+     *
+     * @param [type] $index
+     * @param [type] $xss_clean
+     * @return void
+     */
+    function server($index, $xss_clean = NULL)
+    {
+        return ci()->input->server($index, $xss_clean);
+    }
+}
+
 if ( ! function_exists('ip_address')) 
 {
     /**
