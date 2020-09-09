@@ -147,7 +147,23 @@ if (!function_exists('html5_back'))
         return 'javascript:window.history.go(-1)';
     }
 }
-/* ------------------------------- Uri Functions ---------------------------------*/
+
+/* ------------------------------- Request | Resource && User Agent Functions ---------------------------------*/
+
+if ( ! function_exists('post')) 
+{
+    /**
+     * function to set only post methods
+     *
+     * @param string $index
+     * @param bool $xss_clean
+     * @return void
+     */
+    function post($index = null, $xss_clean = null)
+    {
+        return ci()->input->post($index, $xss_clean);
+    }
+}
 
 /* ------------------------------- Loader Functions ---------------------------------*/
 
