@@ -198,8 +198,8 @@ if ( ! function_exists('server'))
     /**
      * Function to set only server methods
      *
-     * @param [type] $index
-     * @param [type] $xss_clean
+     * @param string $index
+     * @param bool $xss_clean
      * @return void
      */
     function server($index, $xss_clean = NULL)
@@ -256,6 +256,188 @@ if ( ! function_exists('raw_input_contents'))
         }
 
         return raw_input_stream();
+    }
+}
+
+/* ------------------------------- Form Functions ---------------------------------*/
+
+if ( ! function_exists('selected')) 
+{
+    /**
+     * Use it to compare values without 
+     * CodeIgniter's set_select function
+     *
+     * @param string $existing_value
+     * @param string $comparing_value
+     * @return void
+     */
+    function selected($existing_value, $comparing_value)
+    {
+        return ($existing_value === $comparing_value) ? ' selected="selected"' : '';
+    }
+}
+
+if ( ! function_exists('verify_selected')) 
+{
+    /**
+     * Works similarly as the above function
+     * This time use it to compare values with CodeIgniter's 
+     * set_select function as a third parameter 
+     *
+     * e.g set_select('field_name', 
+     *           $value_to_compare, 
+     *           verify_selected($value_to_compare , $compared_value)
+     *       );      
+     * 
+     * @param string $existing_value
+     * @param string $comparing_value
+     * @return void
+     */
+    function verify_selected($existing_value, $comparing_value)
+    {
+        //Use it to compare values
+        return ($existing_value === $comparing_value) ? true: false;
+    }
+}
+
+if ( ! function_exists('validate')) 
+{
+    /**
+     * Alias of CodeIgniter's 
+     * $this->form_validation->set_rules
+     *
+     * @param string $field
+     * @param string $label
+     * @param string|array $rules
+     * @param mixed $errors
+     * @return void
+     */
+    function validate($field, $label = '', $rules, $errors = null)
+    {
+        ci()->form_validation->set_rules($field, $label, $rules, $errors);
+    }
+}
+
+if ( ! function_exists('form_valid')) 
+{
+    /**
+     * Checks if form is valid
+     * Can use parameter ($rules) to specify a
+     * an already given rules
+     *
+     * @param string $rules
+     * @return void
+     */
+    function form_valid($rules = '')
+    {
+        return ci()->form_validation->run($rules);
+    }
+}
+
+if ( ! function_exists('form_error_exists')) 
+{
+    /**
+     * Checks if a form error exists
+     *
+     * @param string $input_field
+     * @return void
+     */
+    function form_error_exists($input_field = null)
+    {
+        $error = form_error($input_field);
+        $custom_error = get_form_error($input_field);
+
+        if (is_null($input_field)) {
+            return '';
+        }
+
+        if ( ! empty($error) ) {
+            return true;
+        }
+
+        if (! empty($custom_error)) {
+            return $custom_error;
+        }
+
+        return false;
+    }
+}
+
+if ( ! function_exists('form_error_array')) 
+{
+    /**
+     * Gets form errors in an array form
+     *
+     * @return void
+     */
+    function form_error_array()
+    {
+        return ci()->form_validation->error_array();
+    }
+}
+
+if ( ! function_exists('get_form_error')) 
+{
+    /**
+     * Retrieve a form error from
+     * error array
+     *
+     * @param string $error_key
+     * @return void
+     */
+    function get_form_error($error_key)
+    {
+        if (array_key_exists($error_key, form_error_array())) {
+            return form_error_array()[$error_key];
+        }
+        
+        return;
+    }
+}
+
+if ( ! function_exists('set_error')) 
+{
+    /**
+     * Sets form error on a 
+     * named input field
+     *
+     * @param [type] $field
+     * @param [type] $error
+     * @return void
+     */
+    function set_error($field, $error)
+    {
+        ci()->form_validation->set_error($field, $error);
+    }
+}
+
+if ( ! function_exists('set_error_delimeter')) 
+{
+    /**
+     * Sets error delimeter to
+     * be used when displaying errors
+     *
+     * @param string $open_tag
+     * @param string $close_tag
+     * @return void
+     */
+    function set_error_delimeter($open_tag = '', $close_tag = '')
+    {
+        ci()->form_validation->set_error_delimiters($open_tag, $close_tag);
+    }
+}
+
+if ( ! function_exists('set_form_data')) 
+{
+    /**
+     * Set form data
+     *
+     * @param string $form_data
+     * @return void
+     */
+    function set_form_data($form_data)
+    {
+        // @Todo
     }
 }
 
