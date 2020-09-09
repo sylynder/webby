@@ -203,4 +203,17 @@ if ( ! function_exists('string_dot_extract'))
     }
 }
 
+if ( ! function_exists('exploded_title')) 
+{
+    /**
+     * explode Title
+     *
+     * @param string $title
+     * @return void
+     */
+    function exploded_title($title)
+    {
+        return @trim(@implode('-', @preg_split("/[\s,-\:,()]+/", @$title)), '');
+    }
+}
 
