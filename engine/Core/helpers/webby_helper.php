@@ -171,4 +171,36 @@ if ( ! function_exists('slugify'))
     }
 }
 
+if ( ! function_exists('extract_email_name')) 
+{
+    /**
+     * Extract name from a given email address
+     *
+     * @param string $email
+     * @return void
+     */
+    function extract_email_name($email)
+    {
+        $email = explode('@', $email);
+
+        return $name = $email[0];
+    }
+}
+
+if ( ! function_exists('string_dot_extract')) 
+{
+    /**
+     * Extract dot from a string
+     *
+     * @param [type] $string
+     * @return void
+     */
+    function string_dot_extract($string)
+    {
+        $string = explode('.', $string);
+
+        return $name = $string[0];
+    }
+}
+
 
