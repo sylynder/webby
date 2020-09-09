@@ -156,4 +156,19 @@ if ( ! function_exists('str_right_zeros'))
     }
 }
 
+if ( ! function_exists('slugify')) 
+{
+    /**
+     * create strings with hyphen seperated
+     *
+     * @param string $string
+     * @return void
+     */
+    function slugify($string)
+    {
+        ci()->load->helper('url');
+        return strtolower(url_title($string));
+    }
+}
+
 
