@@ -232,5 +232,26 @@ if ( ! function_exists('string_clean'))
 
         return $text = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
     }
+
+    if ( ! function_exists('replace_string')) 
+{
+    /**
+     * search for a string 
+     * and replace string with another
+     *
+     * @param string $string
+     * @param string $word
+     * @param string $replace_with
+     * @return void
+     */
+    function replace_string($string, $word, $replace_with)
+    {
+        if (find_word($string, $word)) {
+            return str_replace($word, $replace_with, $string);
+        }
+
+        return false;
+    }
+}
 }
 
