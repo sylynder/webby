@@ -206,7 +206,7 @@ if ( ! function_exists('string_dot_extract'))
 if ( ! function_exists('exploded_title')) 
 {
     /**
-     * explode Title
+     * Explode Title
      *
      * @param string $title
      * @return void
@@ -214,6 +214,23 @@ if ( ! function_exists('exploded_title'))
     function exploded_title($title)
     {
         return @trim(@implode('-', @preg_split("/[\s,-\:,()]+/", @$title)), '');
+    }
+}
+
+if ( ! function_exists('string_clean')) 
+{
+    /**
+     * Clean by removing spaces and special 
+     * characters from string
+     *
+     * @param string $string
+     * @return void
+     */
+    function string_clean($string)
+    {
+        $string = str_replace(' ', '', $string); // Replaces all spaces.
+
+        return $text = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
     }
 }
 
