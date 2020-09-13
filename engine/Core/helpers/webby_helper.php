@@ -273,3 +273,21 @@ if ( ! function_exists('remove_underscore'))
     }
 }
 
+
+if ( ! function_exists('remove_hyphen')) 
+{
+    /*
+    * remove hyphen from string  
+    */  
+    /**
+     * remove hyphen from string
+     *
+     * @param string $str
+     * @return void
+     */
+    function remove_hyphen($str)
+    {
+        return str_replace("-", " ", $str);
+    }
+}
+
