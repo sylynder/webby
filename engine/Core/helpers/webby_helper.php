@@ -232,8 +232,9 @@ if ( ! function_exists('string_clean'))
 
         return $text = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
     }
+}
 
-    if ( ! function_exists('replace_string')) 
+if ( ! function_exists('replace_string')) 
 {
     /**
      * search for a string 
@@ -253,5 +254,22 @@ if ( ! function_exists('string_clean'))
         return false;
     }
 }
+
+if ( ! function_exists('remove_underscore')) 
+{
+    /*
+    * remove underscore from string  
+    */   
+
+    /**
+     * remove underscore from string
+     *
+     * @param string $str
+     * @return void
+     */
+    function remove_underscore($str)
+    {
+        return str_replace("_", " ", $str);
+    }
 }
 
