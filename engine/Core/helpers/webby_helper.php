@@ -256,11 +256,7 @@ if ( ! function_exists('replace_string'))
 }
 
 if ( ! function_exists('remove_underscore')) 
-{
-    /*
-    * remove underscore from string  
-    */   
-
+{  
     /**
      * remove underscore from string
      *
@@ -276,9 +272,7 @@ if ( ! function_exists('remove_underscore'))
 
 if ( ! function_exists('remove_hyphen')) 
 {
-    /*
-    * remove hyphen from string  
-    */  
+
     /**
      * remove hyphen from string
      *
