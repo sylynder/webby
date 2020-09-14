@@ -326,3 +326,21 @@ if ( ! function_exists('limit_words'))
         return word_limiter($text, $limit, $ending_character);
     }
 }
+
+if ( ! function_exists('truncate_text')) 
+{
+    /**
+     * Truncate words of a given string
+     *
+     * @param string $text
+     * @param int $limit
+     * @param string $ending_character
+     * @return void
+     */
+    function truncate_text($text, $limit, $ending_character = '&#8230;')
+    {
+        ci()->load->helper('text');
+
+        return character_limiter($text, $limit, $ending_character);
+    }
+}
