@@ -291,3 +291,26 @@ if ( ! function_exists('remove_hyphen'))
     }
 }
 
+if ( ! function_exists('readable')) 
+{
+    /**
+     *
+     * remove hyphen or underscore from 
+     * string and you can capitalize it 
+     *
+     * @param string $str
+     * @param boolean $capitalize
+     * @return void
+     */
+    function readable($str, $capitalize = false)
+    {
+        $str = remove_underscore($str);
+        $str = remove_hyphen($str);
+
+        if ($capitalize) {
+            $str = ucwords($str);
+        }
+
+        return $str;
+    }
+}
