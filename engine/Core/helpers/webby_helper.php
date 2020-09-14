@@ -308,3 +308,21 @@ if ( ! function_exists('readable'))
         return $str;
     }
 }
+
+if ( ! function_exists('limit_words')) 
+{
+    /**
+     * Limt length of a sentence of a given string
+     *
+     * @param string $text
+     * @param int $limit
+     * @param string $ending_character
+     * @return void
+     */
+    function limit_words($text, $limit, $ending_character = '&#8230;')
+    {
+        ci()->load->helper('text');
+
+        return word_limiter($text, $limit, $ending_character);
+    }
+}
