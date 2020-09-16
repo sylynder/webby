@@ -1,4 +1,5 @@
 <?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  *  DB Helper functions
@@ -11,7 +12,6 @@
 
 // ------------------------------------------------------------------------
 
-defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ------------------------------- DB Functions ---------------------------------*/
 if ( ! function_exists( 'select_db' )) 

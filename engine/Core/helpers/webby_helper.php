@@ -1,4 +1,5 @@
 <?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  *  Webby Helper functions
@@ -11,8 +12,6 @@
 
 // ------------------------------------------------------------------------
 
-
-defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ------------------------------- Random Code Generation Functions ---------------------------------*/
 

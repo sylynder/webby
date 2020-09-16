@@ -1,4 +1,5 @@
 <?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  *  CI_CORE Helper functions
@@ -11,8 +12,6 @@
 
 // ------------------------------------------------------------------------
 
-
-defined('BASEPATH') or exit('No direct script access allowed');
 
 if ( ! function_exists('ci')) 
 {
