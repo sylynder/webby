@@ -1,5 +1,17 @@
 <?php
 
+/**
+ *  Webby Helper functions
+ *
+ *  @package		Webby
+ *	@subpackage		Helpers
+ *	@category		Helpers
+ *	@author			Kwame Oteng Appiah-Nti
+ */
+
+// ------------------------------------------------------------------------
+
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ------------------------------- Random Code Generation Functions ---------------------------------*/
