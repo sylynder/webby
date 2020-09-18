@@ -396,3 +396,23 @@ if ( ! function_exists('find_word'))
         return false;
     }
 }
+
+if ( ! function_exists('array_to_string')) 
+{
+    /**
+     * Converts an array to a string
+     * using a given symbol e.g. ',' or ':'
+     * 
+     * @param string $symbol
+     * @param array $array
+     * @return string
+     */
+    function array_to_string($symbol, $array)
+    {
+        if ($array === null) {
+            return false;
+        }
+
+        return implode($symbol, $array);
+    }
+}
