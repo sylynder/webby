@@ -355,3 +355,21 @@ if ( ! function_exists('truncate_text'))
         return character_limiter($text, $limit, $ending_character);
     }
 }
+
+if ( ! function_exists('str_censor')) 
+{ 
+    /**
+     * Censor bad words from string
+     *
+     * @param string $text
+     * @param array $words_to_censor
+     * @param boolean $replacement
+     * @return void
+     */
+    function str_censor($text, $words_to_censor, $replacement = false)
+    {
+        ci()->load->helper('text');
+
+        return word_censor($text, $words_to_censor, $replacement);
+    }
+}
