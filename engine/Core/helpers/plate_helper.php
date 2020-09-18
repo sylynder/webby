@@ -30,6 +30,24 @@ if ( ! function_exists('view'))
     }
 }
 
+if ( ! function_exists('partial')) 
+{
+    /**
+     * For loading header and footer views
+     * or any includable view
+     *
+     * @param string $view_path
+     * @param array $view_data
+     * @return void
+     */
+    function partial($view_path, $view_data = null)
+    {
+        $view_path = dot($view_path);
+
+        ci()->load->view($view_path, $view_data);
+    }
+}
+
 if ( ! function_exists('section')) 
 {
     /**
