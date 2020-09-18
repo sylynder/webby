@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  @package		Webby
  *	@subpackage		Helpers
  *	@category		Helpers
- *	@author			Kwame Oteng Appiah Nti
+ *	@author			Kwame Oteng Appiah-Nti
  */
 
 // ------------------------------------------------------------------------
@@ -19,7 +19,7 @@ if ( ! function_exists('view'))
      * $this->load->view()
      *
      * @param string $view_path
-     * @param arrat $view_data
+     * @param array $view_data
      * @return void
      */
     function view($view_path, $view_data = null)
@@ -53,7 +53,7 @@ if ( ! function_exists('section'))
     /**
      * load a view section
      * @param string $view_path       
-     * @param array [$view_data=null]
+     * @param array $view_data=null
      */
     function section($view_path, $view_data = null)
     {
