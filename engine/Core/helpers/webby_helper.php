@@ -373,3 +373,26 @@ if ( ! function_exists('str_censor'))
         return word_censor($text, $words_to_censor, $replacement);
     }
 }
+
+if ( ! function_exists('find_word')) 
+{
+    /**
+     * search for word from a string
+     *
+     * @param string $string
+     * @param string $word
+     * @return void
+     */
+    function find_word($string, $word)
+    {
+        if (is_array($string)) {
+            $string = array_to_string(',', $string);
+        }
+
+        if (strpos($string, $word) !== false) {
+            return true;
+        }
+
+        return false;
+    }
+}
