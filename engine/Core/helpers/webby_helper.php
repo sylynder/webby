@@ -397,6 +397,21 @@ if ( ! function_exists('find_word'))
     }
 }
 
+if ( ! function_exists('string_to_array')) 
+{
+    /**
+     * Converts a string to an array
+     *
+     * @param string $symbol
+     * @param string $string
+     * @return void
+     */
+    function string_to_array($symbol, $string)
+    {
+        return explode($symbol, $string);
+    }
+}
+
 if ( ! function_exists('array_to_string')) 
 {
     /**
