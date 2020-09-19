@@ -397,6 +397,22 @@ if ( ! function_exists('find_word'))
     }
 }
 
+if ( ! function_exists('contains')) 
+{
+    /**
+     * Returns true if $needle
+     * is a substring of $haystack
+     *
+     * @param string $needle
+     * @param mixed $haystack
+     * @return void
+     */
+    function contains($needle, $haystack)
+    {
+        return strpos($haystack, $needle) !== false;
+    }
+}
+
 if ( ! function_exists('string_to_array')) 
 {
     /**
