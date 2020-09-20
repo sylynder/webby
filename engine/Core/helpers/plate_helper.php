@@ -62,3 +62,27 @@ if ( ! function_exists('section'))
         ci()->load->view($view_path, $view_data);
     }
 }
+
+if ( ! function_exists('layout')) 
+{
+    /**
+     * Load views in a layout format
+     *
+     * @param string $layout_path
+     * @param string $view_path
+     * @param array $view_data
+     * @return void
+     */
+    function layout($layout_path, $view_path = null, $view_data = null)
+    {
+        
+        $layout_path = dot($layout_path);
+
+        if (! is_null($view_path) && isset($view_path) )
+        {
+            $view_data['content'] = $view_path;
+        }
+
+        ci()->load->view($layout_path, $view_data);
+    }
+}
