@@ -55,3 +55,25 @@ if ( ! function_exists( 'close_db' ))
         ci()->db->close();
 	}
 }
+
+if ( ! function_exists( 'max_id' )) 
+{
+    /**
+     * This function let's you get
+     * highest id value from a table.
+     * 
+     * @param string $table
+     * @param string $select_as
+     * @return void
+     */
+    function max_id($table, $select_as=null) {
+		
+		if($select_as != null) {
+			$maxid = ci()->db->query('SELECT MAX(id) AS '.$select_as.' FROM ' . $table)->row()->$select_as; 
+		} else {
+			$maxid = ci()->db->query('SELECT MAX(id) AS biggest  FROM '. $table)->row(); 
+        }
+        
+        return $maxid;
+    }
+}
