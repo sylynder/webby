@@ -448,6 +448,36 @@ if ( ! function_exists('array_to_string'))
     }
 }
 
+if ( ! function_exists('add_to_array')) 
+{
+    /**
+     * This is a function that 
+     * helps to add an element to an array
+     *
+     * @param array $array
+     * @param string $element
+     * @param string $symbol
+     * @param boolean $return_string
+     * @return void
+     */
+    function add_to_array($array, $element, $symbol = null, $return_string = false)
+    {
+        if (!is_array($array) && $symbol != null) {
+            $array = string_to_array($symbol, $array);
+        }
+
+        if (is_array($array)) {
+            array_push($array, $element);
+        }
+
+        if ($return_string == true) {
+            return $array = array_to_string($symbol, $array);
+        }
+
+        return $array;
+    }
+}
+
 if ( ! function_exists('add_associative_array')) 
 {
     /**
