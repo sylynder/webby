@@ -447,3 +447,23 @@ if ( ! function_exists('array_to_string'))
         return implode($symbol, $array);
     }
 }
+
+if ( ! function_exists('add_associative_array')) 
+{
+    /**
+     * This is a function that helps to 
+     * add associative key => value
+     * To an associative array
+     *
+     * @param array $array
+     * @param string $key
+     * @param string $value
+     * @return void
+     */
+    function add_associative_array($array, $key, $value)
+    {
+        $array[$key] = $value;
+
+        return $array;
+    }
+}
