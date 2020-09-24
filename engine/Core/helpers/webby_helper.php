@@ -413,6 +413,25 @@ if ( ! function_exists('contains'))
     }
 }
 
+if ( ! function_exists('has_element')) 
+{
+    /**
+     * Check if array element exists
+     *
+     * @param string|mixed $element
+     * @param array $array
+     * @return boolean
+     */
+    function has_element($element, $array)
+    {
+        if (in_array($element, $array)) {
+            return true;
+        }
+
+        return false;
+    }
+}
+
 if ( ! function_exists('string_to_array')) 
 {
     /**
