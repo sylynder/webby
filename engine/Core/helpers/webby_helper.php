@@ -519,16 +519,52 @@ if ( ! function_exists('add_associative_array'))
 
 if ( ! function_exists('remove_first_element')) 
 {
-    /*
-    * This function removes first element of an array
-    */
-    function remove_first_element($array)
+    /**
+     * Removes first element of an array
+     *
+     * @param array $array
+     * @return array
+     */
+    function remove_first_element($array) : array
     {
         if (is_object($array)) {
             $array = get_object_vars($array);
         }
 
         unset($array[current(array_keys($array))]);
+
+        return $array;
+    }
+}
+
+if ( ! function_exists('remove_from_array')) 
+{
+    /**
+     * Removes a key or keys from an array
+     *
+     * @param array $array
+     * @param string $element
+     * @param string $symbol
+     * @param boolean $return_string
+     * @return void
+     */
+    function remove_from_array(
+        $array, 
+        $element, 
+        $symbol = null, 
+        $return_string = false
+    ) :array {
+        if (!is_array($array) && $symbol != null) {
+            $array = string_to_array($symbol, $array);
+        }
+
+        if (is_array($array) && ($key = array_search($element, $array)) !== false) {
+            unset($array[$key]);
+        }
+
+        if ($return_string == true) {
+            return $array = array_to_string($symbol, $array);
+        }
 
         return $array;
     }
