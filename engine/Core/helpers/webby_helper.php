@@ -497,3 +497,20 @@ if ( ! function_exists('add_associative_array'))
         return $array;
     }
 }
+
+if ( ! function_exists('remove_first_element')) 
+{
+    /*
+    * This function removes first element of an array
+    */
+    function remove_first_element($array)
+    {
+        if (is_object($array)) {
+            $array = get_object_vars($array);
+        }
+
+        unset($array[current(array_keys($array))]);
+
+        return $array;
+    }
+}
