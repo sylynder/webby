@@ -627,3 +627,24 @@ if ( ! function_exists('objectify'))
         return false;
     }
 }
+
+if ( ! function_exists('compare_json')) 
+{
+    /**
+     * Compare two json objects
+     *
+     * This is taken from
+     * https://stackoverflow.com/questions/34346952/compare-two-json-in-php
+     * 
+     * The second answer
+     * 
+     * @param  object $first_object
+     * @param object $second_object
+     * @return void
+     */
+    function compare_json($first_object, $second_object)
+    {
+        $match = json_decode($first_object) == json_decode($second_object);
+        return $match ? true : false;
+    }
+}
