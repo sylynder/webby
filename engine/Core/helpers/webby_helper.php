@@ -605,3 +605,25 @@ if ( ! function_exists('obj_array'))
         return object_array($object_array, $index);
     }
 }
+
+if ( ! function_exists('objectify')) 
+{
+    /**
+     * Encode an array and retrieve
+     * as an object
+     *
+     * @param array $array
+     * @return object
+     */
+    function objectify(array $array)
+    {
+        if (is_array($array)) {
+            $array = json_encode($array);
+            return json_decode($array);
+        }
+
+        throw new Exception("Parameter must be array", 1);
+        
+        return false;
+    }
+}
