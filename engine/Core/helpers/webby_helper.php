@@ -569,3 +569,24 @@ if ( ! function_exists('remove_from_array'))
         return $array;
     }
 }
+
+if ( ! function_exists('object_array')) 
+{
+    /**
+     * Retrieve arrays with single objects
+     * And their index (For specific table 
+     * operations e.g user_roles)
+     *
+     * @param array $object_array
+     * @param int|string $index
+     * @return void|object|array
+     */
+    function object_array($object_array, $index)
+    {
+        if (!empty($object_array)) {
+            return $object_array[0]->$index;
+        }
+
+        return '';
+    }
+}
