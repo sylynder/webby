@@ -648,3 +648,25 @@ if ( ! function_exists('compare_json'))
         return $match ? true : false;
     }
 }
+
+/* ------------------------------- Date | Time Functions ---------------------------------*/
+
+if ( ! function_exists('arrange_date')) 
+{
+    /**
+     * This takes out forward slashes and
+     * replaces them with hyphens
+     * 
+     * @param string $date
+     * @return void
+     */
+    function arrange_date($date)
+    {
+        if (strstr($date, '/')) {
+            return $date = str_replace('/', '-', $date);
+        }
+
+        return $date;
+    }
+
+}
