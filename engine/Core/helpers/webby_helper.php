@@ -670,3 +670,28 @@ if ( ! function_exists('arrange_date'))
     }
 
 }
+
+if ( ! function_exists('real_date')) 
+{
+    /**
+     * Output a human readable date
+     *
+     * @param string $date
+     * @param string $format
+     * @return void
+     */
+    function real_date($date, $format=null)
+    {
+        if ($date == "0000-00-00 00:00:00") {
+            return '';
+        } elseif ($date == "0000-00-00") {
+            return '';
+        } else {
+            if(!empty($format)) {
+                return date($format, strtotime($date));
+            } else {
+                return date('jS F, Y', strtotime($date));
+            }
+        }
+    }
+}
