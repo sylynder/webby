@@ -726,7 +726,7 @@ if ( ! function_exists('correct_datetime'))
      * This fixes a datetime and can be stored
      * and used easily
      *
-     * @param [type] $date
+     * @param string $date
      * @return void
      */
     function correct_datetime($date)
@@ -737,6 +737,26 @@ if ( ! function_exists('correct_datetime'))
             return '';
         } else {
             return date('Y-m-d H:i:a', strtotime($date));
+        }
+    }
+}
+
+if ( ! function_exists('real_time')) 
+{
+    /**
+     * Take date and format it in H:i:a
+     *
+     * @param string $date
+     * @return void
+     */
+    function real_time($date)
+    {
+        if ($date == "0000-00-00 00:00:00") {
+            return '';
+        } elseif ($date == "0000-00-00") {
+            return '';
+        } else {
+            return date('H:i a', strtotime($date));
         }
     }
 }
