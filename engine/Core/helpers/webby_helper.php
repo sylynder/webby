@@ -695,3 +695,26 @@ if ( ! function_exists('real_date'))
         }
     }
 }
+
+if ( ! function_exists('correct_date')) 
+{
+    /**
+     * Take date and format it in Y-m-d
+     * This fixes a date and can be stored
+     * and used easily
+     * 
+     * @param string $date
+     * @return void
+     */
+    function correct_date($date)
+    {
+        if ($date == "0000-00-00 00:00:00") {
+            return '';
+        } elseif ($date == "0000-00-00") {
+            return '';
+        } else {
+            return date('Y-m-d', strtotime($date));
+        }
+    //return date_format(date_create($this->data['details']['date_made']), 'Y-m-d');
+    }
+}
