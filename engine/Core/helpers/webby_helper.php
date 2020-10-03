@@ -718,3 +718,25 @@ if ( ! function_exists('correct_date'))
     //return date_format(date_create($this->data['details']['date_made']), 'Y-m-d');
     }
 }
+
+if ( ! function_exists('correct_datetime')) 
+{
+    /**
+     * Take datetime and format it in Y-m-d H:i:a
+     * This fixes a datetime and can be stored
+     * and used easily
+     *
+     * @param [type] $date
+     * @return void
+     */
+    function correct_datetime($date)
+    {
+        if ($date == "0000-00-00 00:00:00") {
+            return '';
+        } elseif ($date == "0000-00-00") {
+            return '';
+        } else {
+            return date('Y-m-d H:i:a', strtotime($date));
+        }
+    }
+}
