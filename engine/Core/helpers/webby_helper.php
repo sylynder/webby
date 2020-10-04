@@ -760,3 +760,18 @@ if ( ! function_exists('real_time'))
         }
     }
 }
+
+if ( ! function_exists('format_date')) 
+{
+    /**
+     * Take date and set a custom date format
+     *
+     * @param string $format
+     * @param string $date
+     * @return void
+     */
+    function format_date($format, $date)
+    {
+        return date($format, strtotime($date));
+    }
+}
