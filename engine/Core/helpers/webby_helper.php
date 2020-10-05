@@ -183,6 +183,22 @@ if ( ! function_exists('pad_left'))
     }
 }
 
+if ( ! function_exists('pad_right')) 
+{
+    /**
+     * suffix string at the end of a string
+     *
+     * @param string $str
+     * @param mixed $value
+     * @param int $length
+     * @return void
+     */
+    function pad_right($str, $value, $length)
+    {
+        return str_pad($value, $length, $str, STR_PAD_RIGHT);
+    }
+}
+
 if ( ! function_exists('slugify')) 
 {
     /**
