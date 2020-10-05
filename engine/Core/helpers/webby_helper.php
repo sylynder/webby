@@ -807,3 +807,20 @@ if ( ! function_exists('format_date'))
         return date($format, strtotime($date));
     }
 }
+
+/* ------------------------------- Security Functions ---------------------------------*/
+
+if ( ! function_exists('escape'))
+{
+
+    /**
+     * Escape HTML entities in a string
+     *
+     * @param string $value
+     * @return string
+     */
+    function escape($value)
+    {
+        return htmlentities($value, ENT_QUOTES, 'UTF-8', FALSE);
+    }
+}
