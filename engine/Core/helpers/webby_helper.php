@@ -137,36 +137,6 @@ if ( ! function_exists('with_dot'))
     }
 }
 
-if ( ! function_exists('str_left_zeros')) 
-{
-    /**
-     * prefix zeros at the beginning of a string
-     * 
-     * @param mixed $value
-     * @param int $length
-     * @return void
-     */
-    function str_left_zeros($value, $length)
-    {
-        return str_pad($value, $length, '0', STR_PAD_LEFT);
-    }
-}
-
-if ( ! function_exists('str_right_zeros')) 
-{
-    /**
-     * suffix zeros at the end of a string
-     *
-     * @param mixed $value
-     * @param int $length
-     * @return void
-     */
-    function str_right_zeros($value, $length)
-    {
-        return str_pad($value, $length, '0', STR_PAD_RIGHT);
-    }
-}
-
 if ( ! function_exists('pad_left')) 
 {
     /**
@@ -196,6 +166,36 @@ if ( ! function_exists('pad_right'))
     function pad_right($str, $value, $length)
     {
         return str_pad($value, $length, $str, STR_PAD_RIGHT);
+    }
+}
+
+if ( ! function_exists('str_left_zeros')) 
+{
+    /**
+     * prefix zeros at the beginning of a string
+     * 
+     * @param mixed $value
+     * @param int $length
+     * @return void
+     */
+    function str_left_zeros($value, $length)
+    {
+        return pad_left('0', $value, $length);
+    }
+}
+
+if ( ! function_exists('str_right_zeros')) 
+{
+    /**
+     * suffix zeros at the end of a string
+     *
+     * @param mixed $value
+     * @param int $length
+     * @return void
+     */
+    function str_right_zeros($value, $length)
+    {
+        return pad_right('0', $value, $length);
     }
 }
 
