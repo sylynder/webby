@@ -167,6 +167,22 @@ if ( ! function_exists('str_right_zeros'))
     }
 }
 
+if ( ! function_exists('pad_left')) 
+{
+    /**
+     * prefix string at the beginning of a string
+     *
+     * @param string $str
+     * @param mixed $value
+     * @param int $length
+     * @return void
+     */
+    function pad_left($str, $value, $length)
+    {
+        return str_pad($value, $length, $str, STR_PAD_LEFT);
+    }
+}
+
 if ( ! function_exists('slugify')) 
 {
     /**
