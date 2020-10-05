@@ -499,7 +499,7 @@ if ( ! function_exists('array_to_string'))
     }
 }
 
-if ( ! function_exists('add_to_array')) 
+if ( ! function_exists('add_array')) 
 {
     /**
      * This is a function that 
@@ -511,7 +511,7 @@ if ( ! function_exists('add_to_array'))
      * @param boolean $return_string
      * @return void
      */
-    function add_to_array($array, $element, $symbol = null, $return_string = false)
+    function add_array($array, $element, $symbol = null, $return_string = false)
     {
         if (!is_array($array) && $symbol != null) {
             $array = string_to_array($symbol, $array);
