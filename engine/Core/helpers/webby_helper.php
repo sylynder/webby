@@ -840,3 +840,17 @@ if ( ! function_exists('clean'))
         return xss_clean($str, $is_image);
     }
 }
+
+if ( ! function_exists('filter_url')) 
+{
+    /**
+     *  filter url
+     *
+     *  @param     string    $url
+     *  @return    string
+     */
+    function filter_url($url)
+    {
+        return filter_var($url, FILTER_SANITIZE_URL);
+    }
+}
