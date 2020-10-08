@@ -824,3 +824,19 @@ if ( ! function_exists('escape'))
         return htmlentities($value, ENT_QUOTES, 'UTF-8', FALSE);
     }
 }
+
+if ( ! function_exists('clean')) 
+{
+    /**
+     *  Clean string from XSS
+     *
+     *  @param     string    $str
+     *  @param     string    $is_image
+     *  @return    string
+     */
+    function clean($str, $is_image = false)
+    {
+        ci()->load->helper('security');
+        return xss_clean($str, $is_image);
+    }
+}
