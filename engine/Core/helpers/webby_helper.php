@@ -854,3 +854,23 @@ if ( ! function_exists('filter_url'))
         return filter_var($url, FILTER_SANITIZE_URL);
     }
 }
+
+if ( ! function_exists('is_email_valid')) 
+{   
+    /**
+     * checks whether the email address is valid
+     *
+     * @param string $email
+     * @return boolean
+     */
+    function is_email_valid($email)
+    {
+        $pattern = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i";
+        
+        if (preg_match($pattern, $email)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
