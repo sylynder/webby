@@ -841,6 +841,32 @@ if ( ! function_exists('clean'))
     }
 }
 
+if ( ! function_exists('cleanxss')) 
+{
+    /**
+     * Prevents XXS Attacks
+     *
+     * @param string $input
+     * @return string
+     */
+    function cleanxss($input)
+    {
+        $search = array(
+            '@&lt;script[^&gt;]*?&gt;.*?&lt;/script&gt;@si', // Strip out javascript
+            '@&lt;[\/\!]*?[^&lt;&gt;]*?&gt;@si', // Strip out HTML tags
+            '@&lt;style[^&gt;]*?&gt;.*?&lt;/style&gt;@siU', // Strip style tags properly
+            '@&lt;![\s\S]*?--[ \t\n\r]*&gt;@', // Strip multi-line comments
+        );
+
+        $inputx = preg_replace($search, '', $input);
+        $inputx = trim($inputx);
+        $inputx = stripslashes($inputx);
+        $inputx = stripslashes($inputx);
+        
+        return clean($inputx);
+    }
+}
+
 if ( ! function_exists('is_email_injected')) 
 {
     /**
