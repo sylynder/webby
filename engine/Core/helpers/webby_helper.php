@@ -841,6 +841,34 @@ if ( ! function_exists('clean'))
     }
 }
 
+if ( ! function_exists('is_email_injected')) 
+{
+    /**
+     * validate against any email injection attempts
+     *
+     * @param string $email
+     * @return boolean
+     */
+    function is_email_injected($email)
+    {
+        $injections = array('(\n+)',
+            '(\r+)',
+            '(\t+)',
+            '(%0A+)',
+            '(%0D+)',
+            '(%08+)',
+            '(%09+)',
+        );
+        $inject = join('|', $injections);
+        $inject = "/$inject/i";
+        if (preg_match($inject, $email)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
 if ( ! function_exists('filter_url')) 
 {
     /**
