@@ -909,6 +909,20 @@ if ( ! function_exists('filter_url'))
     }
 }
 
+if ( ! function_exists('check_email')) 
+{
+    /*function to check if it is a valid email*/
+    function check_email($email)
+    {
+        $is_email = filter_var($email, FILTER_VALIDATE_EMAIL);
+        if ($is_email) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
 if ( ! function_exists('is_domain')) 
 {
     /**
