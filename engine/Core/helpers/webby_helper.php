@@ -825,6 +825,19 @@ if ( ! function_exists('escape'))
     }
 }
 
+if ( ! function_exists('csrf')) 
+{
+    /**
+     * Creates a CSRF hidden form input
+     *
+     * @return void
+     */
+    function csrf()
+    {
+        echo '<input type="hidden" name="' . ci()->security->get_csrf_token_name() . '" value="' . ci()->security->get_csrf_hash() . '">';
+    }
+}
+
 if ( ! function_exists('clean')) 
 {
     /**
@@ -867,6 +880,20 @@ if ( ! function_exists('cleanxss'))
     }
 }
 
+if ( ! function_exists('filter_url')) 
+{
+    /**
+     *  filter url
+     *
+     *  @param     string    $url
+     *  @return    string
+     */
+    function filter_url($url)
+    {
+        return filter_var($url, FILTER_SANITIZE_URL);
+    }
+}
+
 if ( ! function_exists('is_email_injected')) 
 {
     /**
@@ -892,20 +919,6 @@ if ( ! function_exists('is_email_injected'))
         } else {
             return false;
         }
-    }
-}
-
-if ( ! function_exists('filter_url')) 
-{
-    /**
-     *  filter url
-     *
-     *  @param     string    $url
-     *  @return    string
-     */
-    function filter_url($url)
-    {
-        return filter_var($url, FILTER_SANITIZE_URL);
     }
 }
 
