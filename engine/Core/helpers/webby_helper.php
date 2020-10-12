@@ -909,6 +909,26 @@ if ( ! function_exists('filter_url'))
     }
 }
 
+if ( ! function_exists('is_domain')) 
+{
+    /**
+     * Checks if an email is from 
+     * a given domain e.g. @webby
+     *
+     * @param string $email
+     * @param string $domain
+     * @return boolean
+     */
+    function is_domain($email, $domain)
+    {
+        if (preg_match("/$domain/", $email)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
 if ( ! function_exists('is_email_injected')) 
 {
     /**
