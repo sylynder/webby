@@ -810,6 +810,21 @@ if ( ! function_exists('format_date'))
 
 /* ------------------------------- Security Functions ---------------------------------*/
 
+if ( ! function_exists('hash_algo')) 
+{
+    /**
+     * A wrapper for php hash function
+     *
+     * @param string $algorithm
+     * @param string $string
+     * @return string
+     */
+    function hash_algo($algorithm, $string)
+    {
+        return hash($algorithm, $string);
+    }
+}
+
 if ( ! function_exists('escape'))
 {
 
