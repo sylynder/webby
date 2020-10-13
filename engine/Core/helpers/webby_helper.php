@@ -911,11 +911,15 @@ if ( ! function_exists('filter_url'))
 
 if ( ! function_exists('check_email')) 
 {
-    /*function to check if it is a valid email*/
+    /**
+     * Check if email is valid
+     *
+     * @param string $email
+     * @return boolean
+     */
     function check_email($email)
     {
-        $is_email = filter_var($email, FILTER_VALIDATE_EMAIL);
-        if ($is_email) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return true;
         } else {
             return false;
