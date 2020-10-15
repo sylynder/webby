@@ -829,6 +829,26 @@ if ( ! function_exists('date_difference'))
     }
 }
 
+if ( ! function_exists('date_plus_day')) 
+{
+    /**
+     * Add days to a given date
+     *
+     * @param string $date
+     * @param int $days
+     * @param string $format
+     * @return void
+     */
+    function date_plus_day($date, $days, $format = null)
+    {
+        if ($format != null) {
+            return date('M d, Y', strtotime($date. ' + ' . $days. 'days'));
+        } else {
+            return date('Y-m-d', strtotime($date. ' + ' . $days. 'days'));
+        }
+    }
+}
+
 
 /* ------------------------------- Security Functions ---------------------------------*/
 
