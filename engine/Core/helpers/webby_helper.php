@@ -808,6 +808,28 @@ if ( ! function_exists('format_date'))
     }
 }
 
+if ( ! function_exists('time_difference')) 
+{
+    /**
+     * Calculate time difference
+     *
+     * @param string $start_date
+     * @param string $end_date
+     * @return void
+     */
+    function time_difference($start_date, $end_date)
+    {
+        $start_date = date_create($start_date);
+        $end_date = date_create($end_date);
+
+        //difference between two dates
+        $diff = date_diff($start_date, $end_date);
+
+        //get time difference
+        return $diff->format("%a");
+    }
+}
+
 if ( ! function_exists('date_difference')) 
 {
     /**
