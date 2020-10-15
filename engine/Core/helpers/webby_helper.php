@@ -849,6 +849,26 @@ if ( ! function_exists('date_plus_day'))
     }
 }
 
+if ( ! function_exists('date_minus_day')) 
+{
+    /**
+     * Subtract days from a give date
+     *
+     * @param string $date
+     * @param int $days
+     * @param string $format
+     * @return void
+     */
+    function date_minus_day($date, $days, $format = null)
+    {
+        if ($format != null) {
+            return date($format, strtotime($date. ' - ' . $days. 'days'));
+        } else {
+            return date('Y-m-d', strtotime($date. ' - ' . $days. 'days'));
+        }
+    }
+}
+
 
 /* ------------------------------- Security Functions ---------------------------------*/
 
