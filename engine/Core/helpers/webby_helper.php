@@ -993,7 +993,7 @@ if ( ! function_exists('filter_url'))
     }
 }
 
-if ( ! function_exists('check_email')) 
+if ( ! function_exists('is_email')) 
 {
     /**
      * Check if email is valid
@@ -1001,7 +1001,7 @@ if ( ! function_exists('check_email'))
      * @param string $email
      * @return boolean
      */
-    function check_email($email)
+    function is_email($email)
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return true;
