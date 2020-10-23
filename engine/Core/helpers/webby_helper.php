@@ -891,6 +891,43 @@ if ( ! function_exists('date_minus_day'))
     }
 }
 
+if ( ! function_exists('time_ago')) 
+{
+    function time_ago($datetime)
+    {
+        $created_day = strtotime($datetime);
+
+        $different_times = [
+            'second',
+            'minute',
+            'hour',
+            'day',
+            'month',
+            'year'
+        ];
+
+        $different_time_lengths = [
+            '60',
+            '60',
+            '24',
+            '30',
+            '12',
+            '10'
+        ];
+
+        $now = time();
+
+        if ($now >= $created_day) {
+            $time_difference = time() - $created_day;
+            for ($i = 0; $time_difference >= $different_time_lengths[$i] && $i < count($different_time_lengths) - 1; $i++ ) {
+                $time_difference = $time_difference / $different_time_lengths[$i];
+            }
+
+            $time_difference = round($time_difference);
+            return $time_difference. " " . $different_times[$i] . "(s) ago"; 
+        }
+    }
+}
 
 /* ------------------------------- Security Functions ---------------------------------*/
 
