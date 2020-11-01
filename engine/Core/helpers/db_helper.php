@@ -77,3 +77,17 @@ if ( ! function_exists( 'max_id' ))
         return $maxid;
     }
 }
+
+if ( ! function_exists('drop_trigger'))
+{
+    /**
+     * Trigger an SQL Command using name
+     *
+     * @param string $trigger_name Trigger name
+     * @return string SQL Command
+     */
+	function drop_trigger($trigger_name)
+	{
+		return "DROP TRIGGER {$trigger_name};";
+	}
+}
