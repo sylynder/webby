@@ -78,6 +78,26 @@ if ( ! function_exists( 'max_id' ))
     }
 }
 
+if ( ! function_exists('add_trigger'))
+{
+	/**
+     * Add an SQL Trigger Command
+     * 
+	 * @param string $trigger_name Trigger name
+	 * @param string $table        Table name
+	 * @param string $statement    Command to run
+	 * @param string $time         BEFORE or AFTER
+	 * @param string $event        INSERT, UPDATE or DELETE
+	 * @param string $type         FOR EACH ROW [FOLLOWS|PRECEDES]
+	 *
+	 * @return string SQL Command
+	 */
+	function add_trigger($trigger_name, $table, $statement, $time = 'BEFORE', $event = 'INSERT', $type = 'FOR EACH ROW')
+	{
+		return 'DELIMITER ;;' . PHP_EOL . "CREATE TRIGGER `{$trigger_name}` {$time} {$event} ON `{$table}` {$type}" . PHP_EOL . 'BEGIN' . PHP_EOL . $statement . PHP_EOL . 'END;' . PHP_EOL . 'DELIMITER ;;';
+	}
+}
+
 if ( ! function_exists('drop_trigger'))
 {
     /**
