@@ -78,6 +78,20 @@ if ( ! function_exists( 'max_id' ))
     }
 }
 
+if ( ! function_exists('drop_foreign_key'))
+{
+	/**
+	 * @param string $table       Table name
+	 * @param string $foreign_key Collumn name having the Foreign Key
+	 *
+	 * @return string SQL command
+	 */
+	function drop_foreign_key($table, $foreign_key)
+	{
+		return "ALTER TABLE `{$table}` DROP FOREIGN KEY `{$table}_{$foreign_key}_fk`";
+	}
+}
+
 if ( ! function_exists('add_trigger'))
 {
 	/**
