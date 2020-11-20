@@ -17,6 +17,9 @@ define('__ONE__', 1); // No special functionality with this. It is just a helper
 // Path to the front controller (this file)
 define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 
+// The name of this file
+define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+
 /*
  *---------------------------------------------------------------
  * CODEIGNITER FRAMEWORK DIRECTORY NAME & PATH
