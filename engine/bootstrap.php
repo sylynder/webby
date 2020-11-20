@@ -244,8 +244,6 @@ if (!is_dir($writable_directory)) {
  *  Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
  */
-// The name of THIS file
-define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
 // Path to the system (CodeIgniter) folder
 define('BASEPATH', str_replace('\\', DIRECTORY_SEPARATOR, $ci_directory));
@@ -265,11 +263,11 @@ define('COMPOSERPATH', str_replace('\\', DIRECTORY_SEPARATOR, $composer_director
 // Path to the writable folder outside public folder
 define('WRITABLEPATH', str_replace('\\', DIRECTORY_SEPARATOR, $writable_directory));
 
-// Path to the engine folder
-define('ENGINEPATH', __DIR__ . '/../engine');
-
 // Path to the root folder
-define('ROOTPATH', str_replace('engine' . DIRECTORY_SEPARATOR, '', ENGINEPATH));
+define('ROOTPATH', str_replace('public' . DIRECTORY_SEPARATOR, '', FCPATH));
+
+// Path to the engine folder
+define('ENGINEPATH', ROOTPATH . 'engine');
 
 /**
  *
@@ -353,7 +351,7 @@ define('VIEWPATH', $view_directory);
 
 // The path to the "asset" folder
 if (is_dir($asset_directory)) {
-    define('ASSET', $asset_directory . DIRECTORY_SEPARATOR);
+    define('ASSETS', $asset_directory . DIRECTORY_SEPARATOR);
 } else {
 
     if (!is_dir(CIPATH . $asset_directory . DIRECTORY_SEPARATOR)) {
@@ -362,7 +360,7 @@ if (is_dir($asset_directory)) {
         exit(3); // EXIT_CONFIG
     }
 
-    define('ASSET', $asset_directory . DIRECTORY_SEPARATOR);
+    define('ASSETS', $asset_directory . DIRECTORY_SEPARATOR);
 }
 
 // The path to the "upload_directory" folder
