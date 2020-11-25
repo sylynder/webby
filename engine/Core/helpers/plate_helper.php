@@ -73,7 +73,7 @@ if ( ! function_exists('view'))
     {
         $view_path = dot($view_path);
 
-        ci()->load->view($view_path, $view_data);
+        return ci()->load->view($view_path, $view_data);
     }
 }
 
@@ -91,7 +91,7 @@ if ( ! function_exists('partial'))
     {
         $view_path = dot($view_path);
 
-        ci()->load->view($view_path, $view_data);
+        return ci()->load->view($view_path, $view_data);
     }
 }
 
@@ -130,6 +130,6 @@ if ( ! function_exists('layout'))
             $view_data['content'] = $view_path;
         }
 
-        ci()->load->view($layout_path, $view_data);
+        return ci()->load->view($layout_path, $view_data);
     }
 }
