@@ -267,7 +267,7 @@ define('WRITABLEPATH', str_replace('\\', DIRECTORY_SEPARATOR, $writable_director
 define('ROOTPATH', str_replace('public' . DIRECTORY_SEPARATOR, '', FCPATH));
 
 // Path to the engine folder
-define('ENGINEPATH', ROOTPATH . 'engine');
+define('ENGINEPATH', ROOTPATH . 'engine' . DIRECTORY_SEPARATOR);
 
 /**
  *
