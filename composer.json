@@ -17,8 +17,7 @@
   ],
   "require": {
     "php": ">=7.1",
-    "sylynder/codeigniter": "^0.1.0",
-    "filp/whoops": "^2.7"
+    "sylynder/codeigniter": "^0.1.0"
   },
   "require-dev": {},
   "config": {
