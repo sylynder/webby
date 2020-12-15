@@ -1,16 +1,8 @@
 <?php
 
-/*
- * First set the application's environtment
- *
- * This can be set to anything, but default usage is:
- *
- *     development
- *     testing
- *     production
+/**
+ * Define Directory Paths and bootstrap application 
  */
-
-$app_env = 'development'; // don't change the variable name
 
 define('__ONE__', 1); // No special functionality with this. It is just a helper constant
 
