@@ -26,7 +26,7 @@ if ( ! function_exists('mail_view'))
         $layout = null;
         $view = null;
 
-        $mail_view_path = dot($mail_view_path);
+        $mail_view_path = dot_to_slash($mail_view_path);
 
         if (strstr($mail_view_path, '::')) {
             $mail_view_path = string_to_array('::', $mail_view_path);
@@ -71,7 +71,7 @@ if ( ! function_exists('view'))
      */
     function view($view_path, $view_data = null)
     {
-        $view_path = dot($view_path);
+        $view_path = dot_to_slash($view_path);
 
         return ci()->load->view($view_path, $view_data);
     }
@@ -89,7 +89,7 @@ if ( ! function_exists('partial'))
      */
     function partial($view_path, $view_data = null)
     {
-        $view_path = dot($view_path);
+        $view_path = dot_to_slash($view_path);
 
         return ci()->load->view($view_path, $view_data);
     }
@@ -104,7 +104,7 @@ if ( ! function_exists('section'))
      */
     function section($view_path, $view_data = null)
     {
-        $view_path = dot($view_path);
+        $view_path = dot_to_slash($view_path);
 
         ci()->load->view($view_path, $view_data);
     }
@@ -123,7 +123,7 @@ if ( ! function_exists('layout'))
     function layout($layout_path, $view_path = null, $view_data = null)
     {
         
-        $layout_path = dot($layout_path);
+        $layout_path = dot_to_slash($layout_path);
 
         if (! is_null($view_path) && isset($view_path) )
         {

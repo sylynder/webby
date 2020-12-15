@@ -74,7 +74,7 @@ if ( ! function_exists('dot'))
     }
 }
 
-if ( ! function_exists('dot')) 
+if ( ! function_exists('dot_to_slash')) 
 {
     /**
      * Check if dot exists in string
@@ -120,17 +120,17 @@ if ( ! function_exists('with_dot'))
                 
                 if (is_int($key))
                 {
-                    $output[] = dot($value);
+                    $output[] = dot_to_slash($value);
                 }
                 else
                 {
-                    $output[] = dot($value);
+                    $output[] = dot_to_slash($value);
                 }
             }
         }
 
         if (!is_array($string)) {
-            $output = dot($string);
+            $output = dot_to_slash($string);
         }
 
         return $output;
