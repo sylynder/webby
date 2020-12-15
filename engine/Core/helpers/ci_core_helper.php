@@ -25,6 +25,50 @@ if ( ! function_exists('ci'))
     }
 }
 
+if (! function_exists('env'))
+{
+	/**
+	 * Allows user to retrieve values from the environment
+	 * variables that have been set. Especially useful for
+	 * retrieving values set from the .env file for
+	 * use in config files.
+	 *
+	 * @param string $key
+	 * @param null   $default
+	 *
+	 * @return mixed
+	 */
+	function env(string $key, $default = null)
+	{
+		$value = getenv($key);
+		if ($value === false)
+		{
+			$value = $_ENV[$key] ?? $_SERVER[$key] ?? false;
+		}
+
+		// Not found? Return the default value
+		if ($value === false)
+		{
+			return $default;
+		}
+
+		// Handle any boolean values
+		switch (strtolower($value))
+		{
+			case 'true':
+				return true;
+			case 'false':
+				return false;
+			case 'empty':
+				return '';
+			case 'null':
+				return null;
+		}
+
+		return $value;
+	}
+}
+
 /* ------------------------------- Uri Functions ---------------------------------*/
 
 if ( ! function_exists('app_url')) 
