@@ -67,13 +67,14 @@ if ( ! function_exists('view'))
      *
      * @param string $view_path
      * @param array $view_data
-     * @return void
+     * @param bool $return 
+     * @return object|string
      */
-    function view($view_path, $view_data = null)
+    function view($view_path, $view_data = [], $return = false)
     {
         $view_path = dot_to_slash($view_path);
 
-        return ci()->load->view($view_path, $view_data);
+        return ci()->load->view($view_path, $view_data, $return);
     }
 }
 
