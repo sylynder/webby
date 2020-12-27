@@ -90,9 +90,7 @@ if ( ! function_exists('partial'))
      */
     function partial($view_path, $view_data = null)
     {
-        $view_path = dot_to_slash($view_path);
-
-        return ci()->load->view($view_path, $view_data);
+        return view($view_path, $view_data);
     }
 }
 
