@@ -103,8 +103,6 @@ if ( ! function_exists('section'))
      */
     function section($view_path, $view_data = null)
     {
-        $view_path = dot_to_slash($view_path);
-
         ci()->load->view($view_path, $view_data);
     }
 }
