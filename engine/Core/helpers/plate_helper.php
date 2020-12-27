@@ -117,16 +117,17 @@ if ( ! function_exists('layout'))
      * @param array $view_data
      * @return void
      */
-    function layout($layout_path, $view_path = null, $view_data = null)
-    {
-        
-        $layout_path = dot_to_slash($layout_path);
+    function layout(
+        $layout_path, 
+        $view_path = null, 
+        $view_data = null
+    ) {
 
         if (! is_null($view_path) && isset($view_path) )
         {
             $view_data['content'] = $view_path;
         }
 
-        return ci()->load->view($layout_path, $view_data);
+        return view($layout_path, $view_data);
     }
 }
