@@ -511,7 +511,7 @@ if ( ! function_exists('use_library'))
     function use_library($library, $params = NULL, $object_name = NULL)
     {
 
-        $library = with_dot($library);
+        $library = has_dot($library);
 
         ci()->load->library($library, $params, $object_name);
     }
@@ -529,7 +529,7 @@ if ( ! function_exists('use_model'))
      */
     function use_model($model, $name = '', $db_conn = false)
     {
-        $model = with_dot($model);
+        $model = has_dot($model);
 
         ci()->load->model($model, $name, $db_conn);
     }
@@ -545,7 +545,7 @@ if ( ! function_exists('use_helper'))
      */
     function use_helper($helper): object
     {
-        $helper = with_dot($helper);
+        $helper = has_dot($helper);
 
         ci()->load->helper($helper);
     }

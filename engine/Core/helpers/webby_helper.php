@@ -74,7 +74,7 @@ if ( ! function_exists('dot_to_slash'))
     }
 }
 
-if ( ! function_exists('with_dot')) 
+if ( ! function_exists('has_dot')) 
 {
 
     /**
@@ -86,7 +86,7 @@ if ( ! function_exists('with_dot'))
      * @param string|array $string
      * @return void
      */
-    function with_dot($string)
+    function has_dot($string)
     {
         $output = [];
 
