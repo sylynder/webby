@@ -986,7 +986,7 @@ if ( ! function_exists('cleanxss'))
     }
 }
 
-if ( ! function_exists('filter_url')) 
+if ( ! function_exists('is_url')) 
 {
     /**
      *  filter url
@@ -994,7 +994,7 @@ if ( ! function_exists('filter_url'))
      *  @param     string    $url
      *  @return    string
      */
-    function filter_url($url)
+    function is_url($url)
     {
         return filter_var($url, FILTER_SANITIZE_URL);
     }
