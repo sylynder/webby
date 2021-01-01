@@ -600,21 +600,6 @@ if ( ! function_exists('object_array'))
     }
 }
 
-if ( ! function_exists('obj_array')) 
-{
-    /**
-     * Alias or helper for the above function
-     *
-     * @param array $object_array
-     * @param int|string $index
-     * @return object|array
-     */
-    function obj_array($object_array, $index)
-    {
-        return object_array($object_array, $index);
-    }
-}
-
 if ( ! function_exists('objectify')) 
 {
     /**
