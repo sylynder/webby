@@ -159,6 +159,22 @@ if ( ! function_exists('active_link'))
     }
 }
 
+if ( ! function_exists('is_active')) 
+{
+    /**
+    * Use it to set active or current url for 
+    * css classes. Default class name is (active)
+    */
+    function is_active($link, $class = null)
+    {
+        if ($class != null) {
+            return ci()->uri->uri_string() == $link ? $class : '';
+        } 
+        
+        return ci()->uri->uri_string() == $link ? 'active' : '';
+    }
+}
+
 if ( ! function_exists('uri_segment')) 
 {
     /**
