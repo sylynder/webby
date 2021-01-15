@@ -612,8 +612,8 @@ if ( ! function_exists('objectify'))
     function objectify(array $array)
     {
         if (is_array($array)) {
-            $array = json_encode($array);
-            return json_decode($array);
+            $array = json_encode($array, JSON_THROW_ON_ERROR);
+            return json_decode($array, null, 512, JSON_THROW_ON_ERROR);
         }
 
         throw new Exception("Parameter must be array", 1);
