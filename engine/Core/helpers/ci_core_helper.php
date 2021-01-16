@@ -508,6 +508,28 @@ if ( ! function_exists('set_form_data'))
 
 /* ------------------------------- Loader Functions ---------------------------------*/
 
+if ( ! function_exists('use_config')) 
+{
+    /**
+     * Load a config file and instantiate
+     *
+     * @param string $config_file
+     * @param bool $use_sections
+     * @param bool $fail_gracefully
+     * @return bool true if the file was loaded correctly or false on failure
+     */
+    function use_config(
+        $config_file = '', 
+        $use_sections = false, 
+        $fail_gracefully = false
+    ) {
+
+        $config_file = has_dot($config_file);
+
+        ci()->config->load($config_file, $use_sections, $fail_gracefully);
+    }
+}
+
 if ( ! function_exists('use_library')) 
 {
     /**
