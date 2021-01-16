@@ -553,7 +553,7 @@ if ( ! function_exists('use_helper'))
      * @param string|array $helper
      * @return void
      */
-    function use_helper($helper): object
+    function use_helper($helper)
     {
         $helper = has_dot($helper);
 
