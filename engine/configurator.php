@@ -21,7 +21,8 @@ $exclude = [
     'autoload',
 	'constants',
 	'database',
-	'hooks', 
+    'hooks',
+    'profiler',
 	// 'settings',
     // 'commands', 
 ];
