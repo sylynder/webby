@@ -191,6 +191,20 @@ if ( ! function_exists('str_to_hex'))
     }
 }
 
+if ( ! function_exists('hex_to_str')) 
+{
+    /**
+     * convert hexadecimal to string
+     *
+     * @param string $hex_string
+     * @return string
+     */
+    function hex_to_str(/*hexadecimal*/ $hex_string)
+    {   
+        $hex_string = hex2bin($hex_string); 
+        return trim($hex_string);;
+    }
+}
 
 if ( ! function_exists('slugify')) 
 {
