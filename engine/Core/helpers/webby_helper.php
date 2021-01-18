@@ -206,6 +206,55 @@ if ( ! function_exists('hex_to_str'))
     }
 }
 
+if ( ! function_exists('dec2str')) 
+{
+    /**
+     * convert decimal to string using base
+     * this is made for special use case
+     * else use strval() i.e from int to string
+     * 
+     * @param string $decimal
+     * @param int $base
+     * @return string
+     */
+    function dec2str(/*decimal*/ $decimal, $base = 36) 
+    {
+        $string = null;
+
+        $base = (int) $base;
+        if ($base < 2 | $base > 36 | $base == 10) {
+            echo '$base must be in the range 2-9 or 11-36';
+            exit;
+        }
+
+        // maximum character string is 36 characters
+        $charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // strip off excess characters (anything beyond $base)
+        $charset = substr($charset, 0, $base);
+
+        if (!preg_match('/^[0-9]{1,50}$/', trim($decimal))) {
+            throw new Exception('Value must be a positive integer with < 50 digits');
+            return false;
+        } 
+
+        do {
+            // get remainder after dividing by BASE
+            $remainder = bcmod($decimal, $base);
+
+            $char = substr($charset, $remainder, 1);   // get CHAR from array
+            $string = "$char$string";                    // prepend to output
+
+            //$decimal = ($decimal - $remainder) / $base;
+            $decimal = bcdiv(bcsub($decimal, $remainder), $base);
+
+        } while ($decimal > 0);
+
+        return $string;
+
+    }
+}
+
 if ( ! function_exists('slugify')) 
 {
     /**
