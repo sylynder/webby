@@ -184,10 +184,10 @@ if ( ! function_exists('str_to_hex'))
      * @param string $str
      * @return string
      */
-    function str_to_hex(string $str)
-    {
-        $hex_string = unpack('H*', $string);
-        return array_shift($hex_string);
+    function str_to_hex($str)
+    {   
+        $str = trim($str);
+        return bin2hex($str);
     }
 }
 
