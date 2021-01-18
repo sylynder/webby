@@ -176,6 +176,22 @@ if ( ! function_exists('str_right_zeros'))
     }
 }
 
+if ( ! function_exists('str_to_hex')) 
+{
+    /**
+     * convert string to hexadecimal
+     *
+     * @param string $str
+     * @return string
+     */
+    function str_to_hex(string $str)
+    {
+        $hex_string = unpack('H*', $string);
+        return array_shift($hex_string);
+    }
+}
+
+
 if ( ! function_exists('slugify')) 
 {
     /**
