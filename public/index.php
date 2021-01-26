@@ -1,9 +1,8 @@
 <?php
 
-/**
+/*
  * Define Directory Paths and bootstrap application 
  */
-
 define('__ONE__', 1); // No special functionality with this. It is just a helper constant
 
 // Path to the front controller (this file)
@@ -11,6 +10,15 @@ define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 
 // The name of this file
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+
+/*
+ *---------------------------------------------------------------
+ * COMPOSER AUTOLOADING
+ *---------------------------------------------------------------
+ *
+ * Load composer to simplify class and namespace autoloading
+ */
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
  *---------------------------------------------------------------
@@ -231,13 +239,6 @@ switch (ENVIRONMENT) {
         echo 'The application environment is not set correctly.';
         exit(1); // EXIT_ERROR
 }
-
-/*
- * --------------------------------------------------------------------
- * DEFINE FRAMEWORK VERSION
- * --------------------------------------------------------------------
- */
-define('WEBBY_VERSION', 'v0.1.0');
 
 /*
  * --------------------------------------------------------------------
