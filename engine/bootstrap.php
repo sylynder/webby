@@ -305,7 +305,7 @@ if (is_dir($asset_directory)) {
     define('ASSETS', $asset_directory . DIRECTORY_SEPARATOR);
 } else {
 
-    if (!is_dir(CIPATH . $asset_directory . DIRECTORY_SEPARATOR)) {
+    if (!is_dir(CIPATH . $asset_directory . DIRECTORY_SEPARATOR) && !defined('STDIN')) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
         echo 'Your assets folder path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $asset_directory_line;
         exit(3); // EXIT_CONFIG
@@ -327,6 +327,13 @@ if (is_dir($upload_directory)) {
 
     define('UPLOADPATH', $upload_directory . DIRECTORY_SEPARATOR);
 }
+
+/*
+ * --------------------------------------------------------------------
+ * DEFINE WEBBY VERSION
+ * --------------------------------------------------------------------
+ */
+define('WEBBY_VERSION', 'v0.1.0');
 
 // Load environment settings from .env files
 // into $_SERVER and $_ENV
