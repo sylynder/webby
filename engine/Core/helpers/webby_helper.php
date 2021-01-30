@@ -119,6 +119,21 @@ if ( ! function_exists('remove_session'))
     }
 }
 
+if ( ! function_exists('has_session'))
+{
+    /**
+     * Verify if a session value exists
+     *
+     * @param string $key
+     * @return bool
+     */
+    function has_session($key)
+    {
+        ci()->load->library('session');
+        return ci()->session->has_userdata($key);
+    }
+}
+
 /* ------------------------------- String Functions ---------------------------------*/
 
 if ( ! function_exists('dot_to_slash')) 
