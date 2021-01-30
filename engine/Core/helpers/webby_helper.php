@@ -79,6 +79,31 @@ if ( ! function_exists('sessions'))
     }
 }
 
+if ( ! function_exists('session'))
+{
+    /**
+     * Add or retrieve a session data
+     *
+     * @param array|string $key
+     * @param string|null $value
+     * @return string|null
+     */
+    function session($key, $value=null)
+    {
+        ci()->load->library('session'); 
+
+        if (is_array($key)) {
+            return ci()->session->set_userdata($key);
+        }
+
+        if (!is_null($value) && is_string($key)) {
+            return ci()->session->set_userdata($key, $value);
+        }
+
+        return ci()->session->userdata($key);
+    }
+}
+
 /* ------------------------------- String Functions ---------------------------------*/
 
 if ( ! function_exists('dot_to_slash')) 
