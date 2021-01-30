@@ -261,14 +261,19 @@ if ( ! function_exists('is_ajax_request'))
 if ( ! function_exists('server')) 
 {
     /**
-     * Function to set only server methods
+     * Fetch an item or all items 
+     * from the SERVER array
      *
      * @param string $index
      * @param bool $xss_clean
      * @return void
      */
-    function server($index, $xss_clean = NULL)
+    function server($index = null, $xss_clean = null)
     {
+        if(is_null($index)) {
+            return $_SERVER;
+        }
+
         return ci()->input->server($index, $xss_clean);
     }
 }
