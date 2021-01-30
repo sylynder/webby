@@ -49,6 +49,23 @@ if ( ! function_exists('unique_id'))
     }
 }
 
+/* ------------------------------- Session Functions ---------------------------------*/
+
+if ( ! function_exists('init_session'))
+{
+    /**
+     * This function is used to initialize or create sessions
+     * same as the native session_start function.
+     * @return 
+     */
+    function init_session()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start(); //the good old friend
+        }
+    }
+}
+
 /* ------------------------------- String Functions ---------------------------------*/
 
 if ( ! function_exists('dot_to_slash')) 
