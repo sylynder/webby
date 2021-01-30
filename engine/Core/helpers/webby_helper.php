@@ -66,6 +66,19 @@ if ( ! function_exists('init_session'))
     }
 }
 
+if ( ! function_exists('sessions'))
+{
+    /**
+     * This function is used for retrieving all Session Data
+     * @return array (all session data)
+     */
+    function sessions()
+    {
+        ci()->load->library('session');
+        return ci()->session->all_userdata();
+    }
+}
+
 /* ------------------------------- String Functions ---------------------------------*/
 
 if ( ! function_exists('dot_to_slash')) 
