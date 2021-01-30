@@ -104,6 +104,21 @@ if ( ! function_exists('session'))
     }
 }
 
+if ( ! function_exists('remove_session'))
+{
+    /**
+     * Remove session data
+     *
+     * @param array|string $key
+     * @return void
+     */
+    function remove_session($key)
+    {
+        ci()->load->library('session');
+        return ci()->session->unset_userdata($key);
+    }
+}
+
 /* ------------------------------- String Functions ---------------------------------*/
 
 if ( ! function_exists('dot_to_slash')) 
