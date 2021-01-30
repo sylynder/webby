@@ -10,8 +10,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *	@author			Kwame Oteng Appiah-Nti
  */
 
-// ------------------------------------------------------------------------
+use Base\CodeIgniter\Instance;
 
+// -------------------------------------- Diety Functions ---------------------------
 
 if ( ! function_exists('ci')) 
 {
@@ -21,7 +22,7 @@ if ( ! function_exists('ci'))
 
     function ci()
     {
-        return $ci = &get_instance();
+        return Instance::create(); //$ci = &get_instance();
     }
 }
 
