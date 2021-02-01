@@ -153,6 +153,20 @@ if ( ! function_exists('flash_session'))
     }
 }
 
+if ( ! function_exists('destroy_session'))
+{
+    /**
+     * Destroy session data
+    *
+    * @return void
+    */
+    function destroy_session()
+    {
+        ci()->load->library('session');
+        return ci()->session->sess_destroy();
+    }
+}
+
 /* ------------------------------- String Functions ---------------------------------*/
 
 if ( ! function_exists('dot_to_slash')) 
