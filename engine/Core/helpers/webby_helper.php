@@ -134,6 +134,25 @@ if ( ! function_exists('has_session'))
     }
 }
 
+if ( ! function_exists('flash_session'))
+{
+    function flash_session($key, $value=null)
+    {
+        ci()->load->library('session');
+
+        if (is_array($key)) {
+            return ci()->session->set_flashdata($key);
+        }
+
+        if (!is_null($value) && is_string($key)) {
+            return ci()->session->set_flashdata($key, $value);
+        }
+
+        return ci()->session->flashdata($key);
+
+    }
+}
+
 /* ------------------------------- String Functions ---------------------------------*/
 
 if ( ! function_exists('dot_to_slash')) 
