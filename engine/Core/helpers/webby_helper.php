@@ -190,6 +190,18 @@ if ( ! function_exists('alert_message'))
     }
 }
 
+if ( ! function_exists('clear_message'))
+{
+    /**
+     * Clearing message type
+     * @return void
+     */
+    function clear_message($message_type)
+    {
+        remove_session($message_type);
+    }
+}
+
 /* ------------------------------- String Functions ---------------------------------*/
 
 if ( ! function_exists('dot_to_slash')) 
