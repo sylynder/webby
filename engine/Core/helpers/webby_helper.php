@@ -167,6 +167,29 @@ if ( ! function_exists('destroy_session'))
     }
 }
 
+if ( ! function_exists('alert_message'))
+{
+    /**
+     * Set message type
+     *
+     * @param string $type
+     * @param string $message
+     * @return string|void
+     */
+    function alert_message(
+        string $message_type, 
+        string $message = null
+    )  {
+
+        if ($message !== null) {
+           return flash_session($message_type, $message);
+        }
+
+        return flash_session($message_type);
+        
+    }
+}
+
 /* ------------------------------- String Functions ---------------------------------*/
 
 if ( ! function_exists('dot_to_slash')) 
