@@ -136,6 +136,13 @@ if ( ! function_exists('has_session'))
 
 if ( ! function_exists('flash_session'))
 {
+    /**
+     * Set or retrieve flash data
+     *
+     * @param array|string $key
+     * @param string $value
+     * @return string|void
+     */
     function flash_session($key, $value=null)
     {
         ci()->load->library('session');
@@ -156,7 +163,7 @@ if ( ! function_exists('flash_session'))
 if ( ! function_exists('destroy_session'))
 {
     /**
-     * Destroy session data
+    * Destroy session data
     *
     * @return void
     */
