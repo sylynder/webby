@@ -351,7 +351,7 @@ if ( ! function_exists('str_to_hex'))
     }
 }
 
-if ( ! function_exists('hex_to_str')) 
+if ( ! function_exists('hex2str')) 
 {
     /**
      * convert hexadecimal to string
@@ -359,7 +359,7 @@ if ( ! function_exists('hex_to_str'))
      * @param string $hex_string
      * @return string
      */
-    function hex_to_str(/*hexadecimal*/ $hex_string)
+    function hex2str(/*hexadecimal*/ $hex_string)
     {   
         $hex_string = hex2bin($hex_string); 
         return trim($hex_string);;
