@@ -383,7 +383,7 @@ if ( ! function_exists('dec2str'))
 
         $base = (int) $base;
         if ($base < 2 | $base > 36 | $base == 10) {
-            echo '$base must be in the range 2-9 or 11-36';
+            throw new Exception('$base must be in the range 2-9 or 11-36');
             exit;
         }
 
