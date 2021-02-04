@@ -336,7 +336,7 @@ if ( ! function_exists('str_right_zeros'))
     }
 }
 
-if ( ! function_exists('str_to_hex')) 
+if ( ! function_exists('str2hex')) 
 {
     /**
      * convert string to hexadecimal
@@ -344,7 +344,7 @@ if ( ! function_exists('str_to_hex'))
      * @param string $str
      * @return string
      */
-    function str_to_hex($str)
+    function str2hex($str)
     {   
         $str = trim($str);
         return bin2hex($str);
