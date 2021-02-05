@@ -122,6 +122,28 @@ if ( ! function_exists('app_path'))
     }
 }
 
+if ( ! function_exists('writable_path')) 
+{
+    /**
+     * Path to the writable directory
+     *
+     * @param string $path
+     * @return string
+     */
+    function writable_path($path = '')
+    {   
+        if (defined('WRITABLEPATH')) {
+            return WRITABLEPATH;
+        }
+
+        if ( ! empty($path) && is_dir($path)) {
+            return $path . DIRECTORY_SEPARATOR;
+        }
+
+        return;
+    }
+}
+
 /* ------------------------------- Uri Functions ---------------------------------*/
 
 if ( ! function_exists('app_url')) 
