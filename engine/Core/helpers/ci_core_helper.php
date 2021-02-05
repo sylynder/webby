@@ -94,6 +94,34 @@ if ( ! function_exists('public_path'))
     }
 }
 
+if ( ! function_exists('app_path')) 
+{
+    /**
+     * Path to the app directory
+     * This represents the APPROOT 
+     * instead of APPPATH
+     * 
+     * @param string $path
+     * @return string
+     */
+    function app_path($path = '', $default = false)
+    {   
+        if (defined('APPROOT') && $default) {
+            return APPROOT;
+        }
+
+        if ( ! empty($path) && is_dir($path)) {
+            return $path . DIRECTORY_SEPARATOR;
+        }
+
+        if ( ! empty($path) && !is_dir($path)) {
+            throw new Exception("Path ". $path . " cannot be found");
+        }
+
+        return;
+    }
+}
+
 /* ------------------------------- Uri Functions ---------------------------------*/
 
 if ( ! function_exists('app_url')) 
