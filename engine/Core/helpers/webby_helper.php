@@ -211,7 +211,7 @@ if ( ! function_exists('clear_message'))
 
 /* ------------------------------- String Functions ---------------------------------*/
 
-if ( ! function_exists('dot_to_slash')) 
+if ( ! function_exists('dot2slash')) 
 {
     /**
      * Check if dot exists in string
@@ -220,7 +220,7 @@ if ( ! function_exists('dot_to_slash'))
      * @param string $string
      * @return void
      */
-    function dot_to_slash(string $string)
+    function dot2slash(string $string)
     {
         if (strstr($string, '/')) {
             $string = $string;
@@ -257,17 +257,17 @@ if ( ! function_exists('has_dot'))
                 
                 if (is_int($key))
                 {
-                    $output[] = dot_to_slash($value);
+                    $output[] = dot2slash($value);
                 }
                 else
                 {
-                    $output[] = dot_to_slash($value);
+                    $output[] = dot2slash($value);
                 }
             }
         }
 
         if (!is_array($string)) {
-            $output = dot_to_slash($string);
+            $output = dot2slash($string);
         }
 
         return $output;
