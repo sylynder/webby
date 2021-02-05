@@ -70,6 +70,30 @@ if (! function_exists('env'))
 	}
 }
 
+/* ------------------------------- Path Functions ---------------------------------*/
+
+if ( ! function_exists('public_path')) 
+{
+    /**
+     * Path to the public directory
+     *
+     * @param string $path
+     * @return string
+     */
+    function public_path($path = '')
+    {   
+        if (defined('FCPATH')) {
+            return FCPATH;
+        }
+
+        if ( ! empty($path) && is_dir($path)) {
+            return $path . DIRECTORY_SEPARATOR;
+        }
+
+        return;
+    }
+}
+
 /* ------------------------------- Uri Functions ---------------------------------*/
 
 if ( ! function_exists('app_url')) 
