@@ -680,6 +680,30 @@ if ( ! function_exists('has_element'))
     }
 }
 
+if ( ! function_exists('ends_with'))
+{
+	/**
+	 *  Determine if a given string 
+     * ends with a given substring
+	 *
+	 *  @param string $haystack
+	 *  @param string|array $needles
+	 *  @return boolean
+	 */
+	function ends_with($haystack, $needles)
+	{
+		foreach ((array) $needles as $needle)
+		{
+			if (substr($haystack, -strlen($needle)) === (string) $needle)
+			{
+				return TRUE;
+			}
+		}
+
+		return FALSE;
+	}
+}
+
 if ( ! function_exists('string_to_array')) 
 {
     /**
