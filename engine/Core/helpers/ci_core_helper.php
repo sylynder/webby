@@ -17,9 +17,14 @@ use Base\CodeIgniter\Instance;
 if ( ! function_exists('ci')) 
 {
     /**
-     *  CodeIgniter Instance function
+     * CodeIgniter Instance function
+     * Powered with loading internal libraries
+     * in an expressive manner
+     * 
+     * @param string $class
+     * @param array $params
+     * @return void
      */
-
     function ci(string $class = null, array $params = [])
     {
         if ($class === null) {
