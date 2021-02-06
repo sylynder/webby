@@ -69,6 +69,55 @@ if ( ! function_exists('ci'))
     }
 }
 
+if ( ! function_exists('app')) 
+{
+     /**
+      * Undocumented function
+      *
+      * @param string $class
+      * @param array $params
+      * @return void
+      */
+    function app(string $class = null, array $params = [])
+    {   
+
+        $get_class = explode('/', has_dot($class));
+        $class_type = count($get_class);
+
+        $class_name = ($class_type == 2) ? $get_class[1]: $get_class[0];
+
+        if (ends_with($class, '_model') || ends_with($class, '_m')) {
+            
+            use_model($class); // load model
+
+            return ci()->{$class_name}; // return model object
+        }
+
+        if (contains('Model', $class)) {
+            
+            use_model($class);
+
+            return ci()->{$class_name};
+        }
+
+        // let's assume it's a model without
+        // the above conditions
+        // If it does not exists we will load a library
+        // Not a good implementation but it works
+        try {
+            ci('load')->model(has_dot($class));
+        } catch (Exception $e) {
+            ci('load')->library(has_dot($class));
+        }
+
+        if (!is_object(ci()->{$class_name})) {
+            return ci(has_dot($class), $params);
+        }
+        
+        return ci()->{$class_name};
+    }
+}
+
 if (! function_exists('env'))
 {
 	/**
