@@ -20,9 +20,47 @@ if ( ! function_exists('ci'))
      *  CodeIgniter Instance function
      */
 
-    function ci()
+    function ci(string $class = null, array $params = [])
     {
-        return Instance::create(); //$ci = &get_instance();
+        if ($class === null) {
+            return Instance::create(); //$ci = &get_instance();
+        }
+
+        //	Special cases 'user_agent' and 'unit_test' are loaded
+		//	with diferent names
+		if ($class !== 'user_agent') {
+			$lib = ($class == 'unit_test') ? 'unit' : $class;
+		} else {
+			$lib = 'agent';
+		}
+        
+        //	Library not loaded
+		if ( ! isset(ci()->$lib)) {
+            
+            //	Special case 'cache' is a driver
+			if ($class == 'cache') {
+				ci('load')->driver($class, $params);
+            }
+            
+            // Let's guess it's a library
+			ci('load')->library($class, $params);
+        } 
+        
+        //	Special name for 'unit_test' is 'unit'
+		if ($class == 'unit_test') {
+			return ci()->unit;
+		}
+		//	Special name for 'user_agent' is 'agent'
+        elseif ($class == 'user_agent') {
+			return ci()->agent;
+		}	
+        
+        if (! ends_with($class, '_model') || !ends_with($class, '_m')) {
+			return ci()->$class;
+		} else {
+			$class = ($params == array()) ? $class : $params ;
+			return ci()->$class;
+        }
     }
 }
 
