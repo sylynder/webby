@@ -12,6 +12,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('view')) 
+{
+    /**
+     * A view function for the CodeIgniter 
+     * $this->load->view()
+     *
+     * @param string $view_path
+     * @param array $view_data
+     * @param bool $return 
+     * @return object|string
+     */
+    function view($view_path, $view_data = [], $return = false)
+    {
+        $view_path = dot2slash($view_path);
+
+        return ci()->load->view($view_path, $view_data, $return);
+    }
+}
+
 if ( ! function_exists('mail_view')) 
 {
     /**
@@ -26,7 +45,7 @@ if ( ! function_exists('mail_view'))
         $layout = null;
         $view = null;
 
-        $mail_view_path = dot_to_slash($mail_view_path);
+        $mail_view_path = dot2slash($mail_view_path);
 
         if (strstr($mail_view_path, '::')) {
             $mail_view_path = string_to_array('::', $mail_view_path);
@@ -56,25 +75,6 @@ if ( ! function_exists('mail_view'))
         $mail_data = add_associative_array($mail_data, 'content', $view);
 
         return ci()->load->view($layout, $mail_data, true);
-    }
-}
-
-if ( ! function_exists('view')) 
-{
-    /**
-     * A view function for the CodeIgniter 
-     * $this->load->view()
-     *
-     * @param string $view_path
-     * @param array $view_data
-     * @param bool $return 
-     * @return object|string
-     */
-    function view($view_path, $view_data = [], $return = false)
-    {
-        $view_path = dot_to_slash($view_path);
-
-        return ci()->load->view($view_path, $view_data, $return);
     }
 }
 
