@@ -72,7 +72,8 @@ if ( ! function_exists('ci'))
 if ( ! function_exists('app')) 
 {
      /**
-      * Undocumented function
+      * Easy access to models and
+      * libraries
       *
       * @param string $class
       * @param array $params
