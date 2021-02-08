@@ -49,6 +49,39 @@ if ( ! function_exists('unique_id'))
     }
 }
 
+/* ------------------------------- Config Functions ---------------------------------*/
+
+if ( ! function_exists('config')) 
+{
+     /**
+      * Fetch/Set a config file item
+      *
+      * @param array|string $key
+	  * @param mixed $value
+	  * @return mixed
+      */
+    function config($key = null, $value = null)
+	{
+		if (is_null($key)) {
+			return ci('config');
+		}
+
+		if (is_array($key)) {
+			foreach ($key as $item => $val) {
+				config($item, $val);
+			}
+
+			return;
+		}
+
+		if ( ! is_null($value)) {
+			return ci('config')->set_item($key, $value);
+		}
+
+		return ci('config')->item($key);
+	}
+}
+
 /* ------------------------------- Session Functions ---------------------------------*/
 
 if ( ! function_exists('init_session'))
