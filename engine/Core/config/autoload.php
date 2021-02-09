@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('COREPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -32,6 +32,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
+|  App Autoloader
+| -------------------------------------------------------------------
+| Location of app autoloaders:
+| These files have been autoloaded
+| to help application's core functionality
+|  require_once ROOTPATH . 'config/autoload.php';
+|
+ */
+require_once ROOTPATH . 'config/autoload.php';
+
+/*
+| -------------------------------------------------------------------
+|  Webby Autoloader
+| -------------------------------------------------------------------
+| Location of core autoloaders:
+| These files have been autoloaded
+| to help Webby's core functionality
+|
+|  require_once ENGINEPATH.'core_loader.php';
+|
+ */
+require_once ENGINEPATH . 'core_loader.php';
+
+
+/*
+| -------------------------------------------------------------------
 |  Auto-load Packages
 | -------------------------------------------------------------------
 | Prototype:
@@ -39,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
 |
 */
-$autoload['packages'] = array();
+$autoload['packages'] = $packages;
 
 /*
 | -------------------------------------------------------------------
@@ -58,7 +84,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array();
+$autoload['libraries'] = array($libraries, $core_libraries);
 
 /*
 | -------------------------------------------------------------------
@@ -79,7 +105,7 @@ $autoload['libraries'] = array();
 |	$autoload['drivers'] = array('cache' => 'cch');
 |
 */
-$autoload['drivers'] = array();
+$autoload['drivers'] = $drivers;
 
 /*
 | -------------------------------------------------------------------
@@ -89,7 +115,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array();
+$autoload['helper'] = array($helpers, $core_helpers);
 
 /*
 | -------------------------------------------------------------------
@@ -103,7 +129,7 @@ $autoload['helper'] = array();
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array();
+$autoload['config'] = $config;
 
 /*
 | -------------------------------------------------------------------
@@ -117,7 +143,7 @@ $autoload['config'] = array();
 | "codeigniter_lang.php" would be referenced as array('codeigniter');
 |
 */
-$autoload['language'] = array();
+$autoload['language'] = $language;
 
 /*
 | -------------------------------------------------------------------
@@ -132,4 +158,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array();
+$autoload['model'] = array($models, $core_models);
