@@ -6,7 +6,7 @@ defined('COREPATH') or exit('No direct script access allowed');
  */
 $core_helpers = [
 
-    // 'asset',
+    'asset',
     'ci_core',
     'webby',
     'db',
