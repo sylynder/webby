@@ -123,3 +123,17 @@ if ( ! function_exists('asset'))
 
 	}
 }
+
+if ( ! function_exists('img')) 
+{
+    /**
+     * Load image assets
+     *
+     * @param string $file_path
+     * @return string
+     */
+	function img($file_path = null)
+	{
+		return asset($file_path);
+	}
+}
