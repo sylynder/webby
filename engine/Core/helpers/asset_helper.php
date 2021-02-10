@@ -70,3 +70,16 @@ if ( ! function_exists('writable_path'))
         return;
     }
 }
+
+if ( ! function_exists('load_path')) 
+{
+	/**
+     * Load other folders from the public folder
+     * @param  string $path
+     * @return string
+     */
+	function load_path($path)
+	{
+		return site_url() . $path;
+	}
+}
