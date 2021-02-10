@@ -83,3 +83,22 @@ if ( ! function_exists('load_path'))
 		return site_url() . $path;
 	}
 }
+
+if ( ! function_exists('resource')) 
+{
+	/**
+     * Load files from resource folder
+     * by the use of CodeIgniter's site_url() function
+     * 
+     * @param  string   $path
+     * @return string 
+     */
+	function resource($path = null)
+	{
+        if ( ! is_null($path)) {
+		    $path = 'resources' . DS . $path;
+        }
+        
+		return (!empty($path)) ? load_path($path) : site_url() . ASSETS;
+	}
+}
