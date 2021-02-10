@@ -137,3 +137,17 @@ if ( ! function_exists('img'))
 		return asset($file_path);
 	}
 }
+
+if ( ! function_exists('css')) 
+{
+    /**
+     * Load css assets
+     *
+     * @param string $file_path
+     * @return string
+     */
+	function css($file_path = null)
+	{
+		return asset($file_path);
+	}
+}
