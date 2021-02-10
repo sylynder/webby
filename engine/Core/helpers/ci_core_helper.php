@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 /**
  *  CI_CORE Helper functions
@@ -161,80 +161,6 @@ if (! function_exists('env'))
 
 		return $value;
 	}
-}
-
-/* ------------------------------- Path Functions ---------------------------------*/
-
-if ( ! function_exists('public_path')) 
-{
-    /**
-     * Path to the public directory
-     *
-     * @param string $path
-     * @return string
-     */
-    function public_path($path = '')
-    {   
-        if (defined('FCPATH')) {
-            return FCPATH;
-        }
-
-        if ( ! empty($path) && is_dir($path)) {
-            return $path . DIRECTORY_SEPARATOR;
-        }
-
-        return;
-    }
-}
-
-if ( ! function_exists('app_path')) 
-{
-    /**
-     * Path to the app directory
-     * This represents the APPROOT 
-     * instead of APPPATH
-     * 
-     * @param string $path
-     * @return string
-     */
-    function app_path($path = '', $default = false)
-    {   
-        if (defined('APPROOT') && $default) {
-            return APPROOT;
-        }
-
-        if ( ! empty($path) && is_dir($path)) {
-            return $path . DIRECTORY_SEPARATOR;
-        }
-
-        if ( ! empty($path) && !is_dir($path)) {
-            throw new Exception("Path ". $path . " cannot be found");
-        }
-
-        return;
-    }
-}
-
-if ( ! function_exists('writable_path')) 
-{
-    /**
-     * Path to the writable directory
-     *
-     * @param string $path
-     * @return string
-     */
-    function writable_path($path = '')
-    {   
-        if (defined('WRITABLEPATH')) {
-            return WRITABLEPATH;
-        }
-
-        if ( ! empty($path) && is_dir($path)) {
-            return $path . DIRECTORY_SEPARATOR;
-        }
-
-        return;
-    }
 }
 
 /* ------------------------------- Uri Functions ---------------------------------*/

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('COREPATH') OR exit('No direct script access allowed');
 
 /**
  *  Plate Helper functions
