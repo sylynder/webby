@@ -151,3 +151,17 @@ if ( ! function_exists('css'))
 		return asset($file_path);
 	}
 }
+
+if ( ! function_exists('js')) 
+{
+    /**
+     * Load javascript assets
+     *
+     * @param string $file_path
+     * @return string
+     */
+	function js($file_path = null)
+	{
+		return asset($file_path);
+	}
+}
