@@ -102,3 +102,24 @@ if ( ! function_exists('resource'))
 		return (!empty($path)) ? load_path($path) : site_url() . ASSETS;
 	}
 }
+
+if ( ! function_exists('asset')) 
+{
+	/**
+     * Load assets folder
+     * by the use of CodeIgniter's site_url() function
+     * 
+     * @param  string   $file_path
+     * @return string 
+     */
+	function asset($file_path = null)
+	{
+		if($file_path !== null) 
+		{
+			return site_url() . ASSETS . $file_path;
+		} 
+
+		return site_url() . ASSETS;
+
+	}
+}
