@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 /**
  *  DB Helper functions
@@ -14,6 +14,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 /* ------------------------------- DB Functions ---------------------------------*/
+
+if ( ! function_exists( 'dbase' )) 
+{
+    /**
+     * CodeIgniter's database object
+     *
+     * @return void
+     */
+    function dbase()
+	{
+        ci()->load->database();
+        return ci()->db;
+	}
+}
+
 if ( ! function_exists( 'select_db' )) 
 {
     /**
