@@ -35,6 +35,6 @@ defined('CIPATH') OR exit('No direct script access allowed');
 | $route['route-pattern'] = 'controller/method/segment1/segment2/segment3';
 */
 
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'app';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
