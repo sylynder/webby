@@ -1,7 +1,16 @@
-# Webby
+<p align="center">
+    <img src="webby-readme.png" width="600" alt="Webby">
+</p>
 
-WIP
+------
+**Webby** An extension of CodeIgniter3 Framework for easy web application development.
 
-Not to be used for production yet.
+- HMVC Modular Extensions
+- CodeIgniter 3 Framework **[ci3 documentation](https://www.codeigniter.com/userguide3/index.html)**
+- Webby Docs: Coming Soon
 
-An extension of CodeIgniter3 Framework for easy web application development
+**Webby** is created by **[Developer Kwame](https://developerkwame.com)**.
+
+It is licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.
+
+
