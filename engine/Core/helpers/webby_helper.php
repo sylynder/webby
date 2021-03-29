@@ -1304,15 +1304,39 @@ if ( ! function_exists('filter_url'))
 
 if ( ! function_exists('is_url')) 
 {
-    /**
-     *  check if string is url
-     *
-     *  @param     string    $url
-     *  @return    string
-     */
-    function is_url($url)
+
+     /**
+      * check if string is url
+      *
+      * @param string $url
+      * @param bool $is_live
+      * @param bool $return
+      * @return bool|string
+      */
+    function is_url($url, $is_live = false, $return = false)
     {
-        return filter_var($url, FILTER_VALIDATE_URL);
+        $url = filter_url($url);
+
+        $url = filter_var($url, FILTER_VALIDATE_URL);
+
+        if ($return && $is_live) {
+            $live = ping_url($url);
+            return $live ? $url : $live;
+        }
+
+        if ($return && $url) {
+            return $url;
+        }
+
+        if ($is_live) {
+            return ping_url($url);
+        }
+
+        if ($url) {
+            return true;
+        }
+
+        return false;
     }
 }
 
