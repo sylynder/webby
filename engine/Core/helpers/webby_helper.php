@@ -1267,6 +1267,27 @@ if ( ! function_exists('cleanxss'))
     }
 }
 
+if ( ! function_exists('ping_url')) 
+{
+    /**
+     * Ping url to check
+     * if it is online or exists
+     *
+     *  @param     string  $url
+     *  @return    bool
+     */
+    function ping_url(string $url): bool
+    {
+        $url = parse_url($url);
+
+		if (!isset($url["host"])) { 
+            return false;
+        }
+
+		return !(gethostbyname($url["host"]) == $url["host"]);
+    }
+}
+
 if ( ! function_exists('filter_url')) 
 {
     /**
