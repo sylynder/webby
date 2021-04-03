@@ -17,7 +17,7 @@ $config['cache_dir']  = CACHE_PATH;
 
 $config['cache_path'] = CACHE_PATH;
 
-$config['web_cache_path'] = CACHE_PATH . 'web' . DS;
+$config['web_cache_path'] = WEB_CACHE_PATH;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ $config['web_cache_path'] = CACHE_PATH . 'web' . DS;
 |	             of query parameters.
 |
 */
-$config['cache_query_string'] = FALSE;
+$config['cache_query_string'] = false;
 
 /*
 |--------------------------------------------------------------------------

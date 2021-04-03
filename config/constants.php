@@ -3,9 +3,11 @@ defined('COREPATH') or exit('No direct script access allowed');
 
 /*
 | This file contains constants for making Webby work great
-| Don't change any defined constant name else it will result
-| in an error 
+| Don't change any defined "constant name" else it will result
+| in an error or may brake the application
+|
 | Add your constants at the section "Your constants here"
+|
  */
 
 /*
@@ -58,7 +60,7 @@ define('APP_ENCRYPTION_KEY', getenv('app.encryptionKey'));
 |
  */
 
-//Database Driver
+// Database Driver
 define('APP_DB_DRIVER', getenv('database.default.DBDriver'));
 
 /* The hostname of your database server. */
@@ -69,28 +71,41 @@ define('APP_DB_USERNAME', getenv('database.default.username'));
 define('APP_DB_PASSWORD', getenv('database.default.password'));
 /* The name of the database you want to connect to */
 define('APP_DB_NAME', getenv('database.default.database'));
-//Authentication Database
-define('AUTH_DB', '');
+/* The name of the database if you want to use a seperate 
+*  authentication database
+*/
+define('AUTH_DB', getenv('database.default.auth_database'));
 
 /*
- * POSTGRE SQL CONFIGURATION
- */
-/* The hostname of your database server. */
-define('PSQL_DB_HOSTNAME', 'pgsql:host=localhost;dbname=dbname_here;password=password');
+|--------------------------------------------------------------------------
+| Postgres SQL Configuration and Credentials
+|--------------------------------------------------------------------------
+|
+*/
+
+/* The dsn of your database server. */
+define('PGSQL_DB_DSN', getenv('database.pgsql.dsn'));
+/* The hostname of your database server. */ //PGSQL_DB_DSN
+define('PGSQL_DB_HOSTNAME', getenv('database.pgsql.hostname'));
+//The database Driver to user to the database
+define('PGSQL_DB_DRIVER', getenv('database.pgsql.DBDriver'));
 /* The username used to connect to the database */
-define('PSQL_DB_USERNAME', '');
+define('PGSQL_DB_USERNAME', getenv('database.pgsql.username'));
 /* The password used to connect to the database */
-define('PSQL_DB_PASSWORD', '');
+define('PGSQL_DB_PASSWORD', getenv('database.pgsql.password'));
 /* The name of the database you want to connect to */
-define('PSQL_DB_NAME', '');
-//Database Driver
-define('PSQL_DB_DRIVER', 'pdo');
+define('PGSQL_DB_NAME', getenv('database.pgsql.database'));
+/* The port number of database engine */
+define('PGSQL_DB_PORT', getenv('database.pgsql.port'));
+
 
 /*
 |--------------------------------------------------------------------------
 | Site Maintenance view file path and Enable/Disable
 |--------------------------------------------------------------------------
-|*/
+|
+ */
+
 define('SITE_ON', false);
 
 define('SITE_MAINTENANCE_VIEW', '');
@@ -99,7 +114,9 @@ define('SITE_MAINTENANCE_VIEW', '');
 |--------------------------------------------------------------------------
 | Log Configurations
 |--------------------------------------------------------------------------
-|*/
+|
+ */
+
 define('LOG_PATH', ROOTPATH . 'writable/logs/system/');
 define('APP_LOG_PATH', ROOTPATH . 'writable/logs/app/');
 
@@ -113,6 +130,7 @@ define('APP_LOG_PATH', ROOTPATH . 'writable/logs/app/');
 |    5 = Debug Messages
 |    6 = All Messages
  */
+
 define('LOG_LEVEL', 3);
 
 /*
@@ -120,12 +138,14 @@ define('LOG_LEVEL', 3);
 |   integer notation (i.e. 0700, 0644, etc.)
 |
  */
+
 define('LOG_PERMISSION', 0644);
 
 /*
 |   Log date format for Webby logging
 |   You can use PHP date codes to set your own date formatting
  */
+
 define('LOG_DATE_FORMAT', 'Y-m-d H:i:s');
 
 /*
@@ -148,8 +168,20 @@ define('LOG_FILE_EXTENSION', '');
 | based on your preference
 | Use a full server path with trailing slash.
 |
-*/
+ */
+
 define('CACHE_PATH', WRITABLEPATH . 'cache/');
+
+/*
+|--------------------------------------------------------------------------
+| Web Cache Directory Path
+|--------------------------------------------------------------------------
+|
+| Cache path for web views
+|
+ */
+
+define('WEB_CACHE_PATH', CACHE_PATH . 'web/');
 
 /*
 |
@@ -165,13 +197,14 @@ define('CACHE_PATH', WRITABLEPATH . 'cache/');
 | In case you are having problem with the SESS_SAVE_PATH consult with your hosting provider to set "session.save_path" value to php.ini
 |
  */
-define('SESSION_SAVE_PATH', ROOTPATH . 'writable/session');
+
+define('SESSION_SAVE_PATH', getenv('app.sessionSavePath') ?: ROOTPATH . 'writable/session');
 define('SESSION_DRIVER', getenv('app.sessionDriver') ?: 'files');
 define('SESSION_COOKIE_NAME', getenv('app.sessionCookieName') ?: 'i_');
 define('SESSION_EXPIRATION', getenv('app.sessionExpiration') ?: 7200);
 define('SESSION_MATCH_IP', getenv('app.sessionMatchIP') ?: false);
 define('SESSION_TIME_TO_UPDATE', getenv('app.sessionTimeToUpdate') ?: 300);
-define('SESSION_REGENERATE_DESTROY', getenv('app.sessionRegenerateDestroy') ?: true);
+define('SESSION_REGENERATE_DESTROY', getenv('app.sessionRegenerateDestroy') ?: false);
 
 /*
 |
@@ -185,6 +218,12 @@ define('SESSION_REGENERATE_DESTROY', getenv('app.sessionRegenerateDestroy') ?: t
 |  'cookie_path'     = Typically will be a forward slash
 |  'cookie_secure'   = Cookie will only be set if a secure HTTPS connection exists.
 |  'cookie_httponly' = Cookie will only be accessible via HTTP(S) (no javascript)
+|  'cookie_samesite' = Identify whether or not to allow a cookie to be accessed. 
+|					  SameSite attribute include 'Strict', 'Lax', or 'None' (The first character must be an uppercase letter)
+|
+|    				  'Lax' enables only first-party cookies to be sent/accessed
+|					  'Strict' is a subset of 'lax' and won’t fire if the incoming link is from an external site
+|    				  'None' signals that the cookie data can be shared with third parties/external sites
 |
 |  Note: These settings (with the exception of 'cookie_prefix' and
 |       'cookie_httponly') will also affect sessions.
@@ -192,10 +231,11 @@ define('SESSION_REGENERATE_DESTROY', getenv('app.sessionRegenerateDestroy') ?: t
  */
 
 define('COOKIE_PREFIX', getenv('app.cookiePrefix') ?: 'i_');
-define('COOKIE_DOMAIN', getenv('app.cookiePrefix') ?: '');
-define('COOKIE_PATH', getenv('app.cookiePrefix') ?: '/');
-define('COOKIE_SECURE', getenv('app.cookiePrefix') ?: false);
-define('COOKIE_HTTPONLY', getenv('app.cookiePrefix') ?: false);
+define('COOKIE_DOMAIN', getenv('app.cookieDomain') ?: '');
+define('COOKIE_PATH', getenv('app.cookiePath') ?: '/');
+define('COOKIE_SECURE', getenv('app.cookieSecure') ?: false);
+define('COOKIE_HTTPONLY', getenv('app.cookieHTTPOnly') ?: true);
+define('COOKIE_SAMESITE', getenv('app.cookieSameSite') ?: 'Lax');
 
 /*
 |
@@ -216,7 +256,7 @@ define('CSRF_PROTECTION', getenv('app.CSRFProtection') ?: false);
 define('CSRF_TOKEN_NAME', getenv('app.CSRFTokenName') ?: 'csrf_app_token');
 define('CSRF_COOKIE_NAME', getenv('app.CSRFCookieName') ?: 'csrf_app');
 define('CSRF_EXPIRE', getenv('app.CSRFExpire') ?: 7200);
-define('CSRF_REGENERATE', getenv('app.CSRFRegenerate') ?: true);
+define('CSRF_REGENERATE', getenv('app.CSRFRegenerate') ?: false);
 define('CSRF_EXCLUDE_URIS', getenv('app.CSRFExcludeURIs') ?: []);
 
 /*

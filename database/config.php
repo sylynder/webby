@@ -121,13 +121,14 @@ $db['auth_db'] = array(
     'save_queries' => true,
 );
 
-$db['psql'] = array(
-    'dsn' => 'pgsql:host=localhost;port=5432;dbname=databasename', //'pgsql:host=localhost;port=3306;dbname=myproject',
-    'hostname' => PSQL_DB_HOSTNAME,
-    'username' => PSQL_DB_USERNAME,
-    'password' => PSQL_DB_PASSWORD,
-    'database' => PSQL_DB_NAME,
-    'dbdriver' => defined('PSQL_DB_DRIVER') ? PSQL_DB_DRIVER : 'pdo',
+$db['pgsql'] = array(
+    'dsn' => PGSQL_DB_DSN,
+    'hostname' => PGSQL_DB_HOSTNAME,
+    'username' => PGSQL_DB_USERNAME,
+    'password' => PGSQL_DB_PASSWORD,
+    'database' => PGSQL_DB_NAME,
+    'port'     => PGSQL_DB_PORT,
+    'dbdriver' => defined('PGSQL_DB_DRIVER') ? PGSQL_DB_DRIVER : 'pdo',
     'dbprefix' => '',
     'pconnect' => false,
     'db_debug' => (ENVIRONMENT !== 'production'),

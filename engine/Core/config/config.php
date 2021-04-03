@@ -24,3 +24,11 @@ include_once ENGINEPATH . 'configurator.php';
 |
  */
 include_once ENGINEPATH . 'modular.php';
+
+/*
+|--------------------------------------------------------------------------
+| Migrations Configuration File
+|--------------------------------------------------------------------------
+|
+ */
+include_once COREPATH . 'config/migration.php';
