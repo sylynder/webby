@@ -1,6 +1,8 @@
 <?php
 defined('COREPATH') OR exit('No direct script access allowed');
 
+use Base\View\Plates;
+
 /**
  *  Plate Helper functions
  *
@@ -12,12 +14,30 @@ defined('COREPATH') OR exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
+if ( ! function_exists('plates')) 
+{
+    /**
+     * Plates object
+     *
+     * @param array $params
+     * @return Plates
+     */
+    function plates($params = array())
+    {
+      return (new Plates($params));
+    }
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists('view')) 
 {
     /**
-     * A view function for the CodeIgniter 
-     * $this->load->view()
+     * A heavy lifting view function for the 
+     * CodeIgniter $this->load->view() [enhanced]
      *
+     * It also handles other templating engines
+     * 
      * @param string $view_path
      * @param array $view_data
      * @param bool $return 
@@ -27,7 +47,19 @@ if ( ! function_exists('view'))
     {
         $view_path = dot2slash($view_path);
 
-        return ci()->load->view($view_path, $view_data, $return);
+        if (config('view')['view_engine'] === '') {
+            return view($view_path, $view_data, $return);
+        }
+
+        // Get the evaluated view contents for the given plates view
+        if (config('view')['view_engine'] === 'plates') 
+
+        if ($view_data === null) {
+			return plates()->view($view_path);
+		}
+
+		return plates()->set($view_data)->view($view_path);
+        
     }
 }
 
@@ -103,7 +135,7 @@ if ( ! function_exists('section'))
      */
     function section($view_path, $view_data = null)
     {
-        ci()->load->view($view_path, $view_data);
+        return view($view_path, $view_data);
     }
 }
 
