@@ -8,4 +8,9 @@ class App extends WebController {
 	{
 		return view('welcome');
 	}
+
+	public function error404()
+	{
+		return view('error404');
+	}
 }
