@@ -24,7 +24,7 @@ if ( ! function_exists('plates'))
      */
     function plates($params = array())
     {
-      return (new Plates($params));
+        return (new Plates($params));
     }
 }
 
@@ -48,9 +48,9 @@ if ( ! function_exists('view'))
         $view_path = dot2slash($view_path);
 
         if (config('view')['view_engine'] === '') {
-            return view($view_path, $view_data, $return);
+            return ci()->load->view($view_path, $view_data, $return);
         }
-
+        
         // Get the evaluated view contents for the given plates view
         if (config('view')['view_engine'] === 'plates') 
 
