@@ -170,8 +170,7 @@ class Plates {
 		$this->ci->benchmark->mark('plate_execution_time_start');	//	Start the timer
 
 		$this->ci->load->driver('cache');	//	Load ci cache driver
-		$this->ci->config->load(ROOTPATH . 'config/plates.php');	//	Load plates config file
-
+		
 		if (config_item('enable_helper')) {
 			$this->ci->load->helper('plate');	//	Load Plates Helper
 		}

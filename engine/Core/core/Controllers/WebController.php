@@ -10,7 +10,8 @@ class WebController extends \Base_Controller {
 
     public function __construct()
     {
-        $this->plate = new Plates();
+        parent::__construct();
+        $this->plate = plates();
     }
 
 }
