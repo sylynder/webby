@@ -3,8 +3,20 @@ defined('COREPATH') or exit('No direct script access allowed');
 
 use Base\Debug\Debug;
 
-if (ENVIRONMENT !== 'development') {
-    exit;
+if ( ! function_exists( 'strict_dev' )) 
+{
+    /**
+	 * Check if development 
+     * environment is active
+	 *
+	 * @return void
+	 */
+    function strict_dev()
+    { 
+        if (ENVIRONMENT !== 'development') {
+            show_error('Sorry you must be in development mode');
+        }
+    }
 }
 
 if ( ! function_exists( 'console' )) 
@@ -18,6 +30,7 @@ if ( ! function_exists( 'console' ))
 	 */
     function console(/* mixed */ $var, string $type = 'log')
     { 
+        strict_dev();
         echo '<script type="text/javascript">console.';
         echo ''.$type.'';
         echo '('.json_encode($var).')</script>';
@@ -35,6 +48,7 @@ if ( ! function_exists( 'dump' ))
      */
     function dump($dump)
     { 
+        strict_dev();
         echo '<pre>';
         var_dump($dump);
         echo '</pre>';
@@ -44,6 +58,7 @@ if ( ! function_exists( 'dump' ))
 if ( ! function_exists( 'dd' )) {
     function dd()
     {
+        strict_dev();
         array_map(function($x) { Debug::var_dump($x); }, func_get_args()); die;
     }
 }
@@ -58,6 +73,7 @@ if ( ! function_exists( 'pp' ))
      */
     function pp($dump)
     { 
+        strict_dev();
         echo highlight_string("<?php\n\$data =\n" . var_export($dump, true) . ";\n//>");
         echo '<script>document.getElementsByTagName("code")[0].getElementsByTagName("span")[1].remove() ;document.getElementsByTagName("code")[0].getElementsByTagName("span")[document.getElementsByTagName("code")[0].getElementsByTagName("span").length - 1].remove() ; </script>';
         die();
@@ -77,6 +93,7 @@ if ( ! function_exists( 'dump_json' ))
      */
     function dump_json($dump)
     { 
+        strict_dev();
         return json_encode($dump);
     }
 }
@@ -157,7 +174,7 @@ if ( ! function_exists( 'end_benchmark' ))
      */
     function end_benchmark($end_key = 'end')
     {
-        ci()->benchmark->mark('end');
+        ci()->benchmark->mark($end_key);
     }
 }
 
