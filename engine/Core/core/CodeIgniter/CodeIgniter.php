@@ -221,7 +221,8 @@ class CodeIgniter {
      */
     protected function environment($value = 'development')
     {
-        isset($this->server['CI_ENV']) && $value = $this->server['CI_ENV'];
+        // isset($this->server['CI_ENV']) && $value = $this->server['CI_ENV'];
+        isset($this->server['app.env']) && $value = $this->server['app.env'];
 
         defined('ENVIRONMENT') || define('ENVIRONMENT', $value);
     }

@@ -186,7 +186,7 @@ function detect_environment()
         }
         else
         {
-            return $_SERVER['app.env'] ?? 'production';
+            return $_SERVER['app.env'] ?: 'production';
         }
     }
 }
