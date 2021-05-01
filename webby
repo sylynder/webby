@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+
+// require_once __DIR__ . '/vendor/autoload.php';
+
+function serve(array $args = []): void {
+
+	$project_dir = __DIR__;
+
+	$dir = realpath($project_dir.'/public/');
+	$port = 8085;
+	$port = intval($port);
+
+	if($port === 0) {
+		die('Please choose a valid port');
+	}
+
+	$output =  "PHP Webserver Started for Webby \n";
+	$output .= "Navigate to http://localhost:{$port} ";
+	$output .= "to view your project.\nPress Ctrl+C to stop it!";" \n";
+	
+	echo $output . "\n";
+	
+	system('php -S localhost:'.$port.' -t '.$dir);
+}
+
+serve();
