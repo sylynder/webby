@@ -528,8 +528,12 @@ class BasicModel extends \Base_Model {
         $data['batch'] = true;
         $data = $this->trigger('before_insert', $data);
 
-        unset($data['batch']);
+        if ($this->set_created_at === false) {
+            unset($data['created_at']);
+        }
 
+        unset($data['batch']);
+ 
         return $this->dbw->insert_batch($this->table, $data);
     }
     
