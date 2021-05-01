@@ -207,25 +207,105 @@ if ( ! function_exists('destroy_session'))
     }
 }
 
-if ( ! function_exists('alert_message'))
+// if ( ! function_exists('alert_message'))
+// {
+//     /**
+//      * Set message type
+//      *
+//      * @param string $type
+//      * @param string $message
+//      * @return string|void
+//      */
+//     function alert_message(
+//         string $message_type, 
+//         string $message = null
+//     )  {
+
+//         if ($message !== null) {
+//            return flash_session($message_type, $message);
+//         }
+
+//         return flash_session($message_type);
+        
+//     }
+// }
+
+if ( ! function_exists('success_message'))
 {
     /**
-     * Set message type
+     * Set/Get success message
      *
-     * @param string $type
      * @param string $message
-     * @return string|void
+     * @return string
      */
-    function alert_message(
-        string $message_type, 
-        string $message = null
-    )  {
+    function success_message(string $message = null)  
+    {
 
         if ($message !== null) {
-           return flash_session($message_type, $message);
+           return flash_session('success_message', $message);
         }
 
-        return flash_session($message_type);
+        return flash_session('success_message');
+        
+    }
+}
+
+if ( ! function_exists('error_message'))
+{
+    /**
+     * Set/Get error message
+     *
+     * @param string $message
+     * @return void
+     */
+    function error_message(string $message = null)  
+    {
+
+        if ($message !== null) {
+           return flash_session('error_message', $message);
+        }
+
+        return flash_session('error_message');
+        
+    }
+}
+
+if ( ! function_exists('info_message'))
+{
+    /**
+     * Set/Get info message
+     *
+     * @param string $message
+     * @return void
+     */
+    function info_message(string $message = null)  
+    {
+
+        if ($message !== null) {
+           return flash_session('info_message', $message);
+        }
+
+        return flash_session('info_message');
+        
+    }
+}
+
+if ( ! function_exists('warn_message'))
+{
+    /**
+     * Set/Get warning message
+     *
+     * @param string $message
+     * @return void
+     */
+    function warn_message(string $message = null)  
+    {
+
+        if ($message !== null) {
+           return flash_session('warn_message', $message);
+        }
+
+        return flash_session('warn_message');
         
     }
 }
@@ -807,18 +887,44 @@ if ( ! function_exists('add_associative_array'))
     /**
      * This is a function that helps to 
      * add associative key => value
-     * To an associative array
+     * to an associative array
+     * 
+     * Set multi to true to 
+     * insert into multidimensional
      *
      * @param array $array
      * @param string $key
      * @param string $value
      * @return void
      */
-    function add_associative_array($array, $key, $value)
+    function add_associative_array($array, $key, $value, $multi = false)
     {
-        $array[$key] = $value;
+        
+        if ($multi === false) {
+            return $array[$key] = $value;
+        }
+        
+        $array = array_map(function($array) use ($key, $value){
+            return $array + [$key => $value];
+        }, $array);
 
         return $array;
+    }
+}
+
+if ( ! function_exists('remove_empty_elements')) 
+{
+    /**
+     * Remove keys and values 
+     * that are empty
+     *
+     * @param array $array
+     * @return array
+     */
+    function remove_empty_elements($array)
+    {
+            $array = array_map('array_filter', $array);
+            return $array = array_filter($array);
     }
 }
 
@@ -863,8 +969,8 @@ if ( ! function_exists('remove_from_array'))
             $array = string_to_array($symbol, $array);
         }
 
-        if (is_array($array) && ($key = array_search($element, $array)) !== false) {
-            unset($array[$key]);
+        if (is_array($array) && ($key = array_search($element, array_keys($array))) !== false) {
+            unset($array[$element]);
         }
 
         if ($return_string == true) {
@@ -872,6 +978,22 @@ if ( ! function_exists('remove_from_array'))
         }
 
         return $array;
+    }
+}
+
+if ( ! function_exists('remove_empty_elements')) 
+{
+    /**
+     * Remove keys and values 
+     * that are empty
+     *
+     * @param array $array
+     * @return array
+     */
+    function remove_empty_elements($array)
+    {
+            $array = array_map('array_filter', $array);
+            return $array = array_filter($array);
     }
 }
 
