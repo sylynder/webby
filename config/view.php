@@ -1,7 +1,7 @@
 <?php
 defined('COREPATH') OR exit('No direct script access allowed');
 
-/*
+/* 
 | -------------------------------------------------------------------------
 | View Configurations
 | -------------------------------------------------------------------------
@@ -49,6 +49,6 @@ $config['view'] = [
     |
     */
     
-    'view_engine' => 'plates', // e.g. plates| blade | nette | fat-free | etc
+    'view_engine' => 'plates', // e.g. plates | blade | nette | fat-free | etc
 
 ];
