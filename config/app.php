@@ -22,7 +22,7 @@ defined('COREPATH') OR exit('No direct script access allowed');
 | -------------------------------------------------------------------------
 |
  */
-$config['app_name'] = 'Webby';
+$config['app_name'] = 'Asap';
 
 /*
 | -------------------------------------------------------------------------
@@ -46,3 +46,16 @@ $config['app_status'] = false;
 |
  */
 $config['maintenance_mode'] = SITE_ON;
+
+/*
+| -------------------------------------------------------------------------
+| Error 404 Emergency view
+|  
+| Set this view for possible 
+| error 404 page
+| 
+| -------------------------------------------------------------------------
+|
+ */
+
+$config['app_error_view'] = 'errors/error404';
