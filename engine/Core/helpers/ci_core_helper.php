@@ -476,7 +476,7 @@ if ( ! function_exists('validate'))
      * @param mixed $errors
      * @return void
      */
-    function validate($field, $label = '', $rules, $errors = null)
+    function validate($field, $label = '', $rules = [], $errors = null)
     {
         ci()->form_validation->set_rules($field, $label, $rules, $errors);
     }
