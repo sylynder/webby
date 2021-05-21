@@ -36,12 +36,16 @@ if ( ! function_exists('app_path'))
      */
     function app_path($path = '')
     {   
+        if (empty($path)) {
+            return APPROOT;
+        }
+
         if ( ! empty($path) && is_dir(APPROOT . $path)) {
             return APPROOT . $path . DIRECTORY_SEPARATOR;
         }
 
-        if (empty($path)) {
-            return APPROOT;
+        if ( ! empty($path) && is_file(APPROOT . $path)) {
+            return APPROOT . $path;
         }
 
         if ( ! empty($path) && !is_dir(APPROOT . $path)) {
@@ -49,7 +53,7 @@ if ( ! function_exists('app_path'))
             // throw new Exception("Path ". $path . " cannot be found");
         }
 
-        return;
+        return APPROOT;
     }
 }
 
@@ -96,7 +100,7 @@ if ( ! function_exists('resource'))
 	function resource($path = null)
 	{
         if ( ! is_null($path)) {
-		    $path = 'resources' . DS . $path;
+		    $path = 'resources' . DIRECTORY_SEPARATOR . $path;
         }
         
 		return (!empty($path)) ? load_path($path) : site_url() . ASSETS;
