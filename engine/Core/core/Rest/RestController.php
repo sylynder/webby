@@ -16,7 +16,7 @@ use Base\Helpers\Format;
  *
  * @version  4.0.0
  */
-class RestController extends \CI_Controller
+class RestController extends \MX_Controller
 {
     /**
      * This defines the rest format
@@ -307,12 +307,13 @@ class RestController extends \CI_Controller
 
         // Get the language
         $language = $this->config->item('rest_language');
+        
         if ($language === null) {
             $language = 'english';
         }
 
         // Load the language file
-        $this->lang->load('rest_controller', $language, false, true, __DIR__.'/../');
+        $this->lang->load('rest_controller', $language);
 
         // Initialise the response, request and rest objects
         $this->request = new stdClass();
@@ -337,8 +338,8 @@ class RestController extends \CI_Controller
         }
 
         // Create an argument container if it doesn't exist e.g. get_args
-        if (isset($this->{'_'.$this->request->method.'_args'}) === false) {
-            $this->{'_'.$this->request->method.'_args'} = [];
+        if (isset($this->{$this->request->method.'_args'}) === false) {
+            $this->{$this->request->method.'_args'} = [];
         }
 
         // Set up the query parameters
@@ -353,7 +354,7 @@ class RestController extends \CI_Controller
         // Not all methods have a body attached with them
         $this->request->body = null;
 
-        $this->{'_parse_'.$this->request->method}();
+        $this->{'parse'.ucfirst($this->request->method)}();
 
         // Fix parse method return arguments null
         if ($this->{$this->request->method.'_args'} === null) {
@@ -449,7 +450,7 @@ class RestController extends \CI_Controller
     /**
      * Does the auth stuff.
      */
-    private function do_auth($method = false)
+    private function doAuth($method = false)
     {
         // If we don't want to do auth, then just return true
         if ($method === false) {
@@ -466,7 +467,7 @@ class RestController extends \CI_Controller
      */
     private function getLocalConfig($config_file)
     {
-        if (file_exists(APPPATH.'config/'.$config_file.'.php')) {
+        if (file_exists(ROOTPATH.'config/'.$config_file.'.php')) {
             $this->load->config($config_file, false);
         } else {
             if (file_exists(__DIR__.'/'.$config_file.'.php')) {
@@ -536,7 +537,7 @@ class RestController extends \CI_Controller
         // They provided a key, but it wasn't valid, so get them out of here
         if ($this->config->item('rest_enable_keys') && $use_key && $this->allow === false) {
             if ($this->config->item('rest_enable_logging') && $log_method) {
-                $this->_log_request();
+                $this->logRequest();
             }
 
             // fix cross site to option request error
@@ -553,7 +554,7 @@ class RestController extends \CI_Controller
         // Check to see if this key has access to the requested controller
         if ($this->config->item('rest_enable_keys') && $use_key && empty($this->rest->key) === false && $this->checkAccess() === false) {
             if ($this->config->item('rest_enable_logging') && $log_method) {
-                $this->_log_request();
+                $this->logRequest();
             }
 
             $this->response([
@@ -573,7 +574,7 @@ class RestController extends \CI_Controller
         // Doing key related stuff? Can only do it if they have a key right?
         if ($this->config->item('rest_enable_keys') && empty($this->rest->key) === false) {
             // Check the limit
-            if ($this->config->item('rest_enable_limits') && $this->_check_limit($controller_method) === false) {
+            if ($this->config->item('rest_enable_limits') && $this->checkLimit($controller_method) === false) {
                 $response = [$this->config->item('rest_status_field_name') => false, $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_api_key_time_limit')];
                 $this->response($response, HttpStatus::UNAUTHORIZED);
             }
@@ -585,7 +586,7 @@ class RestController extends \CI_Controller
             $authorized = $level <= $this->rest->level;
             // IM TELLIN!
             if ($this->config->item('rest_enable_logging') && $log_method) {
-                $this->_log_request($authorized);
+                $this->logRequest($authorized);
             }
             if ($authorized === false) {
                 // They don't have good enough perms
@@ -595,14 +596,14 @@ class RestController extends \CI_Controller
         }
 
         //check request limit by ip without login
-        elseif ($this->config->item('rest_limits_method') == 'IP_ADDRESS' && $this->config->item('rest_enable_limits') && $this->_check_limit($controller_method) === false) {
+        elseif ($this->config->item('rest_limits_method') == 'IP_ADDRESS' && $this->config->item('rest_enable_limits') && $this->checkLimit($controller_method) === false) {
             $response = [$this->config->item('rest_status_field_name') => false, $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_ip_address_time_limit')];
             $this->response($response, HttpStatus::UNAUTHORIZED);
         }
 
         // No key stuff, but record that stuff is happening
         elseif ($this->config->item('rest_enable_logging') && $log_method) {
-            $this->_log_request($authorized = true);
+            $this->logRequest($authorized = true);
         }
 
         // Call the controller method and passed arguments
@@ -651,11 +652,18 @@ class RestController extends \CI_Controller
 
             // If data is not NULL and a HTTP status code provided, then continue
             elseif ($data !== null) {
+
+                $types = ['php, json, csv, xml, html'];
+
+                $responseFormat = in_array($this->response->format, $types) 
+                    ? strtoupper($this->response->format) 
+                    : ucfirst($this->response->format);
+
                 // If the format method exists, call and return the output in that format
-                if (method_exists(Format::class, 'to_'.$this->response->format)) {
+                if (method_exists(Format::class, 'to'.$responseFormat)) {
                     // CORB protection
                     // First, get the output content.
-                    $output = Format::factory($data)->{'to_'.$this->response->format}();
+                    $output = Format::factory($data)->{'to'.$responseFormat}();
 
                     // Set the format header
                     // Then, check if the client asked for a callback, and if the output contains this callback :
@@ -668,12 +676,12 @@ class RestController extends \CI_Controller
                     // An array must be parsed as a string, so as not to cause an array to string error
                     // Json is the most appropriate form for such a data type
                     if ($this->response->format === 'array') {
-                        $output = Format::factory($output)->{'to_json'}();
+                        $output = Format::factory($output)->{'toJSON'}();
                     }
                 } else {
                     // If an array or object, then parse as a json, so as to be a 'string'
                     if (is_array($data) || is_object($data)) {
-                        $data = Format::factory($data)->{'to_json'}();
+                        $data = Format::factory($data)->{'toJSON'}();
                     }
 
                     // Format is not supported, so output the raw data as a string
@@ -728,7 +736,7 @@ class RestController extends \CI_Controller
      * @param array|null $data      Data to output to the user
      * @param int|null   $http_code HTTP status code
      */
-    public function set_response($data = null, $http_code = null)
+    public function setResponse($data = null, $http_code = null)
     {
         $this->response($data, $http_code, true);
     }
@@ -964,13 +972,12 @@ class RestController extends \CI_Controller
      *
      * @return bool TRUE the data was inserted; otherwise, FALSE
      */
-    protected function _log_request($authorized = false)
+    protected function logRequest($authorized = false)
     {
         // Insert the request into the log table
         $is_inserted = $this->rest->db
             ->insert(
-                $this->config->item('rest_logs_table'),
-                [
+                $this->config->item('rest_logs_table'), [
                     'uri'        => $this->uri->uri_string(),
                     'method'     => $this->request->method,
                     'params'     => $this->args ? ($this->config->item('rest_logs_json_params') === true ? json_encode($this->args) : serialize($this->args)) : null,
@@ -994,7 +1001,7 @@ class RestController extends \CI_Controller
      *
      * @return bool TRUE the call limit is below the threshold; otherwise, FALSE
      */
-    protected function _check_limit($controller_method)
+    protected function checkLimit($controller_method)
     {
         // They are special, or it might not even have a limit
         if (empty($this->rest->ignore_limits) === false) {
@@ -1378,7 +1385,7 @@ class RestController extends \CI_Controller
             return $this->get_args;
         }
 
-        return isset($this->get_args[$key]) ? $this->xss_clean($this->get_args[$key], $xss_clean) : null;
+        return isset($this->get_args[$key]) ? $this->xssClean($this->get_args[$key], $xss_clean) : null;
     }
 
     /**
@@ -1396,7 +1403,7 @@ class RestController extends \CI_Controller
             return $this->options_args;
         }
 
-        return isset($this->options_args[$key]) ? $this->xss_clean($this->options_args[$key], $xss_clean) : null;
+        return isset($this->options_args[$key]) ? $this->xssClean($this->options_args[$key], $xss_clean) : null;
     }
 
     /**
@@ -1414,7 +1421,7 @@ class RestController extends \CI_Controller
             return $this->head_args;
         }
 
-        return isset($this->head_args[$key]) ? $this->xss_clean($this->head_args[$key], $xss_clean) : null;
+        return isset($this->head_args[$key]) ? $this->xssClean($this->head_args[$key], $xss_clean) : null;
     }
 
     /**
@@ -1430,13 +1437,13 @@ class RestController extends \CI_Controller
     {
         if ($key === null) {
             foreach (new \RecursiveIteratorIterator(new \RecursiveArrayIterator($this->post_args), \RecursiveIteratorIterator::CATCH_GET_CHILD) as $key => $value) {
-                $this->post_args[$key] = $this->xss_clean($this->post_args[$key], $xss_clean);
+                $this->post_args[$key] = $this->xssClean($this->post_args[$key], $xss_clean);
             }
 
             return $this->post_args;
         }
 
-        return isset($this->post_args[$key]) ? $this->xss_clean($this->post_args[$key], $xss_clean) : null;
+        return isset($this->post_args[$key]) ? $this->xssClean($this->post_args[$key], $xss_clean) : null;
     }
 
     /**
@@ -1454,7 +1461,7 @@ class RestController extends \CI_Controller
             return $this->put_args;
         }
 
-        return isset($this->put_args[$key]) ? $this->xss_clean($this->put_args[$key], $xss_clean) : null;
+        return isset($this->put_args[$key]) ? $this->xssClean($this->put_args[$key], $xss_clean) : null;
     }
 
     /**
@@ -1472,7 +1479,7 @@ class RestController extends \CI_Controller
             return $this->delete_args;
         }
 
-        return isset($this->delete_args[$key]) ? $this->xss_clean($this->delete_args[$key], $xss_clean) : null;
+        return isset($this->delete_args[$key]) ? $this->xssClean($this->delete_args[$key], $xss_clean) : null;
     }
 
     /**
@@ -1490,7 +1497,7 @@ class RestController extends \CI_Controller
             return $this->patch_args;
         }
 
-        return isset($this->patch_args[$key]) ? $this->xss_clean($this->patch_args[$key], $xss_clean) : null;
+        return isset($this->patch_args[$key]) ? $this->xssClean($this->patch_args[$key], $xss_clean) : null;
     }
 
     /**
@@ -1508,7 +1515,7 @@ class RestController extends \CI_Controller
             return $this->query_args;
         }
 
-        return isset($this->query_args[$key]) ? $this->xss_clean($this->query_args[$key], $xss_clean) : null;
+        return isset($this->query_args[$key]) ? $this->xssClean($this->query_args[$key], $xss_clean) : null;
     }
 
     /**
@@ -1520,7 +1527,7 @@ class RestController extends \CI_Controller
      *
      * @return string
      */
-    protected function xss_clean($value, $xss_clean)
+    protected function xssClean($value, $xss_clean)
     {
         is_bool($xss_clean) || $xss_clean = $this->enable_xss;
 
@@ -1837,6 +1844,8 @@ class RestController extends \CI_Controller
     }
 
     /** 
+     * https://stackoverflow.com/questions/43406721/token-based-authentication-in-codeigniter-rest-server-library
+     * 
      * Check to see if the user is logged in with a token
      * 
      * @return void
