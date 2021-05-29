@@ -16,7 +16,7 @@ use Base\Helpers\Format;
  *
  * @version  4.0.0
  */
-class RestController extends \CI_Controller
+class RestController extends \MX_Controller
 {
     /**
      * This defines the rest format
@@ -313,7 +313,7 @@ class RestController extends \CI_Controller
         }
 
         // Load the language file
-        $this->lang->load('rest_controller', $language, false, true, __DIR__.'/../');
+        $this->lang->load('rest_controller', $language);
 
         // Initialise the response, request and rest objects
         $this->request = new stdClass();
