@@ -468,7 +468,9 @@ class RestController extends \MX_Controller
     private function getLocalConfig($config_file)
     {
         if (file_exists(ROOTPATH.'config/'.$config_file.'.php')) {
-            $this->load->config($config_file, false);
+            
+            $config_file = ROOTPATH.'config/'.$config_file.'.php';
+
         } else {
             if (file_exists(__DIR__.'/'.$config_file.'.php')) {
                 $config = [];
