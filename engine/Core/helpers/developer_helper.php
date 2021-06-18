@@ -2,6 +2,61 @@
 defined('COREPATH') or exit('No direct script access allowed');
 
 use Base\Debug\Debug;
+use Base\Debug\AtEase;
+
+if ( ! function_exists( __NAMESPACE__ . '\\suppressWarnings' ) ) 
+{
+
+    if ( ! function_exists( 'shut_up' )) 
+    {
+        /**
+         * Reference-counted warning suppression
+         *
+         * @param bool $end Whether to restore warnings
+         */
+        function shut_up( $end = false ) {
+            AtEase::suppressWarnings( $end );
+        }
+    }
+
+    if ( ! function_exists( 'shush' )) 
+    {
+        /**
+         * Alias of shut_up function
+         * @param bool $end Whether to restore warnings
+         */
+        function shush( $end = false ) {
+            shut_up( $end );
+        }
+
+    }
+
+    
+    if ( ! function_exists( 'speak_up' )) 
+    {
+        /**
+         * Restore error level to previous value
+         */
+        function speak_up() {
+            AtEase::restoreWarnings();
+        }
+    }
+
+    if ( ! function_exists( 'keep_quiet' )) 
+    {
+        /**
+         * Call the callback given by the first parameter, suppressing any warnings.
+         *
+         * @param callable $callback Function to call
+         * @param mixed ...$args Optional arguments for the function call
+         * @return mixed
+         */
+        function keep_quiet( callable $callback, ...$args ) {
+            return AtEase::quietCall( $callback, ...$args );
+        }
+    }
+
+}
 
 if ( ! function_exists( 'strict_dev' )) 
 {
