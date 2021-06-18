@@ -868,7 +868,7 @@ class RestController extends \MX_Controller
             $method = $this->input->method();
         }
 
-        return in_array($method, $this->allowed_http_methods) && method_exists($this, '_parse_'.$method) ? $method : 'get';
+        return in_array($method, $this->allowed_http_methods) && method_exists($this, 'parse'.ucfirst($method)) ? $method : 'get';
     }
 
     /**
