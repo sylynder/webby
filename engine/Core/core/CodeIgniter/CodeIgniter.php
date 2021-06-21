@@ -16,13 +16,14 @@
  */
 
 namespace Base\CodeIgniter;
+use Exception;
 
 class CodeIgniter {
 
     /**
      * Version of this library
      */
-    const VERSION = '0.1';
+    const VERSION = '0.2';
 
     /**
      * Internal storage of CodeIgniter 
