@@ -79,7 +79,7 @@ if ( ! function_exists( 'max_id' ))
      * 
      * @param string $table
      * @param string $select_as
-     * @return void
+     * @return string|int
      */
     function max_id($table, $select_as=null) {
 		

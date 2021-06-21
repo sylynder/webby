@@ -331,7 +331,7 @@ if ( ! function_exists('dot2slash'))
      * and replace with forward slash
      *
      * @param string $string
-     * @return void
+     * @return string
      */
     function dot2slash(string $string)
     {
@@ -357,7 +357,7 @@ if ( ! function_exists('has_dot'))
      * 
      * 
      * @param string|array $string
-     * @return void
+     * @return string
      */
     function has_dot($string)
     {
@@ -564,14 +564,14 @@ if ( ! function_exists('string_dot_extract'))
     /**
      * Extract dot from a string
      *
-     * @param [type] $string
-     * @return void
+     * @param string $string
+     * @return string
      */
     function string_dot_extract($string)
     {
         $string = explode('.', $string);
 
-        return $name = $string[0];
+        return $string = $string[0];
     }
 }
 
@@ -649,7 +649,7 @@ if ( ! function_exists('remove_hyphen'))
      * remove hyphen from string
      *
      * @param string $str
-     * @return void
+     * @return string
      */
     function remove_hyphen($str)
     {
@@ -666,7 +666,7 @@ if ( ! function_exists('readable'))
      *
      * @param string $str
      * @param boolean $capitalize
-     * @return void
+     * @return string
      */
     function readable($str, $capitalize = false)
     {
@@ -1050,9 +1050,9 @@ if ( ! function_exists('compare_json'))
      * 
      * The second answer
      * 
-     * @param  object $first_object
-     * @param object $second_object
-     * @return void
+     * @param  string $first_object
+     * @param string $second_object
+     * @return string
      */
     function compare_json($first_object, $second_object)
     {

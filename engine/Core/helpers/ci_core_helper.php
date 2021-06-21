@@ -23,7 +23,7 @@ if ( ! function_exists('ci'))
      * 
      * @param string $class
      * @param array $params
-     * @return void
+     * @return object CodeIgniter Instance
      */
     function ci(string $class = null, array $params = [])
     {
@@ -77,7 +77,7 @@ if ( ! function_exists('app'))
       *
       * @param string $class
       * @param array $params
-      * @return void
+      * @return object 
       */
     function app(string $class = null, array $params = [])
     {   
@@ -532,7 +532,7 @@ if ( ! function_exists('form_error_array'))
     /**
      * Gets form errors in an array form
      *
-     * @return void
+     * @return array
      */
     function form_error_array()
     {
