@@ -11,6 +11,7 @@ defined('COREPATH') or exit('No direct script access allowed');
  */
 
 use Base\CodeIgniter\Instance;
+use Base\Route\Route;
 
 // -------------------------------------- Diety Functions ---------------------------
 
@@ -304,6 +305,43 @@ if (!function_exists('html5_back'))
     function html5_back()
     {
         return 'javascript:window.history.go(-1)';
+    }
+}
+
+if ( ! function_exists('route')) 
+{
+    /**
+     * @param string $uri 
+     * @return object
+     */
+    function route($uri = '')
+    {
+        return (new Route())->setRoute($uri);
+    }
+}
+
+if ( ! function_exists('route_to')) 
+{
+    /**
+     * @param string $uri 
+     * @return object
+     */
+    function route_to($uri = '')
+    {
+        return (new Route())->setRoute($uri)->redirect();
+    }
+}
+
+if ( ! function_exists('current_route'))
+{
+    /**
+     * Returns the current route
+     *
+     * @return string
+     */
+    function current_route()
+    {
+        return uri_string(); 
     }
 }
 
