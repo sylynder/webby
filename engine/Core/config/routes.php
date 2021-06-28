@@ -1,6 +1,7 @@
 <?php
 defined('COREPATH') OR exit('No direct script access allowed');
 
+use Base\Route\Route;
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -63,3 +64,4 @@ include_once ROOTPATH . 'routes/web.php';
 include_once ROOTPATH . 'routes/api.php';
 include_once ROOTPATH . 'routes/console.php';
 
+$route = Route::build($route);

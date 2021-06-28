@@ -1,6 +1,8 @@
 <?php
 defined('CIPATH') OR exit('No direct script access allowed');
 
+use Base\Route\Route;
+
 /*
 | -------------------------------------------------------------------------
 | RESERVED OR DEFAULT ROUTES
