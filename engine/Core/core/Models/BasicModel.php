@@ -2,7 +2,7 @@
 
 namespace Base\Models;
 
-class BasicModel extends \Base_Model {
+class BasicModel extends Model {
 
     /**
      * The model's default table.
@@ -50,47 +50,44 @@ class BasicModel extends \Base_Model {
      */
     protected $set_updated_at = true;
 
-    /*
-        var: $log_user
-        If TRUE, will log user id for 'created_by', 'updated_by' and 'deleted_by'.
-
-        Access:
-            Protected
-    */
+    /**
+     * 
+     * If true, will log user id 
+     * for 'created_by', 'updated_by' and 'deleted_by'.
+     *
+     * @var boolean
+     */
     protected $log_user = true;
 
     /**
-     * The user id to use logging user.
+     * The user id to use when logging user.
      *
      * @var string
      */
     public $user_id = '';
 
-    /*
-        Var: $created_by_field
-        Field name to use for created_by column in the DB table.
-
-        Access:
-            Protected
-    */
+    /**
+     * Field name to use for created_by 
+     * column in the DB table
+     *
+     * @var string
+     */
     protected $created_by_field = 'created_by';
 
-    /*
-        Var: $updated_by_field
-        Field name to use for the update_by column in the DB table.
-
-        Access:
-            Protected
-    */
+    /**
+     * Field name to use for the update_by 
+     * column in the DB table
+     *
+     * @var string
+     */
     protected $updated_by_field = 'updated_by';
 
-    /*
-        Var: $deleted_by_field
-        Field name to use for the deleted_by column in the DB table.
-
-        Access:
-            Protected
-    */
+    /**
+     * Field name to use for the deleted_by 
+     * column in the DB table.
+     *
+     * @var string
+     */
     protected $deleted_by_field = 'deleted_by';
 
     /**
@@ -125,23 +122,30 @@ class BasicModel extends \Base_Model {
     protected $callback_parameters  = [];
 
     /**
-     * Protected, non-modifiable attributes
-     */
+    * Protected, non-modifiable attributes
+    *
+    * @var array
+    */
     protected $protected_attributes = [];
 
     /**
-     * @var null|array
      * Sets fillable fields.
-     * If value is set as null, the $fillable property will be set as an array with all the table fields (except the primary key) as elements.
-     * If value is set as an array, there won't be any changes done to it (ie: no field of the table will be updated or inserted).
+     * If value is set as null, the $fillable property will be set as an array 
+     * with all the table fields (except the primary key) as elements.
+     * If value is set as an array, there won't be any changes 
+     * done to it (ie: no field of the table will be updated or inserted).
+     * 
+     * @var null|array
      */
     public $fillable = null;
     
     /**
-     * @var null|array
      * Sets protected fields.
-     * If value is set as null, the $guard will be set as an array with the primary key as single element.
-     * If value is set as an array, there won't be any changes done to it (if set as empty array, the primary key won't be inserted here).
+     * If value is set as null, the $guard will be set as an array with the primary key 
+     * as single element. If value is set as an array, there won't be any changes done 
+     * to it (if set as empty array, the primary key won't be inserted here).
+     * 
+     * @var null|array
      */
     public $protected = null;
 
@@ -185,30 +189,40 @@ class BasicModel extends \Base_Model {
     protected $return_as      = 'object';
     protected $temp_return_type = null;
 	
-	/*
-	 If the return type is object , one can specify a custom class representing 
-	 the data to rather be created and returned as the stdClass object
-	*/
+	/**
+     * If the return type is object , one can specify 
+     * a custom class representing the data to rather 
+     * be created and returned as the stdClass object
+     *
+     * @var string
+     */
     protected $custom_return_object = '';
     
-    /*
-        If TRUE, inserts will return the last_insert_id. However,
-        this can potentially slow down large imports drastically
-        so you can turn it off with the return_insert_id(false) method.
-        This will simply return TRUE, instead.
-
-        IMPORTANT: Turning this to false will bypass any after_insert
-        trigger events.
+    /**
+     * 
+     * If TRUE, inserts will return the last_insert_id. However,
+     * this can potentially slow down large imports drastically
+     * so you can turn it off with the return_insert_id(false) method.
+     * This will simply return TRUE, instead.
+     * 
+     * IMPORTANT: Turning this to false will bypass any after_insert
+     * trigger events.
+     * 
+     * @var boolean
      */
     protected $return_insert_id = true;
 
     /**
-     * The database connection to use for all write-type calls.
-     */
+     * The database connection to use for all write-type calls
+    *
+    * @var mixed
+    */
     protected $dbw;
 
     /**
      * The database connection to use for all read-type calls.
+     *
+     * @var mixed
      */
     protected $dbr;
 
@@ -752,6 +766,11 @@ class BasicModel extends \Base_Model {
         return $result;
     }
 
+    /**
+     * Deletes a row by using the where clause
+     * @param array $data An array of data pairs to update
+     * @return bool
+     */
     public function deleteBy()
     {
         $where = func_get_args();
@@ -823,8 +842,9 @@ class BasicModel extends \Base_Model {
     /**
      * Sets the value of the soft deletes flag.
      *
-     * @param  boolean $val If TRUE, should perform 
+     * @param boolean $value $val If TRUE, should perform 
      * a soft delete. If FALSE, a hard delete.
+     * @return object
      */
     public function softDelete($value = true)
     {
@@ -834,7 +854,9 @@ class BasicModel extends \Base_Model {
     }
 
     /**
-     * Temporarily sets our return type to an array.
+     * Temporarily sets our return type to an array.     
+     * 
+     * @return object
      */
     public function asArray()
     {
@@ -844,8 +866,10 @@ class BasicModel extends \Base_Model {
     }
 
     /**
-     * Temporarily sets our return type to an object.
-     */
+     * Temporarily sets our return type to an object
+    *
+    * @return object
+    */
     public function asObject()
     {
         $this->temp_return_type = 'object';
@@ -855,7 +879,9 @@ class BasicModel extends \Base_Model {
 
     /**
      * Temporarily sets our object return to a json object.
-     */
+    *
+    * @return object
+    */
     public function asJson()
     {
         $this->temp_return_type = 'json';
@@ -865,6 +891,8 @@ class BasicModel extends \Base_Model {
 
     /**
      * Also fetches deleted items for this request only.
+     * 
+     * @return object
      */
     public function withDeleted()
     {
@@ -876,10 +904,10 @@ class BasicModel extends \Base_Model {
     /**
      * Sets the value of the skip_validation flag
      *
-     * @param Bool $skip (optional) whether to 
+     * @param boolean $skip (optional) whether to 
      * skip validation in the model
      *
-     * @return Object    returns $this to 
+     * @return object    returns $this to 
      * allow method chaining
      */
     public function skipValidation($skip=TRUE)
@@ -894,7 +922,9 @@ class BasicModel extends \Base_Model {
     /**
      * Counts number of rows modified by 
      * an arbitrary WHERE call.
-     * @return INT
+     *
+     * @param boolean $value
+     * @return int
      */
     public function countBy()
     {
@@ -1060,7 +1090,11 @@ class BasicModel extends \Base_Model {
 
     /**
      * Return the return data for configured type
-     */
+    *
+    * @param [type] $data
+    * @param boolean $multi
+    * @return void
+    */
     protected function return_data($data, $multi = FALSE)
     {
 		$r_type_method = $this->return_type($multi); 
@@ -1328,11 +1362,11 @@ class BasicModel extends \Base_Model {
         switch ($this->{$db_type}->platform())
         {
             case 'cubrid':
-                return cubrid_errno($this->{$db_type}->conn_id);
+                // return cubrid_errno($this->{$db_type}->conn_id);
             case 'mssql':
-                return mssql_get_last_message();
+                // return mssql_get_last_message();
             case 'mysql':
-                return mysql_error($this->{$db_type}->conn_id);
+                // return mysql_error($this->{$db_type}->conn_id);
             case 'mysqli':
                 return mysqli_error($this->{$db_type}->conn_id);
             case 'oci8':
@@ -1347,9 +1381,9 @@ class BasicModel extends \Base_Model {
             case 'postgre':
                 return pg_last_error($this->{$db_type}->conn_id);
             case 'sqlite':
-                return sqlite_error_string(sqlite_last_error($this->{$db_type}->conn_id));
+                // return sqlite_error_string(sqlite_last_error($this->{$db_type}->conn_id));
             case 'sqlsrv':
-                $error = array_shift(sqlsrv_errors());
+                // $error = array_shift(sqlsrv_errors());
                 return !empty($error['message']) ? $error['message'] : null;
             default:
                 /*
@@ -1373,6 +1407,7 @@ class BasicModel extends \Base_Model {
     }
 
     //------------------ CodeIgniter Database  Wrappers --------------------------------------------------
+    //
     // To allow for more expressive syntax, we provide wrapper functions
     // for most of the query builder methods here.
     //
@@ -1383,158 +1418,345 @@ class BasicModel extends \Base_Model {
     //                            ->find();
     //
 
+    /**
+     * Select function
+     *
+     * @param string $select
+     * @param mixed $escape
+     * @return object
+     */
     public function select($select = '*', $escape = null) 
     { 
         $this->dbr->select($select, $escape); 
         return $this; 
     }
 
+    /**
+     * Select Maximum function
+     *
+     * @param string $select
+     * @param string $alias
+     * @return object
+     */
     public function selectMax($select = '', $alias = '') 
     { 
         $this->dbr->select_max($select, $alias); 
         return $this; 
     }
 
+    /**
+     * Select Minimum function
+     *
+     * @param string $select
+     * @param string $alias
+     * @return object
+     */
     public function selectMin($select = '', $alias = '') 
     { 
         $this->dbr->select_min($select, $alias); 
         return $this; 
     }
 
-    public function selectAvg ($select = '', $alias = '') 
+    /**
+     * Select Average function
+     *
+     * @param string $select
+     * @param string $alias
+     * @return object
+     */
+    public function selectAvg($select = '', $alias = '') 
     { 
         $this->dbr->select_avg($select, $alias); 
         return $this; 
     }
 
-    public function selectSum ($select = '', $alias = '') 
+    /**
+     * Select Sum function
+     *
+     * @param string $select
+     * @param string $alias
+     * @return object
+     */
+    public function selectSum($select = '', $alias = '') 
     { 
         $this->dbr->select_sum($select, $alias); 
         return $this; 
     }
 
-    public function distinct($val=TRUE) 
+    /**
+     * Distinct function
+     *
+     * @param boolean $value
+     * @return object
+     */
+    public function distinct($value = true) 
     { 
-        $this->dbr->distinct($val); 
+        $this->dbr->distinct($value); 
         return $this; 
     }
 
+    /**
+     * From function
+     *
+     * @param  string $from
+     * @return object
+     */
     public function from($from) 
     { 
         $this->dbr->from($from); 
         return $this; 
     }
 
-    public function join($table, $cond, $type = '') 
+    /**
+     * Join function
+     *
+     * @param string $table
+     * @param string $condition
+     * @param string $type
+     * @return object
+     */
+    public function join($table, $condition, $type = '') 
     { 
-        $this->dbr->join($table, $cond, $type); 
+        $this->dbr->join($table, $condition, $type); 
         return $this; 
     }
 
+    /**
+     * Where function
+     *
+     * @param mixed $key
+     * @param mixed $value
+     * @param boolean $escape
+     * @return object
+     */
     public function where($key, $value = null, $escape = true) 
     { 
         $this->dbr->where($key, $value, $escape); 
         return $this; 
     }
 
+    /**
+     * orWhere function
+     *
+     * @param mixed $key
+     * @param mixed $value
+     * @param boolean $escape
+     * @return object
+     */
     public function orWhere($key, $value = null, $escape = true) { 
         $this->dbr->or_where($key, $value, $escape); 
         return $this; 
     }
 
+    /**
+     * whereIn function
+     *
+     * @param mixed $key
+     * @param mixed $values
+     * @return object
+     */
     public function whereIn($key = null, $values = null) 
     { 
         $this->dbr->where_in($key, $values); 
         return $this; 
     }
 
+    /**
+     * orWhereIn function
+     *
+     * @param mixed $key
+     * @param mixed $values
+     * @return object
+     */
     public function orWhereIn($key = null, $values = null) 
     { 
         $this->dbr->or_where_in($key, $values); 
         return $this; 
     }
 
+    /**
+     * whereNotIn function
+     *
+     * @param mixed $key
+     * @param mixed $values
+     * @return object
+     */
     public function whereNotIn($key = null, $values = null) 
     { 
         $this->dbr->where_not_in($key, $values); 
         return $this; 
     }
 
+    /**
+     * orWhereNotIn function
+     *
+     * @param mixed $key
+     * @param mixed $values
+     * @return object
+     */
     public function orWhereNotIn($key = null, $values = null) 
     { 
         $this->dbr->or_where_not_in($key, $values); 
         return $this; 
     }
 
+    /**
+     * Like function
+     *
+     * @param string $field
+     * @param string $match
+     * @param string $side
+     * @return object
+     */
     public function like($field, $match = '', $side = 'both') 
     { 
         $this->dbr->like($field, $match, $side); 
         return $this; 
     }
 
+    /**
+     * notLike function
+     *
+     * @param string $field
+     * @param string $match
+     * @param string $side
+     * @return object
+     */
     public function notLike($field, $match = '', $side = 'both') 
     { 
         $this->dbr->not_like($field, $match, $side); 
         return $this; 
     }
 
+    /**
+     * orLike function
+     *
+     * @param string $field
+     * @param string $match
+     * @param string $side
+     * @return object
+     */
     public function orLike($field, $match = '', $side = 'both') 
     { 
         $this->dbr->or_like($field, $match, $side); 
         return $this;
     }
 
+    /**
+     * orNotLike function
+     *
+     * @param string $field
+     * @param string $match
+     * @param string $side
+     * @return object
+     */
     public function orNotLike($field, $match = '', $side = 'both') 
     { 
         $this->dbr->or_not_like($field, $match, $side); 
         return $this; 
     }
 
+    /**
+     * groupBy function
+     *
+     * @param string $by
+     * @return object
+     */
     public function groupBy($by) 
     { 
         $this->dbr->group_by($by); 
         return $this; 
     }
 
+    /**
+     * Having function
+     *
+     * @param mixed $key
+     * @param string $value
+     * @param boolean $escape
+     * @return object
+     */
     public function having($key, $value = '', $escape = true) 
     { 
         $this->dbr->having($key, $value, $escape); 
         return $this; 
     }
 
+    /**
+     * orHaving function
+     *
+     * @param mixed $key
+     * @param string $value
+     * @param boolean $escape
+     * @return object
+     */
     public function orHaving($key, $value = '', $escape = true) 
     { 
         $this->dbr->or_having($key, $value, $escape); 
         return $this; 
     }
 
+    /**
+     * orderBt function
+     *
+     * @param string $orderby
+     * @param string $direction
+     * @return object
+     */
     public function orderBy($orderby, $direction = '') 
     { 
         $this->dbr->order_by($this->table.'.'.$orderby, $direction); 
         return $this; 
     }
 
+    /**
+     * Limit function
+     *
+     * @param mixed $value
+     * @param string $offset
+     * @return object
+     */
     public function limit($value, $offset = '') 
     { 
         $this->dbr->limit($value, $offset); 
         return $this; 
     }
 
+    /**
+     * Offset function
+     *
+     * @param mixed $offset
+     * @return object
+     */
     public function offset($offset) 
     { 
         $this->dbr->offset($offset); 
         return $this; 
     }
 
+    /**
+     * Set key value
+     *
+     * @param mixed $key
+     * @param string $value
+     * @param boolean $escape
+     * @return object
+     */
     public function set($key, $value = '', $escape = true) 
     { 
         $this->dbw->set($key, $value, $escape); 
         return $this; 
     }
 
+    /**
+     * Count all results
+     *
+     * @return object
+     */
     public function countAllResults() { 
         $this->dbr->count_all_results($this->table); 
         return $this; 
     }
     
 }
+/* end of file Core/core/Models/Model.php */
