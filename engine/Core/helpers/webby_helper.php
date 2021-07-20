@@ -603,7 +603,7 @@ if ( ! function_exists('exploded_title'))
     }
 }
 
-if ( ! function_exists('string_clean')) 
+if ( ! function_exists('str_clean')) 
 {
     /**
      * Clean by removing spaces and special 
@@ -612,7 +612,7 @@ if ( ! function_exists('string_clean'))
      * @param string $string
      * @return string
      */
-    function string_clean($string)
+    function str_clean($string)
     {
         $string = str_replace(' ', '', $string); // Replaces all spaces.
 
