@@ -192,6 +192,7 @@ if ( ! function_exists('url'))
      */
     function url($uri = '', $protocol = NULL)
     {
+        $uri = dot2slash($uri);
 
         if ($uri === 'void') {
             return void_url();
