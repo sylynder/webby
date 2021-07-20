@@ -871,7 +871,7 @@ if ( ! function_exists('strtoarr'))
     }
 }
 
-if ( ! function_exists('array_to_string')) 
+if ( ! function_exists('arrtostr')) 
 {
     /**
      * Converts an array to a string
@@ -881,7 +881,7 @@ if ( ! function_exists('array_to_string'))
      * @param array $array
      * @return string
      */
-    function array_to_string($symbol, $array)
+    function arrtostr($symbol, $array)
     {
         if ($array === null) {
             return false;
