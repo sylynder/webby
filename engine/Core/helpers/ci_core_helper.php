@@ -173,7 +173,7 @@ if ( ! function_exists('app_url'))
      *
      * @param string $uri
      * @param bool $protocol
-     * @return void
+     * @return string
      */
     function app_url($uri = '', $protocol = NULL)
     {   
@@ -188,11 +188,11 @@ if ( ! function_exists('url'))
      *
      * @param string $uri
      * @param bool $protocol
-     * @return void
+     * @return string
      */
     function url($uri = '', $protocol = NULL)
     {
-        
+
         if ($uri === 'void') {
             return void_url();
         }
@@ -206,7 +206,7 @@ if (!function_exists('void_url'))
     /**
      * A function that adds a void url
      *
-     * @return void
+     * @return string
      */
     function void_url()
     {
@@ -221,7 +221,7 @@ if ( ! function_exists('action'))
      *
      * @param string $uri
      * @param mixed $method
-     * @return void
+     * @return string
      */
     function action($uri = '', $method = null)
     {
@@ -240,9 +240,13 @@ if ( ! function_exists('action'))
 if ( ! function_exists('is_active')) 
 {
     /**
-    * Use it to set active or current url for 
-    * css classes. Default class name is (active)
-    */
+     * Use it to set active or current url for 
+     * css classes. Default class name is (active)
+     *
+     * @param string $link
+     * @param string $class
+     * @return string
+     */
     function is_active($link, $class = null)
     {
         if ($class != null) {
@@ -258,6 +262,14 @@ if ( ! function_exists('active_link'))
     /**
     * Alias for is_active
     */
+
+    /**
+     * Alias for is_active
+     *
+     * @param string $link
+     * @param string $class
+     * @return string
+     */
     function active_link($link, $class = null)
     {
         return is_active($link, $class);
@@ -271,7 +283,7 @@ if ( ! function_exists('uri_segment'))
      *
      * @param string $n
      * @param mixed $no_result
-     * @return void
+     * @return string
      */
     function uri_segment($n, $no_result = NULL)
     {
@@ -286,7 +298,7 @@ if (!function_exists('go_back'))
      *
      * @param string $text
      * @param string $style
-     * @return void
+     * @return string
      */
     function go_back($text, $style = null)
     {
@@ -300,7 +312,7 @@ if (!function_exists('html5_back'))
      * Alias of go_back function
      * To be used in href
      *
-     * @return void
+     * @return string
      */
     function html5_back()
     {
@@ -354,7 +366,7 @@ if ( ! function_exists('post'))
      *
      * @param string $index
      * @param bool $xss_clean
-     * @return void
+     * @return string|array
      */
     function post($index = null, $xss_clean = null)
     {
@@ -369,7 +381,7 @@ if ( ! function_exists('get'))
      *
      * @param $string $index
      * @param bool $xss_clean
-     * @return void
+     * @return string|array
      */
     function get($index = null, $xss_clean = null)
     {
@@ -398,7 +410,7 @@ if ( ! function_exists('server'))
      *
      * @param string $index
      * @param bool $xss_clean
-     * @return void
+     * @return string|array
      */
     function server($index = null, $xss_clean = null)
     {
@@ -416,7 +428,7 @@ if ( ! function_exists('ip_address'))
      * Alias of IP Address Fetching from 
      * CodeIgniter's Input Class
      *
-     * @return void
+     * @return string
      */
     function ip_address()
     {
@@ -429,7 +441,7 @@ if ( ! function_exists('raw_input_stream'))
     /**
      * Holds a cache of php://input contents
      *
-     * @return void
+     * @return mixed
      */
     function raw_input_stream()
     {
@@ -443,7 +455,7 @@ if ( ! function_exists('raw_input_contents'))
      * Get a uri and treat as php://input contents
      *
      * @param string|array $uri
-     * @return void
+     * @return mixed
      */
     function raw_input_contents($uri = null)
     {
@@ -471,7 +483,7 @@ if ( ! function_exists('selected'))
      *
      * @param string $existing_value
      * @param string $comparing_value
-     * @return void
+     * @return string
      */
     function selected($existing_value, $comparing_value)
     {
@@ -493,7 +505,7 @@ if ( ! function_exists('verify_selected'))
      * 
      * @param string $existing_value
      * @param string $comparing_value
-     * @return void
+     * @return string
      */
     function verify_selected($existing_value, $comparing_value)
     {
@@ -512,7 +524,7 @@ if ( ! function_exists('validate'))
      * @param string $label
      * @param string|array $rules
      * @param mixed $errors
-     * @return void
+     * @return mixed
      */
     function validate($field, $label = '', $rules = [], $errors = null)
     {
@@ -528,7 +540,7 @@ if ( ! function_exists('form_valid'))
      * an already given rules
      *
      * @param string $rules
-     * @return void
+     * @return bool
      */
     function form_valid($rules = '')
     {
@@ -542,7 +554,7 @@ if ( ! function_exists('form_error_exists'))
      * Checks if a form error exists
      *
      * @param string $input_field
-     * @return void
+     * @return mixed
      */
     function form_error_exists($input_field = null)
     {
@@ -585,7 +597,7 @@ if ( ! function_exists('get_form_error'))
      * error array
      *
      * @param string $error_key
-     * @return void
+     * @return mixed
      */
     function get_form_error($error_key)
     {
@@ -603,9 +615,9 @@ if ( ! function_exists('set_error'))
      * Sets form error on a 
      * named input field
      *
-     * @param [type] $field
-     * @param [type] $error
-     * @return void
+     * @param string $field
+     * @param string $error
+     * @return mixed
      */
     function set_error($field, $error)
     {
@@ -621,7 +633,7 @@ if ( ! function_exists('set_error_delimeter'))
      *
      * @param string $open_tag
      * @param string $close_tag
-     * @return void
+     * @return mixed
      */
     function set_error_delimeter($open_tag = '', $close_tag = '')
     {
@@ -635,7 +647,7 @@ if ( ! function_exists('set_form_data'))
      * Set form data
      *
      * @param string $form_data
-     * @return void
+     * @return mixed
      */
     function set_form_data($form_data)
     {
@@ -675,7 +687,7 @@ if ( ! function_exists('use_library'))
      * @param string|array $library
      * @param array $params
      * @param string $object_name
-     * @return void
+     * @return object
      */
     function use_library($library, $params = NULL, $object_name = NULL)
     {
@@ -694,7 +706,7 @@ if ( ! function_exists('use_model'))
      * @param string|array $model
      * @param string $name
      * @param boolean $db_conn
-     * @return void
+     * @return object
      */
     function use_model($model, $name = '', $db_conn = false)
     {
@@ -710,7 +722,7 @@ if ( ! function_exists('use_helper'))
      * Use a helper/helpers
      *
      * @param string|array $helper
-     * @return void
+     * @return object
      */
     function use_helper($helper)
     {
@@ -730,7 +742,7 @@ if ( ! function_exists('load_language'))
      * @param boolean $return
      * @param boolean $add_suffix
      * @param string $alt_path
-     * @return void
+     * @return void|string[]
      */
     function load_language($langfile, $idiom = '', $return = false, $add_suffix = true, $alt_path = '')
     {
@@ -746,7 +758,7 @@ if ( ! function_exists('language'))
      *
      * @param string $line
      * @param boolean $log_errors
-     * @return void
+     * @return string
      */
     function language($line, $log_errors = true)
     {

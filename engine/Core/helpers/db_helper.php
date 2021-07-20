@@ -20,7 +20,7 @@ if ( ! function_exists( 'dbase' ))
     /**
      * CodeIgniter's database object
      *
-     * @return void
+     * @return object
      */
     function dbase()
 	{
@@ -35,7 +35,7 @@ if ( ! function_exists( 'select_db' ))
      * Select a database to use
      *
      * @param string $database_name
-     * @return void
+     * @return mixed
      */
     function select_db(string $database_name)
 	{
@@ -50,7 +50,7 @@ if ( ! function_exists( 'external_db' ))
      * external database to use
      *
      * @param string $db_group
-     * @return void
+     * @return mixed
      */
     function external_db(string $db_group)
 	{

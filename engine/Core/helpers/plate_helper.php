@@ -70,7 +70,7 @@ if ( ! function_exists('mail_view'))
      *
      * @param string $mail_view_path where to find the mail view
      * @param array $mail_data
-     * @return void
+     * @return string
      */
     function mail_view($mail_view_path, $mail_data)
     {
@@ -118,7 +118,7 @@ if ( ! function_exists('partial'))
      *
      * @param string $view_path
      * @param array $view_data
-     * @return void
+     * @return string
      */
     function partial($view_path, $view_data = null)
     {
@@ -147,7 +147,7 @@ if ( ! function_exists('layout'))
      * @param string $layout_path
      * @param string $view_path
      * @param array $view_data
-     * @return void
+     * @return string
      */
     function layout(
         $layout_path, 

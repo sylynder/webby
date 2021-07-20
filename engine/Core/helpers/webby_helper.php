@@ -21,7 +21,7 @@ if ( ! function_exists('unique_code'))
      * Generates unique ids/codes
      *
      * @param integer $limit
-     * @return void
+     * @return string
      */
     function unique_code(int $limit = 13)
     {
@@ -35,7 +35,7 @@ if ( ! function_exists('unique_id'))
      * Generates unique ids
      *
      * @param integer $length
-     * @return void
+     * @return string
      */
     function unique_id(int $length = 13) 
     {
@@ -148,7 +148,7 @@ if ( ! function_exists('remove_session'))
     function remove_session($key)
     {
         ci()->load->library('session');
-        return ci()->session->unset_userdata($key);
+        ci()->session->unset_userdata($key);
     }
 }
 
@@ -203,7 +203,7 @@ if ( ! function_exists('destroy_session'))
     function destroy_session()
     {
         ci()->load->library('session');
-        return ci()->session->sess_destroy();
+        ci()->session->sess_destroy();
     }
 }
 
@@ -256,7 +256,7 @@ if ( ! function_exists('error_message'))
      * Set/Get error message
      *
      * @param string $message
-     * @return void
+     * @return string
      */
     function error_message(string $message = null)  
     {
@@ -276,7 +276,7 @@ if ( ! function_exists('info_message'))
      * Set/Get info message
      *
      * @param string $message
-     * @return void
+     * @return string
      */
     function info_message(string $message = null)  
     {
@@ -296,7 +296,7 @@ if ( ! function_exists('warn_message'))
      * Set/Get warning message
      *
      * @param string $message
-     * @return void
+     * @return string
      */
     function warn_message(string $message = null)  
     {
@@ -395,7 +395,7 @@ if ( ! function_exists('pad_left'))
      * @param string $str
      * @param mixed $value
      * @param int $length
-     * @return void
+     * @return string
      */
     function pad_left($str, $value, $length)
     {
@@ -411,7 +411,7 @@ if ( ! function_exists('pad_right'))
      * @param string $str
      * @param mixed $value
      * @param int $length
-     * @return void
+     * @return string
      */
     function pad_right($str, $value, $length)
     {
@@ -426,7 +426,7 @@ if ( ! function_exists('str_left_zeros'))
      * 
      * @param mixed $value
      * @param int $length
-     * @return void
+     * @return string
      */
     function str_left_zeros($value, $length)
     {
@@ -441,7 +441,7 @@ if ( ! function_exists('str_right_zeros'))
      *
      * @param mixed $value
      * @param int $length
-     * @return void
+     * @return string
      */
     function str_right_zeros($value, $length)
     {
@@ -534,7 +534,7 @@ if ( ! function_exists('slugify'))
      * create strings with hyphen seperated
      *
      * @param string $string
-     * @return void
+     * @return string
      */
     function slugify($string)
     {
@@ -549,7 +549,7 @@ if ( ! function_exists('extract_email_name'))
      * Extract name from a given email address
      *
      * @param string $email
-     * @return void
+     * @return string
      */
     function extract_email_name($email)
     {
@@ -581,7 +581,7 @@ if ( ! function_exists('exploded_title'))
      * Explode Title
      *
      * @param string $title
-     * @return void
+     * @return string
      */
     function exploded_title($title)
     {
@@ -596,7 +596,7 @@ if ( ! function_exists('string_clean'))
      * characters from string
      *
      * @param string $string
-     * @return void
+     * @return string
      */
     function string_clean($string)
     {
@@ -615,7 +615,7 @@ if ( ! function_exists('replace_string'))
      * @param string $string
      * @param string $word
      * @param string $replace_with
-     * @return void
+     * @return string
      */
     function replace_string($string, $word, $replace_with)
     {
@@ -633,7 +633,7 @@ if ( ! function_exists('remove_underscore'))
      * remove underscore from string
      *
      * @param string $str
-     * @return void
+     * @return string
      */
     function remove_underscore($str)
     {
@@ -689,7 +689,7 @@ if ( ! function_exists('limit_words'))
      * @param string $text
      * @param int $limit
      * @param string $ending_character
-     * @return void
+     * @return string
      */
     function limit_words($text, $limit, $ending_character = '&#8230;')
     {
@@ -707,7 +707,7 @@ if ( ! function_exists('truncate_text'))
      * @param string $text
      * @param int $limit
      * @param string $ending_character
-     * @return void
+     * @return string
      */
     function truncate_text($text, $limit, $ending_character = '&#8230;')
     {
@@ -725,7 +725,7 @@ if ( ! function_exists('str_censor'))
      * @param string $text
      * @param array $words_to_censor
      * @param boolean $replacement
-     * @return void
+     * @return string
      */
     function str_censor($text, $words_to_censor, $replacement = false)
     {
@@ -742,7 +742,7 @@ if ( ! function_exists('find_word'))
      *
      * @param string $string
      * @param string $word
-     * @return void
+     * @return string
      */
     function find_word($string, $word)
     {
@@ -824,7 +824,7 @@ if ( ! function_exists('string_to_array'))
      *
      * @param string $symbol
      * @param string $string
-     * @return void
+     * @return string
      */
     function string_to_array($symbol, $string)
     {
@@ -862,7 +862,7 @@ if ( ! function_exists('add_array'))
      * @param string $element
      * @param string $symbol
      * @param boolean $return_string
-     * @return void
+     * @return array
      */
     function add_array($array, $element, $symbol = null, $return_string = false)
     {
@@ -895,7 +895,7 @@ if ( ! function_exists('add_associative_array'))
      * @param array $array
      * @param string $key
      * @param string $value
-     * @return void
+     * @return array
      */
     function add_associative_array($array, $key, $value, $multi = false)
     {
@@ -957,7 +957,7 @@ if ( ! function_exists('remove_from_array'))
      * @param string $element
      * @param string $symbol
      * @param boolean $return_string
-     * @return void
+     * @return array
      */
     function remove_from_array(
         $array, 
@@ -1052,7 +1052,7 @@ if ( ! function_exists('compare_json'))
      * 
      * @param  string $first_object
      * @param string $second_object
-     * @return string
+     * @return bool
      */
     function compare_json($first_object, $second_object)
     {
@@ -1070,7 +1070,7 @@ if ( ! function_exists('arrange_date'))
      * replaces them with hyphens
      * 
      * @param string $date
-     * @return void
+     * @return string
      */
     function arrange_date($date)
     {
@@ -1090,7 +1090,7 @@ if ( ! function_exists('real_date'))
      *
      * @param string $date
      * @param string $format
-     * @return void
+     * @return string
      */
     function real_date($date, $format=null)
     {
@@ -1139,7 +1139,7 @@ if ( ! function_exists('correct_datetime'))
      * and used easily
      *
      * @param string $date
-     * @return void
+     * @return string
      */
     function correct_datetime($date)
     {
@@ -1159,7 +1159,7 @@ if ( ! function_exists('real_time'))
      * Take date and format it in H:i:a
      *
      * @param string $date
-     * @return void
+     * @return string
      */
     function real_time($date)
     {
@@ -1180,7 +1180,7 @@ if ( ! function_exists('format_date'))
      *
      * @param string $format
      * @param string $date
-     * @return void
+     * @return string
      */
     function format_date($format, $date)
     {
@@ -1195,7 +1195,7 @@ if ( ! function_exists('time_difference'))
      *
      * @param string $start_date
      * @param string $end_date
-     * @return void
+     * @return string
      */
     function time_difference($start_date, $end_date)
     {
@@ -1217,7 +1217,7 @@ if ( ! function_exists('date_difference'))
      *
      * @param string $start_date
      * @param string $end_date
-     * @return void
+     * @return string
      */
     function date_difference($start_date, $end_date)
     {
@@ -1239,7 +1239,7 @@ if ( ! function_exists('date_plus_day'))
      * @param string $date
      * @param int $days
      * @param string $format
-     * @return void
+     * @return string
      */
     function date_plus_day($date, $days, $format = null)
     {
@@ -1259,7 +1259,7 @@ if ( ! function_exists('date_minus_day'))
      * @param string $date
      * @param int $days
      * @param string $format
-     * @return void
+     * @return string
      */
     function date_minus_day($date, $days, $format = null)
     {

@@ -144,7 +144,7 @@ if ( ! function_exists( 'dump_json' ))
      * Useful when using ajax requests
      * 
      * @param mixed $dump
-     * @return void
+     * @return mixed
      */
     function dump_json($dump)
     { 
