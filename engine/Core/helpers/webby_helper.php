@@ -856,7 +856,7 @@ if ( ! function_exists('ends_with'))
 	}
 }
 
-if ( ! function_exists('string_to_array')) 
+if ( ! function_exists('strtoarr')) 
 {
     /**
      * Converts a string to an array
@@ -865,7 +865,7 @@ if ( ! function_exists('string_to_array'))
      * @param string $string
      * @return string
      */
-    function string_to_array($symbol, $string)
+    function strtoarr($symbol, $string)
     {
         return explode($symbol, $string);
     }
@@ -906,7 +906,7 @@ if ( ! function_exists('add_array'))
     function add_array($array, $element, $symbol = null, $return_string = false)
     {
         if (!is_array($array) && $symbol != null) {
-            $array = string_to_array($symbol, $array);
+            $array = strtoarr($symbol, $array);
         }
 
         if (is_array($array)) {
@@ -1005,7 +1005,7 @@ if ( ! function_exists('remove_from_array'))
         $return_string = false
     ) :array {
         if (!is_array($array) && $symbol != null) {
-            $array = string_to_array($symbol, $array);
+            $array = strtoarr($symbol, $array);
         }
 
         if (is_array($array) && ($key = array_search($element, array_keys($array))) !== false) {
