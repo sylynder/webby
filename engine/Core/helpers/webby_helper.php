@@ -761,7 +761,7 @@ if ( ! function_exists('find_word'))
     function find_word($string, $word)
     {
         if (is_array($string)) {
-            $string = array_to_string(',', $string);
+            $string = arrtostr(',', $string);
         }
 
         if (strpos($string, $word) !== false) {
@@ -914,7 +914,7 @@ if ( ! function_exists('add_array'))
         }
 
         if ($return_string == true) {
-            return $array = array_to_string($symbol, $array);
+            return $array = arrtostr($symbol, $array);
         }
 
         return $array;
@@ -1013,7 +1013,7 @@ if ( ! function_exists('remove_from_array'))
         }
 
         if ($return_string == true) {
-            return $array = array_to_string($symbol, $array);
+            return $array = arrtostr($symbol, $array);
         }
 
         return $array;
@@ -1064,7 +1064,7 @@ if ( ! function_exists('objectify'))
      * as an object
      *
      * @param array $array
-     * @return object
+     * @return object|bool
      */
     function objectify(array $array)
     {
@@ -1090,7 +1090,7 @@ if ( ! function_exists('compare_json'))
      * The second answer
      * 
      * @param  string $first_object
-     * @param string $second_object
+     * @param  string $second_object
      * @return bool
      */
     function compare_json($first_object, $second_object)
