@@ -80,7 +80,7 @@ if ( ! function_exists('mail_view'))
         $mail_view_path = dot2slash($mail_view_path);
 
         if (strstr($mail_view_path, '::')) {
-            $mail_view_path = string_to_array('::', $mail_view_path);
+            $mail_view_path = strtoarr('::', $mail_view_path);
         }
 
         if (empty($mail_data)) {
