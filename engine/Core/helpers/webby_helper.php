@@ -572,17 +572,18 @@ if ( ! function_exists('extract_email_name'))
     }
 }
 
-if ( ! function_exists('string_dot_extract')) 
+if ( ! function_exists('str_extract')) 
 {
     /**
      * Extract dot from a string
      *
      * @param string $string
+     * @param string $symbol
      * @return string
      */
-    function string_dot_extract($string)
+    function str_extract($string, $symbol)
     {
-        $string = explode('.', $string);
+        $string = explode($symbol, $string);
 
         return $string = $string[0];
     }
