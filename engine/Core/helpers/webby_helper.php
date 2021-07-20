@@ -671,7 +671,7 @@ if ( ! function_exists('remove_hyphen'))
     }
 }
 
-if ( ! function_exists('readable')) 
+if ( ! function_exists('str_humanize')) 
 {
     /**
      *
@@ -682,7 +682,7 @@ if ( ! function_exists('readable'))
      * @param boolean $capitalize
      * @return string
      */
-    function readable($str, $capitalize = false)
+    function str_humanize($str, $capitalize = false)
     {
         $str = remove_underscore($str);
         $str = remove_hyphen($str);
