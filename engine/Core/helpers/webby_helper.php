@@ -536,10 +536,23 @@ if ( ! function_exists('slugify'))
      * @param string $string
      * @return string
      */
-    function slugify($string)
+    function slugify($string, $separator = '-', $lowercase = true)
     {
         ci()->load->helper('url');
-        return strtolower(url_title($string));
+        ci()->load->helper('text');
+        
+        // Replace unsupported 
+        // characters (if necessary more will be added)
+        $string = str_replace("'", '-', $string);
+        $string = str_replace(".", '-', $string);
+        $string = str_replace("²", '2', $string);
+
+        // Slugify and return the string
+        return url_title(
+            convert_accented_characters($string), 
+            $separator, 
+            $lowercase
+        );
     }
 }
 
