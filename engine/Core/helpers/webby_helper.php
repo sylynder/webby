@@ -807,11 +807,36 @@ if ( ! function_exists('has_element'))
     }
 }
 
+if ( ! function_exists('starts_with'))
+{
+	/**
+	 *  Determine if a given string 
+     *  starts with a given substring
+	 *
+	 *  @param     string          $haystack
+	 *  @param     string|array    $needles
+	 *  @return    boolean
+	 */
+	function starts_with($haystack, $needles)
+    {
+		foreach ((array) $needles as $needle) {
+			if (
+                $needle != '' && 
+                substr($haystack, 0, strlen($needle)) === (string) $needle
+            ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+}
+
 if ( ! function_exists('ends_with'))
 {
 	/**
 	 *  Determine if a given string 
-     * ends with a given substring
+     *  ends with a given substring
 	 *
 	 *  @param string $haystack
 	 *  @param string|array $needles
