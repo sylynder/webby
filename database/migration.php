@@ -3,6 +3,18 @@ defined('COREPATH') OR exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
+| Declare Migrate Array Variable
+|--------------------------------------------------------------------------
+|
+| Migrate array variable to hold all configurations
+| Do not edit the variable below in anyway
+| Only modify the values of the $migrate array
+|
+*/
+$migrate = [];
+
+/*
+|--------------------------------------------------------------------------
 | Enable/Disable Migrations
 |--------------------------------------------------------------------------
 |
@@ -11,7 +23,7 @@ defined('COREPATH') OR exit('No direct script access allowed');
 | and disable it back when you're done.
 |
 */
-$config['migration_enabled'] = FALSE;
+$migrate['migration_enabled'] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +41,7 @@ $config['migration_enabled'] = FALSE;
 |       defaults to 'sequential' for backward compatibility with CI2.
 |
 */
-$config['migration_type'] = 'timestamp';
+$migrate['migration_type'] = 'timestamp';
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +55,7 @@ $config['migration_type'] = 'timestamp';
 | will migrate up. This must be set.
 |
 */
-$config['migration_table'] = 'migrations';
+$migrate['migration_table'] = 'migrations';
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +69,7 @@ $config['migration_table'] = 'migrations';
 | in your code to have the latest migration.
 |
 */
-$config['migration_auto_latest'] = FALSE;
+$migrate['migration_auto_latest'] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,7 +81,7 @@ $config['migration_auto_latest'] = FALSE;
 | be upgraded / downgraded to.
 |
 */
-$config['migration_version'] = 0;
+$migrate['migration_version'] = 0;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,4 +93,19 @@ $config['migration_version'] = 0;
 | Also, writing permission is required within the migrations path.
 |
 */
-$config['migration_path'] = ROOTPATH.'database/migrations/';
+$migrate['migration_path'] = ROOTPATH.'database/migrations/';
+
+/*
+|
+| Get all migrate array and define them as constants
+| This is a workaround to make configuration work
+| Do not edit the constants below in anyway
+|
+*/
+
+define('MIGRATION_ENABLED', $migrate['migration_enabled']);
+define('MIGRATION_TYPE', $migrate['migration_type']);
+define('MIGRATION_TABLE', $migrate['migration_table']);
+define('MIGRATION_AUTO_LATEST', $migrate['migration_auto_latest']);
+define('MIGRATION_VERSION', $migrate['migration_version']);
+define('MIGRATION_PATH', $migrate['migration_path']);
