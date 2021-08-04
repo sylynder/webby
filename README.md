@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="webby-readme.png" width="600" alt="Webby">
+    <img src="public/assets/webby-readme.png" width="600" alt="Webby">
 </p>
 
 ------
