@@ -144,11 +144,13 @@ class Plates {
 		'endunless',
 		'includeIf',
 		'include',
+		'partial',
+		'section',
 		'extends',
 		'yield',
 		'show',
-		'opening_section',
-		'closing_section',
+		'start_section',
+		'close_section',
 		'php',
 		'endphp',
 		'lang',
@@ -558,6 +560,40 @@ class Plates {
 		return $this->run($this->compile($template), $data);
 	}
 
+	/**
+	 *  Gets the content of a template to use inside the current template
+	 *  Mostly templates are used as partials
+	 *  It will inherit all the Global data
+	 *
+	 *  @param    string   $template
+	 *  @param    array    $data
+	 *  @return   string
+	 */
+	protected function partial($template, $data = null)
+	{
+		$data = isset($data) ? array_merge($this->_data, $data) : $this->_data;
+
+		//	Compile and execute the template
+		return $this->run($this->compile($template), $data);
+	}
+
+	/**
+	 *  Gets the content of a template to use inside the current template
+	 *  Mostly templates are used as sections
+	 *  It will inherit all the Global data
+	 *
+	 *  @param    string   $template
+	 *  @param    array    $data
+	 *  @return   string
+	 */
+	protected function section($template, $data = null)
+	{
+		$data = isset($data) ? array_merge($this->_data, $data) : $this->_data;
+
+		//	Compile and execute the template
+		return $this->run($this->compile($template), $data);
+	}
+
 	// --------------------------------------------------------------------------
 
 	/**
@@ -583,13 +619,13 @@ class Plates {
 	 *  @param    string   $section
 	 *  @param    mixed    $value
 	 */
-	protected function opening_section($section, $value = null)
+	protected function start_section($section, $value = null)
 	{
 		array_push($this->buffer, $section);
 
 		if ($value !== null)
 		{
-			$this->closing_section($value);
+			$this->close_section($value);
 		}
 		else
 		{
@@ -608,7 +644,7 @@ class Plates {
 	 *  @param    mixed    $value
 	 *  @return   string
 	 */
-	protected function closing_section($value = null)
+	protected function close_section($value = null)
 	{
 		$last_section = array_pop($this->buffer);
 
@@ -1097,6 +1133,32 @@ class Plates {
 		return preg_replace($pattern, '$1<?php echo $this->include$2; ?>', $content);
 	}
 
+	/**
+	 *  Rewrites Plates @partial statement into valid PHP
+	 *
+	 *  @param    string   $content
+	 *  @return   string
+	 */
+	protected function compile_partial($content)
+	{
+		$pattern = '/(\s*)@partial(\s*\(.*\))/';
+
+		return preg_replace($pattern, '$1<?php echo $this->partial$2; ?>', $content);
+	}
+
+	/**
+	 *  Rewrites Plates @section statement into valid PHP
+	 *
+	 *  @param    string   $content
+	 *  @return   string
+	 */
+	protected function compile_section($content)
+	{
+		$pattern = '/(\s*)@section(\s*\(.*\))/';
+
+		return preg_replace($pattern, '$1<?php echo $this->section$2; ?>', $content);
+	}
+
 	// --------------------------------------------------------------------------
 
 	/**
@@ -1151,7 +1213,7 @@ class Plates {
 	 */
 	protected function compile_show($content)
 	{
-		return str_replace('@show', '<?php echo $this->yield($this->closing_section()); ?>', $content);
+		return str_replace('@show', '<?php echo $this->yield($this->close_section()); ?>', $content);
 	}
 
 	// --------------------------------------------------------------------------
@@ -1162,11 +1224,11 @@ class Plates {
 	 *  @param    string   $content
 	 *  @return   string
 	 */
-	protected function compile_opening_section($content)
+	protected function compile_start_section($content)
 	{
 		$pattern = '/(\s*)@usesection(\s*\(.*\))/';
 
-		return preg_replace($pattern, '<?php $this->opening_section$2; ?>', $content);
+		return preg_replace($pattern, '<?php $this->start_section$2; ?>', $content);
 	}
 
 	// --------------------------------------------------------------------------
@@ -1177,9 +1239,9 @@ class Plates {
 	 *  @param    string   $content
 	 *  @return   string
 	 */
-	protected function compile_closing_section($content)
+	protected function compile_close_section($content)
 	{
-		return str_replace('@endsection', '<?php $this->closing_section(); ?>', $content);
+		return str_replace('@endsection', '<?php $this->close_section(); ?>', $content);
 	}
 
 	// --------------------------------------------------------------------------

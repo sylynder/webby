@@ -52,8 +52,8 @@ $config['enable_autoload'] = false;
 | variable to TRUE.
 |
 */
-$config['libraries'] = array();
-$config['helpers'] = array();
+$config['libraries'] = [];
+$config['helpers'] = [];
 
 /*
 |--------------------------------------------------------------------------

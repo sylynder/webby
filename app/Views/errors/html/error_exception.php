@@ -139,7 +139,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 						<p><span class="mh">Backtrace:<span></p>
 						<?php foreach ($exception->getTrace() as $error) : ?>
 
-							<?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0) : ?>
+							<?php if (isset($error['file']) && strpos($error['file'], realpath(CIPATH)) !== 0) : ?>
 
 								<p style="margin-left:10px">
 									<span class="mtitle">File:</span> <span class="mmessage"><?php echo $error['file']; ?></span><br />

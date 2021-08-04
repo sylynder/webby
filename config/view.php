@@ -43,12 +43,12 @@ $config['view'] = [
     | Set Default Template Engine
     | -------------------------------------------------------------------------
     | Select which view template engine to use
-    | Currently plates is only available
+    | Note: Currently plates is only available
     |
     | Leave it empty to fallback on normal view() or $this->load->view();
     |
     */
     
-    'view_engine' => 'plates', // e.g. plates | blade | nette | fat-free | etc
+    'view_engine' => '', // e.g. plates | blade | latte | fat-free | etc
 
 ];
