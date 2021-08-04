@@ -29,21 +29,21 @@ class Base_Controller extends MX_Controller
         $this->data['page_title'] = $title;
     }
 
-    protected function setBreadcrumb($title, $item = '', $active_page = '')
+    protected function setBreadcrumb($title, $item = '', $activePage = '')
     {
         $this->data['breadcrumb_title'] = $title;
         $this->data['breadcrumb_item']  = $item;
-        $this->data['active_page']      = $active_page;
+        $this->data['active_page']      = $activePage;
     }
 
-    protected function view($view_path, $view_data = [], $return = false) 
+    protected function view($viewPath, $viewData = [], $return = false) 
     {
-        return view($view_path, $view_data, $return);
+        return view($viewPath, $viewData, $return);
     }
 
-    protected function layout($layout_path, $view_path = null, $view_data = null) 
+    protected function layout($layoutPath, $viewPath = null, $viewData = null) 
     {
-        return layout($layout_path, $view_path, $view_data);
+        return layout($layoutPath, $viewPath, $viewData);
     }
 
 }
