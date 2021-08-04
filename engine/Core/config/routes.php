@@ -64,4 +64,17 @@ include_once ROOTPATH . 'routes/web.php';
 include_once ROOTPATH . 'routes/api.php';
 include_once ROOTPATH . 'routes/console.php';
 
+// Set default routes to be accessed globally
+$default = [
+    'default_controller' => $route['default_controller'],
+    '404_override' => $route['404_override'],
+    'translate_uri_dashes' => $route['translate_uri_dashes']
+];
+
+$GLOBALS['default_routes'] = $default;
+$GLOBALS['available_routes'] = $route;
+
+/**
+ * Build routes
+ */
 $route = Route::build($route);

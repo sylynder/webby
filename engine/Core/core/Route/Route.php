@@ -49,6 +49,10 @@ class Route
 
 	public static $defaultRoutes = [];
 
+	public static $availableRoutes = [];
+
+	public static $apiRoutes = [];
+
 	public static $routeRegex = '([a-zA-Z0-9\-_]+)';
 
 	public static $namespace = '';
@@ -199,12 +203,17 @@ class Route
 
 	public static function defaultRoutes()
 	{
-		$routes = (array)static::getRouter();
-		
-		return static::$defaultRoutes = [
-			'default_controller' => $routes['default_controller'],
-			'translate_uri_dashes' => $routes['translate_uri_dashes']
-		];
+		return static::$defaultRoutes = $GLOBALS['default_routes'];
+	}
+
+	public static function availableRoutes()
+	{
+		return static::$availableRoutes = $GLOBALS['available_routes'];
+	}
+
+	public static function apiRoutes()
+	{
+		return static::$apiRoutes = $GLOBALS['api_routes'];
 	}
 
 	/* --------------------------------------------------------------
@@ -392,8 +401,13 @@ class Route
 	/**
 	 * Return the routes array
 	 */
-	public static function build($route = [])
+	public static function build(array $route = [])
 	{
+
+		if (empty($route)) {
+			$route = static::availableRoutes();
+		}
+
 		return array_merge(
 			$route,
 			static::$routes,
