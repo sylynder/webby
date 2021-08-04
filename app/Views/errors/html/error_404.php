@@ -1,64 +1,168 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
+defined('COREPATH') or exit('No direct script access allowed');
+?>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<title>404 Page Not Found</title>
-<style type="text/css">
+	<meta charset="utf-8">
+	<title>404 Page Not Found</title>
+	<style type="text/css">
+		body {
+			background-color: rgb(72, 4, 156);
+			font: 16px/26px normal Helvetica, Arial, sans-serif;
+		}
 
-::selection { background-color: #E13300; color: white; }
-::-moz-selection { background-color: #E13300; color: white; }
+		a {
+			color: #003399;
+			background-color: transparent;
+			font-weight: normal;
+		}
 
-body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
-}
+		img {
+			width: 20%;
+		}
 
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
-}
+		h1 {
+			color: #8c8b8b;
+			background-color: transparent;
+			font-size: 30px;
+			font-weight: 500;
+			margin: 0 0 14px 0;
+			padding: 14px 15px 10px 15px;
+			text-align: center;
+		}
 
-h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
-}
+		h2,
+		h3 {
+			color: #8c8b8b;
+			background-color: transparent;
+			font-size: 25px;
+			font-weight: 700;
+			margin: 0 0 14px 0;
+			padding: 14px 15px 10px 0px;
+			text-align: center;
+		}
 
-code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
-	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
-	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
-}
+		p {
+			color: #8c8b8b;
+			line-height: 26px;
+			font-weight: 600;
+		}
 
-#container {
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	box-shadow: 0 0 8px #D0D0D0;
-}
+		code {
+			font-family: monospace;
+			font-size: inherit;
+		}
 
-p {
-	margin: 12px 15px 12px 15px;
-}
-</style>
+		mark {
+			background-color: #c0ffc8;
+		}
+
+		.center-div {
+			position: absolute;
+			margin: auto;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 50%;
+			height: 50%;
+			background-color: #f2f2f2;
+			border-radius: 3px;
+			-moz-box-shadow: 0 0 3px #ccc;
+			-webkit-box-shadow: 0 0 3px #ccc;
+			box-shadow: 0 0 3px #ccc;
+		}
+
+		.div-shadow {
+			box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+		}
+
+		.body {
+			position: relative;
+			padding: 20px;
+			margin: 5px;
+			height: 80%;
+		}
+
+		.small {
+			font-size: 0.5em;
+			font-style: italic;
+		}
+
+		.mh {
+			background-color: #9e9d9d;
+			padding: 0.1em 0.2em;
+			color: #8c8b8b;
+		}
+
+		.mtitle {
+			padding: 0.1em 0.2em;
+			color: #11a68d;
+			font-weight: bolder;
+			font-size: 1.000013em;
+		}
+
+		.mmessage {
+			padding: 0.1em 0.2em;
+			color: #b89611;
+			font-weight: bolder;
+			font-size: 1.000013em;
+			font-style: italic;
+		}
+
+		.mdigit {
+			padding: 0.1em 0.2em;
+			color: #d13b04;
+			font-weight: bolder;
+			font-size: 1.000013em;
+		}
+
+		.text-center {
+			text-align: center;
+		}
+
+		.error_code {
+			display: flex;
+			justify-content: center;
+		}
+
+		.error_code h1 {
+			font-size: 100px;
+			animation: type .5s alternate infinite;
+		}
+
+		@keyframes type {
+			from {
+				box-shadow: inset -3px 0px 0px #888;
+			}
+
+			to {
+				box-shadow: inset -3px 0px 0px transparent;
+			}
+		}
+	</style>
 </head>
+
 <body>
-	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
+	<div class="center-div div-shadow">
+		<div class="body" style="margin-top: 60px;">
+			<div class="within">
+				<h2><code><?php echo $heading; ?></code></h2>
+				<div class="error_code">
+					<h1>Error <?php http_response_code(404); echo http_response_code(); ?></h1>
+				</div>
+				<div>
+					<h3><code><?php echo $message; ?></code></h3>
+				</div>
+
+				<div class="text-center" style="margin-top: 40px;">
+					<a href="javascript:window.history.go(-1);">Go back</a>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
+
 </html>

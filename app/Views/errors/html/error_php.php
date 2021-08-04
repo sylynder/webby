@@ -1,33 +1,162 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 ?>
+<title>A PHP Error Exception</title>
+<style type="text/css">
+	body {
+		background-color: rgb(72, 4, 156);
+		font: 16px/26px normal Helvetica, Arial, sans-serif;
+	}
 
-<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+	a {
+		color: #003399;
+		background-color: transparent;
+		font-weight: normal;
+	}
 
-<h4>A PHP Error was encountered</h4>
+	img {
+		width: 20%;
+	}
 
-<p>Severity: <?php echo $severity; ?></p>
-<p>Message:  <?php echo $message; ?></p>
-<p>Filename: <?php echo $filepath; ?></p>
-<p>Line Number: <?php echo $line; ?></p>
+	h1 {
+		color: #8c8b8b;
+		background-color: transparent;
+		font-size: 30px;
+		font-weight: 500;
+		margin: 0 0 14px 0;
+		padding: 14px 15px 10px 15px;
+		text-align: center;
+	}
 
-<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE): ?>
+	h2,
+	h3 {
+		color: #8c8b8b;
+		background-color: transparent;
+		font-size: 25px;
+		font-weight: 700;
+		margin: 0 0 14px 0;
+		padding: 14px 15px 10px 0px;
+		text-align: center;
+	}
 
-	<p>Backtrace:</p>
-	<?php foreach (debug_backtrace() as $error): ?>
+	p {
+		color: #8c8b8b;
+		line-height: 26px;
+		font-weight: 600;
+	}
 
-		<?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
+	code {
+		font-family: monospace;
+		font-size: inherit;
+	}
 
-			<p style="margin-left:10px">
-			File: <?php echo $error['file'] ?><br />
-			Line: <?php echo $error['line'] ?><br />
-			Function: <?php echo $error['function'] ?>
-			</p>
+	mark {
+		background-color: #c0ffc8;
+	}
 
-		<?php endif ?>
+	.center-div {
+		position: relative;
+		margin: auto;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		width: 50%;
+		height: 60%;
+		overflow-y: scroll;
+		background-color: #292929;
+		border-radius: 3px;
+		-moz-box-shadow: 0 0 3px #ccc;
+		-webkit-box-shadow: 0 0 3px #ccc;
+		box-shadow: 0 0 3px #ccc;
+	}
 
-	<?php endforeach ?>
+	.div-shadow {
+		box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+	}
 
-<?php endif ?>
+	.body {
+		position: relative;
+		padding: 20px;
+		margin: 5px;
+		height: 80%;
+	}
 
-</div>
+	.small {
+		font-size: 0.5em;
+		font-style: italic;
+	}
+
+	.mh {
+		/* background-color: #9e9d9d; */
+		padding: 0.1em 0.2em;
+		color: #8c8b8b;
+	}
+
+	.mtitle {
+		padding: 0.1em 0.2em;
+		color: #11a68d;
+		font-weight: bolder;
+		font-size: 1.000013em;
+	}
+
+	.mmessage {
+		padding: 0.1em 0.2em;
+		color: #b89611;
+		font-weight: bolder;
+		font-size: 1.000013em;
+		font-style: italic;
+	}
+
+	.mdigit {
+		padding: 0.1em 0.2em;
+		color: #d13b04;
+		font-weight: bolder;
+		font-size: 1.000013em;
+	}
+
+	.text-center {
+		text-align: center;
+	}
+</style>
+
+<body>
+	<div class="center-div div-shadow">
+		<div class="body">
+
+			<h1><code>A PHP error was encountered</code></h1>
+
+			<div id="within" style="border:2px solid #48049c;padding-left:20px;margin:0 0 10px 0;">
+				<code>
+					<p><span class="mtitle">Severity:</span> <?php echo $severity; ?></p>
+					<p><span class="mtitle">Message:</span><span class="mmessage"><?php echo $message; ?></span></p>
+					<p><span class="mtitle">Filename:</span><span class="mmessage"><?php echo $filepath; ?></span></p>
+					<p><span class="mtitle">Line Number:</span><span class="mdigit"><?php echo $line; ?></span></p>
+
+					<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE) : ?>
+
+						<p><span class="mh">Backtrace:<span></p>
+
+						<?php foreach (debug_backtrace() as $error) : ?>
+
+							<?php if (isset($error['file']) && strpos($error['file'], realpath(CIPATH)) !== 0) : ?>
+
+								<p style="margin-left:10px">
+									<span class="mtitle">File:</span> <span class="mmessage"><?php echo $error['file']; ?></span><br />
+									<span class="mtitle">Line:</span> <span class="mdigit"><?php echo $error['line']; ?></span><br />
+									<span class="mtitle">Function:</span> <?php echo $error['function']; ?>
+								</p>
+
+							<?php endif ?>
+
+						<?php endforeach ?>
+
+					<?php endif ?>
+
+				</code>
+			</div>
+
+		</div>
+	</div>
+</body>
+<br>
