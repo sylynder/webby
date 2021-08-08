@@ -285,6 +285,7 @@ define('TIMEZONE', date_default_timezone_get());
 | and symbols e.g.(s, a, c, ., @, #)
  */
 
+define('PHPEXT', '.php');
 define('BREAK', '<br/>');
 define('ADD_S', 's');
 define('DOT', '.');
