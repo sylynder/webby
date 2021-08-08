@@ -192,7 +192,7 @@ if ( ! function_exists('url'))
      */
     function url($uri = '', $protocol = NULL)
     {
-        $uri = dot2slash($uri);
+        $uri = is_array($uri) ? $uri : dot2slash($uri);
 
         if ($uri === 'void') {
             return void_url();
@@ -690,12 +690,31 @@ if ( ! function_exists('use_library'))
      * @param string $object_name
      * @return object
      */
-    function use_library($library, $params = NULL, $object_name = NULL)
+    function use_library($library, $params = null, $object_name = null)
     {
 
         $library = has_dot($library);
 
         ci()->load->library($library, $params, $object_name);
+    }
+}
+
+if ( ! function_exists('use_library')) 
+{
+    /**
+     * Use a service/services and instantiate
+     *
+     * @param string|array $service
+     * @param array $params
+     * @param string $object_name
+     * @return object
+     */
+    function use_service($service, $params = null, $object_name = null)
+    {
+
+        $service = has_dot($service);
+
+        ci()->load->service($service, $params, $object_name);
     }
 }
 
@@ -733,7 +752,45 @@ if ( ! function_exists('use_helper'))
     }
 }
 
-if ( ! function_exists('load_language')) 
+if ( ! function_exists('use_rule')) 
+{
+    /**
+     * Use a rule
+     * This function lets users load rules.
+	 * That can used when validating forms 
+     * It is designed to be called from a user's app
+	 * It can be controllers or models
+     *
+	 * @param string|array $rule
+     * @param boolean $return_array
+     * @return void
+     */
+    function use_rule($rule = [], $return_array = false)
+    {
+        $rule = has_dot($rule);
+
+        ci()->load->rule($rule, $return_array);
+    }
+}
+
+if ( ! function_exists('rules')) 
+{
+    /**
+     * Return available rules
+     * Call this function when you load
+     * files that use $rules array variable
+     *
+	 * @param string $rule
+	 * @return mixed
+     */
+    function rules()
+    {
+        return !empty(ci()->load->rules) ? ci()->load->rules : [];
+    }
+}
+
+
+if ( ! function_exists('use_language')) 
 {
     /**
      * load a language file 
@@ -745,13 +802,13 @@ if ( ! function_exists('load_language'))
      * @param string $alt_path
      * @return void|string[]
      */
-    function load_language($langfile, $idiom = '', $return = false, $add_suffix = true, $alt_path = '')
+    function use_language($langfile, $idiom = '', $return = false, $add_suffix = true, $alt_path = '')
     {
         ci()->lang->load($langfile, $idiom, $return, $add_suffix, $alt_path);
     }
 }
 
-if ( ! function_exists('language')) 
+if ( ! function_exists('trans')) 
 {
     /**
      * specify a line to use 
@@ -761,8 +818,23 @@ if ( ! function_exists('language'))
      * @param boolean $log_errors
      * @return string
      */
-    function language($line, $log_errors = true)
+    function trans($line, $log_errors = true)
     {
         return ci()->lang->line($line, $log_errors);
+    }
+}
+
+if ( ! function_exists('__')) 
+{
+    /**
+     * alias to the function above
+     *
+     * @param string $line
+     * @param boolean $log_errors
+     * @return string
+     */
+    function __($line, $log_errors = true)
+    {
+        return trans($line, $log_errors);
     }
 }
