@@ -56,20 +56,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 	}
 
 	.center-div {
-		position: relative;
-		margin: auto;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		width: 50%;
-		height: 60%;
-		overflow-y: scroll;
 		background-color: #292929;
-		border-radius: 3px;
-		-moz-box-shadow: 0 0 3px #ccc;
-		-webkit-box-shadow: 0 0 3px #ccc;
-		box-shadow: 0 0 3px #ccc;
 	}
 
 	.div-shadow {
@@ -122,7 +109,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 </style>
 
 <body>
-	<div class="center-div div-shadow">
+	<div class="center-div">
 		<div class="body">
 
 			<h1><code>An uncaught exception was encountered</code></h1>
