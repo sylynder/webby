@@ -698,7 +698,7 @@ if ( ! function_exists('str_humanize'))
 if ( ! function_exists('limit_words')) 
 {
     /**
-     * Limt length of a sentence of a given string
+     * Limit length of a given string
      *
      * @param string $text
      * @param int $limit
@@ -804,6 +804,27 @@ if ( ! function_exists('has_element'))
         }
 
         return false;
+    }
+}
+
+if ( ! function_exists('with_each')) 
+{
+    /**
+     * Replaces the deprecated each function
+     * since PHP 7.2 but limited 
+     * in it's implementation
+     *
+     * @param array $array
+     * @return mixed
+     */
+    function with_each(&$array)
+    {
+        $key = key($array);
+        $result = ($key === null) 
+                            ? false 
+                            : [$key, current($array), 'key' => $key, 'value' => current($array)];
+        next($array);
+        return $result;
     }
 }
 
