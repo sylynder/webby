@@ -360,6 +360,54 @@ if ( ! function_exists('current_route'))
 
 /* ------------------------------- Request | Resource && User Agent Functions ---------------------------------*/
 
+if ( ! function_exists('files')) 
+{
+    /**
+     * function to get $_FILES values
+     *
+     * @param string $index
+     * @return array|string
+     */
+    function files($index = null)
+    {
+        if ($index !== null) {
+            return $_FILES[$index];
+        }
+
+        return $_FILES;
+    }
+}
+
+if ( ! function_exists('is_file_empty')) 
+{
+    /**
+     * function to check if file to
+     * upload is not empty
+     *
+     * @param string $file
+     * @return boolean
+     */
+    function is_file_empty($file)
+    {
+        return (empty($file['name'])) 
+                    ? true 
+                    : false;
+    }
+}
+
+if ( ! function_exists('input')) 
+{
+    /**
+     * Function to set the input object
+     *
+     * @return CI_Input
+     */
+    function input()
+    {
+        return ci()->input;
+    }
+}
+
 if ( ! function_exists('post')) 
 {
     /**
@@ -699,7 +747,7 @@ if ( ! function_exists('use_library'))
     }
 }
 
-if ( ! function_exists('use_library')) 
+if ( ! function_exists('use_service')) 
 {
     /**
      * Use a service/services and instantiate
@@ -757,9 +805,9 @@ if ( ! function_exists('use_rule'))
     /**
      * Use a rule
      * This function lets users load rules.
-	 * That can used when validating forms 
+	 * That can be used when validating forms 
      * It is designed to be called from a user's app
-	 * It can be controllers or models
+	 * It can be used in controllers or models
      *
 	 * @param string|array $rule
      * @param boolean $return_array
