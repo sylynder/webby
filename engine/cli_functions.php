@@ -17,18 +17,18 @@ define('WEBBY_VERSION', 'v0.5.1');
  */
 function show_help($args = [])
 {
-	$output =   " \n";
-	$output .=  Console::cyan(" Welcome to Webby CLI") . " " . Console::green(WEBBY_VERSION) . "\n";
-	$output .=  " \n";
-	$output .=  Console::yellow(" Usage:") . " \n";
-	$output .=  Console::cyan("    command [options] [arguments] "). "\n";
-	$output .=  " \n";
-	$output .=  " \n";
-	$output .=  Console::yellow(" Options:") . " \n";
-	$output .=  Console::green("     --help").  Console::cyan("     Help list for available commands if not specified will show by default")  ." \n";
-	$output .=  Console::green("     --port").  Console::cyan("     Specify port number to be used to serve application")  ." \n";
-	
-	echo $output . "\n";
+    $output =   " \n";
+    $output .=  Console::cyan(" Welcome to Webby CLI") . " " . Console::green(WEBBY_VERSION) . "\n";
+    $output .=  " \n";
+    $output .=  Console::yellow(" Usage:") . " \n";
+    $output .=  Console::cyan("    command [options] [arguments] ") . "\n";
+    $output .=  " \n";
+    $output .=  " \n";
+    $output .=  Console::yellow(" Options:") . " \n";
+    $output .=  Console::green("     --help") .  Console::cyan("     Help list for available commands if not specified will show by default")  . " \n";
+    $output .=  Console::green("     --port") .  Console::cyan("     Specify port number to be used to serve application")  . " \n";
+
+    echo $output . "\n";
 }
 
 /**
@@ -39,40 +39,38 @@ function show_help($args = [])
  */
 function no_command()
 {
-	$output =   " \n";
-	$output .=  Console::cyan(" Welcome to Webby CLI ". WEBBY_VERSION.":") ."\n\n";
-	$output .=  Console::white(" Sorry the command is not known", 'light', 'red') ." \n";
+    $output =   " \n";
+    $output .=  Console::cyan(" Welcome to Webby CLI " . WEBBY_VERSION . ":") . "\n\n";
+    $output .=  Console::white(" Sorry the command is not known", 'light', 'red') . " \n";
 
-	echo $output . "\n";
+    echo $output . "\n";
 }
 
-function execute() {
-	system('php public/index.php migrate');
+function execute_command($command)
+{
+    if ($command[1] === 'migrate') {
+        system('php public/index.php ' . $command[1]);
+    } else {
+        no_command();
+    }
+    
 }
 
-/**
- * Colorize function
- *
- * @param [type] $string
- * @param string $type
- * @return void
- */
-function colorize($string, $type = 'i'){
-    switch ($type) {
-        case 'e': //error
-            echo "e\033[31m$string \033[0m\n";
-        break;
-        case 's': //success
-            echo "\033[32m$string \033[0m\n";
-        break;
-        case 'w': //warning
-            echo "\033[33m$string \033[0m\n";
-        break;  
-        case 'i': //info
-            echo "\033[33m$string \033[0m\n";
-        break;      
-        default:
-        # code...
-        break;
+function setenv()
+{
+    $env_example_file = __DIR__ . '/../.env.example';
+    $env_file = __DIR__ . '/../.env';
+
+    if (file_exists($env_file)) {
+        echo Console::red("Environment file exists already!") . "\n";
+        exit();
+    }
+
+    // Copy content from env_example_file
+    // to env_file
+    if (!copy($env_example_file, $env_file)) {
+        echo Console::red("Environment was not able to be set!") . "\n";
+    } else {
+        echo Console::green("Environment has been set successfully!") . "\n";  
     }
 }

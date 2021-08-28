@@ -22,7 +22,8 @@ function serve($args = []): void {
 	$port = intval($port);
 
 	if($port === 0) {
-		die('Please choose a valid port');
+		echo Console::red("Please choose a valid port!") . "\n";
+		exit();
 	}
 
 	$output =  "PHP Webserver Started for Webby \n";
@@ -39,13 +40,17 @@ function serve($args = []): void {
  * @param array $args
  * @return void
  */
-function run($args):void { 
+function run($args):void {
 	if (isset($args[2]) && $args[2] === '--port') {
 		serve($args);
 	} else if (isset($args[1]) && $args[1] === 'serve') {
 		serve();
+	} else if (isset($args[1]) && $args[1] === 'set' && @$args[2] === '--env') {
+		setenv();
 	} else if (isset($args[1]) && $args[1] === '--help') {
 		show_help();
+	} else if (!empty($args[1])) {
+		execute_command($args);
 	} else if (!isset($args[1])) {
 		show_help();
 	} else {
