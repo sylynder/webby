@@ -85,6 +85,24 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 /*
+ |--------------------------------------------------------------------------
+ | Timing Constants
+ |--------------------------------------------------------------------------
+ |
+ | Provide simple ways to work with the myriad of PHP functions that
+ | require information to be in seconds.
+ */
+defined('SECOND') OR define('SECOND', 1);
+defined('MINUTE') OR define('MINUTE', 60);
+defined('HOUR')   OR define('HOUR', 3600);
+defined('DAY')    OR define('DAY', 86400);
+defined('WEEK')   OR define('WEEK', 604800);
+defined('MONTH')  OR define('MONTH', 2592000);
+defined('YEAR')   OR define('YEAR', 31536000);
+defined('DECADE') OR define('DECADE', 315360000);
+
+
+/*
 |--------------------------------------------------------------------------
 | App Constants 
 |--------------------------------------------------------------------------

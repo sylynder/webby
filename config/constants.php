@@ -131,7 +131,7 @@ define('APP_LOG_PATH', ROOTPATH . 'writable/logs/app/');
 |    6 = All Messages
  */
 
-define('LOG_LEVEL', 3);
+define('LOG_LEVEL', getenv('log.level') ?: 3 );
 
 /*
 |   Log permission for Webby logging
@@ -146,7 +146,7 @@ define('LOG_PERMISSION', 0644);
 |   You can use PHP date codes to set your own date formatting
  */
 
-define('LOG_DATE_FORMAT', 'Y-m-d H:i:s');
+define('LOG_DATE_FORMAT', getenv('log.dateformat') ?: 'Y-m-d H:i:s');
 
 /*
 |   Log file extension

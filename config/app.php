@@ -22,7 +22,7 @@ defined('COREPATH') OR exit('No direct script access allowed');
 | -------------------------------------------------------------------------
 |
  */
-$config['app_name'] = 'Webby';
+$config['app_name'] = getenv('app.name') ?: 'Webby';
 
 /*
 | -------------------------------------------------------------------------
