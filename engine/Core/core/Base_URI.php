@@ -30,19 +30,16 @@ class Base_URI extends CI_URI
 
     public function app_error_view($heading = "", $message = "", $status_code = 404, $log_error = true)
     {
-        $template = config_item('app_error_view');
-        $ext = '.php';
+        $template = '';
 		
         if (empty($template)) {
-			$template = VIEWPATH.'errors'.DIRECTORY_SEPARATOR.'error404'.$ext;
+			$template = VIEWPATH.'errors'.DIRECTORY_SEPARATOR.'error404'. PHPEXT;
 		} else {
-            $template = VIEWPATH.$template.$ext;
+            $template = VIEWPATH.'errors/error_404'. PHPEXT;
         }
 
         set_status_header($status_code);
-        // $message = '<p>'.(is_array($message) ? implode('</p><p>', $message) : $message).'</p>';
-        // $template = 'html'.DIRECTORY_SEPARATOR.$template;
-		
+        
 		if (ob_get_level() > ob_get_level() + 1)
 		{
 			ob_end_flush();
