@@ -33,30 +33,30 @@ class Base_Router extends MX_Router {
             if (isset($_GET[$this->config->item('directory_trigger')]))
             {
                 $this->set_directory(trim($this->uri->_filter_uri($_GET[$this->config->item('directory_trigger')])));
-                $segments[] = $this->fetch_directory();
+                $segments[] = $this->router->directory;
             }
  
             if (isset($_GET[$this->config->item('controller_trigger')]))
             {
                 $this->set_class(trim($this->uri->_filter_uri($_GET[$this->config->item('controller_trigger')])));
-                $segments[] = $this->fetch_class();
+                $segments[] = $this->router->class;
             }
  
             if (isset($_GET[$this->config->item('function_trigger')]))
             {
                 $this->set_method(trim($this->uri->_filter_uri($_GET[$this->config->item('function_trigger')])));
-                $segments[] = $this->fetch_method();
+                $segments[] = $this->router->method;
             }
         }
  
         // Load the routes.php file.
-        if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
+        if (defined('ENVIRONMENT') AND is_file(COREPATH.'config/'.ENVIRONMENT.'/routes.php'))
         {
-            include(APPPATH.'config/'.ENVIRONMENT.'/routes.php');
+            include(COREPATH.'config/'.ENVIRONMENT.'/routes.php');
         }
-        elseif (is_file(APPPATH.'config/routes.php'))
+        elseif (is_file(COREPATH.'config/routes.php'))
         {
-            include(APPPATH.'config/routes.php');
+            include(COREPATH.'config/routes.php');
         }
  
         // Include routes every modules
@@ -64,7 +64,7 @@ class Base_Router extends MX_Router {
 
         if(!$modules_locations)
         {
-            $modules_locations = APPPATH . 'modules/';
+            $modules_locations = COREPATH . 'modules/';
 
             if(is_dir($modules_locations))
             {
