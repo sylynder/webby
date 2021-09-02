@@ -84,6 +84,22 @@ class Route
 		}
 	}
 
+	//Utility functions
+	public static function toSlash($str)
+	{
+		$str = is_array($str) ? $str : dot2slash($str);
+
+        if (strstr($str, '/')) {
+            $str = $str;
+        }
+
+        if (strstr($str, '.')) {
+            $str = str_replace('.', '/', $str);
+        }
+
+        return $str;
+	}
+
 	public static function getRouter()
 	{
 		return static::$router = ci()->router;
@@ -239,13 +255,32 @@ class Route
 	public static function route($from, $to, $nested = false)
 	{
 		$parameterfy = false;
+		
+		// Allow for array based routes and other symbol routes
+        if (strstr($to, '.')) {
+            $to = str_replace('.', '/', $to);
+        }
 
-		// Allow for array based routes and hashrouters
 		if (is_array($to)) {
 			$to = strtolower($to[0]) . '/' . strtolower($to[1]);
 			$parameterfy = true;
 		} elseif (
 			preg_match('/^([a-zA-Z\_\-0-9\/]+)->([a-zA-Z\_\-0-9\/]+)$/m', $to, $matches)
+		) {
+			$to = $matches[1] . '/' . $matches[2];
+			$parameterfy = true;
+		} elseif (
+			preg_match('/^([a-zA-Z\_\-0-9\/]+)::([a-zA-Z\_\-0-9\/]+)$/m', $to, $matches)
+		) {
+			$to = $matches[1] . '/' . $matches[2];
+			$parameterfy = true;
+		} elseif (
+			preg_match('/^([a-zA-Z\_\-0-9\/]+)@([a-zA-Z\_\-0-9\/]+)$/m', $to, $matches)
+		) {
+			$to = $matches[1] . '/' . $matches[2];
+			$parameterfy = true;
+		} elseif (
+			preg_match('/^([a-zA-Z\_\-0-9\/]+)~([a-zA-Z\_\-0-9\/]+)$/m', $to, $matches)
 		) {
 			$to = $matches[1] . '/' . $matches[2];
 			$parameterfy = true;
