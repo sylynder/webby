@@ -1,17 +1,23 @@
 <?php
 
-namespace yidas\http;
+namespace Base\Http;
 
 use Exception;
+use Base\Rest\HttpStatus;
+use Base\CodeIgniter\Instance;
 
 /**
  * Response Component based on CI_Output
  * 
  * @author  Nick Tsai <myintaer@gmail.com>
  * @since   1.6.1
+ * 
+ * Modified by Kwame Oteng Appiah-Nti
+ * To integrate it into Webby for Responses
+ * 
  * @example
- *  $response = new yidas\http\Response;
- *  $response->setFormat(yidas\http\Response::FORMAT_JSON);
+ *  $response = new Base\Http\Response;
+ *  $response->setFormat(Base\Http\Response::FORMAT_JSON);
  *  $response->setData(['foo'=>'bar']);
  *  $response->setStatusCode(201, 'Created');
  *  $response->send();
@@ -27,10 +33,12 @@ class Response
     const FORMAT_JSON = 'json';
     const FORMAT_JSONP = 'jsonp';
     const FORMAT_XML = 'xml';
+
     /**
-     * @var object CI_Controller
+     * @var object CodeIgniter
      */
     public $ci;
+
     /**
      * @var array the formatters that are supported by default
      */
@@ -41,6 +49,7 @@ class Response
         self::FORMAT_JSONP => 'application/javascript;', // RFC 4329
         self::FORMAT_XML => 'application/xml;', // RFC 2376
     ];
+
     /**
      * @var string the response format. This determines how to convert [[data]] into [[content]]
      * when the latter is not set. The value of this property must be one of the keys declared in the [[formatters]] array.
@@ -62,16 +71,18 @@ class Response
      * You may customize the formatting process or support additional formats by configuring [[formatters]].
      * @see formatters
      */
-    private $_format = self::FORMAT_JSON;
+
+    private $format = self::FORMAT_JSON;
     /**
      * @var int the HTTP status code to send with the response.
      */
-    private $_statusCode = 200;
+    
+    private $statusCode = HttpStatus::OK;
 
     function __construct() 
     {
-        // CI_Controller initialization
-        $this->ci = & get_instance();
+        // CodeIgniter initialization
+        $this->ci = Instance::create();
     }
     
     /**
@@ -81,11 +92,11 @@ class Response
      */
     public function setFormat($format)
     {
-        $this->_format = $format;
+        $this->format = $format;
         // Use formatter content type if exists
-        if (isset($this->contentTypes[$this->_format])) {
+        if (isset($this->contentTypes[$this->format])) {
             $this->ci->output
-                ->set_content_type($this->contentTypes[$this->_format]);
+                ->set_content_type($this->contentTypes[$this->format]);
         }
 
         return $this;
@@ -101,7 +112,7 @@ class Response
     public function setData($data)
     {
         // Format data
-        $data = $this->format($data, $this->_format);
+        $data = $this->format($data, $this->format);
         // CI Output
         $this->ci->output->set_output($data);
 
@@ -124,7 +135,7 @@ class Response
      */
     public function getStatusCode()
     {
-        return $this->_statusCode;
+        return $this->statusCode;
     }
 
     /**
@@ -138,21 +149,21 @@ class Response
     public function setStatusCode($code, $text=null)
     {
         if ($code === null) {
-            $code = 200;
+            $code = HttpStatus::OK;
         }
         // Save code into property
-        $this->_statusCode = (int) $code;
+        $this->statusCode = (int) $code;
         // Check status code
         if ($this->getIsInvalid()) {
-            throw new Exception("The HTTP status code is invalid: ". $this->_statusCode);
+            throw new Exception("The HTTP status code is invalid: ". $this->statusCode);
         }
         // Set HTTP status code with options
         if ($text) {
             // Set into CI_Output
-            $this->ci->output->set_status_header($this->_statusCode, $text);
+            $this->ci->output->set_status_header($this->statusCode, $text);
         } else {
             // Use PHP function with more code support
-            http_response_code($this->_statusCode);
+            http_response_code($this->statusCode);
         }
 
         return $this;

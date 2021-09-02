@@ -1,34 +1,26 @@
 <?php
 
-namespace yidas\rest;
+namespace Base\Http;
 
-use yidas\http\Request;
-use yidas\http\Response;
+use Base\Http\Request;
+use Base\Http\Response;
+use Base\Rest\HttpStatus;
 
 /**
- * RESTful API Controller
+ * Restful Controller
  * 
  * @author  Nick Tsai <myintaer@gmail.com>
  * @version 1.6.1
  * @link    https://github.com/yidas/codeigniter-rest/
- * @see     https://github.com/yidas/codeigniter-rest/blob/master/examples/RestController.php
- * @see     https://en.wikipedia.org/wiki/Representational_state_transfer#Relationship_between_URL_and_HTTP_methods
  * 
- * Controller extending:
- * ```php
- * class My_controller extends yidas\rest\Controller {}
- * ```
+ * Modified by Kwame Oteng Appiah-Nti
+ * To integrate it into Webby for Restful Controllers
  * 
- * Route setting:
- * ```php
- * $route['resource_name'] = '[Controller]/route';
- * $route['resource_name/(:num)'] = '[Controller]/route/$1';
- * ```
  */
-class Controller extends \CI_Controller
+class Restful extends \CI_Controller
 {
     /**
-     * RESTful API resource routes
+     * Restful resource routes
      * 
      * public function index() {}
      * protected function store($requestData=null) {}
@@ -36,7 +28,7 @@ class Controller extends \CI_Controller
      * protected function update($resourceID, $requestData=null) {}
      * protected function delete($resourceID=null) {}
      * 
-     * @var array RESTful API table of routes & actions
+     * @var array Restful API table of routes & actions
      */
     protected $routes = [
         'index' => 'index',
@@ -62,7 +54,7 @@ class Controller extends \CI_Controller
     /**
      * Pre-setting format
      * 
-     * @var string yidas\http\Response format
+     * @var string Base\Http\Response format
      */
     protected $format;
 
@@ -74,12 +66,12 @@ class Controller extends \CI_Controller
     protected $bodyFormat = false;
 
     /**
-     * @var object yidas\http\Request;
+     * @var object Base\Http\Request;
      */
     protected $request;
 
     /**
-     * @var object yidas\http\Response;
+     * @var object Base\Http\Response;
      */
     protected $response;
     
@@ -108,31 +100,31 @@ class Controller extends \CI_Controller
      * 
      * @param int|string Resource ID
      */
-    public function route($resourceID=NULL)
+    public function route($resourceID=null)
     {
         switch ($this->request->getMethod()) {
             case 'POST':
                 if (!$resourceID) {
-                    return $this->_action(['store', $this->request->getBodyParams()]);
+                    return $this->action(['store', $this->request->getBodyParams()]);
                 }
                 break;
             case 'PATCH':
                 // PATCH could only allow single element
                 if (!$resourceID) {
-                    return $this->_defaultAction();
+                    return $this->defaultAction();
                 }
             case 'PUT':
-                return $this->_action(['update', $resourceID, $this->request->getBodyParams()]);
+                return $this->action(['update', $resourceID, $this->request->getBodyParams()]);
                 break;
             case 'DELETE':
-                return $this->_action(['delete', $resourceID, $this->request->getBodyParams()]);
+                return $this->action(['delete', $resourceID, $this->request->getBodyParams()]);
                 break;
             case 'GET':
             default:
                 if ($resourceID) {
-                    return $this->_action(['show', $resourceID]);
+                    return $this->action(['show', $resourceID]);
                 } else {
-                    return $this->_action(['index']);
+                    return $this->action(['index']);
                 }
                 break;
         }
@@ -143,7 +135,7 @@ class Controller extends \CI_Controller
      *
      * `resource/api` URI pattern
      */
-    public function api($resourceID=NULL)
+    public function api($resourceID=null)
     {
         return $this->route($resourceID);
     }
@@ -153,7 +145,7 @@ class Controller extends \CI_Controller
      *
      * `resource/ajax` URI pattern
      */
-    public function ajax($resourceID=NULL)
+    public function ajax($resourceID=null)
     {
         return $this->route($resourceID);
     }
@@ -161,7 +153,6 @@ class Controller extends \CI_Controller
     /**
      * Output by JSON format with optinal body format
      * 
-     * @deprecated 1.3.0
      * @param array|mixed Callback data body, false will remove body key
      * @param bool Enable body format
      * @param int HTTP Status Code
@@ -178,7 +169,7 @@ class Controller extends \CI_Controller
         
         if ($bodyFormat) {
             // Pack data
-            $data = $this->_format($statusCode, $message, $data);
+            $data = $this->format($statusCode, $message, $data);
         } else {
             // JSON standard of RFC4627
             $data = is_array($data) ? $data : [$data];
@@ -190,13 +181,12 @@ class Controller extends \CI_Controller
     /**
      * Format Response Data
      * 
-     * @deprecated 1.3.0
      * @param int Callback status code
      * @param string Callback status text
      * @param array|mixed|bool Callback data body, false will remove body key 
      * @return array Formated array data
      */
-    protected function _format($statusCode=null, $message=null, $body=false)
+    protected function format($statusCode=null, $message=null, $body=false)
     {
         $format = [];
         // Status Code field is necessary
@@ -226,23 +216,20 @@ class Controller extends \CI_Controller
      * @example
      *  $packedData = pack(['bar'=>'foo], 401, 'Login Required');
      */
-    protected function pack($data, $statusCode=200, $message=null)
+    protected function pack($data, $statusCode=HttpStatus::OK, $message=null)
     {
         $packBody = [];
 
         // Status Code
         if ($statusCode) {
-            
             $packBody['code'] = $statusCode;
         }
         // Message
         if ($message) {
-            
             $packBody['message'] = $message;
         }
         // Data
         if (is_array($data) || is_string($data)) {
-            
             $packBody['data'] = $data;
         }
         
@@ -252,7 +239,7 @@ class Controller extends \CI_Controller
     /**
      * Default Action
      */
-    protected function _defaultAction()
+    protected function defaultAction()
     {
         /* Response sample code */
         // $response->data = ['foo'=>'bar'];
@@ -269,7 +256,7 @@ class Controller extends \CI_Controller
      * @param Callable $function
      * @return boolean Result
      */
-    protected function _setBehavior($action, Callable $function)
+    protected function setBehavior($action, Callable $function)
     {
         if (array_key_exists($action, $this->behaviors)) {
 
@@ -285,7 +272,7 @@ class Controller extends \CI_Controller
      * 
      * @param array Elements contains method for first and params for others 
      */
-    private function _action($params)
+    private function action($params)
     {
         // Shift and get the method
         $method = array_shift($params);
@@ -296,14 +283,14 @@ class Controller extends \CI_Controller
         }
 
         if (!isset($this->routes[$method])) {
-            $this->_defaultAction();
+            $this->defaultAction();
         }
 
         // Get corresponding method name
         $method = $this->routes[$method];
 
         if (!method_exists($this, $method)) {
-            $this->_defaultAction();
+            $this->defaultAction();
         }
 
         return call_user_func_array([$this, $method], $params);

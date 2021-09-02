@@ -1,6 +1,8 @@
 <?php
 
-namespace yidas\http;
+namespace Base\Http;
+
+use Base\CodeIgniter\Instance;
 
 /**
  * Request Component
@@ -12,14 +14,19 @@ namespace yidas\http;
 class Request
 {
     /**
+     * @var object CodeIgniter
+     */
+    public $ci;
+
+    /**
      * @var string raw HTTP request body
      */
-    private $_rawBody;
+    private $rawBody;
 
     /**
      * @var array Body params
      */
-    private $_bodyParams;
+    private $bodyParams;
     
     /**
      * Retrieves the HTTP method of the request.
@@ -35,6 +42,12 @@ class Request
             return strtoupper($_SERVER['REQUEST_METHOD']);
         }
         return 'GET';
+    }
+
+    public function __construct() 
+    {
+        // CodeIgniter initialization
+        $this->ci = Instance::create();
     }
 
     /**
@@ -59,10 +72,10 @@ class Request
      */
     public function getRawBody()
     {
-        if ($this->_rawBody === null) {
-            $this->_rawBody = file_get_contents('php://input');
+        if ($this->rawBody === null) {
+            $this->rawBody = $this->ci->input->raw_input_stream;
         }
-        return $this->_rawBody;
+        return $this->rawBody;
     }
 
     /**
@@ -77,23 +90,23 @@ class Request
      */
     public function getBodyParams()
     {
-        if ($this->_bodyParams === null) {
+        if ($this->bodyParams === null) {
         
             $contentType = $this->getContentType();
 
             if (strcasecmp($contentType, 'application/json') == 0) {
                 // JSON content type
-                $this->_bodyParams = json_decode($this->getRawBody(), true);
+                $this->bodyParams = json_decode($this->getRawBody(), true);
             } elseif ($this->getMethod() === 'POST') {
                 // PHP has already parsed the body so we have all params in $_POST
-                $this->_bodyParams = $_POST;
+                $this->bodyParams = $_POST;
             } else {
-                $this->_bodyParams = [];
-                mb_parse_str($this->getRawBody(), $this->_bodyParams);
+                $this->bodyParams = [];
+                mb_parse_str($this->getRawBody(), $this->bodyParams);
             }
         }
 
-        return $this->_bodyParams;
+        return $this->bodyParams;
     }
 
     /**
