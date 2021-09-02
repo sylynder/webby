@@ -35,6 +35,10 @@ use Base\Route\Route;
 | Please make sure route names don't conflict in all the route files
 | 
 | $route['route-pattern'] = 'controller/method/segment1/segment2/segment3';
+| 
+| Is advisable that you don't use the alternate routing format here
+| A new way to add routes also come in this form
+| Route::get('route-pattern', 'module/controller/method/segment1/segment2/segment3');
 */
 
 $route['default_controller'] = 'app';
