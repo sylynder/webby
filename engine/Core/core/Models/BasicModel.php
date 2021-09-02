@@ -658,6 +658,12 @@ class BasicModel extends Model {
         }
 
         $this->dbw->where_in($this->primary_key, $ids);
+        
+        if ($this->log_user)
+        {
+            $data[$this->updated_by_field] = $this->set_user();
+        }
+
         $this->dbw->set($data);
         $result = $this->dbw->update($this->table);
 
@@ -701,6 +707,11 @@ class BasicModel extends Model {
             }
         }
 
+        if ($this->log_user)
+        {
+            $data[$this->updated_by_field] = $this->set_user();
+        }
+
         $this->dbw->set($data);
         $result = $this->dbw->update($this->table);
 
@@ -726,6 +737,11 @@ class BasicModel extends Model {
             {
                 return false;
             }
+        }
+
+        if ($this->log_user)
+        {
+            $data[$this->updated_by_field] = $this->set_user();
         }
 
         $this->dbw->set($data);
@@ -1345,8 +1361,8 @@ class BasicModel extends Model {
             return $this->user_id;
         }
 
-        if (isset($_SESSION['user_id'])) {
-            return $_SESSION['user_id'];
+        if (session('user_id')) {
+            return session('user_id');
         }
 
         return '';
