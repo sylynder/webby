@@ -4,7 +4,7 @@ namespace Base\Rest;
 
 use Exception;
 use stdClass;
-use Base\Rest\HttpStatus;
+use Base\Http\HttpStatus;
 use Base\Helpers\Format;
 
 /**
