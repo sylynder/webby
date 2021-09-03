@@ -4,7 +4,8 @@ namespace Base\Http;
 
 use Base\Http\Request;
 use Base\Http\Response;
-use Base\Rest\HttpStatus;
+use Base\Http\HttpStatus;
+use Base\Controllers\Controller;
 
 /**
  * Restful Controller
@@ -17,7 +18,7 @@ use Base\Rest\HttpStatus;
  * To integrate it into Webby for Restful Controllers
  * 
  */
-class Restful extends \CI_Controller
+class Restful extends Controller
 {
     /**
      * Restful resource routes

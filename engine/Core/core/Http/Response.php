@@ -3,7 +3,7 @@
 namespace Base\Http;
 
 use Exception;
-use Base\Rest\HttpStatus;
+use Base\Http\HttpStatus;
 use Base\CodeIgniter\Instance;
 
 /**
