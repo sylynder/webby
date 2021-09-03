@@ -2,7 +2,8 @@
 
 use Base\Controllers\WebController;
 
-class App extends WebController {
+class App extends WebController 
+{
 
 	public function index()
 	{

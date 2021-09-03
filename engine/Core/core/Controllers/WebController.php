@@ -4,7 +4,7 @@ namespace Base\Controllers;
 
 use Base\View\Plates;
 
-class WebController extends \Base_Controller 
+class WebController extends Controller
 {
 
     public $plate;

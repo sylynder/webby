@@ -2,9 +2,7 @@
 
 namespace Base\Controllers;
 
-use Base\Http\Restful;
-
-class RestController extends Restful 
+class Controller extends \Base_Controller 
 {
     public function __construct()
     {

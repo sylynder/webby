@@ -2,9 +2,9 @@
 
 namespace Base\Controllers;
 
-use Base\Rest\HttpStatus;
-use Base\Rest\RestController;
 use Exception;
+use Base\Http\HttpStatus;
+use Base\Rest\RestController;
 
 class ApiController extends RestController 
 {
