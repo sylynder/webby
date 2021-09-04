@@ -7,7 +7,7 @@ require_once __DIR__ . '/console_color.php';
  * for the webby cli file
  */
 
-define('WEBBY_VERSION', 'v0.6.0');
+define('WEBBY_VERSION', 'v0.7.0');
 
 /**
  * Function to display console help
