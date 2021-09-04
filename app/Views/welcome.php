@@ -12,9 +12,9 @@
         }
 
         .center-div {
-            position: absolute;
+            /* position: relative; */
             margin: auto;
-            top: 0;
+            top: 50px;
             right: 0;
             bottom: 0;
             left: 0;
@@ -29,6 +29,7 @@
 
         .div-shadow {
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            margin-top: 60px;
         }
 
         .image {

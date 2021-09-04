@@ -55,11 +55,23 @@ defined('COREPATH') or exit('No direct script access allowed');
 	}
 
 	.center-div {
+		margin: auto;
+		top: 50px;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		width: 50%;
+		height: 80%;
 		background-color: #292929;
+		border-radius: 3px;
+		-moz-box-shadow: 0 0 3px #ccc;
+		-webkit-box-shadow: 0 0 3px #ccc;
+		box-shadow: 0 0 3px #ccc;
 	}
 
 	.div-shadow {
 		box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+		margin-top: 50px;
 	}
 
 	.body {
@@ -108,7 +120,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 </style>
 
 <body>
-	<div class="center-div">
+	<div class="center-div div-shadow">
 		<div class="body">
 
 			<h1><code>A PHP error was encountered</code></h1>
