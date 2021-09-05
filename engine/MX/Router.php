@@ -120,24 +120,24 @@ class MX_Router extends \CI_Router
 
 		/* get the segments array elements */
 		list($module, $directory, $controller) = array_pad($segments, 3, NULL);
-
+		
 		/* check modules */
 		foreach (Modules::$locations as $location => $offset)
 		{
 			/* module exists? */
-			if (is_dir($source = $location.$module.'/controllers/'))
+			if (is_dir($source = $location.ucfirst($module).'/Controllers/'))
 			{
-				$this->module = $module;
-				$this->directory = $offset.$module.'/controllers/';
-
+				$this->module = ucfirst($module);
+				$this->directory = $offset.ucfirst($module).'/Controllers/';
+				
 				/* module sub-controller exists? */
 				if($directory)
 				{
 					/* module sub-directory exists? */
-					if(is_dir($source.$directory.'/'))
+					if(is_dir($source.ucfirst($directory).'/'))
 					{	
-						$source .= $directory.'/';
-						$this->directory .= $directory.'/';
+						$source .= ucfirst($directory).'/';
+						$this->directory .= ucfirst($directory).'/';
 
 						/* module sub-directory controller exists? */
 						if($controller)
@@ -158,7 +158,7 @@ class MX_Router extends \CI_Router
 					}
 					else $this->located = -1;
 				}
-
+				
 				/* module controller exists? */
 				if(is_file($source.ucfirst($module).$ext))
 				{
@@ -167,7 +167,7 @@ class MX_Router extends \CI_Router
 				}
 			}
 		}
-
+		
 		if( ! empty($this->directory)) return;
 
 		/* application sub-directory controller exists? */

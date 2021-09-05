@@ -160,7 +160,7 @@ class Modules
 		{
 			/* load config or language array */
 			include $location;
-
+			
 			if ( ! isset($$type) OR ! is_array($$type))				
 				show_error("{$location} does not contain a valid {$type} array");
 
@@ -216,7 +216,7 @@ class Modules
 		/* load the route file */
 		if ( ! isset(self::$routes[$module])) 
 		{
-			if (list($path) = self::find('routes', $module, 'config/'))
+			if (list($path) = self::find('routes', $module, 'Config/'))
 			{
 				$path && self::$routes[$module] = self::load_file('routes', $path, 'route');
 			}
