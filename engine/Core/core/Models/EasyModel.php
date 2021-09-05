@@ -384,12 +384,12 @@ class EasyModel extends Model
     public function first()
     {
         $rows = $this->limit(1)->findAll();
-        // dd($rows);
+        
         if (is_array($rows) && count($rows) == 1)
         {
             return $rows[0];
         }
-        dd($rows);
+        
         return $rows;
     }
 
