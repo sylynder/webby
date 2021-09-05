@@ -61,7 +61,6 @@ defined('COREPATH') or exit('No direct script access allowed');
 		}
 
 		.center-div {
-			/* position: absolute; */
 			margin: auto;
 			top: 0;
 			right: 0;
@@ -75,6 +74,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 			-moz-box-shadow: 0 0 3px #ccc;
 			-webkit-box-shadow: 0 0 3px #ccc;
 			box-shadow: 0 0 3px #ccc;
+			overflow: auto;
 		}
 
 		.div-shadow {

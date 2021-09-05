@@ -9,7 +9,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 	<title>Error</title>
 	<style type="text/css">
 		body {
-			/* background-color: rgb(72, 4, 156); */
+			background-color: rgb(72, 4, 156);
 			font: 16px/26px normal Helvetica, Arial, sans-serif;
 		}
 
@@ -60,7 +60,6 @@ defined('COREPATH') or exit('No direct script access allowed');
 		}
 
 		.center-div {
-			/* position: absolute; */
 			margin: auto;
 			top: 0;
 			right: 0;
@@ -73,6 +72,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 			-moz-box-shadow: 0 0 3px #ccc;
 			-webkit-box-shadow: 0 0 3px #ccc;
 			box-shadow: 0 0 3px #ccc;
+			overflow: auto;
 		}
 
 		.div-shadow {

@@ -58,7 +58,6 @@ defined('COREPATH') OR exit('No direct script access allowed');
 		}
 
 		.center-div {
-			/* position: absolute; */
 			margin: auto;
 			top: 0;
 			right: 0;
@@ -71,6 +70,7 @@ defined('COREPATH') OR exit('No direct script access allowed');
 			-moz-box-shadow: 0 0 3px #ccc;
 			-webkit-box-shadow: 0 0 3px #ccc;
 			box-shadow: 0 0 3px #ccc;
+			overflow: auto;
 		}
 
 		.div-shadow {
@@ -152,7 +152,9 @@ defined('COREPATH') OR exit('No direct script access allowed');
             <div class="error_code">
 				<h1>Error <?php  echo http_response_code(); ?></h1>
 			</div>
-
+			<div>
+					<h3><code>Custom Error Page</code></h3>
+			</div>
 			<div class="text-center" style="margin-top: 40px;">
 				<a href="javascript:window.history.go(-1);">Go back</a>
 			</div>
