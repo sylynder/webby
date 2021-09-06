@@ -81,7 +81,7 @@ class Base_Loader extends MX_Loader {
 
 		// Check module
 		// This line allows CamelCasing names for models in modules
-		list($path, $_model) = Modules::find($model, $this->_module, 'models/');
+		list($path, $_model) = Modules::find($model, $this->_module, 'Models/');
         
         /*
 		 * Compare the two and know the differences. If you want to revert back use the one below
@@ -157,12 +157,12 @@ class Base_Loader extends MX_Loader {
 
 		$service_path = $subdir . $service . PHPEXT;
 		
-		list($path, $_service) = Modules::find($service_path, $this->_module, 'services/');
+		list($path, $_service) = Modules::find($service_path, $this->_module, 'Services/');
 		
 		// load service config file as params 
 		if ($params == NULL)
 		{
-			list($path2, $file) = Modules::find($_alias, $this->_module, 'config/');
+			list($path2, $file) = Modules::find($_alias, $this->_module, 'Config/');
 			($path2) && $params = Modules::load_file($file, $path2, 'config');
 		}
 
@@ -211,7 +211,7 @@ class Base_Loader extends MX_Loader {
 
 		if (isset($this->_ci_rules[$rule]))	return;
 		
-		list($path, $_rule) = Modules::find($rule, $this->_module, 'rules/');
+		list($path, $_rule) = Modules::find($rule, $this->_module, 'Rules/');
 
 		if ($path === false) /*return parent::helper($rule);*/
 		show_error('Sorry! We couldn\'t find the rule: '.$_rule);
