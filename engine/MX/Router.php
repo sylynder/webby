@@ -47,7 +47,7 @@ class MX_Router extends \CI_Router
 
 	protected function _set_request($segments = array())
 	{
-		if ($this->translate_uri_dashes === TRUE)
+		if ($this->translate_uri_dashes === true)
 		{
 			foreach(range(0, 2) as $v)
 			{
@@ -80,7 +80,7 @@ class MX_Router extends \CI_Router
 			$segments[1] = 'index';
 		}
        
-		array_unshift($segments, NULL);
+		array_unshift($segments, null);
 		unset($segments[0]);
 		$this->uri->rsegments = $segments;
 	}
@@ -119,7 +119,7 @@ class MX_Router extends \CI_Router
 		}
 
 		/* get the segments array elements */
-		list($module, $directory, $controller) = array_pad($segments, 3, NULL);
+		list($module, $directory, $controller) = array_pad($segments, 3, null);
 		
 		/* check modules */
 		foreach (Modules::$locations as $location => $offset)
@@ -237,9 +237,9 @@ class MX_Router extends \CI_Router
 	{
 		$suffix = strval($this->config->item('controller_suffix'));
 		
-		$string_position = !empty($suffix) ? strpos($class, $suffix) : FALSE;
+		$string_position = !empty($suffix) ? strpos($class, $suffix) : false;
 		
-		if ($string_position === FALSE)
+		if ($string_position === false)
 		{
 			$class .= $suffix;
 		}
