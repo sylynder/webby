@@ -86,7 +86,7 @@ class Base_Router extends MX_Router {
                     {
                         if(is_dir($key.$entry))
                         {
-                            $rfile = Modules::find('routes'.EXT, $entry, 'config/');
+                            $rfile = Modules::find('Routes'.EXT, $entry, 'Config/');
  
                             if($rfile[0])
                             {
