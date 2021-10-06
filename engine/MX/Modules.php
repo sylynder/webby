@@ -218,7 +218,7 @@ class Modules
 		{
 			if (list($path) = self::find('Routes', $module, 'Config/'))
 			{
-				$path && self::$routes[$module] = self::load_file('Routes', $path, 'Route');
+				$path && self::$routes[$module] = self::load_file('Routes', $path, 'route');
 			}
 		}
 
