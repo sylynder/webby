@@ -2,10 +2,11 @@
 
 namespace Base\Rest;
 
-use Exception;
 use stdClass;
-use Base\Http\HttpStatus;
+use Exception;
 use Base\Helpers\Format;
+use Base\Http\HttpStatus;
+use Base\Controllers\Controller;
 
 /**
  * CodeIgniter Rest Controller
@@ -14,9 +15,13 @@ use Base\Helpers\Format;
  *
  * @link  https://github.com/chriskacerguis/ci-restserver
  *
- * @version  4.0.0
+ * 
+ * Note: Breaking modifications have been done to work with Webby
+ * @since 4.0.0 
+ * @author Kwame Oteng Appiah-Nti (Developer Kwame)
+ * 
  */
-class RestController extends \MX_Controller
+class RestController extends Controller
 {
     /**
      * This defines the rest format
@@ -394,12 +399,39 @@ class RestController extends \MX_Controller
         $this->earlyChecks();
 
         // Load DB if its enabled
-        if ($this->config->item('rest_database_group') && ($this->config->item('rest_enable_keys') || $this->config->item('rest_enable_logging'))) {
-            $this->rest->db = $this->load->database($this->config->item('rest_database_group'), true);
+        // Set database and enable any of these configurations
+        if ( $this->config->item('rest_database_group') !== 'default'
+                && $this->config->item('rest_use_database')
+                && ($this->config->item('rest_enable_keys') 
+                || $this->config->item('rest_enable_logging'))
+                || $this->config->item('rest_enable_token')
+        ) {
+            
+            if ($this->config->item('rest_database_path') === 'default') {
+                $this->load->database();
+                $this->rest->db = $this->db;
+            } else {
+                list($module, $filename) = explode('/', $this->config->item('rest_database_path'));
+                $this->config->load($module .'/'. $filename, true);
+                $config_name = $this->config->item($filename);
+                $this->rest->db = $this->load->database($config_name[$this->config->item('rest_database_group')], true);
+            }
+        }  
+        // Use default database if that is set
+        else if ($this->config->item('rest_database_group') === 'default'
+                    && $this->config->item('rest_use_database')
+                    && ($this->config->item('rest_enable_keys') 
+                    || $this->config->item('rest_enable_logging'))
+                    || $this->config->item('rest_enable_token')
+        ) {
+            $this->load->database();
+            $this->rest->db = $this->db;
         }
-
-        // Use whatever database is in use (isset returns FALSE)
-        elseif (property_exists($this, 'db')) {
+        // Set database to use it anyway
+        // Please $this->useDatabase(); in your Controler
+        else if ($this->config->item('rest_use_database') === true && $this->config->item('rest_database_group') === 'default')
+        {
+            $this->load->database();
             $this->rest->db = $this->db;
         }
 
@@ -1134,6 +1166,13 @@ class RestController extends \MX_Controller
                     return true;
                 }
 
+                // Token auth override found, check token
+                if ($auth_override_class_method[$this->router->class]['*'] === 'token') {
+                    $this->checkToken();
+
+                    return true;
+                }
+
                 // Whitelist auth override found, check client's ip against config whitelist
                 if ($auth_override_class_method[$this->router->class]['*'] === 'whitelist') {
                     $this->checkWhitelistAuth();
@@ -1166,6 +1205,13 @@ class RestController extends \MX_Controller
                 // Session auth override found, check session
                 if ($auth_override_class_method[$this->router->class][$this->router->method] === 'session') {
                     $this->checkPhpSession();
+
+                    return true;
+                }
+
+                // Token auth override found, check token
+                if ($auth_override_class_method[$this->router->class]['*'] === 'token') {
+                    $this->checkToken();
 
                     return true;
                 }
@@ -1212,6 +1258,13 @@ class RestController extends \MX_Controller
                     return true;
                 }
 
+                // Token auth override found, check token
+                if ($auth_override_class_method[$this->router->class]['*'] === 'token') {
+                    $this->checkToken();
+
+                    return true;
+                }
+
                 // Whitelist auth override found, check client's ip against config whitelist
                 if ($auth_override_class_method_http[$this->router->class]['*'][$this->request->method] === 'whitelist') {
                     $this->checkWhitelistAuth();
@@ -1244,6 +1297,13 @@ class RestController extends \MX_Controller
                 // Session auth override found, check session
                 if ($auth_override_class_method_http[$this->router->class][$this->router->method][$this->request->method] === 'session') {
                     $this->checkPhpSession();
+
+                    return true;
+                }
+
+                // Token auth override found, check token
+                if ($auth_override_class_method[$this->router->class]['*'] === 'token') {
+                    $this->checkToken();
 
                     return true;
                 }
@@ -1850,13 +1910,13 @@ class RestController extends \MX_Controller
      * 
      * Check to see if the user is logged in with a token
      * 
-     * @return void
+     * @return object
      */
     protected function checkToken() 
     {
         if (!empty($this->args[$this->config->item('rest_token_name')])
                 && $row = $this->rest->db->where('token', $this->args[$this->config->item('rest_token_name')])->get($this->config->item('rest_tokens_table'))->row()) {
-            $this->api_token = $row;
+            return $this->api_token = $row;
         } else {
             $this->response([
                 $this->config->item('rest_status_field_name') => FALSE,
@@ -2020,7 +2080,7 @@ class RestController extends \MX_Controller
 
         //check if the key has all_access
         $accessRow = $this->rest->db
-            ->where('key', $this->rest->key)
+            ->where('api_key', $this->rest->key)
             ->where('controller', $controller)
             ->get($this->config->item('rest_access_table'))->row_array();
 
@@ -2074,7 +2134,9 @@ class RestController extends \MX_Controller
         if ($this->input->method() === 'options') {
             // Load DB if needed for logging
             if (!isset($this->rest->db) && $this->config->item('rest_enable_logging')) {
-                $this->rest->db = $this->load->database($this->config->item('rest_database_group'), true);
+                $this->rest->db = ($this->config->item('rest_use_database')) 
+                    ? $this->load->database($this->config->item('rest_database_group'), true)
+                    : $this->load->database('default', true) ;
             }
             exit;
         }

@@ -107,6 +107,7 @@ $config['rest_realm'] = 'REST API';
 | 'digest'  More secured login
 | 'session' Check for a PHP session variable. See 'auth_source' to set the
 |           authorization key
+| 'token'   Check for token authorization
 |
 */
 $config['rest_auth'] = false;
@@ -132,7 +133,8 @@ $config['auth_source'] = 'ldap';
 | Allow Authentication and API Keys
 |--------------------------------------------------------------------------
 |
-| Where you wish to have Basic, Digest or Session login, but also want to use API Keys (for limiting
+| Where you wish to have Basic, Digest or Session login, 
+| but also want to use API Keys (for limiting
 | requests etc), set to TRUE;
 |
 */
@@ -287,7 +289,9 @@ $config['rest_ip_blacklist'] = '';
 | if you have any of these features enabled
 |
 */
-$config['rest_database_group'] = 'default';
+$config['rest_use_database'] = false; // You need to set to true to use a database
+$config['rest_database_group'] = 'default'; // You can choose a different db group to use
+$config['rest_database_path']  = 'default'; // You can set this in database/config.php file else You have to set this in an HMVC Config folder
 
 /*
 |--------------------------------------------------------------------------
@@ -311,13 +315,13 @@ $config['rest_keys_table'] = 'api_keys';
 | Default table schema:
 |   CREATE TABLE `api_keys` (
 |       `id` INT(11) NOT NULL AUTO_INCREMENT,
-|       `user_id` INT(11) NOT NULL,
-|       `key` VARCHAR(40) NOT NULL,
+|       `user_id` VARCHAR(40) NOT NULL,
+|       `api_key` VARCHAR(40) NOT NULL,
 |       `level` INT(2) NOT NULL,
 |       `ignore_limits` TINYINT(1) NOT NULL DEFAULT '0',
 |       `is_private_key` TINYINT(1)  NOT NULL DEFAULT '0',
 |       `ip_addresses` TEXT NULL DEFAULT NULL,
-|       `date_created` INT(11) NOT NULL,
+|       `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 |       PRIMARY KEY (`id`)
 |   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 |
@@ -332,18 +336,17 @@ $config['rest_enable_keys'] = false;
 | 
 | Default table schema:
 | CREATE TABLE `api_tokens` (
-|    `api_token_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+|    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+|    `user_id` VARCHAR(40) NOT NULL DEFAULT '',
 |    `token` VARCHAR(50) NOT NULL,
 |    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-|    PRIMARY KEY (`api_token_id`)
-|  )
-|    COLLATE='latin1_swedish_ci'
-|    ENGINE=InnoDB
+|    PRIMARY KEY (`id`)
+|  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 |
 */
+$config['rest_enable_token'] = false;
 $config['rest_token_name'] = 'X-Auth-Token';
 $config['rest_tokens_table'] = 'api_tokens';
-
 
 /*
 |--------------------------------------------------------------------------
@@ -354,7 +357,7 @@ $config['rest_tokens_table'] = 'api_tokens';
 | column name to match e.g. my_key
 |
 */
-$config['rest_key_column'] = 'api_keys';
+$config['rest_key_column'] = 'api_key';
 
 /*
 |--------------------------------------------------------------------------
@@ -447,7 +450,7 @@ $config['rest_logs_table'] = 'api_logs';
 | Default table schema:
 |   CREATE TABLE `api_access` (
 |       `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
-|       `key` VARCHAR(40) NOT NULL DEFAULT '',
+|       `api_key` VARCHAR(40) NOT NULL DEFAULT '',
 |       `all_access` TINYINT(1) NOT NULL DEFAULT '0',
 |       `controller` VARCHAR(50) NOT NULL DEFAULT '',
 |       `date_created` DATETIME DEFAULT NULL,
