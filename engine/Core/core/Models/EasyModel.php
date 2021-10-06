@@ -401,7 +401,7 @@ class EasyModel extends Model
      */
     public function find($idOrRow = null)
     {
-        return $this->get($idOrRow, null, null);
+        return $this->get($idOrRow, null, null)[0];
     }
 
     /**
@@ -682,7 +682,7 @@ class EasyModel extends Model
      *
      * @return integer InsertID|Update Result
      */
-    public function insertUpdate($idOrRow, $optionalValue = null, $data)
+    public function insertUpdate($idOrRow, $optionalValue = null, $data = [])
     {
         // First check to see if the field exists
         $this->db->select($this->primaryKey);
@@ -724,7 +724,7 @@ class EasyModel extends Model
      *
      * @return    boolean result
      */
-    public function update($idOrRow, $optionalValue = null, $data)
+    public function update($idOrRow, $optionalValue = null, $data = [])
     {
         if ($optionalValue == null) {
             if (is_array($idOrRow)) {
