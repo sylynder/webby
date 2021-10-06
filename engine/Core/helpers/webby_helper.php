@@ -961,7 +961,8 @@ if ( ! function_exists('add_associative_array'))
     {
         
         if ($multi === false) {
-            return $array[$key] = $value;
+            $array[$key] = $value;
+            return $array;
         }
         
         $array = array_map(function($array) use ($key, $value){
