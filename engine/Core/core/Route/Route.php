@@ -257,12 +257,12 @@ class Route
 		$parameterfy = false;
 		
 		// Allow for array based routes and other symbol routes
-        if (strstr($to, '.')) {
+        if (!is_array($to) && strstr($to, '.')) {
             $to = str_replace('.', '/', $to);
         }
 
 		if (is_array($to)) {
-			$to = strtolower($to[0]) . '/' . strtolower($to[1]);
+			$to = $to[0] . '/' . strtolower($to[1]);
 			$parameterfy = true;
 		} elseif (
 			preg_match('/^([a-zA-Z\_\-0-9\/]+)->([a-zA-Z\_\-0-9\/]+)$/m', $to, $matches)
