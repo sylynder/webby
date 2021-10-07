@@ -114,18 +114,44 @@ if ( ! function_exists('asset'))
      * Load assets folder
      * by the use of CodeIgniter's site_url() function
      * 
-     * @param  string   $file_path
+     * @param  string   $filepath
      * @return string 
      */
-	function asset($file_path = null)
+	function asset($filepath = null)
 	{
-		if($file_path !== null) 
+		if($filepath !== null) 
 		{
-			return site_url() . ASSETS . $file_path;
+			return site_url() . ASSETS . $filepath;
 		} 
 
 		return site_url() . ASSETS;
 
+	}
+}
+
+if ( ! function_exists('use_asset')) 
+{
+    /**
+     * Load assets for a package
+     * This targets a module placed in app/Packages
+     *
+     * @param string $package
+     * @param string $filepath
+     * @return string
+     */
+	function use_asset($filepath, $package = '')
+	{
+        $path = 'packages';
+        
+		if ($filepath === null) {
+            throw new \Exception('filepath needs to be specified');
+		}
+
+        if (empty($package)) {
+            $package = strtolower(ci('router')->fetch_module());
+        }
+
+        return load_path($path .DS. $package) .DS. $filepath;
 	}
 }
 
@@ -134,12 +160,12 @@ if ( ! function_exists('img'))
     /**
      * Load image assets
      *
-     * @param string $file_path
+     * @param string $filepath
      * @return string
      */
-	function img($file_path = null)
+	function img($filepath = null)
 	{
-		return asset($file_path);
+		return asset($filepath);
 	}
 }
 
@@ -148,12 +174,12 @@ if ( ! function_exists('css'))
     /**
      * Load css assets
      *
-     * @param string $file_path
+     * @param string $filepath
      * @return string
      */
-	function css($file_path = null)
+	function css($filepath = null)
 	{
-		return asset($file_path);
+		return asset($filepath);
 	}
 }
 
@@ -162,11 +188,11 @@ if ( ! function_exists('js'))
     /**
      * Load javascript assets
      *
-     * @param string $file_path
+     * @param string $filepath
      * @return string
      */
-	function js($file_path = null)
+	function js($filepath = null)
 	{
-		return asset($file_path);
+		return asset($filepath);
 	}
 }
