@@ -139,19 +139,20 @@ if ( ! function_exists('use_asset'))
      * @param string $filepath
      * @return string
      */
-	function use_asset($filepath, $package = '')
+	function use_asset($filepath = null, $package = '')
 	{
         $path = 'packages';
-        
+        $assets = 'assets';
+
 		if ($filepath === null) {
-            throw new \Exception('filepath needs to be specified');
+            throw new \Exception('filepath needs to be specified', 1);
 		}
 
         if (empty($package)) {
             $package = strtolower(ci('router')->fetch_module());
         }
 
-        return load_path($path .DS. $package) .DS. $filepath;
+        return load_path($path .DS. $package) .DS.$assets.DS. $filepath;
 	}
 }
 
