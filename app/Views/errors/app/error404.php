@@ -1,6 +1,5 @@
-<?php
-defined('COREPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
+<?php defined('COREPATH') OR exit('No direct script access allowed'); ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -150,7 +149,7 @@ defined('COREPATH') OR exit('No direct script access allowed');
             <h1>404 Page Not Found</h1><br>
 
             <div class="error_code">
-				<h1>Error <?php  echo http_response_code(); ?></h1>
+				<h1>Error <?php http_response_code(404); echo http_response_code(); ?></h1>
 			</div>
 			<div>
 					<h3><code>Custom Error Page</code></h3>

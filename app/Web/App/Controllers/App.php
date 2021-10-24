@@ -12,6 +12,7 @@ class App extends WebController
 
 	public function error404()
 	{
-		return view('errors.error404');
+		return view('errors.app.error404');
 	}
+
 }
