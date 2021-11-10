@@ -1,12 +1,13 @@
-<?php defined('COREPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('COREPATH') or exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<title>Page Not Found</title>
 	<style type="text/css">
-        body {
-			background-color: rgb(72, 4, 156);
+		body {
+			background-color: rgb(250, 250, 252);
 			font: 16px/26px normal Helvetica, Arial, sans-serif;
 		}
 
@@ -140,26 +141,29 @@
 				box-shadow: inset -3px 0px 0px transparent;
 			}
 		}
-    </style>
+	</style>
 </head>
+
 <body>
 
-<div class="center-div div-shadow">
-        <div class="body" style="margin-top: 60px;">
-            <h1>404 Page Not Found</h1><br>
+	<div class="center-div div-shadow">
+		<div class="body" style="margin-top: 60px;">
+			<h1>404 Page Not Found</h1><br>
 
-            <div class="error_code">
-				<h1>Error <?php http_response_code(404); echo http_response_code(); ?></h1>
+			<div class="error_code">
+				<h1>Error <?php http_response_code(404);
+							echo http_response_code(); ?></h1>
 			</div>
 			<div>
-					<h3><code>Custom Error Page</code></h3>
+				<h3><code>Custom Error Page</code></h3>
 			</div>
 			<div class="text-center" style="margin-top: 40px;">
 				<a href="javascript:window.history.go(-1);">Go back</a>
 			</div>
 
-        </div>
-    </div>
+		</div>
+	</div>
 
 </body>
+
 </html>

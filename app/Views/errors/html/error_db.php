@@ -1,6 +1,5 @@
-<?php
-defined('COREPATH') or exit('No direct script access allowed');
-?>
+<?php defined('COREPATH') or exit('No direct script access allowed'); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +9,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 
 	<style type="text/css">
 		body {
-			background-color: rgb(72, 4, 156);
+			background-color: rgb(250, 250, 252);
 			font: 16px/26px normal Helvetica, Arial, sans-serif;
 		}
 
@@ -66,7 +65,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 			right: 0;
 			bottom: 0;
 			left: 0;
-			width: 50%;
+			width: 80%;
 			height: 60%;
 			overflow-y: scroll;
 			background-color: #f2f2f2;
@@ -151,11 +150,11 @@ defined('COREPATH') or exit('No direct script access allowed');
 <body>
 	<div class="center-div div-shadow">
 		<div class="body" style="margin-top: 60px;">
-			<h2><code><?php echo $heading; ?></code></h2>
+			<h2><code><?php echo ucwords($heading); ?></code></h2>
 			<div class="error_code">
 				<h1>Error <?php echo http_response_code(); ?></h1>
 			</div>
-			<h3><code><span style="color:rgb(72, 4, 156)"><?php echo $message; ?></span></code></h3>
+			<h3><code><span style="color:rgb(210, 210, 212)"><?php echo $message; ?></span></code></h3>
 		</div>
 	</div>
 </body>

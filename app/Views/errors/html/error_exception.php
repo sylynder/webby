@@ -1,11 +1,9 @@
-<?php
-defined('COREPATH') or exit('No direct script access allowed');
-?>
+<?php defined('COREPATH') or exit('No direct script access allowed'); ?>
 
 <title>An Error Exception</title>
 <style type="text/css">
 	body {
-		background-color: rgb(72, 4, 156);
+		background-color: rgb(210, 210, 212);
 		font: 16px/26px normal Helvetica, Arial, sans-serif;
 	}
 
@@ -61,7 +59,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 		right: 0;
 		bottom: 0;
 		left: 0;
-		width: 50%;
+		width: 80%;
 		height: 80%;
 		background-color: #292929;
 		border-radius: 3px;
@@ -124,7 +122,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 	<div class="center-div div-shadow">
 		<div class="body">
 
-			<h1><code>An uncaught exception was encountered</code></h1>
+			<h1><code>An Uncaught Exception Was Encountered</code></h1>
 
 			<div id="within" style="border:2px solid #48049c;padding-left:20px;margin:0 0 10px 0;">
 				<code>
