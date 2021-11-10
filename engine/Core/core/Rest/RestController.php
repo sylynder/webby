@@ -51,12 +51,12 @@ class RestController extends Controller
      * @var array
      */
     protected $allowed_http_methods = [
-        'get', 
-        'delete', 
-        'post', 
-        'put', 
-        'options', 
-        'patch', 
+        'get',
+        'delete',
+        'post',
+        'put',
+        'options',
+        'patch',
         'head'
     ];
 
@@ -312,7 +312,7 @@ class RestController extends Controller
 
         // Get the language
         $language = $this->config->item('rest_language');
-        
+
         if ($language === null) {
             $language = 'english';
         }
@@ -343,8 +343,8 @@ class RestController extends Controller
         }
 
         // Create an argument container if it doesn't exist e.g. get_args
-        if (isset($this->{$this->request->method.'_args'}) === false) {
-            $this->{$this->request->method.'_args'} = [];
+        if (isset($this->{$this->request->method . '_args'}) === false) {
+            $this->{$this->request->method . '_args'} = [];
         }
 
         // Set up the query parameters
@@ -359,11 +359,11 @@ class RestController extends Controller
         // Not all methods have a body attached with them
         $this->request->body = null;
 
-        $this->{'parse'.ucfirst($this->request->method)}();
+        $this->{'parse' . ucfirst($this->request->method)}();
 
         // Fix parse method return arguments null
-        if ($this->{$this->request->method.'_args'} === null) {
-            $this->{$this->request->method.'_args'} = [];
+        if ($this->{$this->request->method . '_args'} === null) {
+            $this->{$this->request->method . '_args'} = [];
         }
 
         // Which format should the data be returned in?
@@ -377,7 +377,7 @@ class RestController extends Controller
             $this->request->body = Format::factory($this->request->body, $this->request->format)->toArray();
 
             // Assign payload arguments to proper method container
-            $this->{$this->request->method.'_args'} = $this->request->body;
+            $this->{$this->request->method . '_args'} = $this->request->body;
         }
 
         //get header vars
@@ -392,7 +392,7 @@ class RestController extends Controller
             $this->put_args,
             $this->post_args,
             $this->delete_args,
-            $this->{$this->request->method.'_args'}
+            $this->{$this->request->method . '_args'}
         );
 
         // Extend this function to apply additional checking early on in the process
@@ -400,37 +400,38 @@ class RestController extends Controller
 
         // Load DB if its enabled
         // Set database and enable any of these configurations
-        if ( $this->config->item('rest_database_group') !== 'default'
-                && $this->config->item('rest_use_database')
-                && ($this->config->item('rest_enable_keys') 
+        if (
+            $this->config->item('rest_database_group') !== 'default'
+            && $this->config->item('rest_use_database')
+            && ($this->config->item('rest_enable_keys')
                 || $this->config->item('rest_enable_logging'))
-                || $this->config->item('rest_enable_token')
+            || $this->config->item('rest_enable_token')
         ) {
-            
+
             if ($this->config->item('rest_database_path') === 'default') {
                 $this->load->database();
                 $this->rest->db = $this->db;
             } else {
                 list($module, $filename) = explode('/', $this->config->item('rest_database_path'));
-                $this->config->load($module .'/'. $filename, true);
+                $this->config->load($module . '/' . $filename, true);
                 $config_name = $this->config->item($filename);
                 $this->rest->db = $this->load->database($config_name[$this->config->item('rest_database_group')], true);
             }
-        }  
+        }
         // Use default database if that is set
-        else if ($this->config->item('rest_database_group') === 'default'
-                    && $this->config->item('rest_use_database')
-                    && ($this->config->item('rest_enable_keys') 
-                    || $this->config->item('rest_enable_logging'))
-                    || $this->config->item('rest_enable_token')
+        else if (
+            $this->config->item('rest_database_group') === 'default'
+            && $this->config->item('rest_use_database')
+            && ($this->config->item('rest_enable_keys')
+                || $this->config->item('rest_enable_logging'))
+            || $this->config->item('rest_enable_token')
         ) {
             $this->load->database();
             $this->rest->db = $this->db;
         }
         // Set database to use it anyway
         // Please $this->useDatabase(); in your Controler
-        else if ($this->config->item('rest_use_database') === true && $this->config->item('rest_database_group') === 'default')
-        {
+        else if ($this->config->item('rest_use_database') === true && $this->config->item('rest_database_group') === 'default') {
             $this->load->database();
             $this->rest->db = $this->db;
         }
@@ -489,8 +490,8 @@ class RestController extends Controller
             return true;
         }
 
-        if (file_exists(__DIR__.'/auth/'.$method.'.php')) {
-            include __DIR__.'/auth/'.$method.'.php';
+        if (file_exists(__DIR__ . '/auth/' . $method . '.php')) {
+            include __DIR__ . '/auth/' . $method . '.php';
         }
     }
 
@@ -499,14 +500,13 @@ class RestController extends Controller
      */
     private function getLocalConfig($config_file)
     {
-        if (file_exists(ROOTPATH.'config/'.$config_file.'.php')) {
-            
-            $config_file = ROOTPATH.'config/'.$config_file.'.php';
+        if (file_exists(ROOTPATH . 'config/' . $config_file . '.php')) {
 
+            $config_file = ROOTPATH . 'config/' . $config_file . '.php';
         } else {
-            if (file_exists(__DIR__.'/'.$config_file.'.php')) {
+            if (file_exists(__DIR__ . '/' . $config_file . '.php')) {
                 $config = [];
-                include __DIR__.'/'.$config_file.'.php';
+                include __DIR__ . '/' . $config_file . '.php';
                 foreach ($config as $key => $value) {
                     $this->config->set_item($key, $value);
                 }
@@ -553,12 +553,12 @@ class RestController extends Controller
         }
 
         // Remove the supported format from the function name e.g. index.json => index
-        $object_called = preg_replace('/^(.*)\.(?:'.implode('|', array_keys($this->supported_formats)).')$/', '$1', $object_called);
+        $object_called = preg_replace('/^(.*)\.(?:' . implode('|', array_keys($this->supported_formats)) . ')$/', '$1', $object_called);
 
-        $controller_method = $object_called.'_'.$this->request->method;
+        $controller_method = $object_called . '_' . $this->request->method;
         // Does this method exist? If not, try executing an index method
         if (!method_exists($this, $controller_method)) {
-            $controller_method = 'index_'.$this->request->method;
+            $controller_method = 'index_' . $this->request->method;
             array_unshift($arguments, $object_called);
         }
 
@@ -661,7 +661,7 @@ class RestController extends Controller
      *
      * @param array|null $data      Data to output to the user
      * @param int|null   $http_code HTTP status code
-     * @param bool       $continue  true to flush the response to the client and continue
+     * @param bool       $continue  TRUE to flush the response to the client and continue
      *                              running the script; otherwise, exit
      */
     public function response($data = null, $http_code = null, $continue = false)
@@ -689,19 +689,19 @@ class RestController extends Controller
 
                 $types = ['php, json, csv, xml, html'];
 
-                $responseFormat = in_array($this->response->format, $types) 
-                    ? strtoupper($this->response->format) 
+                $responseFormat = in_array($this->response->format, $types)
+                    ? strtoupper($this->response->format)
                     : ucfirst($this->response->format);
 
                 // If the format method exists, call and return the output in that format
-                if (method_exists(Format::class, 'to'.$responseFormat)) {
+                if (method_exists(Format::class, 'to' . $responseFormat)) {
                     // CORB protection
                     // First, get the output content.
-                    $output = Format::factory($data)->{'to'.$responseFormat}();
+                    $output = Format::factory($data)->{'to' . $responseFormat}();
 
                     // Set the format header
                     // Then, check if the client asked for a callback, and if the output contains this callback :
-                    if (isset($this->get_args['callback']) && $this->response->format == 'json' && preg_match('/^'.$this->get_args['callback'].'/', $output)) {
+                    if (isset($this->get_args['callback']) && $this->response->format == 'json' && preg_match('/^' . $this->get_args['callback'] . '/', $output)) {
                         $this->output->set_content_type($this->supported_formats['jsonp'], strtolower($this->config->item('charset')));
                     } else {
                         $this->output->set_content_type($this->supported_formats[$this->response->format], strtolower($this->config->item('charset')));
@@ -755,7 +755,7 @@ class RestController extends Controller
                 }
             }
             ob_end_flush();
-        // Otherwise dump the output automatically
+            // Otherwise dump the output automatically
         } else {
             echo json_encode($data);
         }
@@ -825,7 +825,7 @@ class RestController extends Controller
     protected function detectOutputFormat()
     {
         // Concatenate formats to a regex pattern e.g. \.(csv|json|xml)
-        $pattern = '/\.('.implode('|', array_keys($this->supported_formats)).')($|\/)/';
+        $pattern = '/\.(' . implode('|', array_keys($this->supported_formats)) . ')($|\/)/';
         $matches = [];
 
         // Check if a file extension is used e.g. http://example.com/api/index.json?param1=param2
@@ -900,7 +900,7 @@ class RestController extends Controller
             $method = $this->input->method();
         }
 
-        return in_array($method, $this->allowed_http_methods) && method_exists($this, 'parse'.ucfirst($method)) ? $method : 'get';
+        return in_array($method, $this->allowed_http_methods) && method_exists($this, 'parse' . ucfirst($method)) ? $method : 'get';
     }
 
     /**
@@ -914,7 +914,7 @@ class RestController extends Controller
         $api_key_variable = $this->config->item('rest_key_name');
 
         // Work out the name of the SERVER entry based on config
-        $key_name = 'HTTP_'.strtoupper(str_replace('-', '_', $api_key_variable));
+        $key_name = 'HTTP_' . strtoupper(str_replace('-', '_', $api_key_variable));
 
         $this->rest->key = null;
         $this->rest->level = null;
@@ -949,7 +949,7 @@ class RestController extends Controller
 
                     foreach ($list_ip_addresses as $list_ip) {
                         if ($ip_address === trim($list_ip)) {
-                            // there is a match, set the the value to true and break out of the loop
+                            // there is a match, set the the value to TRUE and break out of the loop
                             $found_address = true;
                             break;
                         }
@@ -1002,16 +1002,17 @@ class RestController extends Controller
     /**
      * Add the request to the log table.
      *
-     * @param bool $authorized true the user is authorized; otherwise, false
+     * @param bool $authorized TRUE the user is authorized; otherwise, FALSE
      *
-     * @return bool true the data was inserted; otherwise, false
+     * @return bool TRUE the data was inserted; otherwise, FALSE
      */
     protected function logRequest($authorized = false)
     {
         // Insert the request into the log table
         $is_inserted = $this->rest->db
             ->insert(
-                $this->config->item('rest_logs_table'), [
+                $this->config->item('rest_logs_table'),
+                [
                     'uri'        => $this->uri->uri_string(),
                     'method'     => $this->request->method,
                     'params'     => $this->args ? ($this->config->item('rest_logs_json_params') === true ? json_encode($this->args) : serialize($this->args)) : null,
@@ -1033,7 +1034,7 @@ class RestController extends Controller
      *
      * @param string $controller_method The method being called
      *
-     * @return bool true the call limit is below the threshold; otherwise, false
+     * @return bool TRUE the call limit is below the threshold; otherwise, FALSE
      */
     protected function checkLimit($controller_method)
     {
@@ -1048,15 +1049,15 @@ class RestController extends Controller
         switch ($this->config->item('rest_limits_method')) {
             case 'IP_ADDRESS':
                 $api_key = $this->input->ip_address();
-                $limited_uri = 'ip-address:'.$api_key;
+                $limited_uri = 'ip-address:' . $api_key;
                 break;
 
             case 'API_KEY':
-                $limited_uri = 'api-key:'.$api_key;
+                $limited_uri = 'api-key:' . $api_key;
                 break;
 
             case 'METHOD_NAME':
-                $limited_uri = 'method-name:'.$controller_method;
+                $limited_uri = 'method-name:' . $controller_method;
                 break;
 
             case 'ROUTED_URL':
@@ -1065,7 +1066,7 @@ class RestController extends Controller
                 if (strpos(strrev($limited_uri), strrev($this->response->format)) === 0) {
                     $limited_uri = substr($limited_uri, 0, -strlen($this->response->format) - 1);
                 }
-                $limited_uri = 'uri:'.$limited_uri.':'.$this->request->method; // It's good to differentiate GET from PUT
+                $limited_uri = 'uri:' . $limited_uri . ':' . $this->request->method; // It's good to differentiate GET from PUT
                 break;
         }
 
@@ -1140,7 +1141,7 @@ class RestController extends Controller
         if (!empty($auth_override_class_method)) {
             // Check for wildcard flag for rules for classes
             if (!empty($auth_override_class_method[$this->router->class]['*'])) { // Check for class overrides
-                // No auth override found, prepare nothing but send back a true override flag
+                // No auth override found, prepare nothing but send back a TRUE override flag
                 if ($auth_override_class_method[$this->router->class]['*'] === 'none') {
                     return true;
                 }
@@ -1183,7 +1184,7 @@ class RestController extends Controller
 
             // Check to see if there's an override value set for the current class/method being called
             if (!empty($auth_override_class_method[$this->router->class][$this->router->method])) {
-                // None auth override found, prepare nothing but send back a true override flag
+                // None auth override found, prepare nothing but send back a TRUE override flag
                 if ($auth_override_class_method[$this->router->class][$this->router->method] === 'none') {
                     return true;
                 }
@@ -1232,7 +1233,7 @@ class RestController extends Controller
         if (!empty($auth_override_class_method_http)) {
             // check for wildcard flag for rules for classes
             if (!empty($auth_override_class_method_http[$this->router->class]['*'][$this->request->method])) {
-                // None auth override found, prepare nothing but send back a true override flag
+                // None auth override found, prepare nothing but send back a TRUE override flag
                 if ($auth_override_class_method_http[$this->router->class]['*'][$this->request->method] === 'none') {
                     return true;
                 }
@@ -1275,7 +1276,7 @@ class RestController extends Controller
 
             // Check to see if there's an override value set for the current class/method/HTTP-method being called
             if (!empty($auth_override_class_method_http[$this->router->class][$this->router->method][$this->request->method])) {
-                // None auth override found, prepare nothing but send back a true override flag
+                // None auth override found, prepare nothing but send back a TRUE override flag
                 if ($auth_override_class_method_http[$this->router->class][$this->router->method][$this->request->method] === 'none') {
                     return true;
                 }
@@ -1639,16 +1640,16 @@ class RestController extends Controller
             'basedn'  => $this->config->item('basedn', 'ldap'),
         ];
 
-        log_message('debug', 'LDAP Auth: Connect to '.(isset($ldap['host']) ? $ldap['host'] : '[ldap not configured]'));
+        log_message('debug', 'LDAP Auth: Connect to ' . (isset($ldap['host']) ? $ldap['host'] : '[ldap not configured]'));
 
         // Connect to the ldap server
         $ldapconn = ldap_connect($ldap['host'], $ldap['port']);
         if ($ldapconn) {
-            log_message('debug', 'Setting timeout to '.$ldap['timeout'].' seconds');
+            log_message('debug', 'Setting timeout to ' . $ldap['timeout'] . ' seconds');
 
             ldap_set_option($ldapconn, LDAP_OPT_NETWORK_TIMEOUT, $ldap['timeout']);
 
-            log_message('debug', 'LDAP Auth: Binding to '.$ldap['host'].' with dn '.$ldap['rdn']);
+            log_message('debug', 'LDAP Auth: Binding to ' . $ldap['host'] . ' with dn ' . $ldap['rdn']);
 
             // Binding to the ldap server
             $ldapbind = ldap_bind($ldapconn, $ldap['rdn'], $ldap['pass']);
@@ -1665,13 +1666,13 @@ class RestController extends Controller
 
         // Search for user
         if (($res_id = ldap_search($ldapconn, $ldap['basedn'], "uid=$username")) === false) {
-            log_message('error', 'LDAP Auth: User '.$username.' not found in search');
+            log_message('error', 'LDAP Auth: User ' . $username . ' not found in search');
 
             return false;
         }
 
         if (ldap_count_entries($ldapconn, $res_id) !== 1) {
-            log_message('error', 'LDAP Auth: Failure, username '.$username.'found more than once');
+            log_message('error', 'LDAP Auth: Failure, username ' . $username . 'found more than once');
 
             return false;
         }
@@ -1690,12 +1691,12 @@ class RestController extends Controller
 
         // User found, could not authenticate as user
         if (($link_id = ldap_bind($ldapconn, $user_dn, $password)) === false) {
-            log_message('error', 'LDAP Auth: Failure, username/password did not match: '.$user_dn);
+            log_message('error', 'LDAP Auth: Failure, username/password did not match: ' . $user_dn);
 
             return false;
         }
 
-        log_message('debug', 'LDAP Auth: Success '.$user_dn.' authenticated successfully');
+        log_message('debug', 'LDAP Auth: Success ' . $user_dn . ' authenticated successfully');
 
         $this->user_ldap_dn = $user_dn;
 
@@ -1762,7 +1763,7 @@ class RestController extends Controller
 
         if (!$this->config->item('auth_source') && $rest_auth === 'digest') {
             // For digest we do not have a password passed as argument
-            return md5($username.':'.$this->config->item('rest_realm').':'.(isset($valid_logins[$username]) ? $valid_logins[$username] : ''));
+            return md5($username . ':' . $this->config->item('rest_realm') . ':' . (isset($valid_logins[$username]) ? $valid_logins[$username] : ''));
         }
 
         if ($password === false) {
@@ -1892,8 +1893,8 @@ class RestController extends Controller
             $this->forceLogin($unique_id);
         }
 
-        $md5 = md5(strtoupper($this->request->method).':'.$digest['uri']);
-        $valid_response = md5($username.':'.$digest['nonce'].':'.$digest['nc'].':'.$digest['cnonce'].':'.$digest['qop'].':'.$md5);
+        $md5 = md5(strtoupper($this->request->method) . ':' . $digest['uri']);
+        $valid_response = md5($username . ':' . $digest['nonce'] . ':' . $digest['nc'] . ':' . $digest['cnonce'] . ':' . $digest['qop'] . ':' . $md5);
 
         // Check if the string don't compare (case-insensitive)
         if (strcasecmp($digest['response'], $valid_response) !== 0) {
@@ -1912,18 +1913,20 @@ class RestController extends Controller
      * 
      * @return object
      */
-    protected function checkToken() 
+    protected function checkToken()
     {
-        if (!empty($this->args[$this->config->item('rest_token_name')])
-                && $row = $this->rest->db->where('token', $this->args[$this->config->item('rest_token_name')])->get($this->config->item('rest_tokens_table'))->row()) {
+        if (
+            !empty($this->args[$this->config->item('rest_token_name')])
+            && $row = $this->rest->db->where('token', $this->args[$this->config->item('rest_token_name')])->get($this->config->item('rest_tokens_table'))->row()
+        ) {
             return $this->api_token = $row;
         } else {
             $this->response([
-                $this->config->item('rest_status_field_name') => false,
+                $this->config->item('rest_status_field_name') => FALSE,
                 $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_unauthorized')
             ], HttpStatus::UNAUTHORIZED);
         }
-    }   
+    }
 
     /**
      * Checks if the client's ip is in the 'rest_ip_blacklist' 
@@ -1936,7 +1939,7 @@ class RestController extends Controller
         // Match an ip address in a blacklist e.g. 127.0.0.0, 0.0.0.0
         $pattern = sprintf('/(?:,\s*|^)\Q%s\E(?=,\s*|$)/m', $this->input->ip_address());
 
-        // Returns 1, 0 or false (on error only). Therefore implicitly convert 1 to true
+        // Returns 1, 0 or FALSE (on error only). Therefore implicitly convert 1 to TRUE
         if (preg_match($pattern, $this->config->item('rest_ip_blacklist'))) {
             // Display an error response
             $this->response([
@@ -1986,13 +1989,13 @@ class RestController extends Controller
         $rest_realm = $this->config->item('rest_realm');
         if ($rest_auth === 'basic') {
             // See http://tools.ietf.org/html/rfc2617#page-5
-            header('WWW-Authenticate: Basic realm="'.$rest_realm.'"');
+            header('WWW-Authenticate: Basic realm="' . $rest_realm . '"');
         } elseif ($rest_auth === 'digest') {
             // See http://tools.ietf.org/html/rfc2617#page-18
             header(
-                'WWW-Authenticate: Digest realm="'.$rest_realm
-                .'", qop="auth", nonce="'.$nonce
-                .'", opaque="'.md5($rest_realm).'"'
+                'WWW-Authenticate: Digest realm="' . $rest_realm
+                    . '", qop="auth", nonce="' . $nonce
+                    . '", opaque="' . md5($rest_realm) . '"'
             );
         }
 
@@ -2012,7 +2015,7 @@ class RestController extends Controller
      *
      * @author Chris Kacerguis
      *
-     * @return bool true log table updated; otherwise, false
+     * @return bool TRUE log table updated; otherwise, FALSE
      */
     protected function logAccessTime()
     {
@@ -2024,7 +2027,8 @@ class RestController extends Controller
 
         return $this->rest->db->update(
             $this->config->item('rest_logs_table'),
-            $payload, [
+            $payload,
+            [
                 'id' => $this->insert_id,
             ]
         );
@@ -2037,7 +2041,7 @@ class RestController extends Controller
      *
      * @param $http_code int HTTP status code
      *
-     * @return bool true log table updated; otherwise, false
+     * @return bool TRUE log table updated; otherwise, FALSE
      */
     protected function logResponseCode($http_code)
     {
@@ -2049,7 +2053,8 @@ class RestController extends Controller
 
         return $this->rest->db->update(
             $this->config->item('rest_logs_table'),
-            $payload, [
+            $payload,
+            [
                 'id' => $this->insert_id,
             ]
         );
@@ -2058,18 +2063,19 @@ class RestController extends Controller
     /**
      * Check to see if the API key has access to the controller and methods.
      *
-     * @return bool true the API key has access; otherwise, false
+     * @return bool TRUE the API key has access; otherwise, FALSE
      */
     protected function checkAccess()
     {
-        // If we don't want to check access, just return true
+        // If we don't want to check access, just return TRUE
         if ($this->config->item('rest_enable_access') === false) {
             return true;
         }
 
         // Fetch controller based on path and controller name
         $controller = implode(
-            '/', [
+            '/',
+            [
                 $this->router->directory,
                 $this->router->class,
             ]
@@ -2105,8 +2111,8 @@ class RestController extends Controller
         // If we want to allow any domain to access the API
         if ($this->config->item('allow_any_cors_domain') === true) {
             header('Access-Control-Allow-Origin: *');
-            header('Access-Control-Allow-Headers: '.$allowed_headers);
-            header('Access-Control-Allow-Methods: '.$allowed_methods);
+            header('Access-Control-Allow-Headers: ' . $allowed_headers);
+            header('Access-Control-Allow-Methods: ' . $allowed_methods);
         } else {
             // We're going to allow only certain domains access
             // Store the HTTP Origin header
@@ -2117,16 +2123,16 @@ class RestController extends Controller
 
             // If the origin domain is in the allowed_cors_origins list, then add the Access Control headers
             if (in_array($origin, $this->config->item('allowed_cors_origins'))) {
-                header('Access-Control-Allow-Origin: '.$origin);
-                header('Access-Control-Allow-Headers: '.$allowed_headers);
-                header('Access-Control-Allow-Methods: '.$allowed_methods);
+                header('Access-Control-Allow-Origin: ' . $origin);
+                header('Access-Control-Allow-Headers: ' . $allowed_headers);
+                header('Access-Control-Allow-Methods: ' . $allowed_methods);
             }
         }
 
         // If there are headers that should be forced in the CORS check, add them now
         if (is_array($this->config->item('forced_cors_headers'))) {
             foreach ($this->config->item('forced_cors_headers') as $header => $value) {
-                header($header.': '.$value);
+                header($header . ': ' . $value);
             }
         }
 
@@ -2134,9 +2140,9 @@ class RestController extends Controller
         if ($this->input->method() === 'options') {
             // Load DB if needed for logging
             if (!isset($this->rest->db) && $this->config->item('rest_enable_logging')) {
-                $this->rest->db = ($this->config->item('rest_use_database')) 
+                $this->rest->db = ($this->config->item('rest_use_database'))
                     ? $this->load->database($this->config->item('rest_database_group'), true)
-                    : $this->load->database('default', true) ;
+                    : $this->load->database('default', true);
             }
             exit;
         }
