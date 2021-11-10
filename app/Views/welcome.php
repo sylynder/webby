@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,12 +8,11 @@
     <title>Webby PHP</title>
     <style type="text/css">
         body {
-            background-color: rgb(72, 4, 156);
+            background-color: rgb(250, 250, 252);
             font: 16px/26px normal Helvetica, Arial, sans-serif;
         }
 
         .center-div {
-            /* position: relative; */
             margin: auto;
             top: 50px;
             right: 0;
@@ -116,7 +116,7 @@
         .row {
             display: flex;
         }
-        
+
         .column {
             flex: 50%;
             padding: 10px;
@@ -124,10 +124,11 @@
         }
     </style>
 </head>
+
 <body>
     <div class="center-div div-shadow">
         <div class="image" style>
-            <img src="<?=asset("webby-readme.png")?>" alt="">
+            <img src="<?= asset("webby-readme.png") ?>" alt="">
         </div>
         <div class="body">
             <h1>Build awesomely with Webby! <br>
@@ -142,13 +143,13 @@
                 <code>app/Views/welcome.php</code>
 
                 <p>The corresponding controller for this page is found at:</p>
-                <code>app/Web/app/controllers/App.php</code>
+                <code>app/Web/App/Controllers/App.php</code>
 
                 <div class="row">
                     <div class="column">
                         <h2><a href="https://www.codeigniter.com/userguide3/index.html" target="_blank">Documention</a></h2>
                         <p>
-                            Webby uses the HMVC Design Pattern but still follows CodeIgniter's Documentation guide at: 
+                            Webby uses the HMVC Design Pattern but still follows CodeIgniter's Documentation guide at:
                             <br>
                             <a href="javascript:void(0)">
                                 CodeIgniter 3 Online Guide
@@ -165,9 +166,10 @@
             <p class="text-center footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <strong>{memory_usage}</strong> memory used.</p>
 
             <p class="text-center footer">
-                <?php echo (ENVIRONMENT === 'development') ?  'Webby <strong>' . WEBBY_VERSION . ' (PHP v'.phpversion().')</strong>' : '' ?>
+                <?php echo (ENVIRONMENT === 'development') ?  'Webby <strong>' . WEBBY_VERSION . ' (PHP v' . phpversion() . ')</strong>' : '' ?>
             </p>
         </div>
     </div>
 </body>
+
 </html>
