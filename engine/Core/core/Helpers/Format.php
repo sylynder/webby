@@ -341,7 +341,7 @@ class Format
             // Keep the "evil" @ here.
             $record = @array_map('strval', $record);
 
-            // Returns the length of the string written or FALSE
+            // Returns the length of the string written or false
             fputcsv($handle, $record, $delimiter, $enclosure);
         }
 

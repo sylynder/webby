@@ -28,5 +28,12 @@
             "App\\": "app",
             "Base\\": "engine/Core/core"
         }
-    }
+    },
+    "scripts": {
+        "set-env-file": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

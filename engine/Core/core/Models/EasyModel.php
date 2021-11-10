@@ -112,7 +112,7 @@ class EasyModel extends Model
     }
 
     //--------- All functions below are used for retrieving information from the database -----
-    
+
     /**
      * Make a query for filling datatables
      *
@@ -300,7 +300,7 @@ class EasyModel extends Model
 
         if ($this->returnAs == 'array') {
             return $query->result_array();
-        } 
+        }
 
         return $query->result();
     }
@@ -328,8 +328,8 @@ class EasyModel extends Model
 
         if ($this->returnAs == 'array') {
             return $query->{$mode}('array');
-        } 
-        
+        }
+
         return $query->{$mode}('object');
     }
 
@@ -384,12 +384,11 @@ class EasyModel extends Model
     public function first()
     {
         $rows = $this->limit(1)->findAll();
-        
-        if (is_array($rows) && count($rows) == 1)
-        {
+
+        if (is_array($rows) && count($rows) == 1) {
             return $rows[0];
         }
-        
+
         return $rows;
     }
 
@@ -428,7 +427,7 @@ class EasyModel extends Model
      */
     public function findWhere($fields, $where = null, $limit = null, $orderBy = null)
     {
-        
+
         // Custom order by if desired
         if ($orderBy != null) {
             $this->db->order_by($orderBy);
@@ -487,7 +486,6 @@ class EasyModel extends Model
         $query = $this->db->get();
 
         return $this->getResult($query);
-        
     }
 
     /**
@@ -541,14 +539,14 @@ class EasyModel extends Model
      * Get data by selecting a field or many fields
      * where the values are provided
      *
-     * @param string $field
-     * @param array $value
+     * @param string $fields
+     * @param array $value (Where)
      * @return object|array
      */
-    public function selectWhere($field, $value)
+    public function selectWhere($fields, $value)
     {
 
-        $this->db->select($field)->from($this->table)->where($value);
+        $this->db->select($fields)->from($this->table)->where($value);
 
         if ($this->softDelete && $this->temporaryWithDeleted !== true) {
             $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
@@ -612,6 +610,17 @@ class EasyModel extends Model
         }
 
         return $this->db->insert($this->table, $data);
+    }
+
+    /**
+     * Insert and return a record
+     * @param  array $data
+     * @return object
+     */
+    public function create($data)
+    {
+        $this->db->set($data)->insert($this->table);
+        return $this->selectLast('*');
     }
 
     /**
@@ -764,8 +773,8 @@ class EasyModel extends Model
     public function updateByString($where, $data)
     {
         return $this->db->query(
-                    $this->db->update_string($this->table, $data, $where)
-                );
+            $this->db->update_string($this->table, $data, $where)
+        );
     }
 
     /**
@@ -835,7 +844,7 @@ class EasyModel extends Model
      * @param array $data
      * @param array  $where
      * @return void
-     */ 
+     */
     public function softDelete($where, $data)
     {
         $this->db->where($where);
@@ -843,7 +852,7 @@ class EasyModel extends Model
     }
 
     //------------------ Custom Method Functionalities --------------------------------------------------
-    
+
     /**
      * Checks whether a field/value pair exists within the table.
      *
@@ -857,74 +866,72 @@ class EasyModel extends Model
         $this->db->where($field, $value);
         $query = $this->db->get($this->table);
 
-        if ($query && $query->num_rows() == 0)
-        {
+        if ($query && $query->num_rows() == 0) {
             return true;
         }
 
         return false;
-
     }
 
     /**
-	 * Left Join
-	 *
-	 * Do left join portion of the query
-	 *
-	 * @param	string  table to do join with
-	 * @param	string	the join condition
-	 * @param	string	whether not to try to escape identifiers
-	 * @return	CI_DB_query_builder
-	 */
-	public function leftJoin($table, $condition, $escape = null)
+     * Left Join
+     *
+     * Do left join portion of the query
+     *
+     * @param	string  table to do join with
+     * @param	string	the join condition
+     * @param	string	whether not to try to escape identifiers
+     * @return	CI_DB_query_builder
+     */
+    public function leftJoin($table, $condition, $escape = null)
     {
         $this->db->join($table, $condition, 'left', $escape);
         return $this;
     }
 
     /**
-	 * Right Join
-	 *
-	 * Do left join portion of the query
-	 *
-	 * @param	string  table to do join with
-	 * @param	string	the join condition
-	 * @param	string	whether not to try to escape identifiers
-	 * @return	CI_DB_query_builder
-	 */
-	public function rightJoin($table, $condition, $escape = null)
+     * Right Join
+     *
+     * Do left join portion of the query
+     *
+     * @param	string  table to do join with
+     * @param	string	the join condition
+     * @param	string	whether not to try to escape identifiers
+     * @return	CI_DB_query_builder
+     */
+    public function rightJoin($table, $condition, $escape = null)
     {
         $this->db->join($table, $condition, 'right', $escape);
         return $this;
     }
 
     /**
-	 * Inner Join
-	 *
-	 * Do left join portion of the query
-	 *
-	 * @param	string  table to do join with
-	 * @param	string	the join condition
-	 * @param	string	whether not to try to escape identifiers
-	 * @return	CI_DB_query_builder
-	 */
-	public function innerJoin($table, $condition, $escape = null)
+     * Inner Join
+     *
+     * Do left join portion of the query
+     *
+     * @param	string  table to do join with
+     * @param	string	the join condition
+     * @param	string	whether not to try to escape identifiers
+     * @return	CI_DB_query_builder
+     */
+    public function innerJoin($table, $condition, $escape = null)
     {
         $this->db->join($table, $condition, 'inner', $escape);
         return $this;
     }
 
     /**
-	 * Outer Join
-	 *
-	 * Do left join portion of the query
-	 *
-	 * @param	string  table to do join with
-	 * @param	string	the join condition
-	 * @param	string	whether not to try to escape identifiers
-	 * @return	CI_DB_query_builder
-	 */
-	public function outerJoin($table, $condition, $escape = null)
+     * Outer Join
+     *
+     * Do left join portion of the query
+     *
+     * @param	string  table to do join with
+     * @param	string	the join condition
+     * @param	string	whether not to try to escape identifiers
+     * @return	CI_DB_query_builder
+     */
+    public function outerJoin($table, $condition, $escape = null)
     {
         $this->db->join($table, $condition, 'outer', $escape);
         return $this;
@@ -932,18 +939,18 @@ class EasyModel extends Model
 
 
     //------------------ CodeIgniter Database  Wrappers --------------------------------------------------
-    
+
     /**
-    *   To allow for more expressive syntax, we provide wrapper functions
-    *   for most of the query builder methods here.
-    *
-    *   This allows for calls such as:
-    *   $result = $this->model->select('...')
-    *                            ->where('...')
-    *                            ->having('...')
-    *                           ->find();
-    *
-    */
+     *   To allow for more expressive syntax, we provide wrapper functions
+     *   for most of the query builder methods here.
+     *
+     *   This allows for calls such as:
+     *   $result = $this->model->select('...')
+     *                            ->where('...')
+     *                            ->having('...')
+     *                           ->find();
+     *
+     */
 
     /**
      * Select function
@@ -952,10 +959,10 @@ class EasyModel extends Model
      * @param mixed $escape
      * @return object
      */
-    public function select($select = '*', $escape = null) 
-    { 
-        $this->db->select($select, $escape); 
-        return $this; 
+    public function select($select = '*', $escape = null)
+    {
+        $this->db->select($select, $escape);
+        return $this;
     }
 
     /**
@@ -965,10 +972,10 @@ class EasyModel extends Model
      * @param string $alias
      * @return CI_DB_query_builder
      */
-    public function selectMax($select = '', $alias = '') 
-    { 
-        $this->db->select_max($select, $alias); 
-        return $this; 
+    public function selectMax($select = '', $alias = '')
+    {
+        $this->db->select_max($select, $alias);
+        return $this;
     }
 
     /**
@@ -978,10 +985,10 @@ class EasyModel extends Model
      * @param string $alias
      * @return CI_DB_query_builder
      */
-    public function selectMin($select = '', $alias = '') 
-    { 
-        $this->db->select_min($select, $alias); 
-        return $this; 
+    public function selectMin($select = '', $alias = '')
+    {
+        $this->db->select_min($select, $alias);
+        return $this;
     }
 
     /**
@@ -991,10 +998,10 @@ class EasyModel extends Model
      * @param string $alias
      * @return CI_DB_query_builder
      */
-    public function selectAvg($select = '', $alias = '') 
-    { 
-        $this->db->select_avg($select, $alias); 
-        return $this; 
+    public function selectAvg($select = '', $alias = '')
+    {
+        $this->db->select_avg($select, $alias);
+        return $this;
     }
 
     /**
@@ -1004,10 +1011,10 @@ class EasyModel extends Model
      * @param string $alias
      * @return CI_DB_query_builder
      */
-    public function selectSum($select = '', $alias = '') 
-    { 
-        $this->db->select_sum($select, $alias); 
-        return $this; 
+    public function selectSum($select = '', $alias = '')
+    {
+        $this->db->select_sum($select, $alias);
+        return $this;
     }
 
     /**
@@ -1016,10 +1023,10 @@ class EasyModel extends Model
      * @param boolean $value
      * @return CI_DB_query_builder
      */
-    public function distinct($value = true) 
-    { 
-        $this->db->distinct($value); 
-        return $this; 
+    public function distinct($value = true)
+    {
+        $this->db->distinct($value);
+        return $this;
     }
 
     /**
@@ -1028,27 +1035,27 @@ class EasyModel extends Model
      * @param  string $from
      * @return CI_DB_query_builder
      */
-    public function from($from) 
-    { 
-        $this->db->from($from); 
-        return $this; 
+    public function from($from)
+    {
+        $this->db->from($from);
+        return $this;
     }
 
     /**
      * Join function
      *
      * Generates the JOIN portion of the query
-	 *
+     *
      * @param   string $table table name
      * @param   string $condition the join condition
      * @param   string $type the type of join
-	 * @param	string $escape whether not to try to escape identifiers
-	 * @return	CI_DB_query_builder
+     * @param	string $escape whether not to try to escape identifiers
+     * @return	CI_DB_query_builder
      */
-    public function join($table, $condition, $type = '', $escape = null) 
-    { 
-        $this->db->join($table, $condition, $type, $escape); 
-        return $this; 
+    public function join($table, $condition, $type = '', $escape = null)
+    {
+        $this->db->join($table, $condition, $type, $escape);
+        return $this;
     }
 
     /**
@@ -1059,10 +1066,10 @@ class EasyModel extends Model
      * @param boolean $escape
      * @return CI_DB_query_builder
      */
-    public function where($key, $value = null, $escape = true) 
-    { 
-        $this->db->where($key, $value, $escape); 
-        return $this; 
+    public function where($key, $value = null, $escape = true)
+    {
+        $this->db->where($key, $value, $escape);
+        return $this;
     }
 
     /**
@@ -1073,9 +1080,10 @@ class EasyModel extends Model
      * @param boolean $escape
      * @return CI_DB_query_builder
      */
-    public function orWhere($key, $value = null, $escape = true) { 
-        $this->db->or_where($key, $value, $escape); 
-        return $this; 
+    public function orWhere($key, $value = null, $escape = true)
+    {
+        $this->db->or_where($key, $value, $escape);
+        return $this;
     }
 
     /**
@@ -1085,10 +1093,10 @@ class EasyModel extends Model
      * @param mixed $values
      * @return CI_DB_query_builder
      */
-    public function whereIn($key = null, $values = null) 
-    { 
-        $this->db->where_in($key, $values); 
-        return $this; 
+    public function whereIn($key = null, $values = null)
+    {
+        $this->db->where_in($key, $values);
+        return $this;
     }
 
     /**
@@ -1098,10 +1106,10 @@ class EasyModel extends Model
      * @param mixed $values
      * @return CI_DB_query_builder
      */
-    public function orWhereIn($key = null, $values = null) 
-    { 
-        $this->db->or_where_in($key, $values); 
-        return $this; 
+    public function orWhereIn($key = null, $values = null)
+    {
+        $this->db->or_where_in($key, $values);
+        return $this;
     }
 
     /**
@@ -1111,10 +1119,10 @@ class EasyModel extends Model
      * @param mixed $values
      * @return CI_DB_query_builder
      */
-    public function whereNotIn($key = null, $values = null) 
-    { 
-        $this->db->where_not_in($key, $values); 
-        return $this; 
+    public function whereNotIn($key = null, $values = null)
+    {
+        $this->db->where_not_in($key, $values);
+        return $this;
     }
 
     /**
@@ -1124,10 +1132,10 @@ class EasyModel extends Model
      * @param mixed $values
      * @return CI_DB_query_builder
      */
-    public function orWhereNotIn($key = null, $values = null) 
-    { 
-        $this->db->or_where_not_in($key, $values); 
-        return $this; 
+    public function orWhereNotIn($key = null, $values = null)
+    {
+        $this->db->or_where_not_in($key, $values);
+        return $this;
     }
 
     /**
@@ -1138,10 +1146,10 @@ class EasyModel extends Model
      * @param string $side
      * @return CI_DB_query_builder
      */
-    public function like($field, $match = '', $side = 'both') 
-    { 
-        $this->db->like($field, $match, $side); 
-        return $this; 
+    public function like($field, $match = '', $side = 'both')
+    {
+        $this->db->like($field, $match, $side);
+        return $this;
     }
 
     /**
@@ -1152,10 +1160,10 @@ class EasyModel extends Model
      * @param string $side
      * @return CI_DB_query_builder
      */
-    public function notLike($field, $match = '', $side = 'both') 
-    { 
-        $this->db->not_like($field, $match, $side); 
-        return $this; 
+    public function notLike($field, $match = '', $side = 'both')
+    {
+        $this->db->not_like($field, $match, $side);
+        return $this;
     }
 
     /**
@@ -1166,9 +1174,9 @@ class EasyModel extends Model
      * @param string $side
      * @return CI_DB_query_builder
      */
-    public function orLike($field, $match = '', $side = 'both') 
-    { 
-        $this->db->or_like($field, $match, $side); 
+    public function orLike($field, $match = '', $side = 'both')
+    {
+        $this->db->or_like($field, $match, $side);
         return $this;
     }
 
@@ -1180,10 +1188,10 @@ class EasyModel extends Model
      * @param string $side
      * @return CI_DB_query_builder
      */
-    public function orNotLike($field, $match = '', $side = 'both') 
-    { 
-        $this->db->or_not_like($field, $match, $side); 
-        return $this; 
+    public function orNotLike($field, $match = '', $side = 'both')
+    {
+        $this->db->or_not_like($field, $match, $side);
+        return $this;
     }
 
     /**
@@ -1192,10 +1200,10 @@ class EasyModel extends Model
      * @param string $by
      * @return CI_DB_query_builder
      */
-    public function groupBy($by, $escape = null) 
-    { 
-        $this->db->group_by($by, $escape); 
-        return $this; 
+    public function groupBy($by, $escape = null)
+    {
+        $this->db->group_by($by, $escape);
+        return $this;
     }
 
     /**
@@ -1206,10 +1214,10 @@ class EasyModel extends Model
      * @param boolean $escape
      * @return CI_DB_query_builder
      */
-    public function having($key, $value = '', $escape = true) 
-    { 
-        $this->db->having($key, $value, $escape); 
-        return $this; 
+    public function having($key, $value = '', $escape = true)
+    {
+        $this->db->having($key, $value, $escape);
+        return $this;
     }
 
     /**
@@ -1220,10 +1228,10 @@ class EasyModel extends Model
      * @param boolean $escape
      * @return CI_DB_query_builder
      */
-    public function orHaving($key, $value = '', $escape = true) 
-    { 
-        $this->db->or_having($key, $value, $escape); 
-        return $this; 
+    public function orHaving($key, $value = '', $escape = true)
+    {
+        $this->db->or_having($key, $value, $escape);
+        return $this;
     }
 
     /**
@@ -1234,9 +1242,9 @@ class EasyModel extends Model
      * @return CI_DB_query_builder
      */
     public function orderBy($orderby, $direction = '')
-    { 
-        $this->db->order_by($this->table.'.'.$orderby, $direction); 
-        return $this; 
+    {
+        $this->db->order_by($this->table . '.' . $orderby, $direction);
+        return $this;
     }
 
     /**
@@ -1246,10 +1254,10 @@ class EasyModel extends Model
      * @param string $offset
      * @return CI_DB_query_builder
      */
-    public function limit($value, $offset = '') 
-    { 
-        $this->db->limit($value, $offset); 
-        return $this; 
+    public function limit($value, $offset = '')
+    {
+        $this->db->limit($value, $offset);
+        return $this;
     }
 
     /**
@@ -1258,10 +1266,10 @@ class EasyModel extends Model
      * @param mixed $offset
      * @return CI_DB_query_builder
      */
-    public function offset($offset) 
-    { 
-        $this->db->offset($offset); 
-        return $this; 
+    public function offset($offset)
+    {
+        $this->db->offset($offset);
+        return $this;
     }
 
     /**
@@ -1272,11 +1280,10 @@ class EasyModel extends Model
      * @param boolean $escape
      * @return CI_DB_query_builder
      */
-    public function set($key, $value = '', $escape = true) 
-    { 
-        $this->db->set($key, $value, $escape); 
-        return $this; 
+    public function set($key, $value = '', $escape = true)
+    {
+        $this->db->set($key, $value, $escape);
+        return $this;
     }
-
 }
 /* end of file Core/core/Models/EasyModel.php */

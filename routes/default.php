@@ -1,5 +1,5 @@
 <?php
-defined('CIPATH') OR exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 use Base\Route\Route;
 
@@ -21,12 +21,12 @@ use Base\Route\Route;
 | This route will tell the Router which controller/method to use if those
 | provided in the URL cannot be matched to a valid route.
 |
-|	$route['translate_uri_dashes'] = FALSE;
+|	$route['translate_uri_dashes'] = false;
 |
 | This is not exactly a route, but allows you to automatically route
 | controller and method names that contain dashes. '-' isn't a valid
 | class or method name character, so it requires translation.
-| When you set this option to TRUE, it will replace ALL dashes in the
+| When you set this option to true, it will replace ALL dashes in the
 | controller and method URI segments.
 |
 | Examples:	my-controller/index	-> my_controller/index

@@ -132,7 +132,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 					<p><span class="mtitle">Filename:</span><span class="mmessage"><?php echo $filepath; ?></span></p>
 					<p><span class="mtitle">Line Number:</span><span class="mdigit"><?php echo $line; ?></span></p>
 
-					<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE) : ?>
+					<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === true) : ?>
 
 						<p><span class="mh">Backtrace:<span></p>
 

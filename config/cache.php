@@ -27,8 +27,8 @@ $config['web_cache_path'] = WEB_CACHE_PATH;
 | Whether to take the URL query string into consideration when generating
 | output cache files. Valid options are:
 |
-|	FALSE      = Disabled
-|	TRUE       = Enabled, take all query parameters into account.
+|	false      = Disabled
+|	true       = Enabled, take all query parameters into account.
 |	             Please be aware that this may result in numerous cache
 |	             files generated for the same page over and over again.
 |	array('q') = Enabled, but only take into account the specified list

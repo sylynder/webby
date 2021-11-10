@@ -1,6 +1,7 @@
 <?php
+defined('COREPATH') or exit('No direct script access allowed');
 
-class Base_Exceptions extends CI_Exceptions {
+class Base_Exceptions extends \CI_Exceptions {
 
     public function __construct()
     {
@@ -10,6 +11,7 @@ class Base_Exceptions extends CI_Exceptions {
     public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
 		$templates_path = config_item('error_views_path');
+		
 		if (empty($templates_path))
 		{
 			$templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;

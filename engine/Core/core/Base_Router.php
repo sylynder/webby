@@ -1,4 +1,5 @@
-<?php defined('COREPATH') OR exit('No direct script access allowed');
+<?php
+defined('COREPATH') or exit('No direct script access allowed');
 
 /* load the MX_Router class */
 require_once ENGINEPATH . "/MX/Router.php";
@@ -28,7 +29,7 @@ class Base_Router extends MX_Router {
         // since URI segments are more search-engine friendly, but they can optionally be used.
         // If this feature is enabled, we will gather the directory/class/method a little differently
         $segments = array();
-        if ($this->config->item('enable_query_strings') === TRUE AND isset($_GET[$this->config->item('controller_trigger')]))
+        if ($this->config->item('enable_query_strings') === true AND isset($_GET[$this->config->item('controller_trigger')]))
         {
             if (isset($_GET[$this->config->item('directory_trigger')]))
             {
@@ -60,7 +61,7 @@ class Base_Router extends MX_Router {
         }
  
         // Include routes every modules
-        $modules_locations = config_item('modules_locations') ? config_item('modules_locations') : FALSE;
+        $modules_locations = config_item('modules_locations') ? config_item('modules_locations') : false;
 
         if(!$modules_locations)
         {
@@ -104,7 +105,7 @@ class Base_Router extends MX_Router {
  
         // Set the default controller so we can display it in the event
         // the URI doesn't correlated to a valid controller.
-        $this->default_controller = ( ! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? FALSE : strtolower($this->routes['default_controller']);
+        $this->default_controller = ( ! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? false : strtolower($this->routes['default_controller']);
  
         // Were there any query string segments?  If so, we'll validate them and bail out since we're done.
         if (count($segments) > 0)

@@ -869,11 +869,11 @@ if ( ! function_exists('ends_with'))
 		{
 			if (substr($haystack, -strlen($needle)) === (string) $needle)
 			{
-				return TRUE;
+				return true;
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 }
 
@@ -1391,7 +1391,7 @@ if ( ! function_exists('escape'))
      */
     function escape($value)
     {
-        return htmlentities($value, ENT_QUOTES, 'UTF-8', FALSE);
+        return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
     }
 }
 
@@ -1405,6 +1405,32 @@ if ( ! function_exists('csrf'))
     function csrf()
     {
         echo '<input type="hidden" name="' . ci()->security->get_csrf_token_name() . '" value="' . ci()->security->get_csrf_hash() . '">';
+    }
+}
+
+if ( ! function_exists('csrf_token')) 
+{
+    /**
+     * Grab CSRF token name
+     *
+     * @return string
+     */
+    function csrf_token()
+    {
+        return ci()->security->get_csrf_token_name();
+    }
+}
+
+if ( ! function_exists('csrf_hash')) 
+{
+    /**
+     * Grab CSRF hash
+     *
+     * @return string
+     */
+    function csrf_hash()
+    {
+        return ci()->security->get_csrf_hash();
     }
 }
 

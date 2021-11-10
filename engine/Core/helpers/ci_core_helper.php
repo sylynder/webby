@@ -175,14 +175,13 @@ if ( ! function_exists('app_url'))
      * @param bool $protocol
      * @return string
      */
-    function app_url($uri = '', $protocol = NULL)
+    function app_url($uri = '', $protocol = null)
     {   
         return base_url($uri, $protocol);
     }
 }
 
-if ( ! function_exists('url')) 
-{
+if ( ! function_exists('url')) {
     /**
      * alias of site_url
      *
@@ -190,12 +189,16 @@ if ( ! function_exists('url'))
      * @param bool $protocol
      * @return string
      */
-    function url($uri = '', $protocol = NULL)
+    function url($uri = '', $param = '', $protocol = null)
     {
         $uri = is_array($uri) ? $uri : dot2slash($uri);
 
         if ($uri === 'void') {
             return void_url();
+        }
+
+        if (!empty($param) && $protocol === null) {
+            return site_url($uri . '/' . $param);
         }
 
         return site_url($uri, $protocol);
@@ -286,7 +289,7 @@ if ( ! function_exists('uri_segment'))
      * @param mixed $no_result
      * @return string
      */
-    function uri_segment($n, $no_result = NULL)
+    function uri_segment($n, $no_result = null)
     {
         return ci()->uri->segment($n, $no_result);
     }
@@ -378,20 +381,21 @@ if ( ! function_exists('files'))
     }
 }
 
-if ( ! function_exists('is_file_empty')) 
-{
+if ( ! function_exists('has_file')) {
     /**
-     * function to check if file to
-     * upload is not empty
+     * An alias to the function above
+     * But checks truthy first
      *
+     * expects $_FILES as $file
+     * 
      * @param string $file
      * @return boolean
      */
-    function is_file_empty($file)
+    function has_file($file)
     {
-        return (empty($file['name'])) 
-                    ? true 
-                    : false;
+        return (!empty($file['name']))
+            ? true
+            : false;
     }
 }
 

@@ -12,7 +12,7 @@ class Migrate extends WebController
 	
 	public function index()
 	{
-		if ($this->migration->current() === FALSE) {
+		if ($this->migration->current() === false) {
 			show_error($this->migration->error_string());
 		} else {
             echo "Table Migrated Successfully.";

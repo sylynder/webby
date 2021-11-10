@@ -1,5 +1,5 @@
 <?php
-defined('COREPATH') OR exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -62,8 +62,8 @@ $migrate['migration_table'] = 'migrations';
 | Auto Migrate To Latest
 |--------------------------------------------------------------------------
 |
-| If this is set to TRUE when you load the migrations class and have
-| $config['migration_enabled'] set to TRUE the system will auto migrate
+| If this is set to true when you load the migrations class and have
+| $config['migration_enabled'] set to true the system will auto migrate
 | to your latest migration (whatever $config['migration_version'] is
 | set to). This way you do not have to call migrations anywhere else
 | in your code to have the latest migration.

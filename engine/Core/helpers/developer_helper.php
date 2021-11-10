@@ -162,7 +162,7 @@ if ( ! function_exists( 'start_profiler' ))
 	 */
     function start_profiler()
     {
-        ci()->output->enable_profiler(TRUE);
+        ci()->output->enable_profiler(true);
     }
 }
 
@@ -175,7 +175,7 @@ if ( ! function_exists( 'stop_profiler' ))
 	 */
     function stop_profiler()
     {
-        ci()->output->enable_profiler(FALSE);
+        ci()->output->enable_profiler(false);
     }
 }
 
@@ -193,8 +193,8 @@ if ( ! function_exists( 'section_profiler' ))
     function section_profiler($config = null)
     {
         $sections =[ 
-            'config'  => TRUE, 
-            'queries' => TRUE 
+            'config'  => true, 
+            'queries' => true 
         ]; 
 
         if ($config !== null && is_array($config)) {

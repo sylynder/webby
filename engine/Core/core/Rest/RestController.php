@@ -661,7 +661,7 @@ class RestController extends Controller
      *
      * @param array|null $data      Data to output to the user
      * @param int|null   $http_code HTTP status code
-     * @param bool       $continue  TRUE to flush the response to the client and continue
+     * @param bool       $continue  true to flush the response to the client and continue
      *                              running the script; otherwise, exit
      */
     public function response($data = null, $http_code = null, $continue = false)
@@ -949,7 +949,7 @@ class RestController extends Controller
 
                     foreach ($list_ip_addresses as $list_ip) {
                         if ($ip_address === trim($list_ip)) {
-                            // there is a match, set the the value to TRUE and break out of the loop
+                            // there is a match, set the the value to true and break out of the loop
                             $found_address = true;
                             break;
                         }
@@ -1002,9 +1002,9 @@ class RestController extends Controller
     /**
      * Add the request to the log table.
      *
-     * @param bool $authorized TRUE the user is authorized; otherwise, FALSE
+     * @param bool $authorized true the user is authorized; otherwise, false
      *
-     * @return bool TRUE the data was inserted; otherwise, FALSE
+     * @return bool true the data was inserted; otherwise, false
      */
     protected function logRequest($authorized = false)
     {
@@ -1033,7 +1033,7 @@ class RestController extends Controller
      *
      * @param string $controller_method The method being called
      *
-     * @return bool TRUE the call limit is below the threshold; otherwise, FALSE
+     * @return bool true the call limit is below the threshold; otherwise, false
      */
     protected function checkLimit($controller_method)
     {
@@ -1140,7 +1140,7 @@ class RestController extends Controller
         if (!empty($auth_override_class_method)) {
             // Check for wildcard flag for rules for classes
             if (!empty($auth_override_class_method[$this->router->class]['*'])) { // Check for class overrides
-                // No auth override found, prepare nothing but send back a TRUE override flag
+                // No auth override found, prepare nothing but send back a true override flag
                 if ($auth_override_class_method[$this->router->class]['*'] === 'none') {
                     return true;
                 }
@@ -1183,7 +1183,7 @@ class RestController extends Controller
 
             // Check to see if there's an override value set for the current class/method being called
             if (!empty($auth_override_class_method[$this->router->class][$this->router->method])) {
-                // None auth override found, prepare nothing but send back a TRUE override flag
+                // None auth override found, prepare nothing but send back a true override flag
                 if ($auth_override_class_method[$this->router->class][$this->router->method] === 'none') {
                     return true;
                 }
@@ -1232,7 +1232,7 @@ class RestController extends Controller
         if (!empty($auth_override_class_method_http)) {
             // check for wildcard flag for rules for classes
             if (!empty($auth_override_class_method_http[$this->router->class]['*'][$this->request->method])) {
-                // None auth override found, prepare nothing but send back a TRUE override flag
+                // None auth override found, prepare nothing but send back a true override flag
                 if ($auth_override_class_method_http[$this->router->class]['*'][$this->request->method] === 'none') {
                     return true;
                 }
@@ -1275,7 +1275,7 @@ class RestController extends Controller
 
             // Check to see if there's an override value set for the current class/method/HTTP-method being called
             if (!empty($auth_override_class_method_http[$this->router->class][$this->router->method][$this->request->method])) {
-                // None auth override found, prepare nothing but send back a TRUE override flag
+                // None auth override found, prepare nothing but send back a true override flag
                 if ($auth_override_class_method_http[$this->router->class][$this->router->method][$this->request->method] === 'none') {
                     return true;
                 }
@@ -1919,7 +1919,7 @@ class RestController extends Controller
             return $this->api_token = $row;
         } else {
             $this->response([
-                $this->config->item('rest_status_field_name') => FALSE,
+                $this->config->item('rest_status_field_name') => false,
                 $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_unauthorized')
             ], HttpStatus::UNAUTHORIZED);
         }
@@ -1936,7 +1936,7 @@ class RestController extends Controller
         // Match an ip address in a blacklist e.g. 127.0.0.0, 0.0.0.0
         $pattern = sprintf('/(?:,\s*|^)\Q%s\E(?=,\s*|$)/m', $this->input->ip_address());
 
-        // Returns 1, 0 or FALSE (on error only). Therefore implicitly convert 1 to TRUE
+        // Returns 1, 0 or false (on error only). Therefore implicitly convert 1 to true
         if (preg_match($pattern, $this->config->item('rest_ip_blacklist'))) {
             // Display an error response
             $this->response([
@@ -2012,7 +2012,7 @@ class RestController extends Controller
      *
      * @author Chris Kacerguis
      *
-     * @return bool TRUE log table updated; otherwise, FALSE
+     * @return bool true log table updated; otherwise, false
      */
     protected function logAccessTime()
     {
@@ -2037,7 +2037,7 @@ class RestController extends Controller
      *
      * @param $http_code int HTTP status code
      *
-     * @return bool TRUE log table updated; otherwise, FALSE
+     * @return bool true log table updated; otherwise, false
      */
     protected function logResponseCode($http_code)
     {
@@ -2058,11 +2058,11 @@ class RestController extends Controller
     /**
      * Check to see if the API key has access to the controller and methods.
      *
-     * @return bool TRUE the API key has access; otherwise, FALSE
+     * @return bool true the API key has access; otherwise, false
      */
     protected function checkAccess()
     {
-        // If we don't want to check access, just return TRUE
+        // If we don't want to check access, just return true
         if ($this->config->item('rest_enable_access') === false) {
             return true;
         }

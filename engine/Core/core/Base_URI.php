@@ -1,4 +1,6 @@
 <?php
+defined('COREPATH') or exit('No direct script access allowed');
+
 class Base_URI extends CI_URI
 {
 
@@ -7,7 +9,7 @@ class Base_URI extends CI_URI
 		parent::__construct();
 	}
 
-    /**
+	/**
 	 * Filter URI
 	 *
 	 * Filters segments for malicious characters.
@@ -17,42 +19,33 @@ class Base_URI extends CI_URI
 	 */
 	public function filter_uri(&$str)
 	{
-        if ($str != '' AND $this->config->item('permitted_uri_chars') != '')
-        {
-            if ( ! preg_match("|^[".preg_quote($this->config->item('permitted_uri_chars'))."]+$|i", $str))
-            {
-                $this->app_error_view();
-            }
-        }
-            
-        return $str;
+		if (!empty($str) && !empty($this->_permitted_uri_chars) && !preg_match('/^[' . $this->_permitted_uri_chars . ']+$/i' . (UTF8_ENABLED ? 'u' : ''), $str)) {
+			$this->app_error_view($str);
+		}
 	}
 
-    public function app_error_view($heading = "", $message = "", $status_code = 404, $log_error = true)
-    {
-        $template = '';
-		
-        if (empty($template)) {
-			$template = VIEWPATH.'errors'.DIRECTORY_SEPARATOR.'error404'. PHPEXT;
-		} else {
-            $template = VIEWPATH.'errors/error_404'. PHPEXT;
-        }
+	public function app_error_view($str)
+	{
+		$http_protocol  = 'http://';
+		$secured_http_protocol = 'https://';
+		$error_route = $this->config->item('app_error_route');
 
-        set_status_header($status_code);
-        
-		if (ob_get_level() > ob_get_level() + 1)
-		{
-			ob_end_flush();
+		log_message('error', 'A malicious character {' . $str . '} was passed through a url');
+		
+		if (
+			$_SERVER['REMOTE_ADDR'] === '127.0.0.1'
+			|| $_SERVER['SERVER_NAME'] === 'localhost'
+		) {
+			$url = $http_protocol . $_SERVER['HTTP_HOST'] . '/';
+			header('Location: ' . $url . $error_route);
+		} else {
+			$url = $secured_http_protocol . $_SERVER['HTTP_HOST'] . '/';
+			header('Location: ' . $url . $error_route);
 		}
 
-		ob_start();
+		exit;
+	}
 
-		include($template);
-		$buffer = ob_get_contents();
-		ob_end_clean();
-		return $buffer;
-    }
-	
 	/**
 	 * Converts any special parameters for a given segment into an associated array.
 	 * Use a semi-colon as an argument separator if using multiple arguments
@@ -75,7 +68,7 @@ class Base_URI extends CI_URI
 	{
 		return $this->_segment_to_assoc($n, $default);
 	}
-	
+
 	/**
 	 * Identical to segment_to_assoc() only it uses the re-routed segment
 	 *
@@ -85,11 +78,11 @@ class Base_URI extends CI_URI
 	 * @return Array
 	 *
 	 */
-	function rsegment_to_assoc($n = 3, $default = array())	
+	function rsegment_to_assoc($n = 3, $default = array())
 	{
 		return $this->_segment_to_assoc($n, $default, 'rsegment');
 	}
-	
+
 	/**
 	 * Converts any special parameters for a given segment, or rsegment into an associated array.
 	 * Use a semi-colon as an argument separator if using multiple arguments
@@ -105,24 +98,21 @@ class Base_URI extends CI_URI
 		//get the requested segment
 		$segment = ($which == 'segment') ? $this->segment($n, $default) : $this->rsegment($n, $default);
 		//return if there isn't a segment here
-		if($segment === FALSE) return FALSE;
-		
+		if ($segment === false) return false;
+
 		$return_params = array();
 		//separate the arguments
 		$parts = explode(';', $segment);
-		foreach($parts as $part)
-		{
-			if($part != '')
-			{
+		foreach ($parts as $part) {
+			if ($part != '') {
 				$new_part = explode('=', $part);
 				//if we had an =, separate key from value and put in new array
-				if(count($new_part) == 2)
-				{
+				if (count($new_part) == 2) {
 					$return_params[$new_part[0]] = $new_part[1];
 				}
 			}
 		}
-		
+
 		return $return_params;
 	}
 }

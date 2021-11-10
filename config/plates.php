@@ -1,5 +1,5 @@
 <?php
-defined('COREPATH') OR exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -36,7 +36,7 @@ $config['cache_time'] = 3600;
 | Enable/Disable Autoload
 |--------------------------------------------------------------------------
 |
-| Set to TRUE to autoload CodeIgniter Libraries and Helpers
+| Set to true to autoload CodeIgniter Libraries and Helpers
 |
 */
 $config['enable_autoload'] = false;
@@ -49,7 +49,7 @@ $config['enable_autoload'] = false;
 | List of Libraries and Helpers to autoload with Plates.
 |
 | WARNING: To autoload this resources you must set 'enable_autoload'
-| variable to TRUE.
+| variable to true.
 |
 */
 $config['libraries'] = [];
@@ -60,7 +60,7 @@ $config['helpers'] = [];
 | Load Plates Helper
 |--------------------------------------------------------------------------
 |
-| Set to TRUE and Plate helper file will be loaded in the initialization.
+| Set to true and Plate helper file will be loaded in the initialization.
 | it is located at engine/Core/helpers/plate_helper.php
 |
 */

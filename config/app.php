@@ -1,5 +1,5 @@
 <?php
-defined('COREPATH') OR exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -58,4 +58,28 @@ $config['maintenance_mode'] = SITE_ON;
 |
  */
 
-$config['app_error_view'] = 'errors/error404';
+$config['app_error_view'] = '/errors/app/error404';
+
+/*
+| -------------------------------------------------------------------------
+| Error 404 Emergency Route
+|  
+| Set this route for possible 
+| error 404 page
+| 
+| -------------------------------------------------------------------------
+|
+ */
+$config['app_error_view'] = '/errors/app/error404';
+
+/*
+| -------------------------------------------------------------------------
+| Error 404 Emergency Route
+|  
+| Set this route for possible 
+| error 404 page
+| 
+| -------------------------------------------------------------------------
+|
+ */
+$config['app_error_route'] = 'not-found';

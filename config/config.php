@@ -1,5 +1,5 @@
 <?php
-defined('COREPATH') OR exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -97,10 +97,10 @@ $config['charset'] = 'UTF-8';
 |--------------------------------------------------------------------------
 |
 | If you would like to use the 'hooks' feature you must enable it by
-| setting this variable to TRUE (boolean).  See the user guide for details.
+| setting this variable to true (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,7 +124,7 @@ $config['subclass_prefix'] = 'Base_';
 | Enabling this setting will tell CodeIgniter to look for a Composer
 | package auto-loader script in application/vendor/autoload.php.
 |
-|	$config['composer_autoload'] = TRUE;
+|	$config['composer_autoload'] = true;
 |
 | Or if you have your vendor/ directory located somewhere else, you
 | can opt to set a specific path as well:
@@ -136,7 +136,7 @@ $config['subclass_prefix'] = 'Base_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE; //realpath(ROOTPATH . 'vendor/autoload.php');
+$config['composer_autoload'] = false; //realpath(ROOTPATH . 'vendor/autoload.php');
 
 /*
 |--------------------------------------------------------------------------
@@ -171,7 +171,7 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | You can optionally enable standard query string based URLs:
 | example.com?who=me&what=something&where=here
 |
-| Options are: TRUE or FALSE (boolean)
+| Options are: true or false (boolean)
 |
 | The other items let you set the query string 'words' that will
 | invoke your controllers and its functions:
@@ -182,7 +182,7 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
-$config['enable_query_strings'] = FALSE;
+$config['enable_query_strings'] = false;
 $config['controller_trigger'] = 'c';
 $config['function_trigger'] = 'm';
 $config['directory_trigger'] = 'd';
@@ -193,13 +193,13 @@ $config['directory_trigger'] = 'd';
 |--------------------------------------------------------------------------
 |
 | By default CodeIgniter enables access to the $_GET array.  If for some
-| reason you would like to disable it, set 'allow_get_array' to FALSE.
+| reason you would like to disable it, set 'allow_get_array' to false.
 |
 | WARNING: This feature is DEPRECATED and currently available only
 |          for backwards compatibility purposes!
 |
 */
-$config['allow_get_array'] = TRUE;
+$config['allow_get_array'] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -341,7 +341,7 @@ $config['encryption_key'] = APP_ENCRYPTION_KEY;
 | 'sess_regenerate_destroy'
 |
 |	Whether to destroy session data associated with the old session ID
-|	when auto-regenerating the session ID. When set to FALSE, the data
+|	when auto-regenerating the session ID. When set to false, the data
 |	will be later deleted by the garbage collector.
 |
 | Other session cookie settings are shared with the rest of the application,
@@ -396,7 +396,7 @@ $config['cookie_samesite'] 	= COOKIE_SAMESITE;
 |          for backwards compatibility purposes!
 |
 */
-$config['standardize_newlines'] = FALSE;
+$config['standardize_newlines'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -410,13 +410,13 @@ $config['standardize_newlines'] = FALSE;
 |          for backwards compatibility purposes!
 |
 */
-$config['global_xss_filtering'] = FALSE;
+$config['global_xss_filtering'] = false;
 
 /*
 |--------------------------------------------------------------------------
 | Cross Site Request Forgery
 |--------------------------------------------------------------------------
-| Enables a CSRF cookie token to be set. When set to TRUE, token will be
+| Enables a CSRF cookie token to be set. When set to true, token will be
 | checked on a submitted form. If you are accepting user data, it is strongly
 | recommended CSRF protection be enabled.
 |
@@ -453,7 +453,7 @@ $config['csrf_exclude_uris'] = CSRF_EXCLUDE_URIS;
 | by the output class.  Do not 'echo' any values with compression enabled.
 |
 */
-$config['compress_output'] = FALSE;
+$config['compress_output'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -475,12 +475,12 @@ $config['time_reference'] = 'local';
 |
 | If your PHP installation does not have short tag support enabled CI
 | can rewrite the tags on-the-fly, enabling you to utilize that syntax
-| in your view files.  Options are TRUE or FALSE (boolean)
+| in your view files.  Options are true or false (boolean)
 |
 | Note: You need to have eval() enabled for this to work.
 |
 */
-$config['rewrite_short_tags'] = FALSE;
+$config['rewrite_short_tags'] = false;
 
 /*
 |--------------------------------------------------------------------------
