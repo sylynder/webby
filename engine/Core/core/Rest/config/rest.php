@@ -138,8 +138,8 @@ $config['auth_source'] = 'ldap';
 | requests etc), set to true;
 |
 */
-$config['allow_auth_and_keys'] = true;
-$config['strict_api_and_auth'] = true; // force the use of both api and auth before a valid api request is made
+$config['allow_auth_and_keys'] = false;
+$config['strict_api_and_auth'] = false; // force the use of both api and auth before a valid api request is made
 
 /*
 |--------------------------------------------------------------------------
@@ -289,7 +289,7 @@ $config['rest_ip_blacklist'] = '';
 | if you have any of these features enabled
 |
 */
-$config['rest_use_database'] = false; // You need to set to true to use a database
+$config['rest_use_database'] = true; // You need to set to true to use a database
 $config['rest_database_group'] = 'default'; // You can choose a different db group to use
 $config['rest_database_path']  = 'default'; // You can set this in database/config.php file else You have to set this in an HMVC Config folder
 
@@ -321,7 +321,7 @@ $config['rest_keys_table'] = 'api_keys';
 |       `ignore_limits` TINYINT(1) NOT NULL DEFAULT '0',
 |       `is_private_key` TINYINT(1)  NOT NULL DEFAULT '0',
 |       `ip_addresses` TEXT NULL DEFAULT NULL,
-|       `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+|       `date_created` DATE NOT NULL,
 |       PRIMARY KEY (`id`)
 |   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 |
@@ -336,12 +336,13 @@ $config['rest_enable_keys'] = false;
 | 
 | Default table schema:
 | CREATE TABLE `api_tokens` (
-|    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-|    `user_id` VARCHAR(40) NOT NULL DEFAULT '',
+|    `api_token_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 |    `token` VARCHAR(50) NOT NULL,
 |    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-|    PRIMARY KEY (`id`)
-|  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+|    PRIMARY KEY (`api_token_id`)
+|  )
+|    COLLATE='latin1_swedish_ci'
+|    ENGINE=InnoDB
 |
 */
 $config['rest_enable_token'] = false;
@@ -584,6 +585,8 @@ $config['allowed_cors_headers'] = [
     'Content-Type',
     'Accept',
     'Access-Control-Request-Method',
+    'Authorization',
+    'X-API-KEY'
 ];
 
 /*
@@ -612,7 +615,7 @@ $config['allowed_cors_methods'] = [
 | source domain
 |
 */
-$config['allow_any_cors_domain'] = false;
+$config['allow_any_cors_domain'] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -625,7 +628,7 @@ $config['allow_any_cors_domain'] = false;
 | e.g. $config['allowed_origins'] = ['http://www.example.com', 'https://spa.example.com']
 |
 */
-$config['allowed_cors_origins'] = [];
+$config['allowed_cors_origins'] = ['http://localhost:8100', 'http://localhost:8085'];
 
 /*
 |--------------------------------------------------------------------------
@@ -646,4 +649,6 @@ $config['allowed_cors_origins'] = [];
 | http://docs.sencha.com/extjs/6.5.2/classic/Ext.data.proxy.Rest.html#cfg-withCredentials
 |
 */
-$config['forced_cors_headers'] = [];
+$config['forced_cors_headers'] = [
+    'Access-Control-Allow-Credentials' => 'true'
+];
