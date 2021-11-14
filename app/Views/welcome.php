@@ -8,7 +8,7 @@
     <title>Webby PHP</title>
     <style type="text/css">
         body {
-            background-color: rgb(250, 250, 252);
+            background-color: rgb(204, 166, 255);
             font: 16px/26px normal Helvetica, Arial, sans-serif;
         }
 
