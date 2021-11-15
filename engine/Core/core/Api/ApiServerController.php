@@ -1,6 +1,6 @@
 <?php
 
-namespace Base\Rest;
+namespace Base\Api;
 
 use stdClass;
 use Exception;
@@ -9,28 +9,28 @@ use Base\Http\HttpStatus;
 use Base\Controllers\Controller;
 
 /**
- * CodeIgniter Rest Controller
- * A fully RESTful server implementation for CodeIgniter 
+ * CodeIgniter Api Server Controller
+ * 
+ * A fully REST Api server implementation for CodeIgniter3 
  * using one library, one config file and one controller.
  *
- * @link  https://github.com/chriskacerguis/ci-restserver
+ * @link  https://github.com/chriskacerguis/ci-apiserver
  *
- * 
  * Note: Breaking modifications have been done to work with Webby
  * @since 4.0.0 
  * @author Kwame Oteng Appiah-Nti (Developer Kwame)
  * 
  */
-class RestController extends Controller
+class ApiServerController extends Controller
 {
     /**
-     * This defines the rest format
+     * This defines the api format
      * Must be overridden in a controller 
      * so that it is set.
      *
      * @var string|null
      */
-    protected $restFormat = null;
+    protected $apiFormat = null;
 
     /**
      * Defines the list of method properties 
@@ -79,13 +79,13 @@ class RestController extends Controller
     protected $response = null;
 
     /**
-     * Contains details about the REST API
+     * Contains details about the API
      * Fields: db, ignore_limits, key, level, user_id
      * Note: This is a dynamic object (stdClass).
      *
      * @var object
      */
-    protected $rest = null;
+    protected $api = null;
 
     /**
      * The arguments for the GET request method.
@@ -231,7 +231,7 @@ class RestController extends Controller
     /**
      * Common HTTP status codes and their respective description.
      *
-     * @link http://www.restapitutorial.com/httpstatuscodes.html
+     * @link http://www.apiapitutorial.com/httpstatuscodes.html
      */
     const HTTP_OK = 200;
     const HTTP_CREATED = 201;
@@ -267,9 +267,9 @@ class RestController extends Controller
      * Constructor for the REST API.
      *
      * @param string $config Configuration filename minus the file extension
-     *                       e.g: my_rest.php is passed as 'my_rest'
+     *                       e.g: my_api.php is passed as 'my_api'
      */
-    public function __construct($config = 'rest')
+    public function __construct($config = 'api')
     {
         parent::__construct();
 
@@ -280,17 +280,17 @@ class RestController extends Controller
         // when output is displayed for not damaging data accidentally
         $this->output->parse_exec_vars = false;
 
-        // Load the rest.php configuration file
+        // Load the api.php configuration file
         $this->getLocalConfig($config);
 
         // Log the loading time to the log table
-        if ($this->config->item('rest_enable_logging') === true) {
+        if ($this->config->item('api_enable_logging') === true) {
             // Start the timer for how long the request takes
             $this->start_rtime = microtime(true);
         }
 
         // Determine supported output formats from configuration
-        $supportedFormats = $this->config->item('rest_supported_formats');
+        $supportedFormats = $this->config->item('api_supported_formats');
 
         // Validate the configuration setting output formats
         if (empty($supportedFormats)) {
@@ -311,22 +311,22 @@ class RestController extends Controller
         $this->supportedFormats = array_intersect_key($this->supportedFormats, array_flip($supportedFormats));
 
         // Get the language
-        $language = $this->config->item('rest_language');
+        $language = $this->config->item('api_language');
 
         if ($language === null) {
             $language = 'english';
         }
 
         // Load the language file
-        $this->lang->load('rest_controller', $language);
+        $this->lang->load('api_controller', $language);
 
-        // Initialise the response, request and rest objects
+        // Initialise the response, request and api objects
         $this->request = new stdClass();
         $this->response = new stdClass();
-        $this->rest = new stdClass();
+        $this->api = new stdClass();
 
         // Check to see if the current IP address is blacklisted
-        if ($this->config->item('rest_ip_blacklist_enabled') === true) {
+        if ($this->config->item('api_ip_blacklist_enabled') === true) {
             $this->checkBlacklistAuth();
         }
 
@@ -401,57 +401,57 @@ class RestController extends Controller
         // Load DB if its enabled
         // Set database and enable any of these configurations
         if (
-            $this->config->item('rest_database_group') !== 'default'
-            && $this->config->item('rest_use_database')
-            && ($this->config->item('rest_enable_keys')
-                || $this->config->item('rest_enable_logging'))
-            || $this->config->item('rest_enable_token')
+            $this->config->item('api_database_group') !== 'default'
+            && $this->config->item('api_use_database')
+            && ($this->config->item('api_enable_keys')
+                || $this->config->item('api_enable_logging'))
+            || $this->config->item('api_enable_token')
         ) {
 
-            if ($this->config->item('rest_database_path') === 'default') {
+            if ($this->config->item('api_database_path') === 'default') {
                 $this->load->database();
-                $this->rest->db = $this->db;
+                $this->api->db = $this->db;
             } else {
-                list($module, $filename) = explode('/', $this->config->item('rest_database_path'));
+                list($module, $filename) = explode('/', $this->config->item('api_database_path'));
                 $this->config->load($module . '/' . $filename, true);
                 $config_name = $this->config->item($filename);
-                $this->rest->db = $this->load->database($config_name[$this->config->item('rest_database_group')], true);
+                $this->api->db = $this->load->database($config_name[$this->config->item('api_database_group')], true);
             }
         }
         // Use default database if that is set
         else if (
-            $this->config->item('rest_database_group') === 'default'
-            && $this->config->item('rest_use_database')
-            && ($this->config->item('rest_enable_keys')
-                || $this->config->item('rest_enable_logging'))
-            || $this->config->item('rest_enable_token')
+            $this->config->item('api_database_group') === 'default'
+            && $this->config->item('api_use_database')
+            && ($this->config->item('api_enable_keys')
+                || $this->config->item('api_enable_logging'))
+            || $this->config->item('api_enable_token')
         ) {
             $this->load->database();
-            $this->rest->db = $this->db;
+            $this->api->db = $this->db;
         }
         // Set database to use it anyway
         // Please $this->useDatabase(); in your Controler
-        else if ($this->config->item('rest_use_database') === true && $this->config->item('rest_database_group') === 'default') {
+        else if ($this->config->item('api_use_database') === true && $this->config->item('api_database_group') === 'default') {
             $this->load->database();
-            $this->rest->db = $this->db;
+            $this->api->db = $this->db;
         }
 
         // Check if there is a specific auth type for the current class/method
-        // authOverrideCheck could exit so we need $this->rest->db initialized before
+        // authOverrideCheck could exit so we need $this->api->db initialized before
         $this->authOverride = $this->authOverrideCheck();
 
         // Checking for keys? GET TO WorK!
         // Skip keys test for $config['auth_override_class_method']['class'['method'] = 'none'
-        if ($this->config->item('rest_enable_keys') && $this->authOverride !== true) {
+        if ($this->config->item('api_enable_keys') && $this->authOverride !== true) {
             $this->allow = $this->detectApiKey();
         }
 
         // Only allow ajax requests
-        if ($this->input->is_ajax_request() === false && $this->config->item('rest_ajax_only')) {
+        if ($this->input->is_ajax_request() === false && $this->config->item('api_ajax_only')) {
             // Display an error response
             $this->response([
-                $this->config->item('rest_status_field_name')  => false,
-                $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_ajax_only'),
+                $this->config->item('api_status_field_name')  => false,
+                $this->config->item('api_message_field_name') => $this->lang->line('text_api_ajax_only'),
             ], HttpStatus::NOT_ACCEPTABLE);
         }
 
@@ -459,11 +459,11 @@ class RestController extends Controller
         // class/method, use the default auth value set in the config
         if (
             $this->authOverride === false &&
-            (!($this->config->item('rest_enable_keys') && $this->allow === true) ||
+            (!($this->config->item('api_enable_keys') && $this->allow === true) ||
                 ($this->config->item('allow_auth_and_keys') === true && $this->allow === true))
         ) {
-            $restAuth = strtolower($this->config->item('rest_auth'));
-            switch ($restAuth) {
+            $apiAuth = strtolower($this->config->item('api_auth'));
+            switch ($apiAuth) {
                 case 'basic':
                     $this->prepareBasicAuth();
                     break;
@@ -524,7 +524,7 @@ class RestController extends Controller
     public function __destruct()
     {
         // Log the loading time to the log table
-        if ($this->config->item('rest_enable_logging') === true) {
+        if ($this->config->item('api_enable_logging') === true) {
             // Get the current timestamp
             $this->end_rtime = microtime(true);
 
@@ -547,8 +547,8 @@ class RestController extends Controller
         // Should we answer if not over SSL?
         if ($this->config->item('force_https') && $this->request->ssl === false) {
             $this->response([
-                $this->config->item('rest_status_field_name')  => false,
-                $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_unsupported'),
+                $this->config->item('api_status_field_name')  => false,
+                $this->config->item('api_message_field_name') => $this->lang->line('text_api_unsupported'),
             ], HttpStatus::FORBIDDEN);
         }
 
@@ -569,8 +569,8 @@ class RestController extends Controller
         $use_key = !(isset($this->methods[$controllerMethod]['key']) && $this->methods[$controllerMethod]['key'] === false);
 
         // They provided a key, but it wasn't valid, so get them out of here
-        if ($this->config->item('rest_enable_keys') && $use_key && $this->allow === false) {
-            if ($this->config->item('rest_enable_logging') && $log_method) {
+        if ($this->config->item('api_enable_keys') && $use_key && $this->allow === false) {
+            if ($this->config->item('api_enable_logging') && $log_method) {
                 $this->logRequest();
             }
 
@@ -580,36 +580,36 @@ class RestController extends Controller
             }
 
             $this->response([
-                $this->config->item('rest_status_field_name')  => false,
-                $this->config->item('rest_message_field_name') => sprintf($this->lang->line('text_rest_invalid_api_key'), $this->rest->key),
+                $this->config->item('api_status_field_name')  => false,
+                $this->config->item('api_message_field_name') => sprintf($this->lang->line('text_invalid_api_key'), $this->api->key),
             ], HttpStatus::FORBIDDEN);
         }
 
         // Check to see if this key has access to the requested controller
-        if ($this->config->item('rest_enable_keys') && $use_key && empty($this->rest->key) === false && $this->checkAccess() === false) {
-            if ($this->config->item('rest_enable_logging') && $log_method) {
+        if ($this->config->item('api_enable_keys') && $use_key && empty($this->api->key) === false && $this->checkAccess() === false) {
+            if ($this->config->item('api_enable_logging') && $log_method) {
                 $this->logRequest();
             }
 
             $this->response([
-                $this->config->item('rest_status_field_name')  => false,
-                $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_api_key_unauthorized'),
+                $this->config->item('api_status_field_name')  => false,
+                $this->config->item('api_message_field_name') => $this->lang->line('text_api_key_unauthorized'),
             ], HttpStatus::UNAUTHORIZED);
         }
 
         // Sure it exists, but can they do anything with it?
         if (!method_exists($this, $controllerMethod)) {
             $this->response([
-                $this->config->item('rest_status_field_name')  => false,
-                $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_unknown_method'),
+                $this->config->item('api_status_field_name')  => false,
+                $this->config->item('api_message_field_name') => $this->lang->line('text_api_unknown_method'),
             ], HttpStatus::METHOD_NOT_ALLOWED);
         }
 
         // Doing key related stuff? Can only do it if they have a key right?
-        if ($this->config->item('rest_enable_keys') && empty($this->rest->key) === false) {
+        if ($this->config->item('api_enable_keys') && empty($this->api->key) === false) {
             // Check the limit
-            if ($this->config->item('rest_enable_limits') && $this->checkLimit($controllerMethod) === false) {
-                $response = [$this->config->item('rest_status_field_name') => false, $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_api_key_time_limit')];
+            if ($this->config->item('api_enable_limits') && $this->checkLimit($controllerMethod) === false) {
+                $response = [$this->config->item('api_status_field_name') => false, $this->config->item('api_message_field_name') => $this->lang->line('text_api_key_time_limit')];
                 $this->response($response, HttpStatus::UNAUTHORIZED);
             }
 
@@ -617,26 +617,26 @@ class RestController extends Controller
             $level = isset($this->methods[$controllerMethod]['level']) ? $this->methods[$controllerMethod]['level'] : 0;
 
             // If no level is set, or it is lower than/equal to the key's level
-            $authorized = $level <= $this->rest->level;
+            $authorized = $level <= $this->api->level;
             // IM TELLIN!
-            if ($this->config->item('rest_enable_logging') && $log_method) {
+            if ($this->config->item('api_enable_logging') && $log_method) {
                 $this->logRequest($authorized);
             }
             if ($authorized === false) {
                 // They don't have good enough perms
-                $response = [$this->config->item('rest_status_field_name') => false, $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_api_key_permissions')];
+                $response = [$this->config->item('api_status_field_name') => false, $this->config->item('api_message_field_name') => $this->lang->line('text_api_key_permissions')];
                 $this->response($response, HttpStatus::UNAUTHORIZED);
             }
         }
 
         //check request limit by ip without login
-        elseif ($this->config->item('rest_limits_method') == 'IP_ADDRESS' && $this->config->item('rest_enable_limits') && $this->checkLimit($controllerMethod) === false) {
-            $response = [$this->config->item('rest_status_field_name') => false, $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_ip_address_time_limit')];
+        elseif ($this->config->item('api_limits_method') == 'IP_ADDRESS' && $this->config->item('api_enable_limits') && $this->checkLimit($controllerMethod) === false) {
+            $response = [$this->config->item('api_status_field_name') => false, $this->config->item('api_message_field_name') => $this->lang->line('text_api_ip_address_time_limit')];
             $this->response($response, HttpStatus::UNAUTHORIZED);
         }
 
         // No key stuff, but record that stuff is happening
-        elseif ($this->config->item('rest_enable_logging') && $log_method) {
+        elseif ($this->config->item('api_enable_logging') && $log_method) {
             $this->logRequest($authorized = true);
         }
 
@@ -646,7 +646,7 @@ class RestController extends Controller
                 call_user_func_array([$this, $controllerMethod], $arguments);
             }
         } catch (Exception $ex) {
-            if ($this->config->item('rest_handle_exceptions') === false) {
+            if ($this->config->item('api_handle_exceptions') === false) {
                 throw $ex;
             }
 
@@ -730,8 +730,8 @@ class RestController extends Controller
 
             $this->output->set_status_header($httpCode);
 
-            // JC: Log response code only if rest logging enabled
-            if ($this->config->item('rest_enable_logging') === true) {
+            // JC: Log response code only if api logging enabled
+            if ($this->config->item('api_enable_logging') === true) {
                 $this->logResponseCode($httpCode);
             }
 
@@ -805,14 +805,14 @@ class RestController extends Controller
 
     /**
      * Gets the default format from the configuration. Fallbacks to 'json'
-     * if the corresponding configuration option $config['rest_default_format']
+     * if the corresponding configuration option $config['api_default_format']
      * is missing or is empty.
      *
      * @return string The default supported input format
      */
     protected function getDefaultOutputFormat()
     {
-        $defaultFormat = (string) $this->config->item('rest_default_format');
+        $defaultFormat = (string) $this->config->item('api_default_format');
 
         return $defaultFormat === '' ? 'json' : $defaultFormat;
     }
@@ -846,7 +846,7 @@ class RestController extends Controller
         $httpAccept = $this->input->server('HTTP_ACCEPT');
 
         // Otherwise, check the HTTP_ACCEPT server variable
-        if ($this->config->item('rest_ignore_http_accept') === false && $httpAccept !== null) {
+        if ($this->config->item('api_ignore_http_accept') === false && $httpAccept !== null) {
             // Check all formats against the HTTP_ACCEPT header
             foreach (array_keys($this->supportedFormats) as $format) {
                 // Has this format been requested?
@@ -867,8 +867,8 @@ class RestController extends Controller
         }
 
         // Check if the controller has a default format
-        if (empty($this->restFormat) === false) {
-            return $this->restFormat;
+        if (empty($this->apiFormat) === false) {
+            return $this->apiFormat;
         }
 
         // Obtain the default format from the configuration
@@ -910,28 +910,28 @@ class RestController extends Controller
      */
     protected function detectApiKey()
     {
-        // Get the api key name variable set in the rest config file
-        $apiKeyVariable = $this->config->item('rest_key_name');
+        // Get the api key name variable set in the api config file
+        $apiKeyVariable = $this->config->item('api_key_name');
 
         // Work out the name of the SERVER entry based on config
         $keyName = 'HTTP_' . strtoupper(str_replace('-', '_', $apiKeyVariable));
 
-        $this->rest->key = null;
-        $this->rest->level = null;
-        $this->rest->user_id = null;
-        $this->rest->ignore_limits = false;
+        $this->api->key = null;
+        $this->api->level = null;
+        $this->api->user_id = null;
+        $this->api->ignore_limits = false;
 
         // Find the key from server or arguments
         if (($key = isset($this->args[$apiKeyVariable]) ? $this->args[$apiKeyVariable] : $this->input->server($keyName))) {
-            if (!($row = $this->rest->db->where($this->config->item('rest_key_column'), $key)->get($this->config->item('rest_keys_table'))->row())) {
+            if (!($row = $this->api->db->where($this->config->item('api_key_column'), $key)->get($this->config->item('api_keys_table'))->row())) {
                 return false;
             }
 
-            $this->rest->key = $row->{$this->config->item('rest_key_column')};
+            $this->api->key = $row->{$this->config->item('api_key_column')};
 
-            isset($row->user_id) && $this->rest->user_id = $row->user_id;
-            isset($row->level) && $this->rest->level = $row->level;
-            isset($row->ignore_limits) && $this->rest->ignore_limits = $row->ignore_limits;
+            isset($row->user_id) && $this->api->user_id = $row->user_id;
+            isset($row->level) && $this->api->level = $row->level;
+            isset($row->ignore_limits) && $this->api->ignore_limits = $row->ignore_limits;
 
             $this->apiUser = $row;
 
@@ -1009,14 +1009,14 @@ class RestController extends Controller
     protected function logRequest($authorized = false)
     {
         // Insert the request into the log table
-        $isInserted = $this->rest->db
+        $isInserted = $this->api->db
             ->insert(
-                $this->config->item('rest_logs_table'),
+                $this->config->item('api_logs_table'),
                 [
                     'uri'        => $this->uri->uri_string(),
                     'method'     => $this->request->method,
-                    'params'     => $this->args ? ($this->config->item('rest_logs_json_params') === true ? json_encode($this->args) : serialize($this->args)) : null,
-                    'api_key'    => isset($this->rest->key) ? $this->rest->key : '',
+                    'params'     => $this->args ? ($this->config->item('api_logs_json_params') === true ? json_encode($this->args) : serialize($this->args)) : null,
+                    'api_key'    => isset($this->api->key) ? $this->api->key : '',
                     'ip_address' => $this->input->ip_address(),
                     'time'       => time(),
                     'authorized' => $authorized,
@@ -1024,7 +1024,7 @@ class RestController extends Controller
             );
 
         // Get the last insert id to update at a later stage of the request
-        $this->insertId = $this->rest->db->insert_id();
+        $this->insertId = $this->api->db->insert_id();
 
         return $isInserted;
     }
@@ -1039,14 +1039,14 @@ class RestController extends Controller
     protected function checkLimit($controllerMethod)
     {
         // They are special, or it might not even have a limit
-        if (empty($this->rest->ignore_limits) === false) {
+        if (empty($this->api->ignore_limits) === false) {
             // Everything is fine
             return true;
         }
 
-        $apiKey = isset($this->rest->key) ? $this->rest->key : '';
+        $apiKey = isset($this->api->key) ? $this->api->key : '';
 
-        switch ($this->config->item('rest_limits_method')) {
+        switch ($this->config->item('api_limits_method')) {
             case 'IP_ADDRESS':
                 $apiKey = $this->input->ip_address();
                 $limitedUri = 'ip-address:' . $apiKey;
@@ -1081,16 +1081,16 @@ class RestController extends Controller
         $timeLimit = (isset($this->methods[$controllerMethod]['time']) ? $this->methods[$controllerMethod]['time'] : 3600); // 3600 = 60 * 60
 
         // Get data about a keys' usage and limit to one row
-        $result = $this->rest->db
+        $result = $this->api->db
             ->where('uri', $limitedUri)
             ->where('api_key', $apiKey)
-            ->get($this->config->item('rest_limits_table'))
+            ->get($this->config->item('api_limits_table'))
             ->row();
 
         // No calls have been made for this key
         if ($result === null) {
             // Create a new row for the following key
-            $this->rest->db->insert($this->config->item('rest_limits_table'), [
+            $this->api->db->insert($this->config->item('api_limits_table'), [
                 'uri'          => $limitedUri,
                 'api_key'      => $apiKey,
                 'count'        => 1,
@@ -1101,12 +1101,12 @@ class RestController extends Controller
         // Been a time limit (or by default an hour) since they called
         elseif ($result->hour_started < (time() - $timeLimit)) {
             // Reset the started period and count
-            $this->rest->db
+            $this->api->db
                 ->where('uri', $limitedUri)
                 ->where('api_key', $apiKey)
                 ->set('hour_started', time())
                 ->set('count', 1)
-                ->update($this->config->item('rest_limits_table'));
+                ->update($this->config->item('api_limits_table'));
         }
 
         // They have called within the hour, so lets update
@@ -1117,11 +1117,11 @@ class RestController extends Controller
             }
 
             // Increase the count by one
-            $this->rest->db
+            $this->api->db
                 ->where('uri', $limitedUri)
                 ->where('api_key', $apiKey)
                 ->set('count', 'count + 1', false)
-                ->update($this->config->item('rest_limits_table'));
+                ->update($this->config->item('api_limits_table'));
         }
 
         return true;
@@ -1758,12 +1758,12 @@ class RestController extends Controller
         }
 
         $authSource = strtolower($this->config->item('auth_source'));
-        $restAuth = strtolower($this->config->item('rest_auth'));
-        $validLogins = $this->config->item('rest_valid_logins');
+        $apiAuth = strtolower($this->config->item('api_auth'));
+        $validLogins = $this->config->item('api_valid_logins');
 
-        if (!$this->config->item('auth_source') && $restAuth === 'digest') {
+        if (!$this->config->item('auth_source') && $apiAuth === 'digest') {
             // For digest we do not have a password passed as argument
-            return md5($username . ':' . $this->config->item('rest_realm') . ':' . (isset($validLogins[$username]) ? $validLogins[$username] : ''));
+            return md5($username . ':' . $this->config->item('api_realm') . ':' . (isset($validLogins[$username]) ? $validLogins[$username] : ''));
         }
 
         if ($password === false) {
@@ -1801,7 +1801,7 @@ class RestController extends Controller
     protected function checkPhpSession()
     {
         // If whitelist is enabled it has the first chance to kick them out
-        if ($this->config->item('rest_ip_whitelist_enabled')) {
+        if ($this->config->item('api_ip_whitelist_enabled')) {
             $this->checkWhitelistAuth();
         }
 
@@ -1815,8 +1815,8 @@ class RestController extends Controller
         if (!$this->session->userdata($key)) {
             // Display an error response
             $this->response([
-                $this->config->item('rest_status_field_name')  => false,
-                $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_unauthorized'),
+                $this->config->item('api_status_field_name')  => false,
+                $this->config->item('api_message_field_name') => $this->lang->line('text_api_unauthorized'),
             ], HttpStatus::UNAUTHORIZED);
         }
     }
@@ -1829,7 +1829,7 @@ class RestController extends Controller
     protected function prepareBasicAuth()
     {
         // If whitelist is enabled it has the first chance to kick them out
-        if ($this->config->item('rest_ip_whitelist_enabled')) {
+        if ($this->config->item('api_ip_whitelist_enabled')) {
             $this->checkWhitelistAuth();
         }
 
@@ -1863,7 +1863,7 @@ class RestController extends Controller
     protected function prepareDigestAuth()
     {
         // If whitelist is enabled it has the first chance to kick them out
-        if ($this->config->item('rest_ip_whitelist_enabled')) {
+        if ($this->config->item('api_ip_whitelist_enabled')) {
             $this->checkWhitelistAuth();
         }
 
@@ -1887,7 +1887,7 @@ class RestController extends Controller
         preg_match_all('@(username|nonce|uri|nc|cnonce|qop|response)=[\'"]?([^\'",]+)@', $digestString, $matches);
         $digest = (empty($matches[1]) || empty($matches[2])) ? [] : array_combine($matches[1], $matches[2]);
 
-        // For digest authentication the library function should return already stored md5(username:restrealm:password) for that username see rest.php::auth_library_function config
+        // For digest authentication the library function should return already stored md5(username:apirealm:password) for that username see api.php::auth_library_function config
         $username = $this->checkLogin($digest['username'], true);
         if (isset($digest['username']) === false || $username === false) {
             $this->forceLogin($uniqueId);
@@ -1900,14 +1900,14 @@ class RestController extends Controller
         if (strcasecmp($digest['response'], $validResponse) !== 0) {
             // Display an error response
             $this->response([
-                $this->config->item('rest_status_field_name')  => false,
-                $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_invalid_credentials'),
+                $this->config->item('api_status_field_name')  => false,
+                $this->config->item('api_message_field_name') => $this->lang->line('text_api_invalid_credentials'),
             ], HttpStatus::UNAUTHORIZED);
         }
     }
 
     /** 
-     * https://stackoverflow.com/questions/43406721/token-based-authentication-in-codeigniter-rest-server-library
+     * https://stackoverflow.com/questions/43406721/token-based-authentication-in-codeigniter-api-server-library
      * 
      * Check to see if the user is logged in with a token
      * 
@@ -1916,20 +1916,20 @@ class RestController extends Controller
     protected function checkToken()
     {
         if (
-            !empty($this->args[$this->config->item('rest_token_name')])
-            && $row = $this->rest->db->where('token', $this->args[$this->config->item('rest_token_name')])->get($this->config->item('rest_tokens_table'))->row()
+            !empty($this->args[$this->config->item('api_token_name')])
+            && $row = $this->api->db->where('token', $this->args[$this->config->item('api_token_name')])->get($this->config->item('api_tokens_table'))->row()
         ) {
             return $this->api_token = $row;
         } else {
             $this->response([
-                $this->config->item('rest_status_field_name') => false,
-                $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_unauthorized')
+                $this->config->item('api_status_field_name') => false,
+                $this->config->item('api_message_field_name') => $this->lang->line('text_api_unauthorized')
             ], HttpStatus::UNAUTHORIZED);
         }
     }
 
     /**
-     * Checks if the client's ip is in the 'rest_ip_blacklist' 
+     * Checks if the client's ip is in the 'api_ip_blacklist' 
      * config and generates a 401 response.
      *
      * @return void
@@ -1940,24 +1940,24 @@ class RestController extends Controller
         $pattern = sprintf('/(?:,\s*|^)\Q%s\E(?=,\s*|$)/m', $this->input->ip_address());
 
         // Returns 1, 0 or false (on error only). Therefore implicitly convert 1 to true
-        if (preg_match($pattern, $this->config->item('rest_ip_blacklist'))) {
+        if (preg_match($pattern, $this->config->item('api_ip_blacklist'))) {
             // Display an error response
             $this->response([
-                $this->config->item('rest_status_field_name')  => false,
-                $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_ip_denied'),
+                $this->config->item('api_status_field_name')  => false,
+                $this->config->item('api_message_field_name') => $this->lang->line('text_api_ip_denied'),
             ], HttpStatus::UNAUTHORIZED);
         }
     }
 
     /**
-     * Check if the client's ip is in the 'rest_ip_whitelist' 
+     * Check if the client's ip is in the 'api_ip_whitelist' 
      * config and generates a 401 response.
      *
      * @return void
      */
     protected function checkWhitelistAuth()
     {
-        $whitelist = explode(',', $this->config->item('rest_ip_whitelist'));
+        $whitelist = explode(',', $this->config->item('api_ip_whitelist'));
 
         array_push($whitelist, '127.0.0.1', '0.0.0.0');
 
@@ -1969,8 +1969,8 @@ class RestController extends Controller
 
         if (in_array($this->input->ip_address(), $whitelist) === false) {
             $this->response([
-                $this->config->item('rest_status_field_name')  => false,
-                $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_ip_unauthorized'),
+                $this->config->item('api_status_field_name')  => false,
+                $this->config->item('api_message_field_name') => $this->lang->line('text_api_ip_unauthorized'),
             ], HttpStatus::UNAUTHORIZED);
         }
     }
@@ -1985,17 +1985,17 @@ class RestController extends Controller
      */
     protected function forceLogin($nonce = '')
     {
-        $restAuth = strtolower($this->config->item('rest_auth'));
-        $restRealm = $this->config->item('rest_realm');
-        if ($restAuth === 'basic') {
+        $apiAuth = strtolower($this->config->item('api_auth'));
+        $apiRealm = $this->config->item('api_realm');
+        if ($apiAuth === 'basic') {
             // See http://tools.ietf.org/html/rfc2617#page-5
-            header('WWW-Authenticate: Basic realm="' . $restRealm . '"');
-        } elseif ($restAuth === 'digest') {
+            header('WWW-Authenticate: Basic realm="' . $apiRealm . '"');
+        } elseif ($apiAuth === 'digest') {
             // See http://tools.ietf.org/html/rfc2617#page-18
             header(
-                'WWW-Authenticate: Digest realm="' . $restRealm
+                'WWW-Authenticate: Digest realm="' . $apiRealm
                     . '", qop="auth", nonce="' . $nonce
-                    . '", opaque="' . md5($restRealm) . '"'
+                    . '", opaque="' . md5($apiRealm) . '"'
             );
         }
 
@@ -2005,8 +2005,8 @@ class RestController extends Controller
 
         // Display an error response
         $this->response([
-            $this->config->item('rest_status_field_name')  => false,
-            $this->config->item('rest_message_field_name') => $this->lang->line('text_rest_unauthorized'),
+            $this->config->item('api_status_field_name')  => false,
+            $this->config->item('api_message_field_name') => $this->lang->line('text_api_unauthorized'),
         ], HttpStatus::UNAUTHORIZED);
     }
 
@@ -2025,8 +2025,8 @@ class RestController extends Controller
 
         $payload['rtime'] = $this->end_rtime - $this->start_rtime;
 
-        return $this->rest->db->update(
-            $this->config->item('rest_logs_table'),
+        return $this->api->db->update(
+            $this->config->item('api_logs_table'),
             $payload,
             [
                 'id' => $this->insertId,
@@ -2051,8 +2051,8 @@ class RestController extends Controller
 
         $payload['response_code'] = $httpCode;
 
-        return $this->rest->db->update(
-            $this->config->item('rest_logs_table'),
+        return $this->api->db->update(
+            $this->config->item('api_logs_table'),
             $payload,
             [
                 'id' => $this->insertId,
@@ -2068,7 +2068,7 @@ class RestController extends Controller
     protected function checkAccess()
     {
         // If we don't want to check access, just return true
-        if ($this->config->item('rest_enable_access') === false) {
+        if ($this->config->item('api_enable_access') === false) {
             return true;
         }
 
@@ -2085,10 +2085,10 @@ class RestController extends Controller
         $controller = str_replace('//', '/', $controller);
 
         //check if the key has all_access
-        $accessRow = $this->rest->db
-            ->where('api_key', $this->rest->key)
+        $accessRow = $this->api->db
+            ->where('api_key', $this->api->key)
             ->where('controller', $controller)
-            ->get($this->config->item('rest_access_table'))->row_array();
+            ->get($this->config->item('api_access_table'))->row_array();
 
         if (!empty($accessRow) && !empty($accessRow['all_access'])) {
             return true;
@@ -2139,9 +2139,9 @@ class RestController extends Controller
         // If the request HTTP method is 'OPTIONS', kill the response and send it to the client
         if ($this->input->method() === 'options') {
             // Load DB if needed for logging
-            if (!isset($this->rest->db) && $this->config->item('rest_enable_logging')) {
-                $this->rest->db = ($this->config->item('rest_use_database'))
-                    ? $this->load->database($this->config->item('rest_database_group'), true)
+            if (!isset($this->api->db) && $this->config->item('api_enable_logging')) {
+                $this->api->db = ($this->config->item('api_use_database'))
+                    ? $this->load->database($this->config->item('api_database_group'), true)
                     : $this->load->database('default', true);
             }
             exit;
