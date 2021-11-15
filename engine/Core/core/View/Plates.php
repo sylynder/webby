@@ -19,28 +19,29 @@
 
 namespace Base\View;
 
-class Plates {
+class Plates
+{
 
-    /**
+	/**
 	 *  The file extension for the plates template
 	 *
 	 *  @var   string
 	 */
-	public $plate_ext		= '.php';
+	public $plateExtension	= '.php';
 
 	/**
 	 *  The amount of time to keep the file in cache
 	 *
 	 *  @var   integer
 	 */
-	public $cache_time		= 3600;
+	public $cacheTime		= 3600;
 
 	/**
 	 *  Autoload CodeIgniter Libraries and Helpers
 	 *
 	 *  @var   boolean
 	 */
-	public $enable_autoload	= false;
+	public $enableAutoload	= false;
 
 	/**
 	 *  Default language
@@ -63,67 +64,67 @@ class Plates {
 	 *
 	 *  @var   array
 	 */
-	protected $_data		= array();
+	protected $plateData	= [];
 
 	/**
 	 *  The content of each section
 	 *
 	 *  @var   array
 	 */
-	protected $sections	= array();
+	protected $sections		= [];
 
 	/**
 	 *  The stack of current sections being buffered
 	 *
 	 *  @var   array
 	 */
-	protected $buffer		= array();
+	protected $buffer		= [];
 
 	/**
 	 *  Custom compile functions by the user
 	 *
 	 *  @var   array
 	 */
-	protected $directives = array();
+	protected $directives 	= [];
 
 	/**
 	 *  Libraries to autoload
 	 *
 	 *  @var   array
 	 */
-	protected $libraries = array();
+	protected $libraries 	= [];
 
 	/**
 	 *  Helpers to autoload
 	 *
 	 *  @var   array
 	 */
-	protected $helpers = array();
+	protected $helpers 		= [];
 
 	/**
 	 *  Language strings to use with translation
 	 *
 	 *  @var   array
 	 */
-	protected $language	= array();
+	protected $language		= [];
 
 	/**
 	 *  List of languages loaded
 	 *
 	 *  @var   array
 	 */
-	protected $i18n_loaded = array();
+	protected $i18nLoaded 	= [];
 
 	// --------------------------------------------------------------------------
 
-    /**
+	/**
 	 *  All of the compiler methods used by Plates to simulate
 	 *  Laravel Plates Template
 	 *
 	 *  @var   array
 	 */
-	private $compilers = array(
-	    'directive',
+	private $compilers 		= [
+		'directive',
 		'comment',
 		'ternary',
 		'preserved',
@@ -155,24 +156,24 @@ class Plates {
 		'endphp',
 		'lang',
 		'choice'
-	);
+	];
 
-    // --------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 
 	/**
 	 *  Plates Class Constructor
 	 *
-	 *  @param   array   $params = array()
+	 *  @param   array   $params = []
 	 *  @return	 void
 	 */
-	public function __construct(array $params = array())
+	public function __construct(array $params = [])
 	{
 		// Set the super object to a local variable for use later
 		$this->ci = ci();
 		$this->ci->benchmark->mark('plate_execution_time_start');	//	Start the timer
 
 		$this->ci->load->driver('cache');	//	Load ci cache driver
-		
+
 		if (config_item('enable_helper')) {
 			$this->ci->load->helper('plate');	//	Load Plates Helper
 		}
@@ -180,18 +181,18 @@ class Plates {
 		$this->initialize($params);
 
 		//	Autoload Libraries and Helpers
-		if ($this->enable_autoload === true) {
+		if ($this->enableAutoload === true) {
 			//	Autoload Libraries
-			empty($this->libraries) OR $this->ci->load->library($this->libraries);
+			empty($this->libraries) or $this->ci->load->library($this->libraries);
 
 			//	Autoload Helpers
-			empty($this->helpers) OR $this->ci->load->helper($this->helpers);
+			empty($this->helpers) or $this->ci->load->helper($this->helpers);
 		}
 
 		log_message('info', 'Plates Template Class Initialized');
 	}
 
-    // --------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 
 	/**
 	 *  __set magic method
@@ -203,7 +204,7 @@ class Plates {
 	 */
 	public function __set($name, $value)
 	{
-		$this->_data[$name] = $value;
+		$this->plateData[$name] = $value;
 	}
 
 	// --------------------------------------------------------------------------
@@ -217,7 +218,7 @@ class Plates {
 	 */
 	public function __unset($name)
 	{
-		unset($this->_data[$name]);
+		unset($this->plateData[$name]);
 	}
 
 	// --------------------------------------------------------------------------
@@ -232,8 +233,8 @@ class Plates {
 	 */
 	public function __get($name)
 	{
-		if (key_exists($name, $this->_data)) {
-			return $this->_data[$name];
+		if (key_exists($name, $this->plateData)) {
+			return $this->plateData[$name];
 		}
 
 		return $this->ci->$name;
@@ -247,7 +248,7 @@ class Plates {
 	 * @param	array	$params
 	 * @return	Plates
 	 */
-	public function initialize(array $params = array())
+	public function initialize(array $params = [])
 	{
 		$this->clear();
 
@@ -260,7 +261,7 @@ class Plates {
 		return $this;
 	}
 
-    // --------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 
 	/**
 	 * Initializes some important variables
@@ -269,18 +270,18 @@ class Plates {
 	 */
 	public function clear()
 	{
-		$this->plate_ext		= config_item('plate_ext');
-		$this->cache_time		= config_item('cache_time');
-		$this->enable_autoload	= config_item('enable_autoload');
+		$this->plateExtension   = config_item('plate_extension');
+		$this->cacheTime		= config_item('cache_time');
+		$this->enableAutoload	= config_item('enable_autoload');
 		$this->locale			= config_item('language');
 		$this->libraries	    = config_item('libraries');
 		$this->helpers		    = config_item('helpers');
-		$this->_data			= array();
+		$this->plateData		= [];
 
 		return $this;
 	}
 
-    // --------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 
 	/**
 	 *  Sets one single data to Plates Template
@@ -291,7 +292,7 @@ class Plates {
 	 */
 	public function with($name, $value = '')
 	{
-		$this->_data[$name] = $value;
+		$this->plateData[$name] = $value;
 		return $this;
 	}
 
@@ -306,13 +307,10 @@ class Plates {
 	 */
 	public function set($data, $value = '')
 	{
-		if (is_array($data))
-		{
-			$this->_data = array_merge($this->_data, $data);
-		}
-		else
-		{
-			$this->_data[$data] = $value;
+		if (is_array($data)) {
+			$this->plateData = array_merge($this->plateData, $data);
+		} else {
+			$this->plateData[$data] = $value;
 		}
 
 		return $this;
@@ -332,13 +330,10 @@ class Plates {
 	 */
 	public function append($name, $value)
 	{
-		if (is_array($this->_data[$name]))
-		{
-			$this->_data[$name][] = $value;
-		}
-		else
-		{
-			$this->_data[$name] .= $value;
+		if (is_array($this->plateData[$name])) {
+			$this->plateData[$name][] = $value;
+		} else {
+			$this->plateData[$name] .= $value;
 		}
 
 		return $this;
@@ -356,16 +351,14 @@ class Plates {
 	 */
 	public function view($template, $data = null, $return = false)
 	{
-		if (isset($data))
-		{
+		if (isset($data)) {
 			$this->set($data);
 		}
 
 		//	Compile and execute the template
-		$content = $this->run($this->compile($template), $this->_data);
+		$content = $this->run($this->compile($template), $this->plateData);
 
-		if ( ! $return)
-		{
+		if (!$return) {
 			$this->ci->output->append_output($content);
 		}
 
@@ -381,48 +374,37 @@ class Plates {
 	 *  Modular Extensions
 	 *
 	 *  @param    string    $filename
-	 *  @param    boolean   $show_error
+	 *  @param    boolean   $showError
 	 *  @return   mixed
 	 */
-	public function exists($filename, $show_error = false)
+	public function exists($filename, $showError = false)
 	{
-		$view_name = preg_replace('/([a-z]\w+)\./', '$1/', $filename);
+		$viewName = preg_replace('/([a-z]\w+)\./', '$1/', $filename);
 
 		//	The default path to the file
-		$default_path = VIEWPATH.$view_name.$this->plate_ext;
+		$defaultPath = VIEWPATH . $viewName . $this->plateExtension;
 
 		//	If you are using Modular Extensions it will be detected
-		if (method_exists($this->ci->router, 'fetch_module'))
-		{
+		if (method_exists($this->ci->router, 'fetch_module')) {
 			$module = $this->ci->router->fetch_module();
-			list($path, $view) = \Modules::find($view_name . $this->plate_ext, $module, 'views/');
+			list($path, $view) = \Modules::find($viewName . $this->plateExtension, $module, 'Views/');
 
-			if ($path)
-			{
-				$default_path = $path . $view;
+			if ($path) {
+				$defaultPath = $path . $view;
 			}
 		}
-
+		
 		//	Verify if the page really exists
-		if (is_file($default_path))
-		{
-			if ($show_error === true)
-			{
-				return $default_path;
-			}
-			else
-			{
+		if (is_file($defaultPath)) {
+			if ($showError === true) {
+				return $defaultPath;
+			} else {
 				return true;
 			}
-		}
-		else
-		{
-			if ($show_error === true)
-			{
-				show_error('Sorry! We couldn\'t find the view: '.$view_name.$this->plate_ext);
-			}
-			else
-			{
+		} else {
+			if ($showError === true) {
+				show_error('Sorry! We couldn\'t find the view: ' . $viewName . $this->plateExtension);
+			} else {
 				return false;
 			}
 		}
@@ -466,39 +448,35 @@ class Plates {
 	 */
 	protected function compile($template)
 	{
-		$view_path	= $this->exists($template, true);
-		$cache_name	= 'plate-'.md5($view_path);
-        
-        // Save cached files to cache/web folder
-        $this->ci->config->set_item('cache_path', WEB_CACHE_PATH);
+		$viewPath	= $this->exists($template, true);
+		$cacheName	= 'plate-' . md5($viewPath);
+		$platesPath = $this->ci->config->item('plates_cache_path') . DIRECTORY_SEPARATOR;
+		// Save cached files to cache/web/plates folder
+		$this->ci->config->set_item('cache_path', $platesPath);
 
 		//	Verifies if exists a cached version of the file
-		if ($cached_version = $this->ci->cache->file->get($cache_name))
-		{
-			if (ENVIRONMENT == 'production')
-			{
-				return $cached_version;
+		if ($cachedVersion = $this->ci->cache->file->get($cacheName)) {
+			if (ENVIRONMENT == 'production') {
+				return $cachedVersion;
 			}
 
-			$cached_meta = $this->ci->cache->file->get_metadata($cache_name);
+			$cachedMeta = $this->ci->cache->file->get_metadata($cacheName);
 
-			if ($cached_meta['mtime'] > filemtime($view_path))
-			{
-				return $cached_version;
+			if ($cachedMeta['mtime'] > filemtime($viewPath)) {
+				return $cachedVersion;
 			}
 		}
 
-		$content = file_get_contents($view_path);
+		$content = file_get_contents($viewPath);
 
 		//	Compile the content
-		foreach ($this->compilers as $compiler)
-		{
+		foreach ($this->compilers as $compiler) {
 			$method = "compile_{$compiler}";
 			$content = $this->$method($content);
 		}
 
 		//	Store in the cache
-		$this->ci->cache->file->save($cache_name, $content, $this->cache_time);
+		$this->ci->cache->file->save($cacheName, $content, $this->cacheTime);
 
 		return $content;
 	}
@@ -514,13 +492,12 @@ class Plates {
 	 */
 	protected function run($template, $data = null)
 	{
-		if (is_array($data))
-		{
+		if (is_array($data)) {
 			extract($data);
 		}
 
 		ob_start();
-		eval(' ?>'.$template.'<?php ');
+		eval(' ?>' . $template . '<?php ');
 
 		$content = ob_get_clean();
 
@@ -539,7 +516,7 @@ class Plates {
 	 */
 	protected function untouch($variable)
 	{
-		return '{{'.$variable.'}}';
+		return '{{' . $variable . '}}';
 	}
 
 	// --------------------------------------------------------------------------
@@ -554,7 +531,7 @@ class Plates {
 	 */
 	protected function include($template, $data = null)
 	{
-		$data = isset($data) ? array_merge($this->_data, $data) : $this->_data;
+		$data = isset($data) ? array_merge($this->plateData, $data) : $this->plateData;
 
 		//	Compile and execute the template
 		return $this->run($this->compile($template), $data);
@@ -571,7 +548,7 @@ class Plates {
 	 */
 	protected function partial($template, $data = null)
 	{
-		$data = isset($data) ? array_merge($this->_data, $data) : $this->_data;
+		$data = isset($data) ? array_merge($this->plateData, $data) : $this->plateData;
 
 		//	Compile and execute the template
 		return $this->run($this->compile($template), $data);
@@ -588,7 +565,7 @@ class Plates {
 	 */
 	protected function section($template, $data = null)
 	{
-		$data = isset($data) ? array_merge($this->_data, $data) : $this->_data;
+		$data = isset($data) ? array_merge($this->plateData, $data) : $this->plateData;
 
 		//	Compile and execute the template
 		return $this->run($this->compile($template), $data);
@@ -623,12 +600,9 @@ class Plates {
 	{
 		array_push($this->buffer, $section);
 
-		if ($value !== null)
-		{
+		if ($value !== null) {
 			$this->close_section($value);
-		}
-		else
-		{
+		} else {
 			ob_start();
 		}
 	}
@@ -646,18 +620,15 @@ class Plates {
 	 */
 	protected function close_section($value = null)
 	{
-		$last_section = array_pop($this->buffer);
+		$lastSection = array_pop($this->buffer);
 
-		if ($value !== null)
-		{
-			$this->extend_section($last_section, $value);
-		}
-		else
-		{
-			$this->extend_section($last_section, ob_get_clean());
+		if ($value !== null) {
+			$this->extend_section($lastSection, $value);
+		} else {
+			$this->extend_section($lastSection, ob_get_clean());
 		}
 
-		return $last_section;
+		return $lastSection;
 	}
 
 	// --------------------------------------------------------------------------
@@ -669,21 +640,19 @@ class Plates {
 	 *  @param    array     $params      Place-holders to parse in the string
 	 *  @return   string
 	 */
-	public function i18n($line, $params = array())
+	public function i18n($line, $params = [])
 	{
 		list($file, $string) = array_pad(explode('.', $line), 2, null);
 
 		//	Here tries to get the string with the $file variable...
 		$line = isset($this->language[$file]) ? $this->language[$file] : $file;
 
-		if ($string !== null)
-		{
-			if ( ! isset($this->i18n_loaded[$file]) OR $this->i18n_loaded[$file] !== $this->locale)
-			{
+		if ($string !== null) {
+			if (!isset($this->i18nLoaded[$file]) or $this->i18nLoaded[$file] !== $this->locale) {
 				//	Load the file into the language array
 				$this->language = array_merge($this->language, $this->ci->lang->load($file, $this->locale, true));
 				//	Save the loaded file and idiom
-				$this->i18n_loaded[$file] = $this->locale;
+				$this->i18nLoaded[$file] = $this->locale;
 			}
 
 			//	... and here, the variable used is $string
@@ -691,20 +660,18 @@ class Plates {
 		}
 
 		//	Deals with the place-holders for the string
-		if ( ! empty($params) && is_array($params))
-		{
-			foreach ($params as $name => $content)
-			{
-				$line = (strpos($line, ':'.strtoupper($name)) !== false)
-					? str_replace(':'.strtoupper($name), strtoupper($content), $line)
+		if (!empty($params) && is_array($params)) {
+			foreach ($params as $name => $content) {
+				$line = (strpos($line, ':' . strtoupper($name)) !== false)
+					? str_replace(':' . strtoupper($name), strtoupper($content), $line)
 					: $line;
 
-				$line = (strpos($line, ':'.ucfirst($name)) !== false)
-					? str_replace(':'.ucfirst($name), ucfirst($content), $line)
+				$line = (strpos($line, ':' . ucfirst($name)) !== false)
+					? str_replace(':' . ucfirst($name), ucfirst($content), $line)
 					: $line;
 
-				$line = (strpos($line, ':'.$name) !== false)
-					? str_replace(':'.$name, $content, $line)
+				$line = (strpos($line, ':' . $name) !== false)
+					? str_replace(':' . $name, $content, $line)
 					: $line;
 			}
 		}
@@ -722,41 +689,33 @@ class Plates {
 	 *  @param    array           $params
 	 *  @return   string
 	 */
-	public function inflector($line, $number, $params = array())
+	public function inflector($line, $number, $params = [])
 	{
 		$lines = explode('|', $this->i18n($line, $params));
 
-		if (is_array($number))
-		{
+		if (is_array($number)) {
 			$number = count($number);
 		}
 
-		foreach ($lines as $string)
-		{
+		foreach ($lines as $string) {
 			//	Searches for a given amount
 			preg_match_all('/\{([0-9]{1,})\}/', $string, $matches);
 			list($str, $count) = $matches;
 
-			if (isset($count[0]) && $count[0] == $number)
-			{
-				return str_replace('{'.$count[0].'} ', '', $string);
+			if (isset($count[0]) && $count[0] == $number) {
+				return str_replace('{' . $count[0] . '} ', '', $string);
 			}
 
 			//	Searches for a range interval
 			preg_match_all('/\[([0-9]{1,}),\s?([0-9*]{1,})\]/', $string, $matches);
 			list($str, $start, $end) = $matches;
 
-			if (isset($end[0]) && $end[0] !== '*')
-			{
-				if (in_array($number, range($start[0], $end[0])))
-				{
+			if (isset($end[0]) && $end[0] !== '*') {
+				if (in_array($number, range($start[0], $end[0]))) {
 					return preg_replace('/\[.*?\]\s?/', '', $string);
 				}
-			}
-			elseif (isset($end[0]) && $end[0] === '*')
-			{
-				if ($number >= $start[0])
-				{
+			} elseif (isset($end[0]) && $end[0] === '*') {
+				if ($number >= $start[0]) {
 					return preg_replace('/\[.*?\]\s?/', '', $string);
 				}
 			}
@@ -780,15 +739,11 @@ class Plates {
 	{
 		$content = '';
 
-		if (count($variable) > 0)
-		{
-			foreach ($variable as $val[$label])
-			{
+		if (count($variable) > 0) {
+			foreach ($variable as $val[$label]) {
 				$content .= $this->include($template, $val);
 			}
-		}
-		else
-		{
+		} else {
 			$content .= ($default !== null) ? $this->include($default) : '';
 		}
 
@@ -805,8 +760,7 @@ class Plates {
 	 */
 	protected function compile_directive($value)
 	{
-		foreach ($this->directives as $compilator)
-		{
+		foreach ($this->directives as $compilator) {
 			$value = call_user_func($compilator, $value);
 		}
 
@@ -824,11 +778,11 @@ class Plates {
 	protected function compile_comment($content)
 	{
 		$pattern = '/\{\{--(.+?)(--\}\})?\n/';
-		$return_pattern = '/\{\{--((.|\s)*?)--\}\}/';
+		$returnPattern = '/\{\{--((.|\s)*?)--\}\}/';
 
 		$content = preg_replace($pattern, "<?php // $1 ?>", $content);
 
-		return preg_replace($return_pattern, "<?php /* $1 */ ?>\n", $content);
+		return preg_replace($returnPattern, "<?php /* $1 */ ?>\n", $content);
 	}
 
 	// --------------------------------------------------------------------------
@@ -845,9 +799,8 @@ class Plates {
 
 		preg_match_all($pattern, $content, $matches, PREG_SET_ORDER);
 
-		foreach ($matches as $var)
-		{
-			$content = isset($this->_data[$var[1]]) ? str_replace($var[0], "<?php echo \$$var[1]; ?>", $content) : str_replace($var[0], "<?php echo '$var[2]'; ?>", $content);
+		foreach ($matches as $var) {
+			$content = isset($this->plateData[$var[1]]) ? str_replace($var[0], "<?php echo \$$var[1]; ?>", $content) : str_replace($var[0], "<?php echo '$var[2]'; ?>", $content);
 		}
 		return $content;
 	}
@@ -911,17 +864,16 @@ class Plates {
 
 		preg_match_all($pattern, $content, $matches);
 
-		foreach ($matches[0] as $forelse)
-		{
-			$variable_pattern = '/\$[^\s]*/';
+		foreach ($matches[0] as $forelse) {
+			$variablePattern = '/\$[^\s]*/';
 
-			preg_match($variable_pattern, $forelse, $variable);
+			preg_match($variablePattern, $forelse, $variable);
 
-			$if_statement = "<?php if (count({$variable[0]}) > 0): ?>";
-			$search_pattern = '/(\s*)@forelse(\s*\(.*\))/';
-			$replacement = '$1'.$if_statement.'<?php foreach $2: ?>';
+			$ifStatement = "<?php if (count({$variable[0]}) > 0): ?>";
+			$searchPattern = '/(\s*)@forelse(\s*\(.*\))/';
+			$replacement = '$1' . $ifStatement . '<?php foreach $2: ?>';
 
-			$content = str_replace($forelse, preg_replace($search_pattern, $replacement, $forelse), $content);
+			$content = str_replace($forelse, preg_replace($searchPattern, $replacement, $forelse), $content);
 		}
 
 		return $content;
@@ -1172,17 +1124,15 @@ class Plates {
 		$pattern = '/(\s*)@extends(\s*\(.*\))/';
 
 		// Find and if there is none, just return the content
-		if ( ! preg_match_all($pattern, $content, $matches, PREG_SET_ORDER))
-		{
+		if (!preg_match_all($pattern, $content, $matches, PREG_SET_ORDER)) {
 			return $content;
 		}
 
 		$content = preg_replace($pattern, '', $content);
 
 		// Layouts are included in the end of template
-		foreach ($matches as $include)
-		{
-			$content .= $include[1].'<?php echo $this->include'.$include[2]."; ?>";
+		foreach ($matches as $include) {
+			$content .= $include[1] . '<?php echo $this->include' . $include[2] . "; ?>";
 		}
 
 		return $content;
@@ -1311,14 +1261,10 @@ class Plates {
 	 */
 	private function extend_section($section, $content)
 	{
-		if (isset($this->sections[$section]))
-		{
+		if (isset($this->sections[$section])) {
 			$this->sections[$section] = str_replace('@parent', $content, $this->sections[$section]);
-		}
-		else
-		{
+		} else {
 			$this->sections[$section] = $content;
 		}
 	}
-    
 }
