@@ -37,17 +37,17 @@ class CodeIgniter {
     /**
      * @var array
      */
-    protected $constants = array();
+    protected $constants = [];
 
     /**
      * @var array
      */
-    protected $globals = array();
+    protected $globals = [];
 
     /**
      * @var array
      */
-    protected $server = array();
+    protected $server = [];
 
     /**
      * @param array       $globals

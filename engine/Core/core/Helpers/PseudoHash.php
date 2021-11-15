@@ -1,7 +1,5 @@
 <?php
 
-namespace Base\Helpers;
-
 /**
  * PseudoCrypt by KevBurns (http://blog.kevburnsjr.com/php-unique-hash)
  * Reference/source: http://stackoverflow.com/a/1464155/933782
@@ -43,13 +41,21 @@ namespace Base\Helpers;
  * @author Kwame Oteng Appiah-Nti (Developer Kwame)
  */
 
-class PseudoHash {
+namespace Base\Helpers;
 
-    /* Symbols to check and filter */
+class PseudoHash 
+{
+    /**
+     * Symbols to check and filter
+     */
     // private static $symbols = "“”!?;\",+eE.\/”“'";
 
-    /* Key: Next prime greater than 62 ^ n / 1.618033988749894848 */
-    /* Value: modular multiplicative inverse */
+    /**
+     * Key: Next prime greater than 62 ^ n / 1.618033988749894848
+     * Value: modular multiplicative inverse
+     *
+     * @var array
+     */
     private static $golden_primes = array(
         '1'                  => '1',
         '41'                 => '59',

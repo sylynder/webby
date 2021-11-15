@@ -23,7 +23,7 @@ class Instance
      * @param  array  $globals
      * @return \CI_Controller
      */
-    public static function create(array $server = array(), array $globals = array())
+    public static function create(array $server = [], array $globals = [])
     {
         $globals = empty($globals) ? $GLOBALS : $globals;
 

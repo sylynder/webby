@@ -1,4 +1,4 @@
-<?php
+<?php 
 defined('COREPATH') or exit('No direct script access allowed');
 
 /**
@@ -19,3 +19,4 @@ class Base_Service
         return $CI->$key;
     }
 }
+/* end of file Base_Service.php */

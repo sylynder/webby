@@ -1,4 +1,5 @@
-<?php defined('COREPATH') OR exit('No direct script access allowed');
+<?php 
+defined('COREPATH') or exit('No direct script access allowed');
 
 class Base_Model extends \CI_Model {
 

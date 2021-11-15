@@ -4,9 +4,9 @@ namespace Base\Controllers;
 
 use Exception;
 use Base\Http\HttpStatus;
-use Base\Rest\RestController;
+use Base\Api\ApiServerController;
 
-class ApiController extends RestController // RestController from the "Rest" directory
+class ApiController extends ApiServerController // ApiServerController from the "Rest" directory
 {
 
     public function __construct()

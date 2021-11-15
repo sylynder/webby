@@ -1,10 +1,5 @@
 <?php
 
-namespace Base\Helpers;
-
-use Exception;
-use Base\CodeIgniter\Instance;
-
 /**
  * Format class
  * Help convert between various formats such as XML, JSON, CSV, etc.
@@ -12,6 +7,12 @@ use Base\CodeIgniter\Instance;
  * @author    Phil Sturgeon, Chris Kacerguis, @softwarespot
  * @license   http://www.dbad-license.org/
  */
+
+namespace Base\Helpers;
+
+use Exception;
+use Base\CodeIgniter\Instance;
+
 class Format
 {
     /**

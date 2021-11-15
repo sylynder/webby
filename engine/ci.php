@@ -1,6 +1,6 @@
 <?php
 /**
- * An Instance CodeIgniter For Console Implementation
+ * An Instance of CodeIgniter For Console Implementation
  *
  * 
  * @author     Kwame Oteng Appiah-Nti <https://github.com/otengkwame>
@@ -59,16 +59,14 @@ if (extension_loaded('iconv')) {
     define('ICONV_ENABLED', false);
 }
 
-$GLOBALS['CFG'] = & load_class('Config', 'core');
-$GLOBALS['UNI'] = & load_class('Utf8', 'core');
-$GLOBALS['SEC'] = & load_class('Security', 'core');
+$GLOBALS['CFG'] =& load_class('Config', 'core');
+$GLOBALS['UNI'] =& load_class('Utf8', 'core');
+$GLOBALS['SEC'] =& load_class('Security', 'core');
 
 load_class('Loader', 'core');
 load_class('Router', 'core');
 load_class('Input', 'core');
 load_class('Lang', 'core');
-
-// require(CIPATH . 'core/Controller.php');
 
 chdir($cwd);
 

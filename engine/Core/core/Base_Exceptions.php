@@ -1,4 +1,4 @@
-<?php
+<?php 
 defined('COREPATH') or exit('No direct script access allowed');
 
 class Base_Exceptions extends \CI_Exceptions {
@@ -41,3 +41,4 @@ class Base_Exceptions extends \CI_Exceptions {
 		return $buffer;
 	}
 }
+/* end of file Base_Exceptions.php */

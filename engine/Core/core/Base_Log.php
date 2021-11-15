@@ -1,4 +1,5 @@
-<?php defined('COREPATH') OR exit('No direct script access allowed');
+<?php 
+defined('COREPATH') or exit('No direct script access allowed');
 
 /**
  * Base_Log class
@@ -13,13 +14,13 @@ class Base_Log extends \CI_Log {
      * @var array
      */
     public $_levels = [	
-    					'USER' => '1',
-    					'APP' => '2',
-						'ERROR' => '3',
-						'INFO' => '4',  
-						'DEBUG' => '5',  
-						'ALL' => '6'
-					];
+		'USER' => '1',
+		'APP' => '2',
+		'ERROR' => '3',
+		'INFO' => '4',  
+		'DEBUG' => '5',  
+		'ALL' => '6'
+	];
     
     public function __construct()
     {
@@ -62,7 +63,7 @@ class Base_Log extends \CI_Log {
 			$newfile = true;
 			// Only add protection to php files
 			if ($this->_file_ext === 'php') {
-				$message .= "<?php defined('COREPATH') OR exit('No direct script access allowed'); ?>\n\n";
+				$message .= "<?php defined('COREPATH') or exit('No direct script access allowed'); ?>\n\n";
 			}
 		}
 

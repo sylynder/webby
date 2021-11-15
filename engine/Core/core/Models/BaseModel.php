@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * An Base Model to provide basic actions 
+ * for models that inherit from it to do 
+ * more than the EasyModel
+ * 
+ * Borrowed from Bonfire 
+ * Expanded to work with Webby
+ * 
+ * Note it is not well documented.
+ *
+ * @author  Oteng Kwame Appiah-Nti <developerkwame@gmail.com> (Developer Kwame)
+ * @license MIT
+ * @link    <link will be here>
+ * @version 1.0
+ */
+
 namespace Base\Models;
 
 class BaseModel extends Model 

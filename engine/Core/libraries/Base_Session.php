@@ -6,7 +6,6 @@ class Base_Session extends \CI_Session
     public function __construct()
     {
         parent::__construct();
-        $this->ci = ci();
     }
 
     /**
@@ -36,3 +35,4 @@ class Base_Session extends \CI_Session
 
     }
 }
+/* end of file ./engine/Core/libraries/Base_Session.php */

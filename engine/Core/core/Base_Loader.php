@@ -1,4 +1,5 @@
-<?php defined('COREPATH') OR exit('No direct script access allowed');
+<?php 
+defined('COREPATH') or exit('No direct script access allowed');
 
 /* load the MX_Loader class */
 require_once ENGINEPATH . "/MX/Loader.php";
