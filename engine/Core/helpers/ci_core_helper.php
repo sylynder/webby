@@ -29,7 +29,7 @@ if ( ! function_exists('ci'))
     function ci(string $class = null, array $params = [])
     {
         if ($class === null) {
-            return Instance::create(); //$ci = &get_instance();
+            return Instance::create();
         }
 
         //	Special cases 'user_agent' and 'unit_test' are loaded
@@ -175,13 +175,14 @@ if ( ! function_exists('app_url'))
      * @param bool $protocol
      * @return string
      */
-    function app_url($uri = '', $protocol = null)
+    function app_url($uri = '', $protocol = NULL)
     {   
         return base_url($uri, $protocol);
     }
 }
 
-if ( ! function_exists('url')) {
+if ( ! function_exists('url')) 
+{
     /**
      * alias of site_url
      *
@@ -198,7 +199,7 @@ if ( ! function_exists('url')) {
         }
 
         if (!empty($param) && $protocol === null) {
-            return site_url($uri . '/' . $param);
+            return site_url($uri.'/'. $param);
         }
 
         return site_url($uri, $protocol);
@@ -241,8 +242,7 @@ if ( ! function_exists('action'))
     }
 }
 
-if ( ! function_exists('is_active')) 
-{
+if ( ! function_exists('is_active')) {
     /**
      * Use it to set active or current url for 
      * css classes. Default class name is (active)
@@ -253,10 +253,12 @@ if ( ! function_exists('is_active'))
      */
     function is_active($link, $class = null)
     {
+        $link = dot2slash($link);
+
         if ($class != null) {
             return ci()->uri->uri_string() == $link ? $class : '';
-        } 
-        
+        }
+
         return ci()->uri->uri_string() == $link ? 'active' : '';
     }
 }
@@ -289,7 +291,7 @@ if ( ! function_exists('uri_segment'))
      * @param mixed $no_result
      * @return string
      */
-    function uri_segment($n, $no_result = null)
+    function uri_segment($n, $no_result = NULL)
     {
         return ci()->uri->segment($n, $no_result);
     }
@@ -381,21 +383,35 @@ if ( ! function_exists('files'))
     }
 }
 
-if ( ! function_exists('has_file')) {
+if ( ! function_exists('has_file')) 
+{
+    /**
+     * function to check if file to
+     * upload is not empty
+     *
+     * @param string $file
+     * @return boolean
+     */
+    function has_file($file)
+    {
+        return (empty($file['name'])) 
+                    ? true 
+                    : false;
+    }
+}
+
+if (!function_exists('is_file_empty')) {
     /**
      * An alias to the function above
-     * But checks truthy first
      *
      * expects $_FILES as $file
      * 
      * @param string $file
      * @return boolean
      */
-    function has_file($file)
+    function is_file_empty($file)
     {
-        return (!empty($file['name']))
-            ? true
-            : false;
+        return has_file($file);
     }
 }
 
@@ -528,6 +544,25 @@ if ( ! function_exists('raw_input_contents'))
 
 /* ------------------------------- Form Functions ---------------------------------*/
 
+if ( ! function_exists('old')) {
+
+    /**
+     * Use it as an alias and fill in for 
+     * CodeIgniter's set_value function
+     *
+     * @param	string	$field		Field name
+     * @param	string	$default	Default value
+     * @param	bool	$html_escape	Whether to escape HTML special characters or not
+     * @return	string
+     * 
+     * @Todo implement a smooth functionality as CI4's old
+     */
+    function old($field, $default = '', $html_escape = true)
+    {
+        return set_value($field, $default, $html_escape);
+    }
+}
+
 if ( ! function_exists('selected')) 
 {
     /**
@@ -543,6 +578,26 @@ if ( ! function_exists('selected'))
         return ($existing_value === $comparing_value) ? ' selected="selected"' : '';
     }
 }
+
+if ( ! function_exists('multi_selected')) 
+{
+    /**
+     * Use it to compare values that have
+     * multiple selected values
+     * 
+     * Preferrable when updating a form 
+     *
+     * @param string $existing_value
+     * @param array $comparing_array_values
+     * @return string
+     */
+    function multi_selected($existing_value, $comparing_array_values)
+    {
+        return in_array($existing_value, $comparing_array_values) ? ' selected="selected"' : '';
+    }
+}
+
+
 
 if ( ! function_exists('verify_selected')) 
 {

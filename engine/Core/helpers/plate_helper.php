@@ -1,5 +1,5 @@
 <?php
-defined('COREPATH') OR exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 use Base\View\Plates;
 
@@ -85,19 +85,19 @@ if ( ! function_exists('mail_view'))
 
         if (empty($mail_data)) {
             $exception_message = "Email data cannot be empty as second paramater";
-            throw new Exception($exception_message); 
+            throw new \Exception($exception_message); 
             log_message('error', $exception_message);
         }
 
         if ( ! is_array($mail_data)) {
             $exception_message = "Email data should be array";
-            throw new Exception($exception_message); 
+            throw new \Exception($exception_message); 
             log_message('error', $exception_message);
         }
 
         if ( ! is_array($mail_view_path)) {
             $exception_message = "Email view malformed, make sure it has the 'double colon' symbol '::' in it";
-            throw new Exception($exception_message); 
+            throw new \Exception($exception_message); 
             log_message('error', $exception_message);
             exit;
         }

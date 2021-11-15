@@ -98,10 +98,16 @@ if ( ! function_exists('resource'))
      * @param  string   $path
      * @return string 
      */
-	function resource($path = null)
+	function resource($path = null, $item = null)
 	{
+        $path = dot2slash($path);
+
         if ( ! is_null($path)) {
 		    $path = 'resources' . DIRECTORY_SEPARATOR . $path;
+        }
+
+        if ( ! is_null($item)) {
+            $path .= '/'.$item;
         }
         
 		return (!empty($path)) ? load_path($path) : site_url() . ASSETS;
@@ -145,7 +151,7 @@ if ( ! function_exists('use_asset'))
         $assets = 'assets';
 
 		if ($filepath === null) {
-            throw new \Exception('filepath needs to be specified', 1);
+            throw new \Exception('filepath needs to be specified');
 		}
 
         if (empty($package)) {

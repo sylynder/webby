@@ -12,7 +12,6 @@ defined('COREPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-
 /* ------------------------------- Random Code Generation Functions ---------------------------------*/
 
 if ( ! function_exists('unique_code')) 
@@ -43,7 +42,7 @@ if ( ! function_exists('unique_id'))
         if (function_exists("random_bytes")) {
             $bytes = random_bytes(ceil($length / 2));
         } else {
-            throw new Exception("no cryptographically secure random function available");
+            throw new \Exception("no cryptographically secure random function available");
         }
         return substr(bin2hex($bytes), 0, $length);
     }
@@ -335,10 +334,6 @@ if ( ! function_exists('dot2slash'))
      */
     function dot2slash(string $string)
     {
-        if (strstr($string, '/')) {
-            $string = $string;
-        }
-
         if (strstr($string, '.')) {
             $string = str_replace('.', '/', $string);
         }
@@ -496,7 +491,7 @@ if ( ! function_exists('dec2str'))
 
         $base = (int) $base;
         if ($base < 2 | $base > 36 | $base == 10) {
-            throw new Exception('$base must be in the range 2-9 or 11-36');
+            throw new \Exception('$base must be in the range 2-9 or 11-36');
             exit;
         }
 
@@ -507,7 +502,7 @@ if ( ! function_exists('dec2str'))
         $charset = substr($charset, 0, $base);
 
         if (!preg_match('/^[0-9]{1,50}$/', trim($decimal))) {
-            throw new Exception('Value must be a positive integer with < 50 digits');
+            throw new \Exception('Value must be a positive integer with < 50 digits');
             return false;
         } 
 
@@ -575,7 +570,7 @@ if ( ! function_exists('extract_email_name'))
 if ( ! function_exists('str_extract')) 
 {
     /**
-     * Extract dot from a string
+     * Extract symbol,character,word from a string
      *
      * @param string $string
      * @param string $symbol
@@ -788,6 +783,67 @@ if ( ! function_exists('contains'))
     }
 }
 
+if (!function_exists('starts_with')) {
+    /**
+     *  Determine if a given string 
+     *  starts with a given substring
+     *
+     *  @param     string          $haystack
+     *  @param     string|array    $needles
+     *  @return    boolean
+     */
+    function starts_with($haystack, $needles)
+    {
+        foreach ((array) $needles as $needle) {
+            if (
+                $needle != '' &&
+                substr($haystack, 0, strlen($needle)) === (string) $needle
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+if (!function_exists('ends_with')) {
+    /**
+     *  Determine if a given string 
+     *  ends with a given substring
+     *
+     *  @param string $haystack
+     *  @param string|array $needles
+     *  @return boolean
+     */
+    function ends_with($haystack, $needles)
+    {
+        foreach ((array) $needles as $needle) {
+            if (substr($haystack, -strlen($needle)) === (string) $needle) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+/* ------------------------------- Array Functions ---------------------------------*/
+
+if ( ! function_exists('arrayz')) {
+    /**
+     *  Instantiate the Arrayz Class
+     *
+     *  @param     array     $array
+     *  @return    object
+     */
+    function arrayz($array = [])
+    {
+        $arrayz = new Base\Helpers\Arrayz($array);
+        return $arrayz;
+    }
+}
+
 if ( ! function_exists('has_element')) 
 {
     /**
@@ -826,55 +882,6 @@ if ( ! function_exists('with_each'))
         next($array);
         return $result;
     }
-}
-
-if ( ! function_exists('starts_with'))
-{
-	/**
-	 *  Determine if a given string 
-     *  starts with a given substring
-	 *
-	 *  @param     string          $haystack
-	 *  @param     string|array    $needles
-	 *  @return    boolean
-	 */
-	function starts_with($haystack, $needles)
-    {
-		foreach ((array) $needles as $needle) {
-			if (
-                $needle != '' && 
-                substr($haystack, 0, strlen($needle)) === (string) $needle
-            ) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-}
-
-if ( ! function_exists('ends_with'))
-{
-	/**
-	 *  Determine if a given string 
-     *  ends with a given substring
-	 *
-	 *  @param string $haystack
-	 *  @param string|array $needles
-	 *  @return boolean
-	 */
-	function ends_with($haystack, $needles)
-	{
-		foreach ((array) $needles as $needle)
-		{
-			if (substr($haystack, -strlen($needle)) === (string) $needle)
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
 }
 
 if ( ! function_exists('strtoarr')) 
@@ -1079,6 +1086,29 @@ if ( ! function_exists('object_array'))
     }
 }
 
+if ( ! function_exists('arrayfy')) {
+    
+    /**
+     * Encode an object and retrieve
+     * as an array
+     *
+     * @param object $object
+     * @return array|bool
+     */
+    function arrayfy(object $object)
+    {
+
+        if (is_object($object)) {
+            $json = json_encode($object);
+            return json_decode($json, true);
+        }
+
+        throw new \Exception("Parameter must be an object", 1);
+
+        return false;
+    }
+}
+
 if ( ! function_exists('objectify')) 
 {
     /**
@@ -1095,7 +1125,7 @@ if ( ! function_exists('objectify'))
             return json_decode($array, null, 512, JSON_THROW_ON_ERROR);
         }
 
-        throw new Exception("Parameter must be array", 1);
+        throw new \Exception("Parameter must be array", 1);
         
         return false;
     }
@@ -1123,6 +1153,63 @@ if ( ! function_exists('compare_json'))
 }
 
 /* ------------------------------- Date | Time Functions ---------------------------------*/
+
+
+if ( ! function_exists('timezone')) 
+{
+    /**
+     * Timezone from TIMEZONE Constants
+     * in the config/constants.php file
+     * 
+     * @return string 
+     */
+    function timezone()
+    {
+        return TIMEZONE;
+    }
+}
+
+if (!function_exists('datetime')) 
+{
+    /**
+     * Datetime from DATETIME Constants
+     * in the config/constants.php file
+     * 
+     * @return string 
+     */
+    function datetime()
+    {
+        return DATETIME;
+    }
+}
+
+if ( ! function_exists('today')) 
+{
+    /**
+     * Today from TODAY Constants
+     * in the config/constants.php file
+     * 
+     * @return string 
+     */
+    function today()
+    {
+        return TODAY;
+    }
+}
+
+if ( ! function_exists('system_default_timezone')) 
+{
+    /**
+     * Default Timezone from DEFAULT_TIMEZONE Constants
+     * in the config/constants.php file
+     * 
+     * @return string 
+     */
+    function system_default_timezone()
+    {
+        return DEFAULT_TIMEZONE;
+    }
+}
 
 if ( ! function_exists('arrange_date')) 
 {
@@ -1188,7 +1275,6 @@ if ( ! function_exists('correct_date'))
         } else {
             return date('Y-m-d', strtotime($date));
         }
-    //return date_format(date_create($this->data['details']['date_made']), 'Y-m-d');
     }
 }
 
