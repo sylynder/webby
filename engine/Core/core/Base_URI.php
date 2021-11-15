@@ -1,12 +1,13 @@
-<?php
+<?php 
 defined('COREPATH') or exit('No direct script access allowed');
 
-class Base_URI extends CI_URI
+class Base_URI extends \CI_URI
 {
 
 	public function __construct()
 	{
 		parent::__construct();
+		$this->maintenanceMode();
 	}
 
 	/**
@@ -20,30 +21,8 @@ class Base_URI extends CI_URI
 	public function filter_uri(&$str)
 	{
 		if (!empty($str) && !empty($this->_permitted_uri_chars) && !preg_match('/^[' . $this->_permitted_uri_chars . ']+$/i' . (UTF8_ENABLED ? 'u' : ''), $str)) {
-			$this->app_error_view($str);
+			$this->uriFiltering($str);
 		}
-	}
-
-	public function app_error_view($str)
-	{
-		$http_protocol  = 'http://';
-		$secured_http_protocol = 'https://';
-		$error_route = $this->config->item('app_error_route');
-
-		log_message('error', 'A malicious character {' . $str . '} was passed through a url');
-		
-		if (
-			$_SERVER['REMOTE_ADDR'] === '127.0.0.1'
-			|| $_SERVER['SERVER_NAME'] === 'localhost'
-		) {
-			$url = $http_protocol . $_SERVER['HTTP_HOST'] . '/';
-			header('Location: ' . $url . $error_route);
-		} else {
-			$url = $secured_http_protocol . $_SERVER['HTTP_HOST'] . '/';
-			header('Location: ' . $url . $error_route);
-		}
-
-		exit;
 	}
 
 	/**
@@ -64,7 +43,7 @@ class Base_URI extends CI_URI
 	 * @param Array $default Array of default values
 	 * @return Array
 	 */
-	function segment_to_assoc($n = 3, $default = array())
+	public function segment_to_assoc($n = 3, $default = [])
 	{
 		return $this->_segment_to_assoc($n, $default);
 	}
@@ -78,7 +57,7 @@ class Base_URI extends CI_URI
 	 * @return Array
 	 *
 	 */
-	function rsegment_to_assoc($n = 3, $default = array())
+	public function rsegment_to_assoc($n = 3, $default = [])
 	{
 		return $this->_segment_to_assoc($n, $default, 'rsegment');
 	}
@@ -93,14 +72,14 @@ class Base_URI extends CI_URI
 	 * @param String $which 'segment' or 'rsegment', used internally
 	 * @return Array
 	 */
-	function _segment_to_assoc($n = 3, $default = array(), $which = 'segment')
+	public function _segment_to_assoc($n = 3, $default = [], $which = 'segment')
 	{
 		//get the requested segment
 		$segment = ($which == 'segment') ? $this->segment($n, $default) : $this->rsegment($n, $default);
 		//return if there isn't a segment here
 		if ($segment === false) return false;
 
-		$return_params = array();
+		$return_params = [];
 		//separate the arguments
 		$parts = explode(';', $segment);
 		foreach ($parts as $part) {
@@ -115,4 +94,82 @@ class Base_URI extends CI_URI
 
 		return $return_params;
 	}
+
+	/**
+	 * Set to filter all uris 
+	 * for non-permitted characters
+	 *
+	 * @param string $str non-permitted character
+	 * @return void
+	 */
+	private function uriFiltering($str)
+	{
+		$http_protocol  = 'http://';
+		$secured_http_protocol = 'https://';
+		$error_route = $this->config->item('app_error_route');
+
+		log_message('error', 'A non-permitted character {' . $str . '} was passed through a url from this ip address: ' . $this->getVisitIP());
+
+		if (
+			$_SERVER['REMOTE_ADDR'] === '127.0.0.1'
+			|| $_SERVER['SERVER_NAME'] === 'localhost'
+		) {
+			$url = $http_protocol . $_SERVER['HTTP_HOST'] . '/';
+			header('Location: ' . $url . $error_route);
+		} else {
+			$url = $secured_http_protocol . $_SERVER['HTTP_HOST'] . '/';
+			header('Location: ' . $url . $error_route);
+		}
+
+		exit;
+	}
+
+	/**
+	 * Set app maintenance mode
+	 *
+	 * @return void
+	 */
+	private function maintenanceMode()
+	{
+		if (
+			$this->config->item('maintenance_mode') === "false" 
+			|| $this->config->item('app_status') === false
+		) {
+
+			$maintenance_view = $this->config->item('maintenance_view');
+
+			log_message('app', 'Accessing maintenance mode from this ip address: ' . $this->getVisitIP());
+			
+			http_response_code(503); // Set response code
+			header('Retry-After: 3600'); // Set retry time
+			include_once(APP_MAINTENANCE_PATH . $maintenance_view. PHPEXT);
+			exit;
+		} 
+	}
+
+	/**
+	 * Get Client IP
+	 *
+	 * @return string
+	 */
+	private function getVisitIP(): string
+	{
+		$keys = [
+			'HTTP_CLIENT_IP',
+			'HTTP_X_FORWARDED_FOR',
+			'HTTP_X_FORWARDED',
+			'HTTP_FORWARDED_FOR',
+			'HTTP_FORWARDED',
+			'REMOTE_ADDR'
+		];
+
+		foreach ($keys as $key) {
+			if (!empty($_SERVER[$key]) && filter_var($_SERVER[$key], FILTER_VALIDATE_IP)) {
+				return $_SERVER[$key];
+			}
+		}
+
+		return "UNKNOWN";
+	}
 }
+/* end of file Base_URI.php */

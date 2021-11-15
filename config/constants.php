@@ -28,11 +28,10 @@ defined('COREPATH') or exit('No direct script access allowed');
  */
 $base_url = '';
 
-if ( ! defined('STDIN')) {
+if (!defined('STDIN')) {
 
     $base_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . $_SERVER['HTTP_HOST'];
     $base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
-
 }
 
 define('APP_BASE_URL', getenv('app.baseURL') ?: $base_url);
@@ -62,7 +61,6 @@ define('APP_ENCRYPTION_KEY', getenv('app.encryptionKey'));
 
 // Database Driver
 define('APP_DB_DRIVER', getenv('database.default.DBDriver'));
-
 /* The hostname of your database server. */
 define('APP_DB_HOSTNAME', getenv('database.default.hostname'));
 /* The username used to connect to the database */
@@ -74,7 +72,22 @@ define('APP_DB_NAME', getenv('database.default.database'));
 /* The name of the database if you want to use a seperate 
 *  authentication database
 */
-define('AUTH_DB', getenv('database.default.auth_database'));
+define('APP_AUTH_DB', getenv('database.default.authDB'));
+
+// Database Driver
+define('TEST_DB_DRIVER', getenv('database.test.DBDriver'));
+/* The hostname of your database server. */
+define('TEST_DB_HOSTNAME', getenv('database.test.hostname'));
+/* The username used to connect to the database */
+define('TEST_DB_USERNAME', getenv('database.test.username'));
+/* The password used to connect to the database */
+define('TEST_DB_PASSWORD', getenv('database.test.password'));
+/* The name of the database you want to connect to */
+define('TEST_DB_NAME', getenv('database.test.database'));
+/* The name of the database if you want to use a seperate 
+*  authentication database
+*/
+define('TEST_AUTH_DB', getenv('database.test.authDB'));
 
 /*
 |--------------------------------------------------------------------------
@@ -106,9 +119,16 @@ define('PGSQL_DB_PORT', getenv('database.pgsql.port'));
 |
  */
 
-define('SITE_ON', false);
+// Note: If you modify this constants' name 
+// Webby will malfunction. You can only 
+// Change value to "true" or "false" as string 
+define('APP_ON', "true");
 
-define('SITE_MAINTENANCE_VIEW', '');
+// Set Maintenance Mode Path
+define('APP_MAINTENANCE_PATH', ROOTPATH . 'writable/maintenance/');
+
+// Set Maintenance Mode View
+define('APP_MAINTENANCE_VIEW', 'maintenance');
 
 /*
 |--------------------------------------------------------------------------
@@ -131,7 +151,7 @@ define('APP_LOG_PATH', ROOTPATH . 'writable/logs/app/');
 |    6 = All Messages
  */
 
-define('LOG_LEVEL', getenv('log.level') ?: 3 );
+define('LOG_LEVEL', getenv('log.level') ?: 3);
 
 /*
 |   Log permission for Webby logging
@@ -264,21 +284,25 @@ define('CSRF_EXCLUDE_URIS', getenv('app.CSRFExcludeURIs') ?: []);
 | work arounds simple
  */
 
-if ( ! defined('DS')) define('DS', DIRECTORY_SEPARATOR);
+if (!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 
 // TimeZone and Dates
-define('DATETIME', date('Y-m-d H:i:s', time()));
+
+// Do not change these names
+// Other functions depend on them 
+// to work properly e.g. datetime function
+define('DATETIME', date('Y-m-d H:i:s', time())); // datetime()
 define('TIME', date('H:i:s', time()));
 define('DATE', date('Y-m-d'));
-define('TIMESTAMP', strtotime(date('Y-m-d') . ' ' . date('H:i:s')));
-define('TODAY', date('Y-m-d'));
-define('DEFAULT_TIMEZONE', 'Africa/Accra');
+define('TIMESTAMP', strtotime(date('Y-m-d') . ' ' . date('H:i:s'))); // timestamp()
+define('TODAY', date('Y-m-d')); // today()
+define('DEFAULT_TIMEZONE', 'Africa/Accra'); // system_default_timezone()
 
-!empty(getenv('app.timezone')) 
-        ? date_default_timezone_set(getenv('app.timezone'))  
-        : date_default_timezone_set(DEFAULT_TIMEZONE);
+!empty(getenv('app.timezone'))
+    ? date_default_timezone_set(getenv('app.timezone'))
+    : date_default_timezone_set(DEFAULT_TIMEZONE);
 
-define('TIMEZONE', date_default_timezone_get());
+define('TIMEZONE', date_default_timezone_get()); // timezone()
 
 /*
 | These definitions are for characters 

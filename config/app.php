@@ -29,11 +29,11 @@ $config['app_name'] = getenv('app.name') ?: 'Webby';
 | Application Status
 |  
 | This sets the status of the app
-| 
+| defaults to maintenance mode if false
 | -------------------------------------------------------------------------
 |
  */
-$config['app_status'] = false;
+$config['app_status'] = true;
 
 /*
 | -------------------------------------------------------------------------
@@ -45,7 +45,19 @@ $config['app_status'] = false;
 | -------------------------------------------------------------------------
 |
  */
-$config['maintenance_mode'] = SITE_ON;
+$config['maintenance_mode'] = getenv('app.mode.on') ?: APP_ON;
+
+/*
+| -------------------------------------------------------------------------
+| App maintenance view
+|  
+| Set this to show app maintenance view
+| 
+| -------------------------------------------------------------------------
+|
+ */
+
+$config['maintenance_view'] = getenv('app.maintenance.view') ?: APP_MAINTENANCE_VIEW;
 
 /*
 | -------------------------------------------------------------------------
@@ -58,28 +70,24 @@ $config['maintenance_mode'] = SITE_ON;
 |
  */
 
-$config['app_error_view'] = '/errors/app/error404';
+$config['app_error_view'] = 'errors/app/error404';
 
 /*
 | -------------------------------------------------------------------------
 | Error 404 Emergency Route
 |  
+| Default is using 404_override route
+|
 | Set this route for possible 
 | error 404 page
+| 
+| e.g. Route::get('not-found', 'App/App/error404');
+| 
 | 
 | -------------------------------------------------------------------------
 |
  */
-$config['app_error_view'] = '/errors/app/error404';
+$config['app_error_route'] = '404_override';
 
-/*
-| -------------------------------------------------------------------------
-| Error 404 Emergency Route
-|  
-| Set this route for possible 
-| error 404 page
-| 
-| -------------------------------------------------------------------------
-|
- */
-$config['app_error_route'] = 'not-found';
+
+// ------------------------- Custom Application Config Here --------------------------------
