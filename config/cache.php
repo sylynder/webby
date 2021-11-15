@@ -8,16 +8,39 @@ defined('COREPATH') or exit('No direct script access allowed');
 | This file lets you define some configurations
 | that can help with cache functionalities
 |
+| Please make sure you understand what you are doing before 
+| you change the cache configurations
  */
 
-//Please make sure you understand what you are doing before 
-//you change the cache configurations
-
-$config['cache_dir']  = CACHE_PATH;
-
+/*
+|--------------------------------------------------------------------------
+| Cache Path
+|--------------------------------------------------------------------------
+|
+| Main directory for all cache files
+|
+*/
 $config['cache_path'] = CACHE_PATH;
 
-$config['web_cache_path'] = WEB_CACHE_PATH;
+/*
+|--------------------------------------------------------------------------
+| Web Catch Path 
+|--------------------------------------------------------------------------
+|
+| Main directory for web cache files
+|
+*/
+$config['web_cache_path'] = WEB_CACHE_PATH . DIRECTORY_SEPARATOR . 'app';
+
+/*
+|--------------------------------------------------------------------------
+| Plates Cache Path
+|--------------------------------------------------------------------------
+|
+| Main directory for plate template cache files
+|
+*/
+$config['plates_cache_path'] = WEB_CACHE_PATH . DIRECTORY_SEPARATOR . 'plates';
 
 /*
 |--------------------------------------------------------------------------
@@ -46,3 +69,24 @@ $config['cache_query_string'] = false;
 |
 */
 $config['cache_default_expires'] = 3600;
+
+/*
+|--------------------------------------------------------------------------
+| Enable Custom Cache
+|--------------------------------------------------------------------------
+|
+| Checks if custom caches are allowed
+|
+*/
+$config['enable_custom_cache'] = false;
+
+/*
+|--------------------------------------------------------------------------
+| Cache With Language
+|--------------------------------------------------------------------------
+|
+| Uses language based to cache files
+| This is useful on a multi-language site
+|
+*/
+$config['cache_with_lang'] = false;
