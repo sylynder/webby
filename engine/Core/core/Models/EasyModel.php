@@ -1,11 +1,9 @@
 <?php
 
-namespace Base\Models;
-
 /**
  * An Easy Model to provide basic actions 
  * for all models that inherit from it
- * Expanded by Me (Oteng Kwame Appiah Nti)
+ * 
  * I think this will be useful :)
  * 
  * Note it is not well documented.
@@ -15,6 +13,9 @@ namespace Base\Models;
  * @link    <link will be here>
  * @version 1.0
  */
+
+namespace Base\Models;
+
 
 class EasyModel extends Model
 {
@@ -49,8 +50,8 @@ class EasyModel extends Model
     /**
      * Support for soft deletes and a model's 'deleted' key
      */
-    protected $softDelete = false;
-    protected $softDeleteKey = 'is_deleted';
+    protected $useSoftDelete = false;
+    protected $useSoftDeleteKey = 'is_deleted';
     protected $temporaryWithDeleted = false;
     protected $temporaryOnlyDeleted = false;
 
@@ -59,8 +60,8 @@ class EasyModel extends Model
     /**
      * Change the fetch mode if desired
      *
-     * @var string $returnAs Optionally set to 'object', 
-     * default is 'array', can also be set to 'json'
+     * @var string $returnAs Optionally set to 'array', 
+     * default is 'object', can also be set to 'json'
      * 
      */
     public $returnAs = 'object';
@@ -86,11 +87,12 @@ class EasyModel extends Model
     }
 
     /**
-     * Getter for the table name.
+     * Get table name.
      *
+     * @param string $tablename
      * @return string The name of the table used by this class.
      */
-    public function table($tablename = false)
+    public function table($tablename = null)
     {
         if ($tablename) {
             $this->table = $tablename;
@@ -101,13 +103,26 @@ class EasyModel extends Model
     }
 
     /**
-     * This function retrieves the current 
-     * sql query made and can be displayed to user
+     * Retrieves the current 
+     * sql query made and displayed to user
      *
-     * @return void
+     * @return string
      */
     public function showQuery()
     {
+        return $this->db->last_query();
+    }
+
+    /**
+     * Alias to the above 
+     * sql query made and displayed to user
+     *
+     * @param array $where Use for extra where queries
+     * @return string
+     */
+    public function toSql($where = null)
+    {
+        $this->get($where);
         return $this->db->last_query();
     }
 
@@ -124,8 +139,8 @@ class EasyModel extends Model
         $this->db->from($this->table);
         $this->db->where($this->where);
 
-        if ($this->softDelete && $this->temporaryWithDeleted !== true) {
-            $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
+        if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
+            $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
 
         $_POST = xss_clean($_POST);
@@ -212,8 +227,8 @@ class EasyModel extends Model
     {
         $this->db->from($this->table);
 
-        if ($this->softDelete && $this->temporaryWithDeleted !== true) {
-            $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
+        if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
+            $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
 
         return $this->db->count_all_results();
@@ -231,8 +246,8 @@ class EasyModel extends Model
             $this->db->where($where);
         }
 
-        if ($this->softDelete && $this->temporaryWithDeleted !== true) {
-            $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
+        if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
+            $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
 
         $this->db->from($this->table);
@@ -264,6 +279,13 @@ class EasyModel extends Model
         return $this;
     }
 
+    /**
+     * Return last insert id or column
+     * 
+     * @param string|int $primaryKey 
+     * 
+     * @return mixed
+     */
     public function lastInsertKey($primaryKey = null)
     {
         if ($this->primaryKey != null && $primaryKey == null) {
@@ -276,14 +298,61 @@ class EasyModel extends Model
         return $result[$primaryKey];
     }
 
+    /**
+     * Return last inserted id
+     *
+     * @return int
+     */
     public function lastInsertId()
     {
         return $this->db->insert_id();
     }
 
+    /**
+     * Allow raw query 
+     *
+     * @param string $query
+     * @return mixed
+     */
     public function query($query)
     {
         return $this->db->query($query);
+    }
+
+    /**
+     * Get results as Array
+     *
+     * @return array
+     */
+    public function asArray()
+    {
+        $this->returnAs = 'array';
+
+        return $this;
+    }
+
+    /**
+     * Get results as Json
+     *
+     * @return string
+     */
+    public function asJson()
+    {
+        $this->returnAs = 'json';
+
+        return $this;
+    }
+
+    /**
+     * Get results as Object
+     *
+     * @return object
+     */
+    public function asObject()
+    {
+        $this->returnAs = 'object';
+
+        return $this;
     }
 
     /**
@@ -358,8 +427,8 @@ class EasyModel extends Model
             $this->db->order_by($orderBy);
         }
 
-        if ($this->softDelete && $this->temporaryWithDeleted !== true) {
-            $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
+        if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
+            $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
 
         // Fetch all records for a table
@@ -379,7 +448,10 @@ class EasyModel extends Model
     }
 
     /**
-     * A simple way to grab the first result of a search only.
+     * A simple way to grab the first 
+     * result of a search only.
+     *
+     * @return array|object
      */
     public function first()
     {
@@ -400,7 +472,13 @@ class EasyModel extends Model
      */
     public function find($idOrRow = null)
     {
-        return $this->get($idOrRow, null, null)[0];
+        $row = $this->get($idOrRow, null, null);
+
+        if ($row) {
+            return $row[0];
+        }
+
+        return;
     }
 
     /**
@@ -417,7 +495,7 @@ class EasyModel extends Model
     }
 
     /**
-     * find where
+     * Find where
      *
      * @param string $fields
      * @param array $where
@@ -441,8 +519,8 @@ class EasyModel extends Model
             $this->db->select($fields)->from($this->table);
         }
 
-        if ($this->softDelete && $this->temporaryWithDeleted !== true) {
-            $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
+        if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
+            $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
 
         $query = $this->db->get();
@@ -451,7 +529,8 @@ class EasyModel extends Model
     }
 
     /**
-     *
+     * Find with where or orWhere
+     * 
      * @param string  $field
      * @param array  $where
      * @param array $orwhere
@@ -462,8 +541,8 @@ class EasyModel extends Model
     public function findOrWhere($fields, $where = null, $orWhere = null, $limit = null, $orderBy = null)
     {
 
-        if ($this->softDelete && $this->temporaryWithDeleted !== true) {
-            $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
+        if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
+            $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
 
         // Custom order by if desired
@@ -506,8 +585,8 @@ class EasyModel extends Model
             $this->db->select($fields)->from($this->table)->limit($limit);
         }
 
-        if ($this->softDelete && $this->temporaryWithDeleted !== true) {
-            $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
+        if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
+            $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
 
         $query = $this->db->get();
@@ -516,18 +595,20 @@ class EasyModel extends Model
     }
 
     /**
-     * Get data by a single field or many fields
-     * an alternative to the above function
+     * Get data by a single where field or 
+     * where many fields an alternative to 
+     * the above function
+     * 
      * @see get(...param)
-     * @param array $field
+     * @param array $where
      * @return array|object
      */
-    public function whereFields($field)
+    public function whereBy($where)
     {
-        $this->db->select()->from($this->table)->where($field);
+        $this->db->select()->from($this->table)->where($where);
 
-        if ($this->softDelete && $this->temporaryWithDeleted !== true) {
-            $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
+        if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
+            $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
 
         $query = $this->db->get();
@@ -539,17 +620,17 @@ class EasyModel extends Model
      * Get data by selecting a field or many fields
      * where the values are provided
      *
-     * @param string $fields
-     * @param array $value (Where)
+     * @param string $field
+     * @param array $value
      * @return object|array
      */
-    public function selectWhere($fields, $value)
+    public function selectWhere($field, $value)
     {
 
-        $this->db->select($fields)->from($this->table)->where($value);
+        $this->db->select($field)->from($this->table)->where($value);
 
-        if ($this->softDelete && $this->temporaryWithDeleted !== true) {
-            $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
+        if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
+            $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
 
         $query = $this->db->get();
@@ -562,14 +643,14 @@ class EasyModel extends Model
      * singlely
      *
      * @param array $field
-     * @return object or array
+     * @return object|array
      */
     public function selectSingle($field)
     {
-        $this->db->select($field)->from($this->table);
+        $this->db->select($field)->from($this->table)->limit(1);
 
-        if ($this->softDelete && $this->temporaryWithDeleted !== true) {
-            $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
+        if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
+            $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
 
         $query = $this->db->get();
@@ -582,22 +663,28 @@ class EasyModel extends Model
      * singlely
      *
      * @param array $field
-     * @return object or array
+     * @return object|array
      */
-    public function selectLast($field)
+    public function selectLast($field, $orderBy = '')
     {
-        $this->db->select($field)->from($this->table);
+        if (empty($orderBy)) {
+            $orderBy = $this->primaryKey;
+        }
 
-        if ($this->softDelete && $this->temporaryWithDeleted !== true) {
-            $this->db->where($this->softDeleteKey, (bool) $this->temporaryOnlyDeleted);
+        $this->db->select($field)->from($this->table)->limit(1)->order_by($orderBy, 'DESC');
+
+        if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
+            $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
 
         $query = $this->db->get();
+
         return $this->getRowResult($query, true);
     }
 
     /**
      * Insert a record and might return the last inserted field value;
+     * 
      * @param  array $data
      * @param  bool $show = null
      * @return boolean|object|array
@@ -614,6 +701,7 @@ class EasyModel extends Model
 
     /**
      * Insert and return a record
+     * 
      * @param  array $data
      * @return object
      */
@@ -625,12 +713,12 @@ class EasyModel extends Model
 
     /**
      * Insert a record
+     * 
      * @param  array $data
      * @return integer
      */
     public function save($data)
     {
-        //This is an insert
         $this->db->set($data)->insert($this->table);
         return $this->db->insert_id();
     }
@@ -651,9 +739,11 @@ class EasyModel extends Model
     }
 
     /**
-     * This method replaces existing value with new array data
+     * This method replaces existing 
+     * value with new array data
+     * 
      * @param  array $data
-     * @return return int
+     * @return int
      */
     public function replace($data)
     {
@@ -677,8 +767,8 @@ class EasyModel extends Model
     /**
      * Insert if not exists, if exists Update
      *
-     * @usage   insertUpdate(['item' => 10], 25)
-     *          insertUpdate(['item' => 10], 'other_key' => 25)
+     * @usage   upsert(['item' => 10], 25)
+     *          upsert(['item' => 10], 'other_key' => 25)
      *
      * @param array $data Associative array [column => value]
      *
@@ -691,7 +781,7 @@ class EasyModel extends Model
      *
      * @return integer InsertID|Update Result
      */
-    public function insertUpdate($idOrRow, $optionalValue = null, $data = [])
+    public function upsert($idOrRow, $optionalValue = null, $data = [])
     {
         // First check to see if the field exists
         $this->db->select($this->primaryKey);
@@ -839,11 +929,11 @@ class EasyModel extends Model
     }
 
     /**
-     * Do a soft delete
+     * Use soft delete
      *
      * @param array $data
      * @param array  $where
-     * @return void
+     * @return mixed
      */
     public function softDelete($where, $data)
     {
@@ -946,9 +1036,9 @@ class EasyModel extends Model
      *
      *   This allows for calls such as:
      *   $result = $this->model->select('...')
-     *                            ->where('...')
-     *                            ->having('...')
-     *                           ->find();
+     *                         ->where('...')
+     *                         ->having('...')
+     *                         ->find();
      *
      */
 
@@ -957,7 +1047,7 @@ class EasyModel extends Model
      *
      * @param string $select
      * @param mixed $escape
-     * @return object
+     * @return CI_DB_query_builder
      */
     public function select($select = '*', $escape = null)
     {
