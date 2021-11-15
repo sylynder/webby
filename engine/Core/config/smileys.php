@@ -1,5 +1,5 @@
 <?php
-defined('COREPATH') OR exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -13,7 +13,7 @@ defined('COREPATH') OR exit('No direct script access allowed');
 | https://codeigniter.com/userguide3/helpers/smiley_helper.html
 |
 */
-$smileys = array(
+$smileys = [
 
 //	smiley			image name						width	height	alt
 
@@ -61,4 +61,4 @@ $smileys = array(
 	':exclaim:'		=>	array('exclaim.gif',		'19',	'19',	'exclaim'),
 	':question:'	=>	array('question.gif',		'19',	'19',	'question')
 
-);
+];

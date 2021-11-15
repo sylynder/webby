@@ -14,5 +14,3 @@ defined('COREPATH') or exit('No direct script access allowed');
 | $config['pagination']['full_tag_open'] = '<ul>';
 |
 */
-
-

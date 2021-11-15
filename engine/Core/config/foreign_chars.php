@@ -1,5 +1,5 @@
 <?php
-defined('COREPATH') OR exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -9,7 +9,7 @@ defined('COREPATH') OR exit('No direct script access allowed');
 | conversion used by the Text helper
 |
 */
-$foreign_characters = array(
+$foreign_characters = [
 	'/ä|æ|ǽ/' => 'ae',
 	'/ö|œ/' => 'oe',
 	'/ü/' => 'ue',
@@ -111,4 +111,4 @@ $foreign_characters = array(
 	'/ю/' => 'yu',
 	'/Я/' => 'Ya',
 	'/я/' => 'ya'
-);
+];

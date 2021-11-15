@@ -1,5 +1,5 @@
 <?php
-defined('COREPATH') OR exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -10,7 +10,8 @@ defined('COREPATH') OR exit('No direct script access allowed');
 | mobile device data. The array keys are used to identify the device
 | and the array values are used to set the actual name of the item.
 */
-$platforms = array(
+$platforms = [
+	'windows nt 11.0'	=> 'Windows 11',
 	'windows nt 10.0'	=> 'Windows 10',
 	'windows nt 6.3'	=> 'Windows 8.1',
 	'windows nt 6.2'	=> 'Windows 8',
@@ -53,12 +54,12 @@ $platforms = array(
 	'gnu'				=> 'GNU/Linux',
 	'unix'				=> 'Unknown Unix OS',
 	'symbian' 			=> 'Symbian OS'
-);
+];
 
 
 // The order of this array should NOT be changed. Many browsers return
 // multiple browser types so we want to identify the sub-type first.
-$browsers = array(
+$browsers = [
 	'OPR'			=> 'Opera',
 	'Flock'			=> 'Flock',
 	'Edge'			=> 'Edge',
@@ -87,77 +88,79 @@ $browsers = array(
 	'amaya'			=> 'Amaya',
 	'IBrowse'		=> 'IBrowse',
 	'Maxthon'		=> 'Maxthon',
-	'Ubuntu'		=> 'Ubuntu Web Browser'
-);
+	'Ubuntu'		=> 'Ubuntu Web Browser',
+	'Vivaldi'		=> 'Vivaldi'
+];
 
-$mobiles = array(
+$mobiles = [
 	// legacy array, old values commented out
 	'mobileexplorer'	=> 'Mobile Explorer',
-//  'openwave'			=> 'Open Wave',
-//	'opera mini'		=> 'Opera Mini',
-//	'operamini'			=> 'Opera Mini',
-//	'elaine'			=> 'Palm',
+	//  'openwave'			=> 'Open Wave',
+	//	'opera mini'		=> 'Opera Mini',
+	//	'operamini'			=> 'Opera Mini',
+	//	'elaine'			=> 'Palm',
 	'palmsource'		=> 'Palm',
-//	'digital paths'		=> 'Palm',
-//	'avantgo'			=> 'Avantgo',
-//	'xiino'				=> 'Xiino',
+	//	'digital paths'		=> 'Palm',
+	//	'avantgo'			=> 'Avantgo',
+	//	'xiino'				=> 'Xiino',
 	'palmscape'			=> 'Palmscape',
-//	'nokia'				=> 'Nokia',
-//	'ericsson'			=> 'Ericsson',
-//	'blackberry'		=> 'BlackBerry',
-//	'motorola'			=> 'Motorola'
+	//	'nokia'				=> 'Nokia',
+	//	'ericsson'			=> 'Ericsson',
+	//	'blackberry'		=> 'BlackBerry',
+	//	'motorola'			=> 'Motorola'
 
 	// Phones and Manufacturers
-	'motorola'				=> 'Motorola',
-	'nokia'					=> 'Nokia',
-	'nexus'					=> 'Nexus',
-	'palm'					=> 'Palm',
-	'iphone'				=> 'Apple iPhone',
-	'ipad'					=> 'iPad',
-	'ipod'					=> 'Apple iPod Touch',
-	'sony'					=> 'Sony Ericsson',
-	'ericsson'				=> 'Sony Ericsson',
-	'blackberry'			=> 'BlackBerry',
-	'cocoon'				=> 'O2 Cocoon',
-	'blazer'				=> 'Treo',
-	'lg'					=> 'LG',
-	'amoi'					=> 'Amoi',
-	'xda'					=> 'XDA',
-	'mda'					=> 'MDA',
-	'vario'					=> 'Vario',
-	'htc'					=> 'HTC',
-	'samsung'				=> 'Samsung',
-	'sharp'					=> 'Sharp',
-	'sie-'					=> 'Siemens',
-	'alcatel'				=> 'Alcatel',
-	'benq'					=> 'BenQ',
-	'ipaq'					=> 'HP iPaq',
-	'mot-'					=> 'Motorola',
+	'motorola'		=> 'Motorola',
+	'nokia'			=> 'Nokia',
+	'nexus'			=> 'Nexus',
+	'palm'			=> 'Palm',
+	'iphone'		=> 'Apple iPhone',
+	'ipad'			=> 'iPad',
+	'ipod'			=> 'Apple iPod Touch',
+	'sony'			=> 'Sony Ericsson',
+	'ericsson'		=> 'Sony Ericsson',
+	'blackberry'	=> 'BlackBerry',
+	'cocoon'		=> 'O2 Cocoon',
+	'blazer'		=> 'Treo',
+	'lg'			=> 'LG',
+	'amoi'			=> 'Amoi',
+	'xda'			=> 'XDA',
+	'mda'			=> 'MDA',
+	'vario'			=> 'Vario',
+	'htc'			=> 'HTC',
+	'samsung'		=> 'Samsung',
+	'sharp'			=> 'Sharp',
+	'sie-'			=> 'Siemens',
+	'alcatel'		=> 'Alcatel',
+	'benq'			=> 'BenQ',
+	'ipaq'			=> 'HP iPaq',
+	'mot-'			=> 'Motorola',
 	'playstation portable'	=> 'PlayStation Portable',
-	'playstation 3'			=> 'PlayStation 3',
+	'playstation 3'		=> 'PlayStation 3',
 	'playstation vita'  	=> 'PlayStation Vita',
-	'hiptop'				=> 'Danger Hiptop',
-	'nec-'					=> 'NEC',
-	'panasonic'				=> 'Panasonic',
-	'philips'				=> 'Philips',
-	'sagem'					=> 'Sagem',
-	'sanyo'					=> 'Sanyo',
-	'spv'					=> 'SPV',
-	'zte'					=> 'ZTE',
-	'sendo'					=> 'Sendo',
-	'nintendo dsi'			=> 'Nintendo DSi',
-	'nintendo ds'			=> 'Nintendo DS',
-	'nintendo 3ds'			=> 'Nintendo 3DS',
-	'wii'					=> 'Nintendo Wii',
-	'open web'				=> 'Open Web',
-	'openweb'				=> 'OpenWeb',
-	'meizu'        	 		=> 'Meizu',
-	'huawei'        		=> 'Huawei',
-	'xiaomi'        		=> 'Xiaomi',
-	'oppo'          		=> 'Oppo',
-	'vivo'          		=> 'Vivo',
-	'infinix'       		=> 'Infinix',
-	'tecno'         		=> 'Tecno',
+	'hiptop'		=> 'Danger Hiptop',
+	'nec-'			=> 'NEC',
+	'panasonic'		=> 'Panasonic',
+	'philips'		=> 'Philips',
+	'sagem'			=> 'Sagem',
+	'sanyo'			=> 'Sanyo',
+	'spv'			=> 'SPV',
+	'zte'			=> 'ZTE',
+	'sendo'			=> 'Sendo',
+	'nintendo dsi'	=> 'Nintendo DSi',
+	'nintendo ds'	=> 'Nintendo DS',
+	'nintendo 3ds'	=> 'Nintendo 3DS',
+	'wii'			=> 'Nintendo Wii',
+	'open web'		=> 'Open Web',
+	'openweb'		=> 'OpenWeb',
+	'meizu'         => 'Meizu',
+	'huawei'        => 'Huawei',
+	'xiaomi'        => 'Xiaomi',
+	'oppo'          => 'Oppo',
+	'vivo'          => 'Vivo',
+	'infinix'       => 'Infinix',
+	'techno'        => 'Techno',
+	'mione'         => 'MiOne',
 
 	// Operating Systems
 	'android'		=> 'Android',
@@ -196,28 +199,28 @@ $mobiles = array(
 	'up.browser'	=> 'Generic Mobile',
 	'smartphone'	=> 'Generic Mobile',
 	'cellphone'		=> 'Generic Mobile'
-);
+];
 
 // There are hundreds of bots but these are the most common.
-$robots = array(
-	'googlebot'				=> 'Googlebot',
-	'msnbot'				=> 'MSNBot',
-	'baiduspider'			=> 'Baiduspider',
-	'bingbot'				=> 'Bing',
-	'slurp'					=> 'Inktomi Slurp',
-	'yahoo'					=> 'Yahoo',
-	'ask jeeves'			=> 'Ask Jeeves',
-	'fastcrawler'			=> 'FastCrawler',
-	'infoseek'				=> 'InfoSeek Robot 1.0',
-	'lycos'					=> 'Lycos',
-	'yandex'				=> 'YandexBot',
-	'mediapartners-google'	=> 'MediaPartners Google',
-	'CRAZYWEBCRAWLER'		=> 'Crazy Webcrawler',
-	'adsbot-google'			=> 'AdsBot Google',
-	'feedfetcher-google'	=> 'Feedfetcher Google',
-	'curious george'		=> 'Curious George',
-	'ia_archiver'			=> 'Alexa Crawler',
-	'MJ12bot'				=> 'Majestic-12',
-	'Uptimebot'				=> 'Uptimebot',
-	'UptimeRobot'			=> 'UptimeRobot'
-);
+$robots = [
+	'googlebot'			   => 'Googlebot',
+	'msnbot'			   => 'MSNBot',
+	'baiduspider'   	   => 'Baiduspider',
+	'bingbot'			   => 'Bing',
+	'slurp'				   => 'Inktomi Slurp',
+	'yahoo'				   => 'Yahoo',
+	'ask jeeves'		   => 'Ask Jeeves',
+	'fastcrawler'		   => 'FastCrawler',
+	'infoseek'			   => 'InfoSeek Robot 1.0',
+	'lycos'				   => 'Lycos',
+	'yandex'			   => 'YandexBot',
+	'mediapartners-google' => 'MediaPartners Google',
+	'CRAZYWEBCRAWLER'	   => 'Crazy Webcrawler',
+	'adsbot-google'		   => 'AdsBot Google',
+	'feedfetcher-google'   => 'Feedfetcher Google',
+	'curious george'	   => 'Curious George',
+	'ia_archiver'		   => 'Alexa Crawler',
+	'MJ12bot'		       => 'Majestic-12',
+	'Uptimebot'		       => 'Uptimebot',
+	'UptimeRobot'		   => 'UptimeRobot'
+];

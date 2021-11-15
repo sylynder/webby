@@ -1,5 +1,5 @@
 <?php
-defined('COREPATH') OR exit('No direct script access allowed');
+defined('COREPATH') or exit('No direct script access allowed');
 
 /* 
 | -------------------------------------------------------------------------
@@ -14,12 +14,12 @@ $config['view'] = [
     
     /*
     |--------------------------------------------------------------------------
-    | View Storage Paths
+    | View Path
     |--------------------------------------------------------------------------
     |
-    | Most templating systems load templates from disk. Here you may specify
-    | an array of paths that should be checked for your views. Of course
-    | the usual Laravel view path has already been registered for you.
+    | Here you can specify from the path you want your files to 
+    | be loaded from. The default has been provided already
+    | VIEWPATH. Make sure you understand before you modify
     |
     */
 
@@ -27,12 +27,13 @@ $config['view'] = [
 
     /*
     |--------------------------------------------------------------------------
-    | Compiled View Path
+    | Cached View Path
     |--------------------------------------------------------------------------
     |
-    | This option determines where all the compiled View templates will be
-    | stored for your application. Typically, this is within the writable/cache
-    | directory. However, as usual, you are free to change this value.
+    | Here your compiled view templates will be stored
+    | It is currently stored within WEB_CACHE_PATH, you 
+    | can modify the value to any location.
+    |
     |
     */
 
@@ -47,8 +48,9 @@ $config['view'] = [
     |
     | Leave it empty to fallback on normal view() or $this->load->view();
     |
+    | Don't use any other value below apart from "plates" else views will malfunction
     */
     
-    'view_engine' => '', // e.g. plates | blade | latte | fat-free | etc
+    'view_engine' => '', // e.g. plates | blade | latte | fat-free | twig | etc
 
 ];

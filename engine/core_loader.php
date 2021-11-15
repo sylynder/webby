@@ -10,7 +10,6 @@ $core_helpers = [
     'ci_core',
     'webby',
     'db',
-    'developer',
     'plate',
 
 ];
@@ -24,4 +23,3 @@ $core_libraries = [];
  * Core Models
 */
 $core_models = [];
- 

@@ -77,7 +77,7 @@ $query_builder = true;
 //DB constants found in config/constants.php file
 //It is configured to use .env file as a quick setup
 
-$db['default'] = array(
+$db['default'] = [
     'dsn' => '',
     'hostname' => APP_DB_HOSTNAME,
     'username' => APP_DB_USERNAME,
@@ -90,21 +90,43 @@ $db['default'] = array(
     'cache_on' => false,
     'cachedir' => '',
     'char_set' => 'utf8',
-    'dbcollat' => 'utf8_general_ci',
+    'dbcollat' => 'utf8mb4_general_ci',
     'swap_pre' => '',
     'encrypt' => false,
     'compress' => false,
     'stricton' => false,
-    'failover' => array(),
+    'failover' => [],
     'save_queries' => true,
-);
+]; 
 
-$db['auth_db'] = array(
+$db['test'] = [
+    'dsn' => '',
+    'hostname' => TEST_DB_HOSTNAME,
+    'username' => TEST_DB_USERNAME,
+    'password' => TEST_DB_PASSWORD,
+    'database' => TEST_DB_NAME,
+    'dbdriver' => defined('APP_DB_DRIVER') ? TEST_DB_DRIVER : 'mysqli',
+    'dbprefix' => '',
+    'pconnect' => false,
+    'db_debug' => (ENVIRONMENT !== 'production'),
+    'cache_on' => false,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8mb4_general_ci',
+    'swap_pre' => '',
+    'encrypt' => false,
+    'compress' => false,
+    'stricton' => false,
+    'failover' => [],
+    'save_queries' => true,
+];
+
+$db['auth_db'] = [
     'dsn' => '',
     'hostname' => APP_DB_HOSTNAME,
     'username' => APP_DB_USERNAME,
     'password' => APP_DB_PASSWORD,
-    'database' => AUTH_DB,
+    'database' => APP_AUTH_DB,
     'dbdriver' => defined('APP_DB_DRIVER') ? APP_DB_DRIVER : 'mysqli',
     'dbprefix' => '',
     'pconnect' => false,
@@ -112,16 +134,16 @@ $db['auth_db'] = array(
     'cache_on' => false,
     'cachedir' => '',
     'char_set' => 'utf8',
-    'dbcollat' => 'utf8_general_ci',
+    'dbcollat' => 'utf8mb4_general_ci',
     'swap_pre' => '',
     'encrypt' => false,
     'compress' => false,
     'stricton' => false,
-    'failover' => array(),
+    'failover' => [],
     'save_queries' => true,
-);
+];
 
-$db['pgsql'] = array(
+$db['pgsql'] = [
     'dsn' => PGSQL_DB_DSN,
     'hostname' => PGSQL_DB_HOSTNAME,
     'username' => PGSQL_DB_USERNAME,
@@ -135,11 +157,11 @@ $db['pgsql'] = array(
     'cache_on' => false,
     'cachedir' => '',
     'char_set' => 'utf8',
-    'dbcollat' => 'utf8_general_ci',
+    'dbcollat' => 'utf8mb4_general_ci',
     'swap_pre' => '',
     'encrypt' => false,
     'compress' => false,
     'stricton' => false,
-    'failover' => array(),
+    'failover' => [],
     'save_queries' => true,
-);
+];
