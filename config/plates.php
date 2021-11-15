@@ -16,10 +16,10 @@ defined('COREPATH') or exit('No direct script access allowed');
 | Plates File Extension
 |--------------------------------------------------------------------------
 |
-| Set the file extension for the plate template
+| Set the file extension for the plates template
 |
 */
-$config['plate_ext'] = '.php';
+$config['plate_extension'] = '.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ $config['enable_autoload'] = false;
 |
 | List of Libraries and Helpers to autoload with Plates.
 |
-| WARNING: To autoload this resources you must set 'enable_autoload'
+| WARNING: To autoload these resources you must set 'enable_autoload'
 | variable to true.
 |
 */
