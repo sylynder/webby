@@ -1,11 +1,38 @@
 #!/usr/bin/env php
 <?php
 
+/**
+ * This file contains the basic functionalities
+ * for the webby cli file
+ */
+
+use Base\Console\Console;
+use Base\Console\ConsoleColor;
+
 $args = $argv;
 
-// require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-require_once __DIR__ . '/engine/cli_functions.php';
+define('WEBBY_CLI_VERSION', 'v0.8.0');
+
+function setenv()
+{
+	$envExampleFile = __DIR__ . '/.env.example';
+	$envFile = __DIR__ . '/.env';
+
+	if (file_exists($envFile)) {
+		echo ConsoleColor::red("Environment file exists already!") . "\n";
+		exit();
+	}
+
+	// Copy content from .env.example file
+	// to .env file
+	if (!copy($envExampleFile, $envFile)) {
+		echo ConsoleColor::red("Environment was not able to be set!") . "\n";
+	} else {
+		echo ConsoleColor::green("Environment has been set successfully!") . "\n";
+	}
+}
 
 /**
  * Function to serve webby application
@@ -13,25 +40,27 @@ require_once __DIR__ . '/engine/cli_functions.php';
  * @param array $args
  * @return void
  */
-function serve($args = []): void {
+function serve($args = []): void
+{
 
-	$number = isset($args[3]) ? (int)$args[3] : ""; 
+	$number = isset($args[3]) ? (int)$args[3] : "";
 	$project_dir = __DIR__;
-	$dir = realpath($project_dir.'/public/');
+	$dir = realpath($project_dir . '/public/');
 	$port = (isset($number) && is_int($number)) ? $number : 8085;
 	$port = intval($port);
 
-	if($port === 0) {
-		echo Console::red("Please choose a valid port!") . "\n";
+	if ($port === 0) {
+		echo ConsoleColor::red("Please choose a valid port!") . "\n";
 		exit();
 	}
 
 	$output =  "PHP Webserver Started for Webby \n";
 	$output .= "Navigate to http://localhost:{$port} ";
-	$output .= "to view your project.\nPress Ctrl+C to stop it!";" \n";
-	
+	$output .= "to view your project.\nPress Ctrl+C to stop it!";
+	" \n";
+
 	echo $output . "\n";
-	system('php -S localhost:'.$port.' -t '.$dir);
+	system('php -S localhost:' . $port . ' -t ' . $dir);
 }
 
 /**
@@ -40,7 +69,8 @@ function serve($args = []): void {
  * @param array $args
  * @return void
  */
-function run($args):void {
+function run($args): void
+{
 	if (isset($args[2]) && $args[2] === '--port') {
 		serve($args);
 	} else if (isset($args[1]) && $args[1] === 'serve') {
@@ -48,14 +78,16 @@ function run($args):void {
 	} else if (isset($args[1]) && $args[1] === 'set' && @$args[2] === '--env') {
 		setenv();
 	} else if (isset($args[1]) && $args[1] === '--help') {
-		show_help();
+		Console::showHelp();
 	} else if (!empty($args[1])) {
-		execute_command($args);
+		Console::executeCommand($args);
 	} else if (!isset($args[1])) {
-		show_help();
+		Console::showHelp();
 	} else {
-		no_command();
+		Console::noCommand();
 	}
 }
 
+// Run all commands through 
+// this function
 run($args);
