@@ -43,7 +43,7 @@ $config['app_status'] = true;
 | Set to force the use of SSL
 |
 */
-$config['force_ssl'] = true;
+$config['force_ssl'] = false;
 
 /*
 | -------------------------------------------------------------------------
