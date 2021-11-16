@@ -36,6 +36,16 @@ $config['app_name'] = getenv('app.name') ?: 'Webby';
 $config['app_status'] = true;
 
 /*
+|--------------------------------------------------------------------------
+| Force the use of SSL
+|--------------------------------------------------------------------------
+|
+| Set to force the use of SSL
+|
+*/
+$config['force_ssl'] = true;
+
+/*
 | -------------------------------------------------------------------------
 | Application Maintenance
 |  
