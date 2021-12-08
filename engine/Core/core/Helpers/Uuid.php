@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * UUID Trait
+ * UUID Helper
  *
  * This implements the abilities to create UUID's for CodeIgniter.
  * Code has been borrowed from the following comments on php.net
@@ -21,7 +21,7 @@
 
 namespace Base\Helpers;
 
-trait Uuid 
+Class Uuid 
 {
 
 	public static function v3($name, $namespace = null) 
