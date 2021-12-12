@@ -35,13 +35,13 @@ if ( ! function_exists('ci'))
         //	Special cases 'user_agent' and 'unit_test' are loaded
 		//	with diferent names
 		if ($class !== 'user_agent') {
-			$lib = ($class == 'unit_test') ? 'unit' : $class;
+            $library = ($class == 'unit_test') ? 'unit' : $class;
 		} else {
-			$lib = 'agent';
+            $library = 'agent';
 		}
         
         //	Library not loaded
-		if ( ! isset(ci()->$lib)) {
+		if ( ! isset(ci()->$library)) {
             
             //	Special case 'cache' is a driver
 			if ($class == 'cache') {
@@ -73,7 +73,7 @@ if ( ! function_exists('ci'))
 if ( ! function_exists('app')) 
 {
      /**
-      * Easy access to models and
+      * Easy access to models, services and
       * libraries
       *
       * @param string $class
@@ -81,8 +81,12 @@ if ( ! function_exists('app'))
       * @return object 
       */
     function app(string $class = null, array $params = [])
-    {   
+    {
 
+        if ($class === null) {
+            return Instance::create();
+        }
+        
         $get_class = explode('/', has_dot($class));
         $class_type = count($get_class);
 
@@ -97,19 +101,22 @@ if ( ! function_exists('app'))
 
         if (contains('Model', $class)) {
             
-            use_model($class);
+            use_model($class); // load model
 
-            return ci()->{$class_name};
+            return ci()->{$class_name}; // return model object
         }
 
         // let's assume it's a model without
         // the above conditions
         // If it does not exists we will load a library
+        // Or discover it as a service
         // Not a good implementation but it works
         try {
             ci('load')->model(has_dot($class));
         } catch (Exception $e) {
-            ci('load')->library(has_dot($class));
+            (!empty(ci()->{$class}) && is_object(ci()->{$class})) 
+                ? ci()->{$class} 
+                : ci('load')->library(has_dot($class));
         }
 
         if (!is_object(ci()->{$class_name})) {
@@ -120,7 +127,61 @@ if ( ! function_exists('app'))
     }
 }
 
-if (! function_exists('env'))
+if ( ! function_exists('service')) {
+    /**
+     * Easy access to services
+     *
+     * @param string $class
+     * @param string $alias
+     * @param mixed $params
+     * @return object
+     */
+    function service(string $class = '', string $alias = '', $params = [])
+    {
+        $get_class = explode('/', has_dot($class));
+
+        $class_type = count($get_class);
+
+        $class_name = ($class_type == 2) ? $get_class[1] : $get_class[0];
+        
+        if (contains('Service', $class)) {
+            (!empty($alias)) ? use_service($class, $alias) : use_service($class);
+
+            return (!empty($alias)) ? ci()->{$alias} : ci()->{$class_name};
+        }
+
+        $app_services = ci()->config->item('app_services');
+
+        if (array_key_exists($class, $app_services)) {
+
+            $class = isset($app_services[$class]) ? $app_services[$class] : [];
+
+            return (is_object(new $class()))
+                ? (!empty($params) ?: (new $class($params))) : (new $class());
+
+        }
+
+        $webby_services = ci()->config->item('webby_services');
+
+        if (array_key_exists($class, $webby_services)) {
+            
+            $class = isset($webby_services[$class]) ? $webby_services[$class] : [];
+
+            $class = has_dot($class);
+
+            use_service($class, $class_name);
+
+            return ci()->{$class_name};
+        }
+
+        (!empty($alias)) ? use_service($class_name, $alias) : use_service($class_name);
+
+        return (!empty($alias)) ? ci()->{$alias} : ci()->{$class_name};
+
+    }
+}
+
+if ( ! function_exists('env'))
 {
 	/**
 	 * Allows user to retrieve values from the environment
@@ -146,6 +207,10 @@ if (! function_exists('env'))
 		{
 			return $default;
 		}
+
+        $env = new DotEnv(ROOTPATH);
+
+        $value = $env->prepareVariable($value);
 
 		// Handle any boolean values
 		switch (strtolower($value))
@@ -206,7 +271,7 @@ if ( ! function_exists('url'))
     }
 }
 
-if (!function_exists('void_url')) 
+if ( ! function_exists('void_url')) 
 {
     /**
      * A function that adds a void url
@@ -242,7 +307,8 @@ if ( ! function_exists('action'))
     }
 }
 
-if ( ! function_exists('is_active')) {
+if ( ! function_exists('is_active')) 
+{
     /**
      * Use it to set active or current url for 
      * css classes. Default class name is (active)
@@ -265,10 +331,6 @@ if ( ! function_exists('is_active')) {
 
 if ( ! function_exists('active_link')) 
 {
-    /**
-    * Alias for is_active
-    */
-
     /**
      * Alias for is_active
      *
@@ -297,11 +359,12 @@ if ( ! function_exists('uri_segment'))
     }
 }
 
-if (!function_exists('go_back')) 
+if ( ! function_exists('go_back')) 
 {
     /**
      * Go back using Html5 previous history
-     *
+     * with a styled anchor tag
+     * 
      * @param string $text
      * @param string $style
      * @return string
@@ -312,11 +375,12 @@ if (!function_exists('go_back'))
     }
 }
 
-if (!function_exists('html5_back')) 
+if ( ! function_exists('html5_back')) 
 {
     /**
-     * Alias of go_back function
-     * To be used in href
+     * Similar to go_back() function
+     * 
+     * To be used as link in href
      *
      * @return string
      */
@@ -373,9 +437,9 @@ if ( ! function_exists('files'))
      * @param string $index
      * @return array|string
      */
-    function files($index = null)
+    function files($index = '')
     {
-        if ($index !== null) {
+        if ($index !== '') {
             return $_FILES[$index];
         }
 
@@ -400,7 +464,8 @@ if ( ! function_exists('has_file'))
     }
 }
 
-if (!function_exists('is_file_empty')) {
+if ( ! function_exists('is_file_empty')) 
+{
     /**
      * An alias to the function above
      *
@@ -544,7 +609,8 @@ if ( ! function_exists('raw_input_contents'))
 
 /* ------------------------------- Form Functions ---------------------------------*/
 
-if ( ! function_exists('old')) {
+if ( ! function_exists('old')) 
+{
 
     /**
      * Use it as an alias and fill in for 
@@ -619,6 +685,20 @@ if ( ! function_exists('verify_selected'))
     {
         //Use it to compare values
         return ($existing_value === $comparing_value) ? true: false;
+    }
+}
+
+if ( ! function_exists('validator')) 
+{
+    /**
+     * Alias of CodeIgniter's $this->form_validation
+     * 
+     * @return object
+     */
+    function validator()
+    {
+        ci()->load->library('form_validation');
+        return ci()->form_validation;
     }
 }
 
@@ -754,12 +834,12 @@ if ( ! function_exists('set_form_data'))
     /**
      * Set form data
      *
-     * @param string $form_data
+     * @param array $form_data
      * @return mixed
      */
-    function set_form_data($form_data)
+    function set_form_data(array $form_data)
     {
-        // @Todo
+        ci()->form_validation->set_data($form_data);
     }
 }
 
@@ -799,7 +879,6 @@ if ( ! function_exists('use_library'))
      */
     function use_library($library, $params = null, $object_name = null)
     {
-
         $library = has_dot($library);
 
         ci()->load->library($library, $params, $object_name);
@@ -816,12 +895,49 @@ if ( ! function_exists('use_service'))
      * @param string $object_name
      * @return object
      */
-    function use_service($service, $params = null, $object_name = null)
+    function use_service($service, $object_name = null, $params = null)
     {
-
         $service = has_dot($service);
 
         ci()->load->service($service, $params, $object_name);
+    }
+}
+
+if ( ! function_exists('use_services')) 
+{
+    /**
+     * Discover services listed in
+     * the service.php config file
+     *
+     * Only instantiate webby services and
+     * not app services
+     * 
+     * @param array $classes
+     * @return mixed
+     */
+    function use_services(array $classes = [])
+    {
+
+        $webby_services = ci()->config->item('webby_services');
+        $app_services = ci()->config->item('app_services');
+
+        $services = !empty($webby_services) ? $webby_services : [];
+
+        if (!empty($classes) || !empty($app_services)) {
+            $services = array_merge($services, $classes);
+        }
+
+        $keys = array_keys($services);
+        $values = has_dot(array_values($services));
+        $services = array_unique(array_combine($keys, $values));
+
+        foreach ($services as $alias => $service) {
+            service($service, $alias);
+        }
+
+        $services = array_merge($services, $app_services);
+
+        return $services;
     }
 }
 
@@ -880,6 +996,27 @@ if ( ! function_exists('use_rule'))
     }
 }
 
+if ( ! function_exists('use_form')) 
+{
+    /**
+     * Use a form
+     * This function lets users load forms.
+     * That can be used when validating forms 
+     * 
+     * It is designed to be called from a user's app
+     * It can be used in controllers or models
+     *
+     * @param string|array $rule
+     * @return void
+     */
+    function use_form($form = [])
+    {
+        $form = has_dot($form);
+
+        ci()->load->form($form);
+    }
+}
+
 if ( ! function_exists('rules')) 
 {
     /**
@@ -895,7 +1032,6 @@ if ( ! function_exists('rules'))
         return !empty(ci()->load->rules) ? ci()->load->rules : [];
     }
 }
-
 
 if ( ! function_exists('use_language')) 
 {
