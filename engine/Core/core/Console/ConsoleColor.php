@@ -17,7 +17,7 @@ namespace Base\Console;
 class ConsoleColor
 {
 
-    static $foregroundColors = array(
+    static $foregroundColors = [
         'bold'         => '1',    'dim'          => '2',
         'black'        => '1;30', 'dark_gray'    => '1;30',
         'blue'         => '1;34', 'light_blue'   => '1;34',
@@ -28,19 +28,19 @@ class ConsoleColor
         'brown'        => '1;33', 'yellow'       => '1;33',
         'light_gray'   => '1;37', 'white'        => '1;37',
         'normal'       => '1;39',
-    );
+    ];
 
-    static $backgroundColors = array(
+    static $backgroundColors = [
         'black'        => '40',   'red'          => '41',
         'green'        => '42',   'yellow'       => '43',
         'blue'         => '44',   'magenta'      => '45',
         'cyan'         => '46',   'light_gray'   => '47',
-    );
+    ];
 
-    static $options = array(
+    static $options = [
         'underline'    => '4',    'blink'         => '5',
         'reverse'      => '7',    'hidden'        => '8',
-    );
+    ];
 
     static $EOF = "\n";
 

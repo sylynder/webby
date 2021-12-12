@@ -20,7 +20,8 @@ defined('COREPATH') or exit('No direct script access allowed');
 |
  */
 $config['modules_locations'] = [
-    WEBPATH => '../../../app/Web/',
-    PACKAGEPATH => '../../../app/Packages/',
-    APIPATH => '../../../app/Api/',
+    CONSOLEPATH  => '../../../app/Console/',
+    WEBPATH      => '../../../app/Web/',
+    PACKAGEPATH  => '../../../app/Packages/',
+    APIPATH      => '../../../app/Api/',
 ];

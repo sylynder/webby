@@ -86,6 +86,17 @@ $resources_directory_line = __LINE__ - __ONE__;
 
 /*
  *---------------------------------------------------------------
+ * CONSOLE PATH
+ *---------------------------------------------------------------
+ *
+ * This folder is where all console commands will be placed
+ * You can decide to locate the folder anywhere you like
+ */
+$console_directory = __DIR__ . '/../app/Console';
+$console_directory_line = __LINE__ - __ONE__;
+
+/*
+ *---------------------------------------------------------------
  * PACKAGES PATH
  *---------------------------------------------------------------
  *

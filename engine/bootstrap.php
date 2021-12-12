@@ -115,6 +115,21 @@ if (!is_dir($ci_directory)) {
     exit(3); // EXIT_CONFIG
 }
 
+//Set Console path correctly
+if (($_temp = realpath($console_directory)) !== false) {
+    $console_directory = $_temp . '/';
+} else {
+    // Ensure there's a trailing slash
+    $console_directory = rtrim($console_directory, '/') . '/';
+}
+
+// Is the Console path correct?
+if (!is_dir($console_directory)) {
+    header('HTTP/1.1 503 Service Unavailable.', true, 503);
+    echo 'Your console directory path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $console_directory_line;
+    exit(3); // EXIT_CONFIG
+}
+
 //Set Packages path correctly
 if (($_temp = realpath($packages_directory)) !== false) {
     $packages_directory = $_temp . '/';
@@ -198,6 +213,9 @@ if (!is_dir($writable_directory)) {
 
 // Path to the system (CodeIgniter) folder
 define('BASEPATH', str_replace('\\', DIRECTORY_SEPARATOR, $ci_directory));
+
+// Path to the packages folder
+define('CONSOLEPATH', str_replace('\\', DIRECTORY_SEPARATOR, $console_directory));
 
 // Path to the packages folder
 define('PACKAGEPATH', str_replace('\\', DIRECTORY_SEPARATOR, $packages_directory));
