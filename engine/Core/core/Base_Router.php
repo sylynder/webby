@@ -29,7 +29,7 @@ class Base_Router extends MX_Router
         // Are query strings enabled in the config file?  Normally CI doesn't utilize query strings
         // since URI segments are more search-engine friendly, but they can optionally be used.
         // If this feature is enabled, we will gather the directory/class/method a little differently
-        $segments = array();
+        $segments = [];
 
         if ($this->config->item('enable_query_strings') === true and isset($_GET[$this->config->item('controller_trigger')])) {
             
@@ -64,7 +64,7 @@ class Base_Router extends MX_Router
             $modules_locations = COREPATH . 'modules/';
 
             if (is_dir($modules_locations)) {
-                $modules_locations = array($modules_locations => '../modules/');
+                $modules_locations = [$modules_locations => '../modules/'];
             } else {
                 show_error('Modules directory not found');
             }
@@ -89,7 +89,7 @@ class Base_Router extends MX_Router
             }
         }
 
-        $this->routes = (!isset($route) or !is_array($route)) ? array() : $route;
+        $this->routes = (!isset($route) or !is_array($route)) ? [] : $route;
         unset($route);
 
         // Set the default controller so we can display it in the event
@@ -121,5 +121,88 @@ class Base_Router extends MX_Router
         // Re-index the segment array so that it starts with 1 rather than 0
         $this->uri->rsegment_array();
     }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Parse Routes
+     *
+     * Matches any routes that may exist in the config/routes.php file
+     * against the URI to determine if the class/method need to be remapped.
+     *
+     * @return	void
+     */
+    protected function _parse_routes()
+    {
+        // Turn the segment array into a URI string
+        $uri = implode('/', $this->uri->segments);
+
+        // Get HTTP verb
+        $http_verb = isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'cli';
+
+        // Loop through the route array looking for wildcards
+        foreach ($this->routes as $key => $val) {
+            // Check if route format is using HTTP verbs
+            if (is_array($val)) {
+                $val = array_change_key_case($val, CASE_LOWER);
+                if (isset($val[$http_verb])) {
+                    $val = $val[$http_verb];
+                } else {
+                    continue;
+                }
+            }
+
+            // Check if named parameters exists
+            $key = $this->namedParameter($key);
+
+            // Convert wildcards to RegEx
+            $key = str_replace([':any', ':num'], ['[^/]+', '[0-9]+'], $key);
+
+            // Does the RegEx match?
+            if (preg_match('#^' . $key . '$#', $uri, $matches)) {
+                // Are we using callbacks to process back-references?
+                if (!is_string($val) && is_callable($val)) {
+                    // Remove the original string from the matches array.
+                    array_shift($matches);
+
+                    // Execute the callback using the values in matches as its parameters.
+                    $val = call_user_func_array($val, $matches);
+                }
+                // Are we using the default routing method for back-references?
+                elseif (strpos($val, '$') !== FALSE && strpos($key, '(') !== FALSE) {
+                    $val = preg_replace('#^' . $key . '$#', $val, $uri);
+                }
+
+                $this->_set_request(explode('/', $val));
+                return;
+            }
+        }
+
+        // If we got this far it means we didn't encounter a
+        // matching route so we'll set the site default route
+        $this->_set_request(array_values($this->uri->segments));
+    }
+
+    /**
+     * Convert {id} to :num OR {anytext} to :any
+     *
+     * @param string $key
+     * @return string
+     */
+    private function namedParameter($key)
+    {
+
+        $key = str_replace('{id}', '(:num)', $key);
+
+        $hasCurly = strpos($key, '{');
+        $defaultKey = $key;
+
+        $key = ($hasCurly && !(strpos($defaultKey, '{id}')))
+                    ? preg_replace('/\{(.+?)\}/', '(:any)', $key)
+                    : $key;
+
+        return $key;
+    }
+
 }
 /* end of file Base_Router.php */
