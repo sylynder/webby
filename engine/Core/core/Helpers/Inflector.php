@@ -266,7 +266,7 @@ class Inflector
     {
         return !in_array(
             strtolower($word),
-            array(
+            [
                 'audio',
                 'bison',
                 'chassis',
@@ -298,7 +298,7 @@ class Inflector
                 'swine',
                 'traffic',
                 'wheat'
-            )
+            ]
         );
     }
 

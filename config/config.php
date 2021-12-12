@@ -229,7 +229,7 @@ $config['allow_get_array'] = true;
 |
 | You can also pass an array with threshold levels to show individual error types
 |
-| 	array(2) = Debug Messages, without Error Messages
+| 	[2] = Debug Messages, without Error Messages
 |
 | For a live site you'll usually only enable Errors (1) to be logged otherwise
 | your log files will fill up very fast.
@@ -508,6 +508,6 @@ $config['rewrite_short_tags'] = false;
 | as well as specifying whole subnets. Here are a few examples:
 |
 | Comma-separated:	'10.0.1.200,192.168.5.0/24'
-| Array:		array('10.0.1.200', '192.168.5.0/24')
+| Array:		['10.0.1.200', '192.168.5.0/24']
 */
 $config['proxy_ips'] = '';

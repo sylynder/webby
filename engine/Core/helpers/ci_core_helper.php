@@ -64,7 +64,7 @@ if ( ! function_exists('ci'))
         if (! ends_with($class, '_model') || !ends_with($class, '_m')) {
 			return ci()->$class;
 		} else {
-			$class = ($params == array()) ? $class : $params ;
+			$class = ($params == []) ? $class : $params ;
 			return ci()->$class;
         }
     }

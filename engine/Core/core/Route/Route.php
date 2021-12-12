@@ -442,11 +442,11 @@ class Route
 		static::$temporaryRoutes[$from] = $to;
 
 		// Do we have a nesting function?
-		if ($nested && is_callable($nested)) {
-			$nestedRoute = new Route($from);
-			call_user_func_array($nested, array(&$nestedRoute));
-			static::$temporaryRoutes = array_merge(static::$temporaryRoutes, $nestedRoute->temporaryRoutes);
-		}
+		// if ($nested && is_callable($nested)) {
+		// 	$nestedRoute = new Route($from);
+		// 	call_user_func_array($nested, [&$nestedRoute]);
+		// 	static::$temporaryRoutes = array_merge(static::$temporaryRoutes, $nestedRoute->temporaryRoutes);
+		// }
 
 		static::$routes = static::$temporaryRoutes;
 	}

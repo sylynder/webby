@@ -22,7 +22,7 @@ if ( ! function_exists('plates'))
      * @param array $params
      * @return Plates
      */
-    function plates($params = array())
+    function plates($params = [])
     {
         return (new Plates($params));
     }

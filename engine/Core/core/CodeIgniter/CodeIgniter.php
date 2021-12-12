@@ -248,7 +248,7 @@ class CodeIgniter {
      */
     protected function paths()
     {
-        $paths = array('COREPATH' => $this->constants['COREPATH']);
+        $paths = ['COREPATH' => $this->constants['COREPATH']];
 
         $paths['COMPOSERPATH'] = $this->constants['COMPOSERPATH'];
 

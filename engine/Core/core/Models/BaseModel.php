@@ -194,10 +194,10 @@ class BaseModel extends Model
      * requires the field_name as the key and the additional rules
      * as the value string.
      *
-     *      array(
+     *      [
      *          'password' => 'required|matches[password]',
      *          'username' => 'required'
-     *      )
+     *      ]
      */
     protected $insertValidationRules = [];
 
@@ -584,14 +584,14 @@ class BaseModel extends Model
      * Inserts multiple rows into the database at once. Takes an associative
      * array of value pairs.
      *
-     * $data = array(
-     *     array(
+     * $data = [
+     *     [
      *         'title' => 'My title'
-     *     ),
-     *     array(
+     *     ],
+     *     [
      *         'title'  => 'My Other Title'
-     *     )
-     * );
+     *     ]
+     * ];
      * 
      * @param array $data An associate array of rows to insert
      * @param boolean $escape
@@ -652,7 +652,7 @@ class BaseModel extends Model
 
         $result = $this->dbw->update($this->table);
 
-        $this->trigger('afterUpdate', array($data, $result));
+        $this->trigger('afterUpdate', [$data, $result]);
 
         return $result;
     }
@@ -660,16 +660,16 @@ class BaseModel extends Model
     /**
      * Updates multiple records in the database at once.
      *
-     * $data = array(
-     *     array(
+     * $data = [
+     *     [
      *         'title'  => 'My title',
      *         'body'   => 'body 1'
-     *     ),
-     *     array(
+     *     ],
+     *     [
      *         'title'  => 'Another Title',
      *         'body'   => 'body 2'
-     *     )
-     * );
+     *     ]
+     * ];
      *
      * The $where_key should be the name of the column to match the record on.
      * If $where_key == 'title', then each record would be matched on that
@@ -691,7 +691,7 @@ class BaseModel extends Model
 
         foreach ($data as &$row)
         {
-            $this->trigger('afterUpdate', array($row, $result));
+            $this->trigger('afterUpdate', [$row, $result]);
         }
 
         return $result;
@@ -703,10 +703,10 @@ class BaseModel extends Model
      * While updateBatch() allows modifying multiple, arbitrary rows of data
      * on each row, updateMany() sets the same values for each row.
      *
-     * $ids = array(1, 2, 3, 5, 12);
-     * $data = array(
+     * $ids = [1, 2, 3, 5, 12];
+     * $data = [
      *     'deleted_by' => 1
-     * );
+     * ];
      *
      * $this->model->updateMany($ids, $data);
      *
@@ -737,7 +737,7 @@ class BaseModel extends Model
         $this->dbw->set($data);
         $result = $this->dbw->update($this->table);
 
-        $this->trigger('afterUpdate', array($data, $result));
+        $this->trigger('afterUpdate', [$data, $result]);
 
         return $result;
     }
@@ -750,8 +750,8 @@ class BaseModel extends Model
      * a typical WHERE clause. This could be a single array, or a column name
      * and a value.
      *
-     * $data = array('deleted_by' => 1);
-     * $wheres = array('user_id' => 15);
+     * $data = ['deleted_by' => 1];
+     * $wheres = ['user_id' => 15';
      *
      * $this->updateBy($wheres, $data);
      * $this->updateBy('user_id', 15, $data);
@@ -785,7 +785,7 @@ class BaseModel extends Model
         $this->dbw->set($data);
         $result = $this->dbw->update($this->table);
 
-        $this->trigger('afterUpdate', array($data, $result));
+        $this->trigger('afterUpdate', [$data, $result]);
 
         return $result;
     }
@@ -817,7 +817,7 @@ class BaseModel extends Model
         $this->dbw->set($data);
         $result = $this->dbw->update($this->table);
 
-        $this->trigger('afterUpdate', array($data, $result));
+        $this->trigger('afterUpdate', [$data, $result]);
 
         return $result;
     }
@@ -837,7 +837,7 @@ class BaseModel extends Model
 
         if ($this->softDelete)
         {
-            $sets = $this->logUser ? array($this->softDeleteKey => 1, $this->deletedByField => $this->setUser()) : array($this->softDeleteKey => 1);
+            $sets = $this->logUser ? [$this->softDeleteKey => 1, $this->deletedByField => $this->setUser()] : [$this->softDeleteKey => 1];
 
             $result = $this->dbw->update($this->table, $sets);
         }
@@ -866,7 +866,7 @@ class BaseModel extends Model
 
         if ($this->softDelete)
         {
-            $sets = $this->logUser ? array($this->softDeleteKey => 1, $this->deletedByField => $this->setUser()) : array($this->softDeleteKey => 1);
+            $sets = $this->logUser ? [$this->softDeleteKey => 1, $this->deletedByField => $this->setUser()] : [$this->softDeleteKey => 1];
 
             $result = $this->dbw->update($this->table, $sets);
         }
@@ -898,7 +898,7 @@ class BaseModel extends Model
 
         if ($this->softDelete)
         {
-            $sets = $this->logUser ? array($this->softDeleteKey => 1, $this->deletedByField => $this->setUser()) : array($this->softDeleteKey => 1);
+            $sets = $this->logUser ? [$this->softDeleteKey => 1, $this->deletedByField => $this->setUser()] : [$this->softDeleteKey => 1];
 
             $result = $this->dbw->update($this->table, $sets);
         }
@@ -1062,9 +1062,9 @@ class BaseModel extends Model
             $value = $args[0];
         }
 
-        $query = $this->dbr->select(array($key, $value))->get($this->table);
+        $query = $this->dbr->select([$key, $value])->get($this->table);
 
-        $options = array();
+        $options = [];
         foreach ($query->result() as $row)
         {
             $options[$row->{$key}] = $row->{$value};
@@ -1235,7 +1235,7 @@ class BaseModel extends Model
                 $this->callbackParameters = explode(',', $matches[3]);
             }
 
-            $data = call_user_func_array(array($this, $method), array($data));
+            $data = call_user_func_array([$this, $method], [$data]);
         }
 
         return $data;

@@ -50,7 +50,7 @@ class Debug {
             'word-wrap: break-word;' .
             'color: #333;' .
             'font-family: Menlo,Monaco,Consolas,\'Courier New\',monospace;">';
-        $done  = array();
+        $done  = [];
         $html .= self::var_dump_plain($var, intval($expandLevel), 0, $done);
         $html .= '</pre>';
         if (self::$hasArray) {
@@ -70,7 +70,7 @@ class Debug {
      * @param  mixed $var The variable to dump
      * @return string
      */
-    public static function var_dump_plain($var, $expLevel, $depth = 0, $done = array())
+    public static function var_dump_plain($var, $expLevel, $depth = 0, $done = [])
     {
         $html = '';
         if ($expLevel > 0) {

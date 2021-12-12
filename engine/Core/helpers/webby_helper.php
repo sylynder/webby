@@ -1425,14 +1425,14 @@ if ( ! function_exists('time_ago'))
 
         $time_difference = time() - strtotime($datetime);
 
-        $different_times = array(
+        $different_times = [
                     12 * 30 * 24 * 60 * 60  =>  'year',
                     30 * 24 * 60 * 60       =>  'month',
                     24 * 60 * 60            =>  'day',
                     60 * 60                 =>  'hour',
                     60                      =>  'minute',
                     1                       =>  'second'
-        );
+        ];
 
         foreach( $different_times as $seconds => $period )
         {
@@ -1441,7 +1441,8 @@ if ( ! function_exists('time_ago'))
             if( $derived_time >= 1 )
             {
                 $time = round( $derived_time );
-                return 'about ' . $time . ' ' . $period . ( $time > 1 ? 's' : '' ) . ' ago';
+                // return 'about ' . $time . ' ' . $period . ( $time > 1 ? 's' : '' ) . ' ago';
+                return $time . ' ' . $period . ($time > 1 ? 's' : '') . ' ago';
             }
         }
 
@@ -1546,12 +1547,12 @@ if ( ! function_exists('cleanxss'))
      */
     function cleanxss($input)
     {
-        $search = array(
+        $search = [
             '@&lt;script[^&gt;]*?&gt;.*?&lt;/script&gt;@si', // Strip out javascript
             '@&lt;[\/\!]*?[^&lt;&gt;]*?&gt;@si', // Strip out HTML tags
             '@&lt;style[^&gt;]*?&gt;.*?&lt;/style&gt;@siU', // Strip style tags properly
             '@&lt;![\s\S]*?--[ \t\n\r]*&gt;@', // Strip multi-line comments
-        );
+        ];
 
         $inputx = preg_replace($search, '', $input);
         $inputx = trim($inputx);
@@ -1683,14 +1684,16 @@ if ( ! function_exists('is_email_injected'))
      */
     function is_email_injected($email)
     {
-        $injections = array('(\n+)',
+        $injections = [
+            '(\n+)',
             '(\r+)',
             '(\t+)',
             '(%0A+)',
             '(%0D+)',
             '(%08+)',
             '(%09+)',
-        );
+        ];
+
         $inject = join('|', $injections);
         $inject = "/$inject/i";
         if (preg_match($inject, $email)) {
