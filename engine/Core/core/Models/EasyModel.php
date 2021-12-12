@@ -142,6 +142,8 @@ class EasyModel extends Model
         if ($this->useSoftDelete && $this->temporaryWithDeleted !== true) {
             $this->db->where($this->useSoftDeleteKey, (bool) $this->temporaryOnlyDeleted);
         }
+        
+        $this->load->helper('security');
 
         $_POST = xss_clean($_POST);
         $i = 0;
@@ -492,6 +494,35 @@ class EasyModel extends Model
     public function findAll($idOrRow = null, $optionalValue = null, $orderBy = null)
     {
         return $this->get($idOrRow, $optionalValue, $orderBy);
+    }
+
+    /**
+     * Alias to findAll()
+     * @param string|integer|array $idOrRow
+     * @param mixed $optionalValue
+     * @param mixed $orderBy
+     * @return array|object
+     * @return object or false
+     */
+    public function all($idOrRow = null, $optionalValue = null, $orderBy = null)
+    {
+        return $this->findAll($idOrRow, $optionalValue, $orderBy);
+    }
+
+    /**
+     * A simple way to paginate records
+     *
+     * @param int $perPage
+     * @param int $page
+     * @return mixed
+     */
+    public function paginate($perPage = null, $page = null)
+    {
+        $this->db->limit($perPage, $page);
+
+        $query = $this->db->get($this->table);
+
+        return $this->getResult($query);
     }
 
     /**
