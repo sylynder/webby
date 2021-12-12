@@ -131,7 +131,7 @@
 		}
 
 		.error_code h1 {
-			font-size: 100px;
+			font-size: 5vw;
 			animation: type .5s alternate infinite;
 		}
 
@@ -148,6 +148,7 @@
 </head>
 
 <body>
+	<div style="margin-bottom: 200px"></div>
 	<div class="center-div div-shadow">
 		<div class="body" style="margin-top: 60px;">
 			<h2><code><?php echo ucwords($heading); ?></code></h2>

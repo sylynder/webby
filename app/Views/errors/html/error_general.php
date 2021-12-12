@@ -8,7 +8,8 @@
 	<title>Error</title>
 	<style type="text/css">
 		body {
-			background-color: rgb(210, 210, 212);
+			/* background-color: rgb(210, 210, 212); */
+			background-color: rgb(204, 166, 255);
 			font: 16px/26px normal Helvetica, Arial, sans-serif;
 		}
 
@@ -128,7 +129,7 @@
 		}
 
 		.error_code h1 {
-			font-size: 100px;
+			font-size: 5vw;
 			animation: type .5s alternate infinite;
 		}
 
@@ -145,6 +146,7 @@
 </head>
 
 <body>
+	<div style="margin-bottom: 200px"></div>
 	<div class="center-div div-shadow">
 		<div class="body" style="margin-top: 60px;">
 			<div class="within">

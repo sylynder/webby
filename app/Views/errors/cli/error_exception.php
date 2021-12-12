@@ -1,6 +1,6 @@
 <?php defined('COREPATH') or exit('No direct script access allowed'); ?>
 
-An uncaught Exception was encountered
+An Uncaught Exception Was Encountered
 
 Type:        <?php echo get_class($exception), "\n"; ?>
 Message:     <?php echo $message, "\n"; ?>

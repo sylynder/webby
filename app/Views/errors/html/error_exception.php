@@ -128,25 +128,30 @@
 				<code>
 					<p><span class="mtitle">Type:</span> <?php echo get_class($exception); ?></p>
 					<p><span class="mtitle">Message:</span><span class="mmessage"><?php echo $message; ?></span></p>
-					<p><span class="mtitle">Filename:</span><span class="mmessage"><?php echo $exception->getFile(); ?></span></p>
-					<p><span class="mtitle"> MarkLine Number:</span> <span class="mdigit"><?php echo $exception->getLine(); ?></span></p>
+					<?php if (strpos($exception->getFile(), "eval()'d code") !== false) : ?>
+						<p><span class="mtitle">Error Location:</span><span class="mmessage"><?php echo "Can possibly be from the current {View}, found in the current Controller: {" . ucwords($GLOBALS['class']) . "} inside the {" . ucwords($GLOBALS['method']) . "()} method." ?></span></p>
+					<?php else : ?>
+						<p><span class="mtitle">Filename:</span><span class="mmessage"><?php echo $exception->getFile(); ?></span></p>
+						<p><span class="mtitle"> MarkLine Number:</span> <span class="mdigit"><?php echo $exception->getLine(); ?></span></p>
 
-					<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === true) : ?>
+						<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === true) : ?>
 
-						<p><span class="mh">Backtrace:<span></p>
-						<?php foreach ($exception->getTrace() as $error) : ?>
+							<p><span class="mh">Backtrace:<span></p>
+							<?php foreach ($exception->getTrace() as $error) : ?>
 
-							<?php if (isset($error['file']) && strpos($error['file'], realpath(CIPATH)) !== 0) : ?>
+								<?php if (isset($error['file']) && strpos($error['file'], realpath(CIPATH)) !== 0) : ?>
 
-								<p style="margin-left:10px">
-									<span class="mtitle">File:</span> <span class="mmessage"><?php echo $error['file']; ?></span><br />
-									<span class="mtitle">Line:</span> <span class="mdigit"><?php echo $error['line']; ?></span><br />
-									<span class="mtitle">Function:</span> <?php echo $error['function']; ?>
-								</p>
+									<p style="margin-left:10px">
+										<span class="mtitle">File:</span> <span class="mmessage"><?php echo $error['file']; ?></span><br />
+										<span class="mtitle">Line:</span> <span class="mdigit"><?php echo $error['line']; ?></span><br />
+										<span class="mtitle">Function:</span> <?php echo $error['function']; ?>
+									</p>
 
-							<?php endif ?>
+								<?php endif ?>
 
-						<?php endforeach ?>
+							<?php endforeach ?>
+
+						<?php endif ?>
 
 					<?php endif ?>
 

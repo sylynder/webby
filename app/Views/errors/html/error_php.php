@@ -4,6 +4,7 @@
 <style type="text/css">
 	body {
 		background-color: rgb(210, 210, 212);
+		/* background-color: rgb(204, 166, 255); */
 		font: 16px/26px normal Helvetica, Arial, sans-serif;
 	}
 
@@ -47,20 +48,14 @@
 	code {
 		font-family: monospace;
 		font-size: inherit;
+		overflow: auto;
 	}
 
 	mark {
 		background-color: #c0ffc8;
 	}
 
-	.center-div {
-		margin: auto;
-		top: 50px;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		width: 80%;
-		height: 80%;
+	.center-error-div {
 		background-color: #292929;
 		border-radius: 3px;
 		-moz-box-shadow: 0 0 3px #ccc;
@@ -96,6 +91,7 @@
 		color: #11a68d;
 		font-weight: bolder;
 		font-size: 1.000013em;
+		overflow: auto;
 	}
 
 	.mmessage {
@@ -104,6 +100,7 @@
 		font-weight: bolder;
 		font-size: 1.000013em;
 		font-style: italic;
+		overflow: auto;
 	}
 
 	.mdigit {
@@ -119,7 +116,7 @@
 </style>
 
 <body>
-	<div class="center-div div-shadow">
+	<div class="center-error-div div-shadow">
 		<div class="body">
 
 			<h1><code>A PHP Error Was Encountered</code></h1>
@@ -128,29 +125,34 @@
 				<code>
 					<p><span class="mtitle">Severity:</span> <?php echo $severity; ?></p>
 					<p><span class="mtitle">Message:</span><span class="mmessage"><?php echo $message; ?></span></p>
-					<p><span class="mtitle">Filename:</span><span class="mmessage"><?php echo $filepath; ?></span></p>
-					<p><span class="mtitle">Line Number:</span><span class="mdigit"><?php echo $line; ?></span></p>
+					<?php
+					if (strpos($filepath, "eval()'d code") !== false) : ?>
+						<p><span class="mtitle">Error Location:</span><span class="mmessage"><?php echo "Can possibly be from the current {View}, found in the current Controller: {" . ucwords($GLOBALS['class']) . "} inside the {" . ucwords($GLOBALS['method']) . "()} method." ?></span></p>
+					<?php else : ?>
+						<p><span class="mtitle">Filename:</span><span class="mmessage"><?php echo $filepath; ?></span></p>
+						<p><span class="mtitle">Line Number:</span><span class="mdigit"><?php echo $line; ?></span></p>
 
-					<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === true) : ?>
+						<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === true) : ?>
 
-						<p><span class="mh">Backtrace:<span></p>
+							<p><span class="mh">Backtrace:<span></p>
 
-						<?php foreach (debug_backtrace() as $error) : ?>
+							<?php foreach (debug_backtrace() as $error) : ?>
 
-							<?php if (isset($error['file']) && strpos($error['file'], realpath(CIPATH)) !== 0) : ?>
+								<?php if (isset($error['file']) && strpos($error['file'], realpath(CIPATH)) !== 0) : ?>
 
-								<p style="margin-left:10px">
-									<span class="mtitle">File:</span> <span class="mmessage"><?php echo $error['file']; ?></span><br />
-									<span class="mtitle">Line:</span> <span class="mdigit"><?php echo $error['line']; ?></span><br />
-									<span class="mtitle">Function:</span> <?php echo $error['function']; ?>
-								</p>
+									<p style="margin-left:10px">
+										<span class="mtitle">File:</span> <span class="mmessage"><?php echo $error['file']; ?></span><br />
+										<span class="mtitle">Line:</span> <span class="mdigit"><?php echo $error['line']; ?></span><br />
+										<span class="mtitle">Function:</span> <?php echo $error['function']; ?>
+									</p>
 
-							<?php endif ?>
+								<?php endif ?>
 
-						<?php endforeach ?>
+							<?php endforeach ?>
+
+						<?php endif ?>
 
 					<?php endif ?>
-
 				</code>
 			</div>
 

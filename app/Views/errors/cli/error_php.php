@@ -1,6 +1,6 @@
 <?php defined('COREPATH') or exit('No direct script access allowed'); ?>
 
-A PHP Error was encountered
+A PHP Error Was Encountered
 
 Severity:    <?php echo $severity, "\n"; ?>
 Message:     <?php echo $message, "\n"; ?>
