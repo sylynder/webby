@@ -22,7 +22,6 @@ class Base_Loader extends MX_Loader {
      */
     protected $_ci_service_paths = [];
 
-
 	/**
      * List of loaded rules
      *
@@ -46,6 +45,22 @@ class Base_Loader extends MX_Loader {
      * @access protected
      */
     protected $_ci_rules_paths = [];
+
+	/**
+	 * List of loaded forms
+	 *
+	 * @var array
+	 * @access protected
+	 */
+	protected $_webby_forms = [];
+
+	/**
+	 * List of paths to load forms from
+	 *
+	 * @var array
+	 * @access protected
+	 */
+	protected $_webby_form_paths = [];
 	
     /**
      * Constructor
@@ -56,7 +71,9 @@ class Base_Loader extends MX_Loader {
     {
 
         parent::__construct();
-        load_class('Service', 'core');
+
+        load_class('Service', 'core'); // Load service core class
+
         // $this->_ci_service_paths = [COREPATH];
     }
 
@@ -154,6 +171,9 @@ class Base_Loader extends MX_Loader {
 			$service = substr($service, $last_slash + 1);
 		}
 
+		// Quick fix for PHP8.1
+		$object_name = !is_null($object_name) ? $object_name : '';
+
 		($_alias = strtolower($object_name)) OR $_alias = $service;
 
 		$service_path = $subdir . $service . PHPEXT;
@@ -215,6 +235,7 @@ class Base_Loader extends MX_Loader {
 		list($path, $_rule) = Modules::find($rule, $this->_module, 'Rules/');
 
 		if ($path === false) /*return parent::helper($rule);*/
+
 		show_error('Sorry! We couldn\'t find the rule: '.$_rule);
 
 		Modules::load_file($_rule, $path);
@@ -238,6 +259,50 @@ class Base_Loader extends MX_Loader {
 	public function rules($rules = [])
 	{
 		foreach ($rules as $_rule) $this->rule($_rule);
+		return $this;
+	}
+
+	/**
+	 * Form Loader
+	 *
+	 * This function lets users load forms
+	 * That can used when validating forms 
+	 * 
+	 * It works the same as the rule method
+	 * It is designed to be called from a user's app
+	 * It can be controllers or models
+	 *
+	 * @param string $form
+	 * @return mixed
+	 */
+	public function form($form = [])
+	{
+		if (is_array($form)) return $this->forms($form);
+
+		if (isset($this->_webby_forms[$form]))	return;
+
+		list($path, $_form) = Modules::find($form, $this->_module, 'Forms/');
+
+		if ($path === false)
+
+		show_error('Sorry! We couldn\'t find the form: ' . $_form);
+
+		Modules::load_file($_form, $path);
+
+		$this->_webby_forms[$_form] = true;
+
+		return $this;
+	}
+
+	/**
+	 * Load an array of forms
+	 *
+	 * @param array $forms
+	 * @return mixed
+	 */
+	public function forms($forms = [])
+	{
+		foreach ($forms as $_form) $this->form($_form);
 		return $this;
 	}
 
