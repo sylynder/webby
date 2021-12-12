@@ -157,6 +157,9 @@ class MX_Loader extends \CI_Loader
 		if (isset($this->_ci_classes[$class]) && $_alias = $this->_ci_classes[$class])
 			return $this;
 
+		// Quick fix for PHP8.1
+		$object_name = !is_null($object_name) ? $object_name : '';
+        
 		($_alias = strtolower($object_name)) OR $_alias = $class;
 
 		list($path, $_library) = Modules::find($library, $this->_module, 'Libraries/');
@@ -297,7 +300,9 @@ class MX_Loader extends \CI_Loader
 			$view = $_view;
 		}
 
-		return (method_exists($this, '_ci_object_to_array') ? $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return)) : $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return)));
+		return $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return));
+
+		// return (method_exists($this, '_ci_object_to_array') ? $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return)) : $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return)));
 	}
 
 	protected function &_ci_get_component($component)

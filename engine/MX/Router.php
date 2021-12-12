@@ -39,6 +39,7 @@ class MX_Router extends \CI_Router
 {
 	public $module;
 	private $located = 0;
+	private $controller;
 
 	public function fetch_module()
 	{
@@ -111,6 +112,7 @@ class MX_Router extends \CI_Router
 	{
 		$this->located = 0;
 		$ext = $this->config->item('controller_suffix').EXT;
+		$commands_directory = "commands";
 
 		/* use module route if available */
 		if (isset($segments[0]) && $routes = Modules::parse_routes($segments[0], implode('/', $segments)))
@@ -121,14 +123,28 @@ class MX_Router extends \CI_Router
 		/* get the segments array elements */
 		list($module, $directory, $controller) = array_pad($segments, 3, null);
 		
+		if ($module === $commands_directory) {
+			list($module, $controller) = array_pad($segments, 2, null);
+		}
+
 		/* check modules */
 		foreach (Modules::$locations as $location => $offset)
 		{
+			if ($module === $commands_directory) {
+				$source = $location . ucfirst($module) . '/';
+				$controller_location = ucfirst($module) . '/';
+			} else {
+				$source = $location . ucfirst($module) . '/Controllers/';
+				$controller_location = ucfirst($module) . '/Controllers/';
+				$controller = '';
+			}
+
 			/* module exists? */
-			if (is_dir($source = $location.ucfirst($module).'/Controllers/'))
+			if (is_dir($source))
 			{
 				$this->module = ucfirst($module);
-				$this->directory = $offset.ucfirst($module).'/Controllers/';
+				$this->directory = $offset . $controller_location;
+				$this->controller = $controller;
 				
 				/* module sub-controller exists? */
 				if($directory)
@@ -165,10 +181,21 @@ class MX_Router extends \CI_Router
 					$this->located = 1;
 					return $segments;
 				}
+
+				/* controller exists in commands directory? */
+				if (is_file($source . '/' . ucfirst($this->controller) . $ext)) {
+					$this->located = 1;
+					return $segments;
+				}
 			}
 		}
 		
 		if( ! empty($this->directory)) return;
+		
+		/* controller exists in commands directory? */
+		if (is_file(APPPATH . 'controllers/'.$commands_directory.'/' . ucfirst($module) . $ext)) {
+			$directory = $module;
+		}
 
 		/* application sub-directory controller exists? */
 		if($directory)
@@ -177,6 +204,11 @@ class MX_Router extends \CI_Router
 			{
 				$this->directory = $module.'/';
 				return array_slice($segments, 1);
+			}
+
+			if (is_file(APPPATH.'controllers/'.$commands_directory.'/'. ucfirst($directory) . $ext)) {
+				$this->directory = $commands_directory.'/';
+				return $segments;
 			}
 
 			/* application sub-sub-directory controller exists? */

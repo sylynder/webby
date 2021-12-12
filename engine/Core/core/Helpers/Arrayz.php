@@ -10,7 +10,6 @@
 
 namespace Base\Helpers;
 
-
 class Arrayz
 {
 	/**
@@ -198,12 +197,12 @@ class Arrayz
 			$searchValue = $arguments[1];
 		}
 
-		foreach ($this->source as $k => $v) {
+		foreach ($this->source as $key => $value) {
 			if (
-				@array_key_exists($searchKey, $v)
-				&& @in_array($v[$searchKey], $searchValue)
+				@array_key_exists($searchKey, $value)
+				&& @in_array($value[$searchKey], $searchValue)
 			) {
-				$option[] = $v;
+				$option[] = $value;
 			}
 		}
 
@@ -245,7 +244,7 @@ class Arrayz
 			$searchValue = $arguments[1];
 		}
 
-		// If search value founds, to stop the iteration 
+		// If search value is found, stop the iteration 
 		// using try catch method for faster approach
 		try {
 			array_walk_recursive($this->source, function (&$value, &$key) use (&$searchKey, &$searchValue) {
@@ -303,8 +302,8 @@ class Arrayz
 	}
 
 	/**
-	 * Covert Two Multidimensional Array 
-	 * with limit offset
+	 * Set the limit of array 
+	 * content to access
 	 *
 	 * @return Base\Helpers\Arrayz
 	 */
@@ -320,6 +319,10 @@ class Arrayz
 
 		if ($limit > $count) {
 			$limit = $count;
+		}
+
+		if (empty($this->source)) {
+			return $this;
 		}
 
 		$i = 0;
@@ -384,16 +387,18 @@ class Arrayz
 	public function groupBy()
 	{
 		$arguments = func_get_args();
-		$grp_by = $arguments[0];
+		$groupBy = $arguments[0];
 		$option = [];
+
 		foreach ($this->source as $data) {
-			$grp_val = $data[$grp_by];
-			if (isset($option[$grp_val])) {
-				$option[$grp_val][] = $data;
+			$groupValue = $data[$groupBy];
+			if (isset($option[$groupValue])) {
+				$option[$groupValue][] = $data;
 			} else {
-				$option[$grp_val] = array($data);
+				$option[$groupValue] = [$data];
 			}
 		}
+
 		$this->source = $option;
 		return $this;
 	}
@@ -551,9 +556,9 @@ class Arrayz
 			$searchValue = $arguments[1];
 		}
 
-		foreach ($this->source as $k => $v) {
-			if (@array_key_exists($searchKey, $v) && @!in_array($v[$searchKey], $searchValue)) {
-				$option[] = $v;
+		foreach ($this->source as $key => $value) {
+			if (@array_key_exists($searchKey, $value) && @!in_array($value[$searchKey], $searchValue)) {
+				$option[] = $value;
 			}
 		}
 
@@ -623,7 +628,7 @@ class Arrayz
 	/**
 	 * Count items in an array collection
 	 *
-	 * @return void
+	 * @return int
 	 */
 	public function count()
 	{
