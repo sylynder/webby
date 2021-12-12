@@ -164,6 +164,8 @@ class Route
 	 */
 	public function setRoute($uri = null)
 	{
+		$uri = $this->toSlash($uri);
+
 		if (!empty($uri)) {
 			$this->uri = ci()->config->site_url($uri);
 		}
@@ -175,8 +177,16 @@ class Route
 		return $this;
 	}
 
+	/**
+	 * To method
+	 *
+	 * @param string $uri
+	 * @return mixed
+	 */
 	public function to($uri = '')
 	{
+		$uri = $this->toSlash($uri);
+
 		$this->uri = ci()->config->site_url($uri);
 
 		if (empty($this->uri) || is_null($this->uri)) {
@@ -186,8 +196,15 @@ class Route
 		return $this;
 	}
 
+	/**
+	 * Back method
+	 *
+	 * @param string $uri
+	 * @return mixed
+	 */
 	public function back($uri = '')
 	{
+		$uri = $this->toSlash($uri);
 
 		$referer = $_SESSION['_webby_previous_url'] ?? ci()->input->server('HTTP_REFERER', FILTER_SANITIZE_URL);
 
@@ -207,17 +224,27 @@ class Route
 		return redirect($referer);
 	}
 
-	// public function setReferrer($value)
-	// {
-	// 	$_SESSION['_webby_previous_url'] = $value;
+	/**
+	 * Set Referrer
+	 *
+	 * @param string $value
+	 * @return void
+	 * 
+	 * @Todo To be implemented
+	 */
+	public function setReferrer($value)
+	{
+		$value = $this->toSlash($value);
 
-	// 	$this->refferer = $_SESSION['_webby_previous_url'];
+		$_SESSION['_webby_previous_url'] = $value;
 
-	// 	if () {
+		$this->refferer = $_SESSION['_webby_previous_url'];
 
-	// 	} 
+		// if () {
 
-	// }
+		// } 
+
+	}
 
 	/**
 	 * Redirect routes
@@ -234,6 +261,13 @@ class Route
 		return $this;
 	}
 
+	/**
+	 * With method
+	 *
+	 * @param string $key
+	 * @param string $value
+	 * @return mixed
+	 */
 	public function with($key, $value = null)
 	{
 
@@ -252,17 +286,35 @@ class Route
 		}
 	}
 
+	/**
+	 * With Success
+	 *
+	 * @param string $message
+	 * @return string
+	 */
 	public function withSuccess($message)
 	{
 		return $this->with('success_message', $message);
 	}
 
+	/**
+	 * With Error
+	 *
+	 * @param string $message
+	 * @return string
+	 */
 	public function withError($message)
 	{
 		return $this->with('error_message', $message);
 	}
 
-	// @Todo work on grabbing input
+	/**
+	 * With Input
+	 *
+	 * @return void
+	 * 
+	 * @Todo work on grabbing input
+	 */
 	public function withInput()
 	{
 		// $input = ci()->input();
@@ -283,16 +335,31 @@ class Route
 		return self::getRouter()->routes;
 	}
 
+	/**
+	 * Default routes
+	 *
+	 * @return mixed
+	 */
 	public static function defaultRoutes()
 	{
 		return static::$defaultRoutes = $GLOBALS['default_routes'];
 	}
 
+	/**
+	 * Available routes
+	 *
+	 * @return mixed
+	 */
 	public static function availableRoutes()
 	{
 		return static::$availableRoutes = $GLOBALS['available_routes'];
 	}
 
+	/**
+	 * API routes
+	 *
+	 * @return mixed
+	 */
 	public static function apiRoutes()
 	{
 		return static::$apiRoutes = $GLOBALS['api_routes'];
@@ -301,8 +368,16 @@ class Route
 	/* --------------------------------------------------------------
      * BASIC ROUTING
      * ------------------------------------------------------------ */
-	// @Todo To be implemented
-	private static function prefix($namespace, /*Closure*/ $callable = null)
+
+	/**
+	 * Group routes
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * 
+	 * @Todo To be implemented
+	 */
+	private static function group($namespace, /*Closure*/ $callable = null)
 	{
 		static::$namespace = $namespace;
 
@@ -316,6 +391,14 @@ class Route
 		}
 	}
 
+	/**
+	 * Static Route method
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * @param boolean $nested
+	 * @return void
+	 */
 	public static function route($from, $to, $nested = false)
 	{
 		$parameterfy = false;
@@ -376,6 +459,14 @@ class Route
 	/* --------------------------------------------------------------
      * HTTP VERB ROUTING
      * ------------------------------------------------------------ */
+
+	/**
+	 * Get route
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * @return void
+	 */
 	public static function get($from, $to)
 	{
 		if (static::methodIs('GET')) {
@@ -383,6 +474,13 @@ class Route
 		}
 	}
 
+	/**
+	 * Post route
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * @return void
+	 */
 	public static function post($from, $to)
 	{
 		if (static::methodIs('POST')) {
@@ -390,6 +488,13 @@ class Route
 		}
 	}
 
+	/**
+	 * Put route
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * @return void
+	 */
 	public static function put($from, $to)
 	{
 		if (static::methodIs('PUT')) {
@@ -397,6 +502,13 @@ class Route
 		}
 	}
 
+	/**
+	 * Delete route
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * @return void
+	 */
 	public static function delete($from, $to)
 	{
 		if (static::methodIs('DELETE')) {
@@ -404,6 +516,13 @@ class Route
 		}
 	}
 
+	/**
+	 * Patch route
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * @return void
+	 */
 	public static function patch($from, $to)
 	{
 		if (static::methodIs('PATCH')) {
@@ -411,6 +530,13 @@ class Route
 		}
 	}
 
+	/**
+	 * Head route
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * @return void
+	 */
 	public static function head($from, $to)
 	{
 		if (
@@ -421,6 +547,13 @@ class Route
 		}
 	}
 
+	/**
+	 * Options route
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * @return void
+	 */
 	public static function options($from, $to)
 	{
 		if (
@@ -431,6 +564,14 @@ class Route
 		}
 	}
 
+	/**
+	 * Web Resource method
+	 * Creates resource routes
+	 *
+	 * @param string $name
+	 * @param boolean $hasController
+	 * @return void
+	 */
 	public static function webResource($name, $hasController = true)
 	{
 		$name = str_replace('/', '.', $name);
@@ -444,21 +585,26 @@ class Route
 			$moc = ucfirst($module) . '/' . $controller;
 		}
 
-		static::get($name . '.list', $moc . '/index');
-		static::get($name . '.show.(:any)', $moc . '/show/$1');
-		static::get($name . '.add', $moc . '/create');
-		static::post($name . '.save', $moc . '/store');
-		static::get($name . '.edit.(:any)', $moc . '/edit/$1');
-		static::put($name . '.update.(:any)', $moc . '/update/$1');
-		static::delete($name . '.delete.(:any)', $moc . '/delete/$1');
+		static::get($name . '/list', $moc . '/index');
+		static::get($name . '/show/(:any)', $moc . '/show/$1');
+		static::get($name . '/create', $moc . '/create');
+		static::post($name . '/save', $moc . '/save');
+		static::get($name . '/edit/(:any)', $moc . '/edit/$1');
+		static::put($name . '/update/(:any)', $moc . '/update/$1');
+		static::delete($name . '/delete/(:any)', $moc . '/delete/$1');
 	}
 
+	/**
+	 * Alias to method above
+	 *
+	 * @param string $name
+	 * @param boolean $hasController
+	 * @return void
+	 */
 	public static function uselinks($name, $hasController = true)
 	{
 		static::webResource($name, $hasController);
 	}
-
-	
 
 	/* --------------------------------------------------------------
      * UTILITY FUNCTIONS
@@ -466,6 +612,7 @@ class Route
 
 	/**
 	 * Clear out the routing table
+	 * @return mixed
 	 */
 	public static function clear()
 	{
@@ -474,15 +621,11 @@ class Route
 
 	/**
 	 * Return the routes array
-	 */
-
-	/**
-	 * Return the routes array
 	 *
 	 * Used as a helper in HMVC Routing
 	 * 
 	 * @param array $route
-	 * @return void
+	 * @return array
 	 */
 	public static function build(array $route = [])
 	{
