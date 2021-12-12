@@ -351,8 +351,8 @@ if ( ! function_exists('has_dot'))
      * and replace with forward slash
      * 
      * 
-     * @param string|array $string
-     * @return string
+     * @param mixed $string
+     * @return mixed
      */
     function has_dot($string)
     {

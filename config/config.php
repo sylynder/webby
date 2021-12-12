@@ -118,6 +118,18 @@ $config['subclass_prefix'] = 'Base_';
 
 /*
 |--------------------------------------------------------------------------
+| Controller Suffix
+|--------------------------------------------------------------------------
+| This is a quick fix for PHP8.1 on Modules
+| Do not change the default value 
+| which is an empty string if you 
+| do not know what you doing.
+|
+*/
+$config['controller_suffix'] = '';
+
+/*
+|--------------------------------------------------------------------------
 | Composer auto-loading
 |--------------------------------------------------------------------------
 |

@@ -19,6 +19,9 @@
 
 namespace Base\View;
 
+use CI_Exceptions;
+use Exception;
+
 class Plates
 {
 
@@ -497,6 +500,9 @@ class Plates
 		}
 
 		ob_start();
+
+		$template = $this->replaceExecs($template);
+
 		eval(' ?>' . $template . '<?php ');
 
 		$content = ob_get_clean();
@@ -504,6 +510,26 @@ class Plates
 		$this->ci->benchmark->mark('plate_execution_time_end');	//	Stop the timer
 
 		return $content;
+	}
+
+	private function replaceExecs($template)
+	{
+		$execs = [
+			'phpinfo(',
+			'escapeshellarg(',
+			'escapeshellcmd(',
+			'exec(',
+			'passthru(',
+			'proc_close(',
+			'proc_get_status(',
+			'proc_nice(',
+			'proc_open(',
+			'proc_terminate(',
+			'shell_exec(',
+			'system(',
+		];
+		
+		return str_replace($execs, '', $template);
 	}
 
 	// --------------------------------------------------------------------------

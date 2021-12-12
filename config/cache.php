@@ -30,7 +30,7 @@ $config['cache_path'] = CACHE_PATH;
 | Main directory for web cache files
 |
 */
-$config['web_cache_path'] = WEB_CACHE_PATH . DIRECTORY_SEPARATOR . 'app';
+$config['web_cache_path'] = WEB_CACHE_PATH . 'app';
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ $config['web_cache_path'] = WEB_CACHE_PATH . DIRECTORY_SEPARATOR . 'app';
 | Main directory for plate template cache files
 |
 */
-$config['plates_cache_path'] = WEB_CACHE_PATH . DIRECTORY_SEPARATOR . 'plates';
+$config['plates_cache_path'] = WEB_CACHE_PATH . 'plates';
 
 /*
 |--------------------------------------------------------------------------
