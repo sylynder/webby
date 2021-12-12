@@ -299,6 +299,24 @@ class DotEnv
 	//--------------------------------------------------------------------
 
 	/**
+	 * Resolve the nested 
+	 * variables properly.
+	 *
+	 * @return string
+	 */
+	public function prepareVariable(string $value): string
+	{
+		if (strpos($value, '$') !== false) {
+			$value = str_replace(['$', '{', '}'], '', $value);
+			return $this->getVariable($value);
+		}
+
+		return $value;
+	}
+
+	//--------------------------------------------------------------------
+
+	/**
 	 * Search the different places for environment variables and return first value found.
 	 *
 	 * This was borrowed from the excellent phpdotenv with very few changes.
