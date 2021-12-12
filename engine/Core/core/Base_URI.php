@@ -131,6 +131,10 @@ class Base_URI extends \CI_URI
 	 */
 	private function maintenanceMode()
 	{
+		if (is_cli()) {
+			$this->config->set_item('maintenance_mode', true);
+		}
+
 		if (
 			$this->config->item('maintenance_mode') === "false" 
 			|| $this->config->item('app_status') === false
@@ -140,6 +144,8 @@ class Base_URI extends \CI_URI
 
 			log_message('app', 'Accessing maintenance mode from this ip address: ' . $this->getVisitIP());
 			
+			(is_cli()) ? exit('In Maintenance Mode') :
+
 			http_response_code(503); // Set response code
 			header('Retry-After: 3600'); // Set retry time
 			include_once(APP_MAINTENANCE_PATH . $maintenance_view. PHPEXT);
@@ -167,6 +173,10 @@ class Base_URI extends \CI_URI
 			if (!empty($_SERVER[$key]) && filter_var($_SERVER[$key], FILTER_VALIDATE_IP)) {
 				return $_SERVER[$key];
 			}
+		}
+
+		if (is_cli()) {
+			return "which is from Webby Cli";
 		}
 
 		return "UNKNOWN";

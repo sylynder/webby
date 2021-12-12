@@ -128,7 +128,7 @@
         }
 
         .error_code h1 {
-            font-size: 100px;
+            font-size: 5vw;
             animation: type .5s alternate infinite;
         }
 
@@ -146,6 +146,7 @@
 
 <body>
 
+    <div style="margin-bottom: 200px"></div>
     <div class="center-div div-shadow">
         <div class="body" style="margin-top: 60px;">
             <h1>Maintenance Mode</h1><br>
