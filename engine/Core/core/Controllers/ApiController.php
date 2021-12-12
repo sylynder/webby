@@ -12,6 +12,11 @@ class ApiController extends ApiServerController // ApiServerController from the 
     public function __construct()
     {
         parent::__construct();
+        
+        // Protection
+        $this->output->set_header('X-Content-Type-Options: nosniff');
+        $this->output->set_header('X-Frame-Options: DENY');
+        $this->output->set_header('X-XSS-Protection: 1; mode=block');
     }
 
     /**
@@ -34,6 +39,23 @@ class ApiController extends ApiServerController // ApiServerController from the 
         }
 
         return $content = !is_null($content) ? json_encode($content) : [];
+    }
+
+    /**
+     * Basically Allow CORS
+     *
+     * @return void
+     */
+    protected function allowCors()
+    {
+        $this->output->set_header('Access-Control-Allow-Origin: *');
+        $this->output->set_header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
+        $this->output->set_header('Access-Control-Allow-Headers: *');
+        
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+            die();
+        }
     }
 
     protected function setKey($controllerMethod, $value)
