@@ -55,6 +55,10 @@ Vagrantfile
 writable/cache/*
 !writable/cache/index.html
 !writable/cache/web/index.html
+!writable/cache/web/app/index.html
+!writable/cache/web/plates/index.html
+!writable/cache/files/index.html
+!writable/cache/arrayz/index.html
 
 writable/logs/system/*.php
 writable/logs/app/*.php
@@ -67,6 +71,9 @@ writable/session/*
 
 writable/uploads/*
 !writable/uploads/index.html
+
+writable/resources/*
+!writable/resources/index.html
 
 writable/debugbar/*
 
