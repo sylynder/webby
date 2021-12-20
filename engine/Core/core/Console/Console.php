@@ -135,6 +135,10 @@ class Console
             case 'use:command':
                 static::runSystemCommand(static::$phpCommand . $arg2);
             break;
+            case 'git:init':
+                static::consoleEnv();
+                static::runSystemCommand('git init');
+            break;
             // case 'create:web':
             //     static::createCommand();
             // break;
