@@ -12,6 +12,8 @@ defined('COREPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
+use Base\Helpers\TimeTravel;
+
 /* ------------------------------- Random Code Generation Functions ---------------------------------*/
 
 if ( ! function_exists('unique_code')) 
@@ -563,7 +565,7 @@ if ( ! function_exists('extract_email_name'))
     {
         $email = explode('@', $email);
 
-        return $name = $email[0];
+        return $email[0];
     }
 }
 
@@ -624,7 +626,7 @@ if ( ! function_exists('replace_string'))
      * @param string $string
      * @param string $word
      * @param string $replace_with
-     * @return string
+     * @return string|bool
      */
     function replace_string($string, $word, $replace_with)
     {
@@ -1344,16 +1346,43 @@ if ( ! function_exists('time_difference'))
      * @param string $end_date
      * @return string
      */
-    function time_difference($start_date, $end_date)
+    function time_difference($start_datetime, $end_datetime)
     {
-        $start_date = date_create($start_date);
-        $end_date = date_create($end_date);
+        $start = date_create($start_datetime);
+        $end = date_create($end_datetime);
 
-        //difference between two dates
-        $diff = date_diff($start_date, $end_date);
+        // difference between two dates or times
+        $interval = date_diff($start, $end);
+        
+        $minutes   = $interval->format('%i');
+        $seconds   = $interval->format('%s');
+        $hours     = $interval->format('%h');
+        $months    = $interval->format('%m');
+        $days      = $interval->format('%d');
+        $years     = $interval->format('%y');
 
-        //get time difference
-        return $diff->format("%a");
+        // get time difference
+        if ($interval->format('%i%h%d%m%y') == "00000") {
+            return $seconds . " Seconds";
+        } 
+        
+        if ($interval->format('%h%d%m%y') == "0000") {
+            return $minutes . " Minutes";
+        } 
+        
+        if ($interval->format('%d%m%y') == "000") {
+            return $hours . " Hours";
+        } 
+        
+        if ($interval->format('%m%y') == "00") {
+            return $days . " Days";
+        } 
+        
+        if ($interval->format('%y') == "0") {
+            return $months . " Months";
+        }
+        
+        return $years . " Years";    
     }
 }
 
@@ -1361,10 +1390,11 @@ if ( ! function_exists('date_difference'))
 {
     /**
      * Calculate date difference
-     *
+     * return interval as object
+     * 
      * @param string $start_date
      * @param string $end_date
-     * @return string
+     * @return mixed
      */
     function date_difference($start_date, $end_date)
     {
@@ -1372,9 +1402,9 @@ if ( ! function_exists('date_difference'))
         $end_date = date_create($end_date);
 
         //difference between two dates
-        $diff = date_diff($start_date, $end_date);
+        $interval = date_diff($start_date, $end_date);
 
-        return $diff->format("%a");
+        return $interval;
     }
 }
 
@@ -1391,7 +1421,7 @@ if ( ! function_exists('date_plus_day'))
     function date_plus_day($date, $days, $format = null)
     {
         if ($format != null) {
-            return date('M d, Y', strtotime($date. ' + ' . $days. 'days'));
+            return date($format, strtotime($date. ' + ' . $days. 'days'));
         } else {
             return date('Y-m-d', strtotime($date. ' + ' . $days. 'days'));
         }
@@ -1401,7 +1431,7 @@ if ( ! function_exists('date_plus_day'))
 if ( ! function_exists('date_minus_day')) 
 {
     /**
-     * Subtract days from a give date
+     * Subtract days from a given date
      *
      * @param string $date
      * @param int $days
@@ -1420,7 +1450,14 @@ if ( ! function_exists('date_minus_day'))
 
 if ( ! function_exists('time_ago')) 
 {
-    function time_ago($datetime)
+    /**
+     * Time ago
+     *
+     * @param mixed $datetime
+     * @param boolean $show_ago
+     * @return string
+     */
+    function time_ago($datetime, $show_ago = false)
     {
 
         $time_difference = time() - strtotime($datetime);
@@ -1438,15 +1475,29 @@ if ( ! function_exists('time_ago'))
         {
             $derived_time = $time_difference / $seconds;
 
-            if( $derived_time >= 1 )
-            {
+            if ( $derived_time >= 1 ) {
                 $time = round( $derived_time );
-                // return 'about ' . $time . ' ' . $period . ( $time > 1 ? 's' : '' ) . ' ago';
-                return $time . ' ' . $period . ($time > 1 ? 's' : '') . ' ago';
+                return ($show_ago)
+                        ? $time . ' ' . $period . ($time > 1 ? 's' : '') . ' ago'
+                        // 'about ' . $time . ' ' . $period . ( $time > 1 ? 's' : '' ) . ' ago';
+                        : $time . ' ' . $period . ($time > 1 ? 's' : '');
             }
         }
 
         return;
+    }
+}
+
+if ( ! function_exists('travel')) 
+{
+    /**
+     * Travel through time
+     *
+     * @return mixed
+     */
+    function travel()
+    {
+        return (new TimeTravel);
     }
 }
 
@@ -1528,7 +1579,7 @@ if ( ! function_exists('clean'))
      *
      *  @param     string    $str
      *  @param     string    $is_image
-     *  @return    string
+     *  @return    string|array
      */
     function clean($str, $is_image = false)
     {
