@@ -10,6 +10,8 @@
 
 namespace Base\Helpers;
 
+use Base\Cache\Cache;
+
 class Arrayz
 {
 	/**
@@ -26,6 +28,28 @@ class Arrayz
 	 */
 	private $operator;
 
+	/**
+	 * Cache variable
+	 * 
+	 * @var
+	 */
+	private $cache;
+
+	/**
+	 * Arrayz cache path variable
+	 *
+	 * @var string
+	 */
+	private $cachePath = 'arrayz';
+	
+	/**
+	 * Arrayz cache item name
+	 *
+	 * @var string
+	 */
+	private $cacheItem;
+
+
 	public function __construct($array = [])
 	{
 		$this->source = [];
@@ -33,6 +57,8 @@ class Arrayz
 		if ($this->checkArray($array)) {
 			$this->source = $array;
 		}
+
+		$this->cache = new Cache;
 	}
 
 	/**
@@ -47,8 +73,68 @@ class Arrayz
 		return $this;
 	}
 
-	/*
+	/**
+	 * Get cache data with item name
+	 *
+	 * @param string $item
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function cache($item): Arrayz
+	{
+		$this->cache->setCachePath($this->cachePath);
+
+		$this->cacheItem = $item;
+
+		if ($this->cache->isCached($item)) {
+
+			$data = $this->cache->getCacheItem($item);
+
+			$data = is_object($data) ? arrayfy($data): $data;
+
+			$this->source = $data;
+			
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Set arrayz cache data with ttl
+	 *
+	 * @param string|object|array $data
+	 * @param integer $ttl
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function set($data, $ttl = 1800): Arrayz
+	{
+		if (!empty($ttl)) {
+			$this->cache->expireAfter = $ttl;
+		}
+
+		$this->cache->setCacheItem($this->cacheItem, $data);
+
+		return $this;
+
+	}
+
+	/**
+	 * Check if cache item is available
+	 *
+	 * @param string $item
+	 * @return bool
+	 */
+	public function available($item = ''): bool
+	{
+		$this->cache->setCachePath($this->cachePath);
+
+		return $this->cache->isCached($item);
+		
+	}
+
+	/**
 	* Match and return the array. supports regex
+	* 
+	* @return Base\Helpers\Arrayz
 	*/
 	public function pluck()
 	{
@@ -361,7 +447,7 @@ class Arrayz
 
 		$count = 0;
 		foreach ($this->source as $key => $value) {
-
+			
 			foreach ($value as $item => $string) {
 
 				if (in_array($item, $select)) {
