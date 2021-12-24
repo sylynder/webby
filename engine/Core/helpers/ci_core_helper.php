@@ -885,6 +885,24 @@ if ( ! function_exists('use_library'))
     }
 }
 
+if ( ! function_exists('use_driver')) 
+{
+    /**
+     * Use a driver/drivers and instantiate
+     *
+     * @param string|array $driver
+     * @param array $params
+     * @param string $object_name
+     * @return object
+     */
+    function use_driver($driver, $params = null, $object_name = null)
+    {
+        $driver = has_dot($driver);
+
+        ci()->load->driver($driver, $params, $object_name);
+    }
+}
+
 if ( ! function_exists('use_service')) 
 {
     /**
@@ -1043,7 +1061,7 @@ if ( ! function_exists('use_language'))
      * @param boolean $return
      * @param boolean $add_suffix
      * @param string $alt_path
-     * @return void|string[]
+     * @return void|array
      */
     function use_language($langfile, $idiom = '', $return = false, $add_suffix = true, $alt_path = '')
     {
