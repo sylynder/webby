@@ -14,7 +14,7 @@ class Cache extends \Base_Output
      *
      * @var integer
      */
-    public $expireAfter = 300;
+    public $expireAfter = 1800;
 
 
     public function __construct()
@@ -64,7 +64,9 @@ class Cache extends \Base_Output
             $this->customPath = $path;
         }
 
-        return $this->customPath;
+        $this->customPath;
+
+        return $this;
     }
 
 	/**
@@ -123,6 +125,13 @@ class Cache extends \Base_Output
         $cachePath = $this->filesCachePath();
 
 		$key = sha1($key);
+
+        $exists = file_exists($cachePath . $key . '.cache');
+
+        if (!$exists) {
+            return false;
+        }
+
 		$item = file_get_contents($cachePath .$key. '.cache');
 		$items = unserialize($item);
 
@@ -157,7 +166,7 @@ class Cache extends \Base_Output
 
         $cachePath = $this->filesCachePath();
 
-        if ((empty($uri))) {
+        if (empty($uri)) {
             $uri = $this->ci->config->item('base_url') .
             $this->ci->config->item('index_page') .
             $uri;
@@ -197,7 +206,7 @@ class Cache extends \Base_Output
     {
         $cachePath = $this->filesCachePath();
 
-        if ((empty($uri))) {
+        if (empty($uri)) {
             $uri = $this->ci->config->item('base_url') .
             $this->ci->config->item('index_page') .
             $uri;
@@ -210,7 +219,7 @@ class Cache extends \Base_Output
 
     /**
      * Returns the cache expiration timestamp for the specified path
-     * @param string $uri The URI patch to check
+     * @param string $uri The URI path to check
      * @return int|boolean The expiration Unix timestamp or false if there is no cache
      */
     public function getPathCacheExpiration($uri, $readableDate = false)
@@ -262,7 +271,7 @@ class Cache extends \Base_Output
      * @param	string	$output	Output data to cache
      * @return mixed
      */
-    public function writeWebCache(string $output) : mixed
+    public function writeWebCache(string $output)
     {
         return parent::_write_cache($output);
     }
