@@ -120,11 +120,15 @@ if ( ! function_exists('session'))
      *
      * @param array|string $key
      * @param string|null $value
-     * @return string|null
+     * @return string|null|object
      */
-    function session($key, $value=null)
+    function session($key = null, $value = null)
     {
         ci()->load->library('session'); 
+
+        if (empty($key)) {
+            return ci()->session;
+        }
 
         if (is_array($key)) {
             return ci()->session->set_userdata($key);
