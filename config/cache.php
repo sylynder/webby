@@ -102,7 +102,4 @@ $config['cache_with_lang'] = false;
 | Available adapters are: apc|memcached|redis
 |
 */
-$condig['cache_driver'] = [
-    'adapter' => 'apc',
-    'backup' => 'file'
-];
+$config['cache_driver'] = ['adapter' => 'apc', 'backup' => 'file'];
