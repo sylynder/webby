@@ -327,6 +327,40 @@ if ( ! function_exists('clear_message'))
     }
 }
 
+/* ------------------------------- Cache Functions ---------------------------------*/
+
+if ( ! function_exists('cache')) 
+{
+    /**
+     * Cache items or retreive items
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param string $cache_path
+     * @param integer $ttl
+     * @return mixed
+     */
+    function cache($key = null, $value = null, $cache_path = '', $ttl = 1800)
+    {
+        $cache = new Base\Cache\Cache;
+        $cache->expireAfter = $ttl;
+
+        if ($key === null) {
+            return $cache;
+        }
+
+        if (!empty($cache_path)) {
+            $cache->setCachePath($cache_path);
+        }
+
+        if (is_string($key) && $value !== null) {
+            return $cache->cacheItem($key, $value);
+        }
+        
+        return $cache->getCacheItem($key);
+    }
+}
+
 /* ------------------------------- String Functions ---------------------------------*/
 
 if ( ! function_exists('dot2slash')) 
