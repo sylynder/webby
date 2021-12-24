@@ -3,7 +3,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
-| Your App Cache Array Configurations
+| Your Application Cache Array Configurations
 | -------------------------------------------------------------------------
 | This file lets you define some configurations
 | that can help with cache functionalities
@@ -90,3 +90,19 @@ $config['enable_custom_cache'] = false;
 |
 */
 $config['cache_with_lang'] = false;
+
+/*
+|--------------------------------------------------------------------------
+| Cache Drivers
+|--------------------------------------------------------------------------
+|
+| Use to set the cache driver
+| Default is file
+|
+| Available adapters are: apc|memcached|redis
+|
+*/
+$condig['cache_driver'] = [
+    'adapter' => 'apc',
+    'backup' => 'file'
+];
