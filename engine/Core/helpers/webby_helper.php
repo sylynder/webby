@@ -1194,6 +1194,24 @@ if ( ! function_exists('objectify'))
     }
 }
 
+if ( ! function_exists('is_json')) 
+{
+
+    /**
+     * Check if string is json
+     * Mostly string should be a json string
+     * 
+     * 
+     * @param string $string
+     * @return bool
+     */
+    function is_json($string)
+    {
+        json_decode($string);
+        return json_last_error() === JSON_ERROR_NONE;
+    }
+}
+
 if ( ! function_exists('compare_json')) 
 {
     /**
