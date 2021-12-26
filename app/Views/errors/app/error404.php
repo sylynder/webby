@@ -145,7 +145,7 @@
 </head>
 
 <body>
-	<div style="margin-bottom: 200px"></div>
+	<div style="margin-bottom: 100px"></div>
 	<div class="center-div div-shadow">
 		<div class="body" style="margin-top: 60px;">
 			<h1>404 Page Not Found</h1><br>

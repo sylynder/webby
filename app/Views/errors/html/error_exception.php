@@ -47,6 +47,7 @@
 	code {
 		font-family: monospace;
 		font-size: inherit;
+		overflow: auto;
 	}
 
 	mark {
