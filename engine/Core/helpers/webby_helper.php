@@ -1105,6 +1105,29 @@ if ( ! function_exists('remove_empty_elements'))
     }
 }
 
+if ( ! function_exists('remove_with_value')) 
+{
+    /**
+     * Remove key and value from multidimensional array
+     *
+     * @param array $array
+     * @param string $key
+     * @param string $value
+     * @return array
+     */
+    function remove_with_value($array, $key, $value)
+    {
+        
+        foreach ($array as $innerKey => $innerArray) {
+            if ($innerArray[$key] == $value) {
+                unset($array[$innerKey]);
+            }
+        }
+
+        return $array;
+    }
+}
+
 if ( ! function_exists('object_array')) 
 {
     /**
