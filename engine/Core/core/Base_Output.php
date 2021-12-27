@@ -111,7 +111,7 @@ class Base_Output extends \CI_Output
 
         $output = $cache_info . 'ENDCI--->' . $output;
 
-        $result = null;
+        // $result = null;
 
         for ($written = 0, $length = self::strlen($output); $written < $length; $written += $result) {
             if (($result = fwrite($fp, self::substr($output, $written))) === false) {
