@@ -33,11 +33,23 @@ class Console
         $output .=  ConsoleColor::yellow(" Usage:") . " \n";
         $output .=  ConsoleColor::cyan("    webby [options] [arguments] ") . "\n";
         $output .=  " \n";
-        $output .=  " \n";
-        $output .=  ConsoleColor::yellow(" Options:") . " \n";
-        $output .=  ConsoleColor::green("     --help") .  ConsoleColor::cyan("     Help list for available commands if not specified will show by default")  . " \n";
-        $output .=  ConsoleColor::green("     --port") .  ConsoleColor::cyan("     Specify port number to be used to serve application")  . " \n";
 
+        $output .=  ConsoleColor::green(" All commands start with 'php webby'") . " \n";
+        $output .=  ConsoleColor::green("     --help") .  ConsoleColor::cyan("     Help list for available commands if not specified will show by default")  . " \n";
+        // $output .=  ConsoleColor::green("     --port") .  ConsoleColor::cyan("     Specify port number to be used to serve application")  . " \n";
+
+        $output .=  " \n";
+        $output .=  ConsoleColor::yellow(" Available Commands:") . " \n";
+        $output .=  ConsoleColor::light_purple("    serve") .  ConsoleColor::cyan("            Serve your application with Webby Server")  . " \n";
+        $output .=  ConsoleColor::light_purple("    migrate") .  ConsoleColor::cyan("          Run all available migration files")  . " \n";
+        $output .=  ConsoleColor::light_purple("    key:generate") .  ConsoleColor::cyan("     Generates an encryption key in the .env file")  . " \n";
+        $output .=  ConsoleColor::light_purple("    list:routes") .  ConsoleColor::cyan("      List all available routes")  . " \n";
+        $output .=  ConsoleColor::light_purple("    app:on") .  ConsoleColor::cyan("           Turn maintenance mode on")  . " \n";
+        $output .=  ConsoleColor::light_purple("    app:off") .  ConsoleColor::cyan("          Turn maintenance mode off")  . " \n";
+        $output .=  ConsoleColor::light_purple("    resource:link") .  ConsoleColor::cyan("    Create a symlink for the resources folder in public")  . " \n";
+        $output .=  ConsoleColor::light_purple("    use:command") .  ConsoleColor::cyan("      Access console Controllers through cli to perform a cli task")  . " \n";
+        $output .=  ConsoleColor::light_purple("    git:init") .  ConsoleColor::cyan("         Enable your project with git")  . " \n";
+        
         echo $output . "\n";
     }
 
