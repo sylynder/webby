@@ -13,7 +13,7 @@
  */
 
 // Define Console Application Version
-define('WEBBY_CLI_VERSION', 'v0.8.0');
+define('WEBBY_CLI_VERSION', 'v1.0.0');
 
 // Define Webby Rootpath
 define('WEBBY_ROOTPATH', __DIR__);
