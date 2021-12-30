@@ -27,6 +27,21 @@
 
 - [@otengkwame](https://www.github.com/otengkwame)
 
+
+## Installation
+
+The recommended way to install Webby is [through Composer](https://getcomposer.org/).
+[New to Composer?](https://getcomposer.org/doc/00-intro.md)
+
+This will install the latest PHP supported version:
+
+```bash
+$ composer create-project sylynder/webby <project-name>
+```
+
+Make sure to replace *project-name* with the name of your project
+
+
 ## Documentation
 
 The main documentation of Webby can be found here: [Webby Docs](https://webby.sylynder.com/docs)
