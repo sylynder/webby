@@ -147,18 +147,16 @@
 
                 <div class="row">
                     <div class="column">
-                        <h2><a href="https://www.codeigniter.com/userguide3/index.html" target="_blank">Documention</a></h2>
+                        <h2><a href="https://webby.sylynder.com/docs" target="_blank">Documention</a></h2>
                         <p>
-                            Webby uses the HMVC Design Pattern but still follows CodeIgniter's Documentation guide at:
-                            <br>
-                            <a href="javascript:void(0)">
-                                CodeIgniter 3 Online Guide
-                            </a>.
+                            Webby uses the HMVC Design Pattern which enables modular application development. Know more about this by reading the docs
                         </p>
                     </div>
                     <div class="column">
                         <h2><a href="https://heartofphp.com" target="_blank">Heart of PHP</a></h2>
-                        <p>A resource for PHP developers from beginners to intermediate level</p>
+                        <p>
+                            A resource for PHP developers from beginners to intermediate level
+                        </p>
                     </div>
                 </div>
             </div>
