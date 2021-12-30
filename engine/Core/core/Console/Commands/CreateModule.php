@@ -1,10 +1,10 @@
 <?php
 
-namespace Base\Console\Generators;
+namespace Base\Console\Commands;
 
 use Base\Console\Commands\MakeDirectory;
 
-class Module 
+class CreateModule 
 {
     private $web      = 'Web';
     private $console  = 'Console';
