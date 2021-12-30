@@ -52,12 +52,17 @@ Vagrantfile
 #-------------------------
 /public/uploads
 
-writable/cache/*
+writable/cache/*.*
+writable/cache/*.cache
 !writable/cache/index.html
 !writable/cache/web/index.html
+writable/cache/web/app/*.*
 !writable/cache/web/app/index.html
+writable/cache/web/plates/*.*
 !writable/cache/web/plates/index.html
+writable/cache/files/*.*
 !writable/cache/files/index.html
+writable/cache/arrayz/*.*
 !writable/cache/arrayz/index.html
 
 writable/logs/system/*.php
