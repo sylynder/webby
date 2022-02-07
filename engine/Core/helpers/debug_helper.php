@@ -249,7 +249,7 @@ if ( ! function_exists( 'show_time_elasped' ))
      */
     function show_time_elasped($start_key = 'start', $end_key = 'end')
     {
-        echo ci()->benchmark->elapsed_time($start_key, $end_key) . ' '; 
+        return ci()->benchmark->elapsed_time($start_key, $end_key) . ' '; 
     }
 }
 
