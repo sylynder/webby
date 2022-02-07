@@ -362,6 +362,7 @@ $config['encryption_key'] = APP_ENCRYPTION_KEY;
 */
 $config['sess_driver']             = SESSION_DRIVER;
 $config['sess_cookie_name']        = SESSION_COOKIE_NAME;
+$config['sess_samesite']           = SESSION_SAMESITE;
 $config['sess_expiration']         = SESSION_EXPIRATION;
 $config['sess_save_path']          = SESSION_SAVE_PATH;
 $config['sess_match_ip']           = SESSION_MATCH_IP;
@@ -391,10 +392,10 @@ $config['sess_regenerate_destroy'] = SESSION_REGENERATE_DESTROY;
 */
 $config['cookie_prefix']    = COOKIE_PREFIX;
 $config['cookie_domain']    = COOKIE_DOMAIN;
-$config['cookie_path']        = COOKIE_PATH;
+$config['cookie_path']      = COOKIE_PATH;
 $config['cookie_secure']    = COOKIE_SECURE;
-$config['cookie_httponly']     = COOKIE_HTTPONLY;
-$config['cookie_samesite']     = COOKIE_SAMESITE;
+$config['cookie_httponly']  = COOKIE_HTTPONLY;
+$config['cookie_samesite']  = COOKIE_SAMESITE;
 
 /*
 |--------------------------------------------------------------------------

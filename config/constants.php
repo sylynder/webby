@@ -221,6 +221,7 @@ define('WEB_CACHE_PATH', CACHE_PATH . 'web/');
 define('SESSION_SAVE_PATH', getenv('app.sessionSavePath') ?: ROOTPATH . 'writable/session');
 define('SESSION_DRIVER', getenv('app.sessionDriver') ?: 'files');
 define('SESSION_COOKIE_NAME', getenv('app.sessionCookieName') ?: 'i_');
+define('SESSION_SAMESITE', getenv('app.sessionSamesite') ?: 'Lax');
 define('SESSION_EXPIRATION', getenv('app.sessionExpiration') ?: 7200);
 define('SESSION_MATCH_IP', getenv('app.sessionMatchIP') ?: false);
 define('SESSION_TIME_TO_UPDATE', getenv('app.sessionTimeToUpdate') ?: 300);
