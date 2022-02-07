@@ -617,7 +617,7 @@ $config['allowed_cors_methods'] = [
 | source domain
 |
 */
-$config['allow_any_cors_domain'] = true;
+$config['allow_any_cors_domain'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -652,5 +652,5 @@ $config['allowed_cors_origins'] = [];
 |
 */
 $config['forced_cors_headers'] = [
-    // 'Access-Control-Allow-Credentials' => 'true' Enable only when use case above is true
+    // 'Access-Control-Allow-Credentials' => 'true', // Enable only when use case above is true
 ];
