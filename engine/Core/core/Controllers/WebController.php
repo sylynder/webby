@@ -45,4 +45,13 @@ class WebController extends Controller
         return layout($layoutPath, $viewPath, $viewData);
     }
 
+    protected function json($data = null, $statusCode = 200)
+    {
+        echo $this->output
+                ->set_status_header($statusCode)
+                ->set_content_type('application/json', 'utf-8')
+                ->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+                ->_display();
+    }
+
 }
