@@ -161,6 +161,8 @@ class Plates
 		'choice'
 	];
 
+	private $cacheExtension = '.plates';
+
 	// --------------------------------------------------------------------------
 
 	/**
@@ -452,7 +454,7 @@ class Plates
 	protected function compile($template)
 	{
 		$viewPath	= $this->exists($template, true);
-		$cacheName	= 'plate-' . md5($viewPath);
+		$cacheName	= md5($viewPath) . $this->cacheExtension;
 		$platesPath = $this->ci->config->item('plates_cache_path') . DIRECTORY_SEPARATOR;
 		// Save cached files to cache/web/plates folder
 		$this->ci->config->set_item('cache_path', $platesPath);
