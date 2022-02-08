@@ -351,7 +351,7 @@ if (is_dir($upload_directory)) {
  * DEFINE WEBBY VERSION
  * --------------------------------------------------------------------
  */
-define('WEBBY_VERSION', 'v1.0.0');
+define('WEBBY_VERSION', 'v1.1.0');
 
 // Load environment settings from .env files
 // into $_SERVER and $_ENV

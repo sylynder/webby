@@ -9,11 +9,14 @@
  * commands and perform maintenance on your application.
  *
  * Because Webby can handle CLI requests as just another web request
- * this class mainly acts as a passthru to the framework itself.
+ * this implementation mainly acts as a passthru to the framework itself.
  */
 
+// Load composer
+require_once __DIR__ . '/vendor/autoload.php';
+
 // Define Console Application Version
-define('WEBBY_CLI_VERSION', 'v1.0.0');
+define('WEBBY_CLI_VERSION', 'v1.1.0');
 
 // Define Webby Rootpath
 define('WEBBY_ROOTPATH', __DIR__);
@@ -29,9 +32,6 @@ use Base\Console\Console;
 
 // Grab argv values
 $args = $_SERVER['argv'];
-
-// Load composer
-require_once __DIR__ . '/vendor/autoload.php';
 
 /*
 * --------------------------------------------------------------------
