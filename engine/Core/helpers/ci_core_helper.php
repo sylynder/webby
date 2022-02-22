@@ -793,7 +793,7 @@ if ( ! function_exists('get_form_error'))
             return form_error_array()[$error_key];
         }
         
-        return;
+        return '';
     }
 }
 

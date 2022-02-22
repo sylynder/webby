@@ -72,7 +72,7 @@ if ( ! function_exists('config'))
 				config($item, $val);
 			}
 
-			return;
+			return '';
 		}
 
 		if ( ! is_null($value)) {
@@ -1149,24 +1149,24 @@ if ( ! function_exists('object_array'))
     }
 }
 
-if ( ! function_exists('arrayfy')) {
-    
+if (!function_exists('arrayfy')) {
+
     /**
-     * Encode an object and retrieve
+     * Encode an array-object and retrieve
      * as an array
      *
-     * @param object $object
+     * @param mixed 
      * @return array|bool
      */
-    function arrayfy(object $object)
+    function arrayfy($object)
     {
 
-        if (is_object($object)) {
+        if ($object) {
             $json = json_encode($object);
             return json_decode($json, true);
         }
 
-        throw new \Exception("Parameter must be an object", 1);
+        throw new \Exception("Parameter must be an object or supporting type", 1);
 
         return false;
     }
