@@ -589,7 +589,7 @@ class Arrayz
 	 */
 	public function toArray()
 	{
-		return $this->source;
+		return arrayfy($this->source);
 	}
 
 	/**
