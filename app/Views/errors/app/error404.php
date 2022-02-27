@@ -157,6 +157,9 @@
 			<div>
 				<h3><code>Custom Error Page</code></h3>
 			</div>
+			<div>
+				<h6><code><?=$message?></code></h6>
+			</div>
 			<div class="text-center" style="margin-top: 40px;">
 				<a href="javascript:window.history.go(-1);">Go back</a>
 			</div>
