@@ -1042,6 +1042,22 @@ if ( ! function_exists('add_associative_array'))
     }
 }
 
+if ( ! function_exists('set_array')) 
+{
+    /**
+     * Alias of the above function
+     *
+     * @param array $array
+     * @param string $key
+     * @param string $value
+     * @return array
+     */
+    function set_array($array, $key, $value, $multi = false)
+    {
+        return add_associative_array($array, $key, $value, $multi);
+    }
+}
+
 if ( ! function_exists('remove_empty_elements')) 
 {
     /**
