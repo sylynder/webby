@@ -344,6 +344,24 @@ if ( ! function_exists('active_link'))
     }
 }
 
+if ( ! function_exists('active_segment')) 
+{
+    /**
+     * Use it to set active or current uri_segment for 
+     * css classes. Default class name is (active)
+     *
+     * @param string $segment
+     * @param string $segment_name
+     * @param string $class
+     * @return string
+     */
+    function active_segment(int $segment, string $segment_name, $class = 'active')
+    {
+        return uri_segment($segment) === $segment_name ? $class : '';
+    }
+}
+
+
 if ( ! function_exists('uri_segment')) 
 {
     /**
