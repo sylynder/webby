@@ -61,11 +61,11 @@ if ( ! function_exists( __NAMESPACE__ . '\\suppressWarnings' ) )
 if ( ! function_exists( 'strict_dev' )) 
 {
     /**
-	 * Check if development 
+     * Check if development 
      * environment is active
-	 *
-	 * @return void
-	 */
+     *
+     * @return void
+     */
     function strict_dev()
     { 
         if (ENVIRONMENT !== 'development') {
@@ -77,12 +77,12 @@ if ( ! function_exists( 'strict_dev' ))
 if ( ! function_exists( 'console' )) 
 {
     /**
-	 * Show output in Browser Console
-	 *
-	 * @param mixed $var converted to json
-	 * @param string $type - browser console log types [log]
-	 * @return void
-	 */
+     * Show output in Browser Console
+     *
+     * @param mixed $var converted to json
+     * @param string $type - browser console log types [log]
+     * @return void
+     */
     function console(/* mixed */ $var, string $type = 'log')
     { 
         strict_dev();
@@ -130,7 +130,7 @@ if ( ! function_exists( 'pp' ))
     {
         strict_dev();
         echo highlight_string("<?php\n\$printing_pretty ::: === \n" . var_export($dump, true) . "; \n::: ===\n//> ");
-        echo '<script>document.getElementsByTagName("code")[0].getElementsByTagName("span")[1].remove() ;document.getElementsByTagName("code")[0].getElementsByTagName("span")[document.getElementsByTagName("code")[0].getElementsByTagName("span").length - 1].remove() ; </script>';
+        echo '<style>body{background:#002;font-weight:bold;font-size:16px;}</style><script>document.getElementsByTagName("code")[0].getElementsByTagName("span")[1].remove() ;document.getElementsByTagName("code")[0].getElementsByTagName("span")[document.getElementsByTagName("code")[0].getElementsByTagName("span").length - 1].remove() ; </script>';
         die();
     }
 }
@@ -156,10 +156,10 @@ if ( ! function_exists( 'dump_json' ))
 if ( ! function_exists( 'start_profiler' ))
 {
     /**
-	 * Enable Profiler
-	 *
-	 * @return CI_Output
-	 */
+     * Enable Profiler
+     *
+     * @return CI_Output
+     */
     function start_profiler()
     {
         strict_dev();
@@ -170,10 +170,10 @@ if ( ! function_exists( 'start_profiler' ))
 if ( ! function_exists( 'stop_profiler' )) 
 {
     /**
-	 * Disable Profiler
-	 *
-	 * @return CI_Output
-	 */
+     * Disable Profiler
+     *
+     * @return CI_Output
+     */
     function stop_profiler()
     {
         strict_dev();
@@ -184,14 +184,14 @@ if ( ! function_exists( 'stop_profiler' ))
 if ( ! function_exists( 'section_profiler' )) 
 {
     /**
-	 * Set Profiler Sections
-	 *
-	 * Allows override of default/config settings for
-	 * Profiler section display.
-	 *
-	 * @param	array	$sections	Profiler sections
-	 * @return	CI_Output
-	 */
+     * Set Profiler Sections
+     *
+     * Allows override of default/config settings for
+     * Profiler section display.
+     *
+     * @param   array   $sections   Profiler sections
+     * @return  CI_Output
+     */
     function section_profiler($config = null)
     {
         strict_dev();
