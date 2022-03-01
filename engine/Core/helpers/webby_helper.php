@@ -870,6 +870,28 @@ if (!function_exists('ends_with')) {
 
 /* ------------------------------- Array Functions ---------------------------------*/
 
+if ( ! function_exists('str_ext')) 
+{
+    /**
+     * Strips filename from extension Or
+     * file extension from name
+     * 
+     * if $name is true return filename only
+     * this is rarely used
+     *
+     * @param string $string
+     * @return string
+     */
+    function str_ext(string $filename, $name = false)
+    {
+        if ($name) {
+            return pathinfo($filename, PATHINFO_FILENAME);
+        }
+
+        return substr($filename, 0, strrpos($filename, "."));
+    }
+}
+
 if ( ! function_exists('arrayz')) {
     /**
      *  Instantiate the Arrayz Class
