@@ -641,6 +641,17 @@ class Route
 	}
 
 	/**
+	 * Alias to above function
+	 *
+	 * @param array $route
+	 * @return array
+	 */
+	public static function include(array $route = [])
+	{
+		return static::build($route);
+	}
+
+	/**
 	 * Extract the URL parameters 
 	 * from $from and copy to $to
 	 *
