@@ -292,11 +292,6 @@ if (!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 // Do not change these names
 // Other functions depend on them 
 // to work properly e.g. datetime function
-define('DATETIME', date('Y-m-d H:i:s', time())); // datetime()
-define('TIME', date('H:i:s', time()));
-define('DATE', date('Y-m-d'));
-define('TIMESTAMP', strtotime(date('Y-m-d') . ' ' . date('H:i:s'))); // timestamp()
-define('TODAY', date('Y-m-d')); // today()
 define('DEFAULT_TIMEZONE', 'Africa/Accra'); // system_default_timezone()
 
 !empty(getenv('app.timezone'))
@@ -304,6 +299,11 @@ define('DEFAULT_TIMEZONE', 'Africa/Accra'); // system_default_timezone()
     : date_default_timezone_set(DEFAULT_TIMEZONE);
 
 define('TIMEZONE', date_default_timezone_get()); // timezone()
+define('DATETIME', date('Y-m-d H:i:s', time())); // datetime()
+define('TIME', date('H:i:s', time()));
+define('DATE', date('Y-m-d'));
+define('TIMESTAMP', strtotime(date('Y-m-d') . ' ' . date('H:i:s'))); // timestamp()
+define('TODAY', date('Y-m-d')); // today()
 
 /*
 | These definitions are for characters 
