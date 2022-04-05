@@ -101,6 +101,9 @@ defined('MONTH')  OR define('MONTH', 2592000);
 defined('YEAR')   OR define('YEAR', 31536000);
 defined('DECADE') OR define('DECADE', 315360000);
 
+// Define Author Name and Alias
+define('WEBBY_AUTHOR', 'Kwame Oteng Appiah-Nti');
+define('WEBBY_AUTHOR_AKA', 'Developer Kwame');
 
 /*
 |--------------------------------------------------------------------------
