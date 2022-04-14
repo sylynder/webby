@@ -230,10 +230,3 @@ class Debug {
         // @codeCoverageIgnoreEnd
     }
 }
-
-// function dd()
-// {
-// 	array_map(function($x) { Debug::var_dump($x); }, func_get_args()); die;
-// }
-
-

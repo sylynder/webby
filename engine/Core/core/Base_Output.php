@@ -27,7 +27,7 @@ class Base_Output extends \CI_Output
     /**
      * Use custom cache path
      *
-     * @return void
+     * @return mixed
      */
     private function cacheCustomPath()
     {

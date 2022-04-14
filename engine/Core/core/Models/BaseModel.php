@@ -1,14 +1,12 @@
 <?php
 
 /**
- * An Base Model to provide basic actions 
- * for models that inherit from it to do 
+ * A Base model to provide actions for
+ * models that inherit from it to do 
  * more than the EasyModel
  * 
  * Borrowed from Bonfire 
  * Expanded to work with Webby
- * 
- * Note it is not well documented.
  *
  * @author  Oteng Kwame Appiah-Nti <developerkwame@gmail.com> (Developer Kwame)
  * @license MIT
@@ -223,13 +221,13 @@ class BaseModel extends Model
      *
      * @var string
      */
-    protected $custom_return_object = '';
+    protected $customReturnObject = '';
     
     /**
      * 
      * If true, inserts will return the last_insert_id. However,
      * this can potentially slow down large imports drastically
-     * so you can turn it off with the return_insert_id(false) method.
+     * so you can turn it off with the returnInsertId(false) method.
      * This will simply return true, instead.
      * 
      * IMPORTANT: Turning this to false will bypass any afterInsert
@@ -237,7 +235,7 @@ class BaseModel extends Model
      * 
      * @var boolean
      */
-    protected $return_insert_id = true;
+    protected $returnInsertId = true;
 
     /**
      * The database connection to use for all write-type calls
@@ -262,10 +260,10 @@ class BaseModel extends Model
      * You can provide your own connections for read and/or write databases
      * by passing them in the constructor.
      *
-     * @param DB object $write_db A CI_DB connection.
-     * @param DB object $read_db A CI_DB connection.
+     * @param DB object $writeDb A CI_DB connection.
+     * @param DB object $readDb A CI_DB connection.
      */
-    public function __construct(&$write_db=null, &$read_db=null)
+    public function __construct(&$writeDb=null, &$readDb=null)
     {
         // Always protect our attributes
         array_unshift($this->beforeInsert, 'protectAttributes');
@@ -282,12 +280,12 @@ class BaseModel extends Model
         /*
             Passed DB connections?
         */
-        if (is_object($write_db)) {
-            $this->dbw = $write_db;
+        if (is_object($writeDb)) {
+            $this->dbw = $writeDb;
         }
 
-        if (is_object($read_db)) {
-            $this->dbr = $read_db;
+        if (is_object($readDb)) {
+            $this->dbr = $readDb;
         }
 
         /*
@@ -555,7 +553,7 @@ class BaseModel extends Model
 
         $this->dbw->insert($this->table, $data);
 
-        if ($this->return_insert_id)
+        if ($this->returnInsertId)
         {
             $id = $this->dbw->insert_id();
 
@@ -671,23 +669,23 @@ class BaseModel extends Model
      *     ]
      * ];
      *
-     * The $where_key should be the name of the column to match the record on.
-     * If $where_key == 'title', then each record would be matched on that
+     * The $whereKey should be the name of the column to match the record on.
+     * If $whereKey == 'title', then each record would be matched on that
      * 'title' value of the array. This does mean that the array key needs
      * to be provided with each row's data.
      *
      * @param  array $data      An associate array of row data to update.
-     * @param  string $where_key The column name to match on.
+     * @param  string $whereKey The column name to match on.
      * @return bool
      */
-    public function updateBatch($data, $where_key)
+    public function updateBatch($data, $whereKey)
     {
         foreach ($data as &$row)
         {
             $row = $this->trigger('beforeUpdate', $row);
         }
 
-        $result = $this->dbw->update_batch($this->table, $data, $where_key);
+        $result = $this->dbw->update_batch($this->table, $data, $whereKey);
 
         foreach ($data as &$row)
         {
@@ -1165,7 +1163,7 @@ class BaseModel extends Model
         $method = ($multi) ? 'result' : 'row';
         
 		//if a custom object return type
-		if (($this->tempReturnType == 'object') && ($this->custom_return_object != '')) {
+		if (($this->tempReturnType == 'object') && ($this->customReturnObject != '')) {
 		  return 'custom_'.$method.'_object';
 		} else {
 			// If our type is either 'array' or 'json', we'll simply use the array version
@@ -1183,16 +1181,16 @@ class BaseModel extends Model
     */
     protected function returnData($data, $multi = false)
     {
-		$r_type_method = $this->returnType($multi); 
+		$returnTypeMethod = $this->returnType($multi); 
 		//if a object return type
-		if (($this->tempReturnType == 'object') && ($this->custom_return_object != '')) {
-			if ($r_type_method == 'custom_row_object') {
-				$data = $data->{$r_type_method}(0,$this->custom_return_object);
+		if (($this->tempReturnType == 'object') && ($this->customReturnObject != '')) {
+			if ($returnTypeMethod == 'custom_row_object') {
+				$data = $data->{$returnTypeMethod}(0,$this->customReturnObject);
 			} else {	
-			 $data = $data->{$r_type_method}($this->custom_return_object);
+			 $data = $data->{$returnTypeMethod}($this->customReturnObject);
 			}
 		} else {
-			$data = $data->{$r_type_method}();
+			$data = $data->{$returnTypeMethod}();
 		}	
 		return  $data;
     }
@@ -1395,26 +1393,26 @@ class BaseModel extends Model
      * * 'datetime' - Stores the date and time in the SQL datetime format.
      * * 'date'     - Stores teh date (only) in the SQL date format.
      *
-     * @param mixed $user_date An optional PHP timestamp to be converted.
+     * @param mixed $userDate An optional PHP timestamp to be converted.
      *
      * @access protected
      *
      * @return int|null|string The current/user time converted to the proper format.
      */
-    protected function setDate($user_date = null)
+    protected function setDate($userDate = null)
     {
-        $current_date = !empty($user_date) ? $user_date : time();
+        $currentDate = !empty($userDate) ? $userDate : time();
 
         switch ($this->dateFormat)
         {
             case 'int':
-                return $current_date;
+                return $currentDate;
                 break;
             case 'datetime':
-                return date('Y-m-d H:i:s', $current_date);
+                return date('Y-m-d H:i:s', $currentDate);
                 break;
             case 'date':
-                return date( 'Y-m-d', $current_date);
+                return date( 'Y-m-d', $currentDate);
                 break;
         }
 

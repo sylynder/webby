@@ -188,7 +188,7 @@ class Base_Loader extends MX_Loader {
 		}
 
 		if (!file_exists($path.$_service)) {
-			show_error('Sorry! We couldn\'t find the service: '.$_service);
+			show_error($_service . 'was not found, Are you sure the service file exists');
 		}
 
 		Modules::load_file($_service, $path);
@@ -236,7 +236,7 @@ class Base_Loader extends MX_Loader {
 
 		if ($path === false) /*return parent::helper($rule);*/
 
-		show_error('Sorry! We couldn\'t find the rule: '.$_rule);
+		show_error($_rule. 'was not found, Are you sure the rule file exists');
 
 		Modules::load_file($_rule, $path);
 
@@ -285,7 +285,7 @@ class Base_Loader extends MX_Loader {
 
 		if ($path === false)
 
-		show_error('Sorry! We couldn\'t find the form: ' . $_form);
+		show_error($_form. 'was not found, Are you sure the form file exists');
 
 		Modules::load_file($_form, $path);
 

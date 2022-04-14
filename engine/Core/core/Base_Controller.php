@@ -3,7 +3,11 @@ defined('COREPATH') or exit('No direct script access allowed');
 
 class Base_Controller extends MX_Controller
 {
-
+    /**
+     * Data array variable
+     *
+     * @var array
+     */
     public $data = [];
 
     public function __construct()

@@ -375,7 +375,7 @@ class Plates
 	/**
 	 *  Verifies if a file exists!
 	 *
-	 *  This function verifies if a file exists evven if you are using
+	 *  This function verifies if a file exists even if you are using
 	 *  Modular Extensions
 	 *
 	 *  @param    string    $filename
@@ -408,7 +408,7 @@ class Plates
 			}
 		} else {
 			if ($showError === true) {
-				show_error('Sorry! We couldn\'t find the view: ' . $viewName . $this->plateExtension);
+				show_error($viewName . ' view was not found, Are you sure the view exists and is a `'.$this->plateExtension.'` file? ');
 			} else {
 				return false;
 			}

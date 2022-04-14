@@ -1,5 +1,6 @@
 <?php
 
+use Base\Console\ConsoleColor;
 use Base\Controllers\ConsoleController;
 
 class Migrate extends ConsoleController
@@ -16,7 +17,8 @@ class Migrate extends ConsoleController
         if ($this->migration->current() === false) {
             show_error($this->migration->error_string());
         } else {
-            echo "Table Migrated Successfully.";
+            echo ConsoleColor::green("Table Migrated Successfully.") . "\n";
+            exit();
         }
     }
 }

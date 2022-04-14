@@ -7,6 +7,8 @@
  *
  * A helper class to work with some
  * DateTime | DatePeriod | DateInterval functionalities
+ * 
+ * @author Developer Kwame | <Kwame Oteng Appiah-Nti>
  */
 
 namespace Base\Helpers;
@@ -29,7 +31,7 @@ class TimeTravel
      * Start Date Time for a
      * time travel
      *
-     * @var [type]
+     * @var mixed
      */
     private $startDatetime = null;
 
@@ -111,7 +113,7 @@ class TimeTravel
      * @param string $dayOfWeek
      * @return int
      */
-    private function useTimestamp(string $dayOfWeek) 
+    private function useTimestamp(string $dayOfWeek)
     {
         if (contains('next', $dayOfWeek)) {
             return strtotime($dayOfWeek);
@@ -159,9 +161,9 @@ class TimeTravel
      */
     public function for($interval = '1 minute'): TimeTravel
     {
-        
+
         $date = date('Y-m-d H:i:s');
-            
+
         $datetime = new DateTime($date);
 
         $interval = self::interval($interval);
@@ -200,7 +202,7 @@ class TimeTravel
         $ranges = null;
 
         if ($this->startDatetime && $this->endDatetime) {
-            
+
             $interval = self::interval($interval);
 
             $ranges = new DatePeriod($this->startDatetime, $interval, $this->endDatetime);
@@ -245,10 +247,10 @@ class TimeTravel
         }
 
         $interval = self::interval($interval);
-        
+
         $this->datetime = !empty($time)
-                                ? $date->sub($interval) 
-                                : $date->sub($interval);
+            ? $date->sub($interval)
+            : $date->sub($interval);
         return $this;
     }
 
@@ -274,7 +276,7 @@ class TimeTravel
     {
 
         if (!empty($this->periods)) {
-            
+
             $periods = [];
 
             foreach ($this->periods as $value) {
@@ -283,7 +285,7 @@ class TimeTravel
 
             return $periods;
         }
-        
+
         return false;
     }
 }
