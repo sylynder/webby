@@ -1,0 +1,10 @@
+namespace App\Enums;
+
+enum {{ENUM}}
+{
+
+    // Sample code here...
+
+
+}
+/* End of {{ENUM}} enum file */

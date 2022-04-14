@@ -1,0 +1,18 @@
+class {{LIBRARY}} 
+{
+    // member varibales here
+    public $somevariahle;
+
+    // member methods here
+    public function somefunction() 
+    {
+        // Sample code here ...
+    }
+
+    public static function someStaticFunction()
+    {
+        // Sample code here ...
+    }
+
+}
+/* End of {{LIBRARY}} file */

@@ -1,0 +1,36 @@
+use Base\Controllers\ApiController;
+
+class {{CONTROLLER}} extends ApiController
+{
+    public function __construct()
+    {
+        parent::__construct();
+        // $this->useDatabase(); // enable to use database
+
+    }
+
+    public function index_get()
+    {
+        // Sample Code Here ...
+    }
+
+    public function index_post()
+    {
+        // Sample Code Here ...
+    }
+
+    public function index_put($id)
+    {
+        $id = clean($id);
+
+        // Sample Code Here ...
+    }
+
+    public function index_delete($id)
+    {
+        $id = clean($id);
+        
+        // Sample Code Here ...
+    }
+}
+/* End of {{CONTROLLER}} file */

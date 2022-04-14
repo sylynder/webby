@@ -1,0 +1,15 @@
+use Base\Services\Service;
+
+class {{SERVICE}} extends Service 
+{
+    // member varibales here
+    
+    public function __construct()
+    {
+        // load models, libraries etc here
+    }
+
+    // member methods here
+
+}
+/* End of {{SERVICE}} file */
