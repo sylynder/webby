@@ -20,9 +20,10 @@ class Routes extends ConsoleController
      * Grab a list of available routes
      * and display it to developer
      * 
-     * Note: Module based routes may not be included
+     * Note: http based routes may not be included
+     * if you enable Route::$trueHttp = true
      * 
-     * @Todo implement a way to list module based
+     * @Todo make http based routes available in
      * route lists
      *
      * @return void
