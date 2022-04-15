@@ -319,32 +319,42 @@ class MX_Loader extends \CI_Loader
 	{
 		extract($_ci_data);
 
-		if (isset($_ci_view))
-		{
+		$_is_view = false;
+		$ext = 'php';
+
+		if (isset($_ci_view)) {
 			$_ci_path = '';
+			$_is_view = true;
 
 			/* add file extension if not provided */
-			$_ci_file = (pathinfo($_ci_view, PATHINFO_EXTENSION)) ? $_ci_view : $_ci_view.EXT;
+			$_ci_file = (pathinfo($_ci_view, PATHINFO_EXTENSION)) ? $_ci_view : $_ci_view . EXT;
 
-			foreach ($this->_ci_view_paths as $path => $cascade)
-			{
-				if (file_exists($view = $path.$_ci_file))
-				{
+			foreach ($this->_ci_view_paths as $path => $cascade) {
+				if (file_exists($view = $path . $_ci_file)) {
 					$_ci_path = $view;
 					break;
 				}
-				if ( ! $cascade) break;
+				if (!$cascade) break;
 			}
-		}
-		elseif (isset($_ci_path))
-		{
+		} elseif (isset($_ci_path)) {
 
 			$_ci_file = basename($_ci_path);
-			if( ! file_exists($_ci_path)) $_ci_path = '';
+			if (!file_exists($_ci_path)) $_ci_path = '';
 		}
+		
+		if (empty($_ci_path)) {
 
-		if (empty($_ci_path))
-			show_error('Unable to load the requested file: '.$_ci_file);
+			$ext = pathinfo($_ci_file, PATHINFO_EXTENSION);
+			
+			$msg = 'Unable to load the requested file: ' . $_ci_file . ' make sure it really exists.';
+
+			if ($_is_view) {
+				$_ci_file = pathinfo($_ci_file, PATHINFO_FILENAME);
+				$msg = $_ci_file . ' view was not found, Are you sure the view exists and is a `.' . $ext . '` file? ';
+			}
+
+			show_error($msg);
+		}
 
 		if (isset($_ci_vars))
 			$this->_ci_cached_vars = array_merge($this->_ci_cached_vars, (array) $_ci_vars);
