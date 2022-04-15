@@ -35,7 +35,13 @@ class Base_Exceptions extends \CI_Exceptions
 			ob_end_flush();
 		}
 		ob_start();
-		include($templates_path . $template . '.php');
+
+		if ($status_code == 404) {
+			include($templates_path . $template . config_item('plate_extension'));
+		} else {
+			include($templates_path . $template . '.php');
+		}
+
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
