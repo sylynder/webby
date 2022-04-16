@@ -5,166 +5,113 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>404 Page Not Found</title>
-	<style type="text/css">
-		body {
-			background-color: rgb(204, 166, 255);
-			font: 16px/26px normal Helvetica, Arial, sans-serif;
-		}
-
-		a {
-			color: #003399;
-			background-color: transparent;
-			font-weight: normal;
-		}
-
-		img {
-			width: 20%;
-		}
-
-		h1 {
-			color: #8c8b8b;
-			background-color: transparent;
-			font-size: 30px;
-			font-weight: 500;
-			margin: 0 0 14px 0;
-			padding: 14px 15px 10px 15px;
-			text-align: center;
-		}
-
-		h2,
-		h3 {
-			color: #8c8b8b;
-			background-color: transparent;
-			font-size: 25px;
-			font-weight: 700;
-			margin: 0 0 14px 0;
-			padding: 14px 15px 10px 0px;
-			text-align: center;
-		}
-
-		p {
-			color: #8c8b8b;
-			line-height: 26px;
-			font-weight: 600;
-		}
-
-		code {
-			font-family: monospace;
-			font-size: inherit;
-		}
-
-		mark {
-			background-color: #c0ffc8;
-		}
-
-		.center-div {
-			margin: auto;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			width: 80%;
-			height: 50%;
-			background-color: #f2f2f2;
-			border-radius: 3px;
-			-moz-box-shadow: 0 0 3px #ccc;
-			-webkit-box-shadow: 0 0 3px #ccc;
-			box-shadow: 0 0 3px #ccc;
-			overflow: auto;
-		}
-
-		.div-shadow {
+	<title>Error</title>
+	<style>
+		.w-div-shadow {
 			box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 			margin-top: 50px;
 		}
 
-		.body {
-			position: relative;
-			padding: 20px;
-			margin: 5px;
-			height: 80%;
+		.w-webby-color {
+			color: #6d00cc;
 		}
 
-		.small {
-			font-size: 0.5em;
-			font-style: italic;
-		}
-
-		.mh {
-			background-color: #9e9d9d;
-			padding: 0.1em 0.2em;
-			color: #8c8b8b;
-		}
-
-		.mtitle {
-			padding: 0.1em 0.2em;
-			color: #11a68d;
-			font-weight: bolder;
-			font-size: 1.000013em;
-		}
-
-		.mmessage {
-			padding: 0.1em 0.2em;
-			color: #b89611;
-			font-weight: bolder;
-			font-size: 1.000013em;
-			font-style: italic;
-		}
-
-		.mdigit {
-			padding: 0.1em 0.2em;
-			color: #d13b04;
-			font-weight: bolder;
-			font-size: 1.000013em;
-		}
-
-		.text-center {
-			text-align: center;
-		}
-
-		.error_code {
+		.w-flex-center {
+			align-items: center;
 			display: flex;
 			justify-content: center;
 		}
 
-		.error_code h1 {
-			font-size: 5vw;
-			animation: type .5s alternate infinite;
+		.w-position-r {
+			position: relative;
 		}
 
-		@keyframes type {
-			from {
-				box-shadow: inset -3px 0px 0px #888;
-			}
+		.w-code-error {
+			border-right: 3px solid;
+			font-size: 55px;
+			padding: 0 10px 0 10px;
+			text-align: center;
+		}
 
-			to {
-				box-shadow: inset -3px 0px 0px transparent;
-			}
+		.w-message-error {
+			font-size: 40px;
+			text-align: center;
+		}
+
+		.w-text-center {
+			text-align: center;
+		}
+
+		.w-button {
+			font-family: 'Montserrat', 'Arial', sans-serif;
+			display: inline-block;
+			font-size: 1.2em;
+			font-weight: 600;
+			padding: 1em 2em;
+			margin-top: 1em;
+			margin-bottom: 60px;
+			-webkit-appearance: none;
+			appearance: none;
+			background-color: #48049c;
+			color: #e3f6fa;
+			border-radius: 4px;
+			border: none;
+			cursor: pointer;
+			position: relative;
+			transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
+			box-shadow: 0 2px 25px rgba(204, 200, 180, 0.5);
+		}
+
+		.w-button:hover {
+			background-color: #5b08c2;
+			color: white;
+		}
+
+		.w-button:focus {
+			outline: 0;
+		}
+
+		.w-button:before,
+		.w-button:after {
+			position: absolute;
+			content: '';
+			display: block;
+			width: 140%;
+			height: 100%;
+			left: -20%;
+			z-index: -1000;
 		}
 	</style>
 </head>
 
 <body>
-	<div style="margin-bottom: 100px"></div>
-	<div class="center-div div-shadow">
-		<div class="body" style="margin-top: 60px;">
-			<div class="within">
-				<h2><code><?php echo ucwords($heading) ?></code></h2>
-				<div class="error_code">
-					<h1>Error <?php http_response_code(404);
-								echo http_response_code(); ?></h1>
-				</div>
-				<div>
-					<h3><code><?php echo $message; ?></code></h3>
-				</div>
-
-				<div class="text-center" style="margin-top: 40px;">
-					<a href="javascript:window.history.go(-1);">Go back</a>
-				</div>
+	<div class="w-div-shadow" style="
+        border:2px solid #48049c;
+        padding:20px;
+        margin:100px 10px 10px 10px;
+    ">
+		<div class="w-flex-center w-position-r full-height">
+			<div class="w-code-error" style="color: red;">
+				<?php
+				http_response_code(404);
+				echo http_response_code();
+				?>
 			</div>
+
+			<div class="w-message-error w-webby-color" style="padding: 10px;">
+				NOT FOUND
+			</div><br>
+		</div>
+		<div style="text-align: center;">
+			<h2><code><?php echo ucwords($heading); ?></code></h2>
+			<code><?php echo $message; ?></code>
+		</div>
+
+		<div class="w-text-center" style="margin-top: 40px;">
+			<a class="w-button" href="javascript:window.history.go(-1);">GO BACK</a>
 		</div>
 	</div>
+
 </body>
 
 </html>

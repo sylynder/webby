@@ -1,162 +1,135 @@
 <?php defined('COREPATH') or exit('No direct script access allowed'); ?>
 
 <title>A PHP Error Exception</title>
-<style type="text/css">
-	body {
-		background-color: rgb(210, 210, 212);
-		/* background-color: rgb(204, 166, 255); */
-		font: 16px/26px normal Helvetica, Arial, sans-serif;
-	}
 
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-	}
+<div class="w-div-shadow" style="
+        border:2px solid #48049c;
+        padding:20px;
+        margin:10px 10px 10px 10px;
+    ">
+	<style>
+		.w-h1 {
+			color: #8c8b8b;
+			background-color: transparent;
+			font-size: 30px;
+			font-weight: 500;
+			margin: 0 0 14px 0;
+			padding: 14px 15px 10px 15px;
+			text-align: center;
+		}
 
-	img {
-		width: 20%;
-	}
+		.w-p {
+			color: #8c8b8b;
+			line-height: 26px;
+			font-weight: 600;
+		}
 
-	h1 {
-		color: #8c8b8b;
-		background-color: transparent;
-		font-size: 30px;
-		font-weight: 500;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-		text-align: center;
-	}
+		.w-p:hover {
+			background-color: rgba(72, 4, 156, 0.50);
+			cursor: pointer;
+		}
 
-	h2,
-	h3 {
-		color: #8c8b8b;
-		background-color: transparent;
-		font-size: 25px;
-		font-weight: 700;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 0px;
-		text-align: center;
-	}
+		.error-hover:hover {
+			color: #02241e !important;
+		}
 
-	p {
-		color: #8c8b8b;
-		line-height: 26px;
-		font-weight: 600;
-	}
+		.error-hover span:hover {
+			color: #02241e !important;
+		}
 
-	code {
-		font-family: monospace;
-		font-size: inherit;
-		overflow: auto;
-	}
+		.w-p-error {
+			margin-left: 10px;
+			margin-bottom: 10px;
+		}
 
-	mark {
-		background-color: #c0ffc8;
-	}
+		.w-p-error:hover {
+			background-color: rgba(72, 4, 156, 0.25);
+			cursor: pointer;
+		}
 
-	.center-error-div {
-		background-color: #292929;
-		border-radius: 3px;
-		-moz-box-shadow: 0 0 3px #ccc;
-		-webkit-box-shadow: 0 0 3px #ccc;
-		box-shadow: 0 0 3px #ccc;
-		overflow: auto;
-	}
+		.w-code {
+			font-family: monospace;
+			font-size: inherit;
+			overflow: auto;
+		}
 
-	.div-shadow {
-		box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-		margin-top: 50px;
-	}
+		.w-mark {
+			background-color: rgba(72, 4, 156, 0.50);
+		}
 
-	.body {
-		position: relative;
-		padding: 20px;
-		margin: 5px;
-		height: 80%;
-	}
+		.w-div-shadow {
+			box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+			margin-top: 50px;
+		}
 
-	.small {
-		font-size: 0.5em;
-		font-style: italic;
-	}
+		.w-small {
+			font-size: 0.5em;
+			font-style: italic;
+		}
 
-	.mh {
-		padding: 0.1em 0.2em;
-		color: #8c8b8b;
-	}
+		.w-mh {
+			padding: 0.1em 0.2em;
+			color: #8c8b8b;
+		}
 
-	.mtitle {
-		padding: 0.1em 0.2em;
-		color: #11a68d;
-		font-weight: bolder;
-		font-size: 1.000013em;
-		overflow: auto;
-	}
+		.w-title {
+			padding: 0.1em 0.2em;
+			color: #02241e;
+			font-weight: bolder;
+			font-size: 1.000013em;
+		}
 
-	.mmessage {
-		padding: 0.1em 0.2em;
-		color: #b89611;
-		font-weight: bolder;
-		font-size: 1.000013em;
-		font-style: italic;
-		overflow: auto;
-	}
+		.w-message {
+			padding: 0.1em 0.2em;
+			color: #a17600;
+			font-weight: bolder;
+			font-size: 1.000013em;
+			font-style: italic;
+		}
 
-	.mdigit {
-		padding: 0.1em 0.2em;
-		color: #d13b04;
-		font-weight: bolder;
-		font-size: 1.000013em;
-	}
+		.w-digit {
+			padding: 0.1em 0.2em;
+			color: #d13b04;
+			font-weight: bolder;
+			font-size: 1.000013em;
+		}
 
-	.text-center {
-		text-align: center;
-	}
-</style>
+		.w-text-center {
+			text-align: center;
+		}
+	</style>
 
-<body>
-	<div class="center-error-div div-shadow">
-		<div class="body">
+	<h1 class="w-title w-h1">A PHP Error Was Encountered</h1>
 
-			<h1><code>A PHP Error Was Encountered</code></h1>
+	<p class="w-p error-hover"><span class="w-title">Severity:</span> <?php echo $severity; ?></p>
+	<p class="w-p error-hover"><span class="w-title">Message:</span> <span class="w-message"><?php echo $message; ?></span></p>
 
-			<div id="within" style="border:2px solid #48049c;padding-left:20px;margin:0 0 10px 0;">
-				<code>
-					<p><span class="mtitle">Severity:</span> <?php echo $severity; ?></p>
-					<p><span class="mtitle">Message:</span><span class="mmessage"><?php echo $message; ?></span></p>
-					<?php
-					if (strpos($filepath, "eval()'d code") !== false) : ?>
-						<p><span class="mtitle">Error Location:</span><span class="mmessage"><?php echo "Can possibly be from the current {View}, found in the current Controller: {" . ucwords($GLOBALS['class']) . "} inside the {" . ucwords($GLOBALS['method']) . "()} method." ?></span></p>
-					<?php else : ?>
-						<p><span class="mtitle">Filename:</span><span class="mmessage"><?php echo $filepath; ?></span></p>
-						<p><span class="mtitle">Line Number:</span><span class="mdigit"><?php echo $line; ?></span></p>
+	<?php if (strpos($filepath, "eval()'d code") !== false) : ?>
+		<p><span class="mtitle">Error Location:</span><span class="mmessage"><?php echo "Can possibly be from the current {View}, found in the current Controller: {" . ucwords($GLOBALS['class']) . "} inside the {" . ucwords($GLOBALS['method']) . "()} method." ?></span></p>
+	<?php else : ?>
 
-						<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === true) : ?>
+		<p class="w-p error-hover"><span class="w-title error-hover">Filename:</span><span class="w-message"><?php echo $filepath; ?></span></p>
+		<p class="w-p error-hover w-mark"><span class="w-title error-hover"> Line Number:</span> <span class="w-digit"><?php echo $line; ?></span></p>
 
-							<p><span class="mh">Backtrace:<span></p>
+		<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE) : ?>
 
-							<?php foreach (debug_backtrace() as $error) : ?>
+			<p class="w-p"><span class="w-mh">Backtrace:<span></p>
+			<?php foreach (debug_backtrace() as $error) : ?>
 
-								<?php if (isset($error['file']) && strpos($error['file'], realpath(CIPATH)) !== 0) : ?>
+				<?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0) : ?>
 
-									<p style="margin-left:10px">
-										<span class="mtitle">File:</span> <span class="mmessage"><?php echo $error['file']; ?></span><br />
-										<span class="mtitle">Line:</span> <span class="mdigit"><?php echo $error['line']; ?></span><br />
-										<span class="mtitle">Function:</span> <?php echo $error['function']; ?>
-									</p>
+					<p class="w-p-error">
+						<span class="w-title">File:</span> <span class="w-message"><?php echo $error['file']; ?></span><br />
+						<span class="w-title">Line:</span> <span class="w-digit"><?php echo $error['line']; ?></span><br />
+						<span class="w-title">Function:</span> <?php echo $error['function']; ?>
+					</p>
 
-								<?php endif ?>
+				<?php endif ?>
 
-							<?php endforeach ?>
+			<?php endforeach ?>
 
-						<?php endif ?>
+		<?php endif ?>
 
-					<?php endif ?>
-				</code>
-			</div>
+	<?php endif ?>
 
-		</div>
-	</div>
-</body>
-<br>
+</div>

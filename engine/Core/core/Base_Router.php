@@ -56,7 +56,7 @@ class Base_Router extends MX_Router
             include(COREPATH . 'config/routes.php');
         }
 
-        // Include routes every modules
+        // Include routes in every module
         $modules_locations = config_item('modules_locations') ? config_item('modules_locations') : false;
 
         if (!$modules_locations) {
@@ -156,7 +156,17 @@ class Base_Router extends MX_Router
             $key = $this->namedParameter($key);
 
             // Convert wildcards to RegEx
-            $key = str_replace([':any', ':num'], ['[^/]+', '[0-9]+'], $key);
+            $key = str_replace(
+                [':any', ':num', ':uuid', ':alphanum', ':alpha'],
+                [
+                    '[^/]+', 
+                    '[0-9]+', 
+                    '[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
+                    '[a-zA-Z]+[a-zA-Z0-9._]+$',
+                    '[a-zA-Z]+$'
+                ], 
+                $key
+            );
 
             // Does the RegEx match?
             if (preg_match('#^' . $key . '$#', $uri, $matches)) {
@@ -184,7 +194,7 @@ class Base_Router extends MX_Router
     }
 
     /**
-     * Convert {id} to :num OR {anytext} to :any
+     * Convert {id} and {num} to :num OR {anytext} to :any
      *
      * @param string $key
      * @return string
@@ -193,6 +203,10 @@ class Base_Router extends MX_Router
     {
 
         $key = str_replace('{id}', '(:num)', $key);
+        $key = str_replace('{num}', '(:num)', $key);
+        $key = str_replace('{uuid}', '(:uuid)', $key);
+        $key = str_replace('{alpha}', '(:alpha)', $key);
+        $key = str_replace('{alphanum}', '(:alphanum)', $key);
 
         $hasCurly = strpos($key, '{');
         $defaultKey = $key;
