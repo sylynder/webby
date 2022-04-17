@@ -3,6 +3,9 @@
 /**
  * PHP Colored CLI
  * Used to log strings with custom colors to console using php
+ * Modified to work with Webby
+ * 
+ * @author  Oteng Kwame Appiah-Nti <developerkwame@gmail.com> (Developer Kwame)
  * 
  * Copyright (C) 2013 Sallar Kaboli <sallar.kaboli@gmail.com>
  * MIT Liencesed

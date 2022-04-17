@@ -10,7 +10,7 @@ defined('COREPATH') or exit('No direct script access allowed');
 |
 */
 
-$files = glob(ROOTPATH . "config/*.php");
+$files = glob(ROOTPATH . "config" . DIRECTORY_SEPARATOR . "*.php"); 
 
 // Exclude these specified files
 $exclude = [

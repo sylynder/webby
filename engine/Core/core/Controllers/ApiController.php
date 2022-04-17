@@ -35,10 +35,10 @@ class ApiController extends ApiServerController // ApiServerController from the 
         }
 
         if ($asArray) {
-            return $content = !is_null($content) ? $content : [];
+            return !is_null($content) ? $content : [];
         }
 
-        return $content = !is_null($content) ? json_encode($content) : [];
+        return !is_null($content) ? json_encode($content) : [];
     }
 
     /**
