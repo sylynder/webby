@@ -639,11 +639,58 @@ if ( ! function_exists('old'))
      * @param	bool	$html_escape	Whether to escape HTML special characters or not
      * @return	string
      * 
-     * @Todo implement a smooth functionality as CI4's old
      */
     function old($field, $default = '', $html_escape = true)
     {
+        if (!empty(session('old')) && !empty(session('old')[$field])) {
+            return session('old')[$field];
+        }
+
         return set_value($field, $default, $html_escape);
+    }
+}
+
+if ( ! function_exists('old_radio')) 
+{
+
+    /**
+     * Use it as a fill in for 
+     * CodeIgniter's set_radio function
+     * when returning form validation 
+     * with input fields in a session
+     *
+     * @param	string	$field	Field name
+     * @param	string	$value	Field value
+     * @return	string
+     * 
+     */
+    function old_radio($field, $value = '')
+    {
+        if (!empty(session('old')) && !empty(session('old')[$field])) {
+            $field = session('old')[$field];
+        }
+
+        return ($field == $value) ? 'checked=checked' : '';
+    }
+}
+
+if ( ! function_exists('old_checkbox')) 
+{
+
+    /**
+     * Use it as a fill in for 
+     * CodeIgniter's set_checkbox function
+     * when returning form validation 
+     * with input fields in a session
+     *
+     * @param [type] $field
+     * @param string $value
+     * @param boolean $default
+     * @return string
+     */
+    function old_checkbox($field, $value = '')
+    {
+        return old_radio($field, $value);
     }
 }
 
@@ -807,8 +854,11 @@ if ( ! function_exists('get_form_error'))
      */
     function get_form_error($error_key)
     {
-        if (array_key_exists($error_key, form_error_array())) {
-            return form_error_array()[$error_key];
+        $error_array = !empty(session('form_error')) ? session('form_error') : [];
+        $error_array = array_merge(form_error_array(), $error_array);
+        
+        if (array_key_exists($error_key, $error_array)) {
+            return $error_array[$error_key];
         }
         
         return '';
