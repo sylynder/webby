@@ -11,7 +11,6 @@
 			theme: {
 				extend: {
 					colors: {
-						clifford: "#da373d",
 						webby: "#6d00cc",
 					}
 				}

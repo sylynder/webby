@@ -12,7 +12,6 @@ defined('COREPATH') or exit('No direct script access allowed'); ?>
             theme: {
                 extend: {
                     colors: {
-                        clifford: "#da373d",
                         webby: "#6d00cc",
                     }
                 }
