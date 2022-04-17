@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Base\Controllers;
 
@@ -48,10 +48,36 @@ class WebController extends Controller
     protected function json($data = null, $statusCode = 200)
     {
         echo $this->output
-                ->set_status_header($statusCode)
-                ->set_content_type('application/json', 'utf-8')
-                ->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
-                ->_display();
+            ->set_status_header($statusCode)
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+            ->_display();
+        exit;
     }
 
+    /**
+     * An implemented method to
+     * send intruders outside 
+     * of the application
+     *
+     * @param string $to
+     * @return void
+     */
+    protected function toOutside($to = '')
+    {
+        if (!contains('https://', $to) or !contains('http://', $to)) {
+            $to = empty($to) ? "" : 'https://' . $to;
+        } else {
+            $to = '';
+        }
+
+        if (!empty($to)) {
+            config('route_outside', $to);
+        }
+
+        if (in_array(uri_segment(1), config_item('forbidden_routes'))) {
+            redirect(config('route_outside'), 'refresh');
+        }
+    }
+    
 }
