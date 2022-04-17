@@ -1684,6 +1684,102 @@ if ( ! function_exists('csrf_hash'))
     }
 }
 
+if ( ! function_exists('honeypot')) 
+{
+    /**
+     * Generate a honeypot field
+     *
+     * @return string
+     */
+    function honeypot($name = '', $template = '', $container = '')
+    {
+        $data = [
+            'hidden' => env('honeypot.hidden', 'text'),
+            'name' => env('honeypot.name', $name),
+            'template' => env('honeypot.template', $template),
+            'container' => env('honeypot.container', $container),
+            'honeyfield' => env('honeypot.timefield')
+        ];
+
+        if ($data['hidden']) {
+            $data['hidden'] = 'hidden';
+        } else {
+            $data['hidden'] = 'text';
+        }
+
+        if (!empty($data['honeyfield'])) {
+
+            $data['honeytime'] = base64_encode(time());
+            session('honeytime', $data['honeytime']);
+            $data['timename'] = env('honeypot.timename');
+            $data['honeyfield'] =str_replace('{hidden}', $data['hidden'], $data['honeyfield']);
+            $data['honeyfield'] = str_replace('{timename}', $data['timename'], $data['honeyfield']);
+            $data['honeyfield'] = str_replace('{honeytime}', $data['honeytime'], $data['honeyfield']);
+        }
+
+        if (!empty($data['container'])) {
+
+            $output = str_replace('{name}', $data['name'], $data['template']);
+            $output = str_replace('{hidden}', $data['hidden'], $output);
+            $output = str_replace('{template}', $output, $output);
+            $output = str_replace(['{template}','{honeyfield}'], [$output, $data['honeyfield']], $data['container']);
+            return $output;
+        }
+
+        $output = str_replace('{name}', $data['name'], $data['template']);
+        $output = str_replace('{hidden}', $data['hidden'], $output);
+        $output = str_replace('{template}', $data['template'], $output);
+        return $output;
+
+    }
+}
+
+if (!function_exists('honey_check')) 
+{
+    /**
+     * Checks if the honeypot field 
+     * is not filled
+     *
+     * @param string $honeypot
+     * @return bool
+     */
+    function honey_check($honeypot = '')
+    {
+        if (trim($honeypot) != '') {
+            return false;
+        }
+
+        return true;
+    }
+}
+
+if ( ! function_exists('honey_time')) 
+{
+    /**
+     * Checks the time it takes a 
+     * form to be submitted
+     *
+     * @param integer $time
+     * @return bool
+     */
+    function honey_time($field = '', $time = 10)
+    {
+        $honeytime = base64_decode(session('honeytime'));
+        $field = $field;
+        $seconds = time() - $honeytime;
+
+        if (empty($time)) {
+            $time = env('honeypot.time', $time);
+        }
+
+        if ($seconds < $time) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
 if ( ! function_exists('clean')) 
 {
     /**
