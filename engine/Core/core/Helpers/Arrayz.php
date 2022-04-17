@@ -29,6 +29,13 @@ class Arrayz
 	private $operator;
 
 	/**
+	 * Intersected variable
+	 *
+	 * @var
+	 */
+	private $intersected;
+
+	/**
 	 * Cache variable
 	 * 
 	 * @var
@@ -160,6 +167,8 @@ class Arrayz
 	{
 		$arguments = func_get_args();
 		$search = $arguments[0];
+
+		$this->source = arrayfy($this->source);
 
 		if ($search != '') {
 			array_walk_recursive($this->source, function (&$value, &$key) use (&$search) {
@@ -347,16 +356,19 @@ class Arrayz
 		} else {
 			$searchKey = '';
 
-			$searchValue = $arguments[1];
+			$searchValue = $arguments[0];
 		}
+
+		$this->source = arrayfy($this->source);
+
+		$isThere = null;
 
 		// If search value is found, stop the iteration 
 		// using try catch method for faster approach
 		try {
-			array_walk_recursive($this->source, function (&$value, &$key) use (&$searchKey, &$searchValue) {
+			array_walk_recursive($this->source, function ($value, $key) use (&$searchKey, &$searchValue, $isThere) {
 
 				if ($searchValue != '') {
-
 					if ($searchValue == $value && $key == $searchKey) {
 						$isThere = true;
 					}
@@ -390,6 +402,8 @@ class Arrayz
 		$empty_remove = !empty($arguments[0]) ? $arguments[0] : false;
 
 		$option = [];
+
+		$this->source = arrayfy($this->source);
 
 		array_walk_recursive($this->source, function (&$value, &$key) use (&$option, &$empty_remove) {
 
@@ -495,6 +509,8 @@ class Arrayz
 		$arguments = func_get_args();
 		$groupBy = $arguments[0];
 		$option = [];
+		
+		$this->source = arrayfy($this->source);
 
 		foreach ($this->source as $data) {
 			$groupValue = $data[$groupBy];
@@ -597,9 +613,6 @@ class Arrayz
 			);
 		}
 
-		// $source = $this->toArray();
-		// $json = json_encode($source, JSON_UNESCAPED_UNICODE);
-		// return json_decode($json);
 	}
 
 	/**
@@ -705,15 +718,17 @@ class Arrayz
 	{
 		$arguments = func_get_args();
 
-		$array = $arguments[0];
-		$searchKey = $arguments[1];
+		$this->source = arrayfy($this->source);
+		
+		$array = $this->source;
+		$searchKey = $arguments[0];
 
 		$isValid = false;
-
+		$isThere = null;
 		// If search value found, to stop the iteration 
 		// using try catch method for faster approach
 		try {
-			array_walk_recursive($array, function (&$value, &$key) use (&$searchKey) {
+			array_walk_recursive($array, function ($value, $key) use (&$searchKey, $isThere) {
 
 				if ($searchKey == $key) {
 					$isThere = true;
