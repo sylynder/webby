@@ -1073,6 +1073,20 @@ class EasyModel extends Model
      */
 
     /**
+     * Pick function
+     * A sugared way of using select()
+     * 
+     * @param string $select
+     * @param mixed $escape
+     * @return CI_DB_query_builder
+     */
+    public function pick($select = '*', $escape = null)
+    {
+        $this->db->select($select, $escape);
+        return $this;
+    }
+
+    /**
      * Select function
      *
      * @param string $select
