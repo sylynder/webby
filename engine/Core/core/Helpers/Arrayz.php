@@ -3,7 +3,7 @@
 /**
  * Handle and Manipulate Arrays - Inspired by Arrayz 
  * 
- * Credit: 
+ * Credit: https://github.com/nobitadore/Arrayz
  * 
  * Version - 0.1
  */
@@ -49,6 +49,21 @@ class Arrayz
 	 */
 	private $cacheItem;
 
+	/**
+	 * A non-associative array of keys 
+	 * that should be censored in the source
+	 *
+	 * @var array
+	 */
+	public $keys = [];
+
+	/**
+	 * What should replace the censored data
+	 *
+	 * @var mixed
+	 */
+	public $ink;
+
 
 	public function __construct($array = [])
 	{
@@ -81,6 +96,11 @@ class Arrayz
 	 */
 	public function cache($item): Arrayz
 	{
+
+		if (!is_string($item)) {
+			throw new \Exception("cache() only expects a string to be used");
+		}
+
 		$this->cache->setCachePath($this->cachePath);
 
 		$this->cacheItem = $item;
@@ -625,6 +645,30 @@ class Arrayz
 	}
 
 	/**
+	 * Set the keys to censor
+	 *
+	 * @param  array $keys Keys to censor
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function censorKeys($keys = []): Arrayz
+	{
+		$this->keys = $keys;
+		return $this;
+	}
+
+	/**
+	 * Set the value to replace censored key values with
+	 *
+	 * @param  mixed $ink What should replace the censored data
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function ink($ink = '**********')
+	{
+		$this->ink = is_callable($ink) ? $ink() : $ink;
+		return $this;
+	}
+
+	/**
 	 * Like SQL WhereIN . Supports operators.
 	 *
 	 * @return Base\Helpers\Arrayz
@@ -719,6 +763,74 @@ class Arrayz
 	public function count()
 	{
 		return count($this->source);
+	}
+
+	/**
+	 * Apply recursive array censorship to the source
+	 *
+	 * @return array
+	 */
+	public function censor()
+	{
+		if (is_string($this->source) && $this->isValidJson($this->source)) {
+			$this->source = json_decode($this->source, true);
+		}
+
+		if (!is_array($this->source) || !$this->isAssocArray($this->source)) {
+			throw new \Exception("arrayz received invalid array or json source `{$this->source}`");
+		}
+
+		// Recursively traverse the array and censor the specified keys
+		array_walk_recursive($this->source, function (&$value, $key) {
+			if (in_array($key, $this->keys, true)) {
+				$value = $this->ink;
+			}
+		});
+
+		return $this->source;
+	}
+
+	/**
+	 * Return a json string
+	 *
+	 * @return string
+	 */
+	public function censorToJson()
+	{
+		return json_encode($this->censor());
+	}
+
+	/**
+	 * String censored json
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->censorToJson();
+	}
+
+	/**
+	 * Determine if the given array is associative or non-associative
+	 *
+	 * @param  array  $array
+	 * @return boolean
+	 */
+	protected function isAssocArray(array $array)
+	{
+		$keys = array_keys($array);
+		return array_keys($keys) !== $keys;
+	}
+
+	/**
+	 * Check if the string received is valid json
+	 *
+	 * @param  string $string Assumed json string
+	 * @return boolean
+	 */
+	protected function isValidJson($string)
+	{
+		return is_json($string);
 	}
 }
 /* End of the file Arrayz.php */
