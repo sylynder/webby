@@ -55,7 +55,6 @@ class EasyModel extends Model
     protected $temporaryWithDeleted = false;
     protected $temporaryOnlyDeleted = false;
 
-    public $ci;
 
     /**
      * Change the fetch mode if desired
@@ -512,13 +511,13 @@ class EasyModel extends Model
     /**
      * A simple way to paginate records
      *
-     * @param int $perPage
-     * @param int $page
+     * @param int $limit
+     * @param int $offset
      * @return mixed
      */
-    public function paginate($perPage = null, $page = null)
+    public function paginate($limit = 10, $offset = 0)
     {
-        $this->db->limit($perPage, $page);
+        $this->db->limit($limit, $offset);
 
         $query = $this->db->get($this->table);
 
