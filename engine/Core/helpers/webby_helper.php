@@ -212,29 +212,6 @@ if ( ! function_exists('destroy_session'))
     }
 }
 
-// if ( ! function_exists('alert_message'))
-// {
-//     /**
-//      * Set message type
-//      *
-//      * @param string $type
-//      * @param string $message
-//      * @return string|void
-//      */
-//     function alert_message(
-//         string $message_type, 
-//         string $message = null
-//     )  {
-
-//         if ($message !== null) {
-//            return flash_session($message_type, $message);
-//         }
-
-//         return flash_session($message_type);
-        
-//     }
-// }
-
 if ( ! function_exists('success_message'))
 {
     /**
@@ -730,6 +707,42 @@ if ( ! function_exists('str_humanize'))
     }
 }
 
+if ( ! function_exists('str_ext')) 
+{
+    /**
+     * Strips filename from extension Or
+     * file extension from name
+     * 
+     * if $name is true return filename only
+     * this is rarely used
+     *
+     * @param string $string
+     * @return string
+     */
+    function str_ext(string $filename, $name = false)
+    {
+        if ($name) {
+            return pathinfo($filename, PATHINFO_FILENAME);
+        }
+
+        return substr($filename, 0, strrpos($filename, "."));
+    }
+}
+
+if ( ! function_exists('str_last_word')) 
+{
+    /**
+     * Return last word of a string
+     * 
+     * @param string $string
+     * @return string
+     */
+    function str_last_word(string $string, $symbol = ' ')
+    {
+        return substr($string, strrpos($string, $symbol) + 1);
+    }
+}
+
 if ( ! function_exists('limit_words')) 
 {
     /**
@@ -823,7 +836,8 @@ if ( ! function_exists('contains'))
     }
 }
 
-if (!function_exists('starts_with')) {
+if ( ! function_exists('starts_with')) 
+{
     /**
      *  Determine if a given string 
      *  starts with a given substring
@@ -847,7 +861,8 @@ if (!function_exists('starts_with')) {
     }
 }
 
-if (!function_exists('ends_with')) {
+if ( ! function_exists('ends_with')) 
+{
     /**
      *  Determine if a given string 
      *  ends with a given substring
@@ -870,29 +885,8 @@ if (!function_exists('ends_with')) {
 
 /* ------------------------------- Array Functions ---------------------------------*/
 
-if ( ! function_exists('str_ext')) 
+if ( ! function_exists('arrayz')) 
 {
-    /**
-     * Strips filename from extension Or
-     * file extension from name
-     * 
-     * if $name is true return filename only
-     * this is rarely used
-     *
-     * @param string $string
-     * @return string
-     */
-    function str_ext(string $filename, $name = false)
-    {
-        if ($name) {
-            return pathinfo($filename, PATHINFO_FILENAME);
-        }
-
-        return substr($filename, 0, strrpos($filename, "."));
-    }
-}
-
-if ( ! function_exists('arrayz')) {
     /**
      *  Instantiate the Arrayz Class
      *
@@ -1187,7 +1181,8 @@ if ( ! function_exists('object_array'))
     }
 }
 
-if (!function_exists('arrayfy')) {
+if ( ! function_exists('arrayfy')) 
+{
 
     /**
      * Encode an array-object and retrieve
