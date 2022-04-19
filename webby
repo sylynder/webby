@@ -16,15 +16,13 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Define Console Application Version
-define('WEBBY_CLI_VERSION', 'v1.1.0');
+define('WEBBY_CLI_VERSION', 'v1.2.0');
 
 // Define Webby Rootpath
 define('WEBBY_ROOTPATH', __DIR__);
 
 // Define Console Application Environment
-// Use 'development', 'testing', 'production'
-// Not for typos you can copy and paste the above
-// and replace in the second argument below
+// Leave this untouched since console depends on it
 define('ENVIRONMENT', 'development'); 
 
 // Use Console Class
