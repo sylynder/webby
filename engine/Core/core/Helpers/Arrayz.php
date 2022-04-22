@@ -663,9 +663,14 @@ class Arrayz
 	 * @param  array $keys Keys to censor
 	 * @return Base\Helpers\Arrayz
 	 */
-	public function censorKeys($keys = []): Arrayz
+	public function censorKeys($keys): Arrayz
 	{
+		if (is_string($keys)) {
+			$keys = [$keys];
+		}
+
 		$this->keys = $keys;
+
 		return $this;
 	}
 
@@ -787,12 +792,14 @@ class Arrayz
 	 */
 	public function censor()
 	{
+		$this->source = arrayfy($this->source);
+
 		if (is_string($this->source) && $this->isValidJson($this->source)) {
 			$this->source = json_decode($this->source, true);
 		}
 
-		if (!is_array($this->source) || !$this->isAssocArray($this->source)) {
-			throw new \Exception("arrayz received invalid array or json source `{$this->source}`");
+		if (!is_array($this->source) /*|| !$this->isAssocArray($this->source)*/) {
+			throw new \Exception("arrayz received invalid array or json source `{$this->source}` ");
 		}
 
 		// Recursively traverse the array and censor the specified keys
@@ -802,27 +809,7 @@ class Arrayz
 			}
 		});
 
-		return $this->source;
-	}
-
-	/**
-	 * Return a json string
-	 *
-	 * @return string
-	 */
-	public function censorToJson()
-	{
-		return json_encode($this->censor());
-	}
-
-	/**
-	 * String censored json
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->censorToJson();
+		return $this;
 	}
 
 	/**
