@@ -102,4 +102,19 @@ class ApiController extends ApiServerController // ApiServerController from the 
 
         throw new Exception("Specify controller method and log", HttpStatus::BAD_REQUEST);
     }
+
+    protected function successResponse($data, $statusCode = HttpStatus::OK)
+    {
+        $status = ['status' => true];
+        $data = array_merge($status, $data);
+        return $this->response($data, $statusCode);
+    }
+
+    protected function errorResponse($data, $statusCode = HttpStatus::NOT_FOUND)
+    {
+        $status = ['status' => false];
+        $data = array_merge($status, $data);
+        return $this->response($data, $statusCode);
+    }
+    
 }
