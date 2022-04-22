@@ -159,6 +159,29 @@ class Arrayz
 	}
 
 	/**
+	 * Pick values from available key
+	 *
+	 * @param string $key
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function pick($key)
+	{
+		$values = [];
+
+		$this->source = arrayfy($this->source);
+
+		foreach ($this->source as $source) {
+			if (is_array($source) && isset($source[$key])) {
+				$values[] = $source[$key];
+			}
+		}
+
+		$this->source = $values;
+
+		return $this;
+	}
+
+	/**
 	* Match and return the array. supports regex
 	* 
 	* @return Base\Helpers\Arrayz
