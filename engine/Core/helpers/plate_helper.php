@@ -1,8 +1,6 @@
 <?php
 defined('COREPATH') or exit('No direct script access allowed');
 
-use Base\View\Plates;
-
 /**
  *  Plate Helper functions
  *
@@ -24,7 +22,7 @@ if ( ! function_exists('plates'))
      */
     function plates($params = [])
     {
-        return (new Plates($params));
+        return (new \Base\View\Plates($params));
     }
 }
 
@@ -50,15 +48,29 @@ if ( ! function_exists('view'))
         if (config('view')['view_engine'] === '') {
             return ci()->load->view($view_path, $view_data, $return);
         }
-        
+ 
         // Get the evaluated view contents for the given plates view
-        if (config('view')['view_engine'] === 'plates') 
+        if (config('view')['view_engine'] === 'plates')  {
 
-        if ($view_data === null) {
-			return plates()->view($view_path);
-		}
+            if ($view_data === null) {
+                return plates()->view($view_path, $return);
+            }
 
-		return plates()->set($view_data)->view($view_path);
+            return plates()->set($view_data)->view($view_path, $return);
+        }
+
+        // Render view leaf/blade
+        if (config('view')['view_engine'] === 'blade') {
+
+            if (!function_exists('blade')) {
+                throw new \Exception("Make sure Blade/View Package is installed");
+            }
+
+            return blade()->view($view_path, $view_data);
+        }
+
+        // Fall on plates to render view
+		return plates()->set($view_data)->view($view_path, $return);
         
     }
 }
