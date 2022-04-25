@@ -3,7 +3,7 @@
 /**
  * A Template engine for Webby
  * 
- * It is based on Laravel's Plates templating system 
+ * It is based on Laravel's Blade templating engine 
  * Initially developed by Gustavo Martins and named Slice as
  * a CodeIgniter Library.
  * 
@@ -12,7 +12,7 @@
  * 
  * Expanded to work efficiently with Webby 
  * 
- * @author  Oteng Kwame Appiah-Nti <developerkwame@gmail.com>
+ * @author  Kwame Oteng Appiah-Nti <developerkwame@gmail.com>
  * @license MIT
  * @version 0.1.0
  */
