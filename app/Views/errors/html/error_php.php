@@ -81,10 +81,10 @@
 
 		.w-message {
 			padding: 0.1em 0.2em;
-			color: #a17600;
+			color: #5f03ad;
 			font-weight: bolder;
 			font-size: 1.000013em;
-			font-style: italic;
+			font-style: normal;
 		}
 
 		.w-digit {

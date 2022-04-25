@@ -81,10 +81,10 @@
 
 		.w-message {
 			padding: 0.1em 0.2em;
-			color: #a17600;
+			color: #5f03ad;
 			font-weight: bolder;
 			font-size: 1.000013em;
-			font-style: italic;
+			font-style: normal;
 		}
 
 		.w-digit {
@@ -110,7 +110,7 @@
 
 		<p class="w-p error-hover"><span class="w-title error-hover">Filename:</span><span class="w-message"><?php echo $exception->getFile(); ?></span></p>
 		<p class="w-p error-hover w-mark"><span class="w-title error-hover"> MarkLine Number:</span> <span class="w-digit"><?php echo $exception->getLine(); ?></span></p>
-		
+
 		<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE) : ?>
 
 			<p class="w-p"><span class="w-mh">Backtrace:<span></p>
