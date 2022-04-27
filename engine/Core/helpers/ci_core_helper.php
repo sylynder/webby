@@ -468,25 +468,24 @@ if ( ! function_exists('files'))
 if ( ! function_exists('has_file')) 
 {
     /**
-     * function to check if file to
-     * upload is not empty
+     * Check if file to upload is not empty
      *
      * @param string $file
      * @return boolean
      */
     function has_file($file)
     {
-        return (empty($file['name'])) 
-                    ? true 
-                    : false;
+        return (empty($file['name']))
+            ? false
+            : true;
     }
 }
 
 if ( ! function_exists('is_file_empty')) 
 {
     /**
-     * An alias to the function above
-     *
+     * Check if file is truely empty
+     * 
      * expects $_FILES as $file
      * 
      * @param string $file
@@ -494,7 +493,9 @@ if ( ! function_exists('is_file_empty'))
      */
     function is_file_empty($file)
     {
-        return has_file($file);
+        return (empty($file['name']))
+            ? true
+            : false;
     }
 }
 
