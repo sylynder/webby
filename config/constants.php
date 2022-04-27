@@ -291,7 +291,7 @@ if (!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
 
 // Do not change these names
 // Other functions depend on them 
-// to work properly e.g. datetime function
+// to work properly e.g. datetime() function
 define('DEFAULT_TIMEZONE', 'Africa/Accra'); // system_default_timezone()
 
 !empty(getenv('app.timezone'))
