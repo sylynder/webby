@@ -1,4 +1,4 @@
-class {{FORM}}Forms
+class {{FORM}}
 {
     public static function save()
     {

@@ -1067,7 +1067,8 @@ class Create extends ConsoleController
 
         $formDirectory = $moduleDirectory . DS . $this->form;
         $formName = ucwords($formName);
-
+        $formName = Inflector::singularize($formName) . 'Forms';
+        
         if (file_exists($formDirectory . DS . $formName . $this->fileExtention)) {
             $this->failureOutput(ucfirst($formName) . " exists already in the " . ucfirst($moduleName) . " module");
             return;
@@ -1119,16 +1120,17 @@ class Create extends ConsoleController
             $this->createSubDirectory($moduleDirectory, '--r');
         }
 
-        $formDirectory = $moduleDirectory . DS . $this->rule;
+        $ruleDirectory = $moduleDirectory . DS . $this->rule;
         $ruleName = ucwords($ruleName);
+        $ruleName = Inflector::singularize($ruleName) . 'Rules';
 
-        if (file_exists($formDirectory . DS . $ruleName . $this->fileExtention)) {
+        if (file_exists($ruleDirectory . DS . $ruleName . $this->fileExtention)) {
             $this->failureOutput(ucfirst($ruleName) . " exists already in the " . ucfirst($moduleName) . " module");
             return;
         }
 
-        if ($formDirectory && is_dir($formDirectory)) {
-            $filePath = $formDirectory . DS . $ruleName;
+        if ($ruleDirectory && is_dir($ruleDirectory)) {
+            $filePath = $ruleDirectory . DS . $ruleName;
             $defaultType = str_replace('-', '', $defaultType);
             $created = $this->createFile($filePath, strtolower($defaultType), $this->rule);
         }

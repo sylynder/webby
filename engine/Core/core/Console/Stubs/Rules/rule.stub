@@ -1,4 +1,4 @@
-class {{RULE}}Rules
+class {{RULE}}
 {
     public static function save()
     {

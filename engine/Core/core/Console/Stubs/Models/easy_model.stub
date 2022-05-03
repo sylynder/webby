@@ -2,9 +2,9 @@ use Base\Models\EasyModel;
 
 class {{MODEL}} extends EasyModel
 {
-    protected $table = ''; // name of table to use
+    public $table = ''; // name of table to use
     
-    protected $primaryKey = ''; // name of primary key field
+    public $primaryKey = ''; // name of primary key field
     
     protected $useSoftDelete = true; // set whether to use soft delete
 

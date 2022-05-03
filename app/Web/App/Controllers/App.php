@@ -7,7 +7,8 @@ class App extends WebController
 
 	public function index()
 	{
-		return view('welcome');
+		echo "Hello World";
+		// return view('welcome');
 	}
 
 	/**
