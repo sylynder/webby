@@ -754,14 +754,14 @@ if ( ! function_exists('verify_selected'))
     }
 }
 
-if ( ! function_exists('validator')) 
+if ( ! function_exists('use_form_validation')) 
 {
     /**
      * Alias of CodeIgniter's $this->form_validation
      * 
      * @return object
      */
-    function validator()
+    function use_form_validation()
     {
         ci()->load->library('form_validation');
         return ci()->form_validation;
@@ -780,9 +780,14 @@ if ( ! function_exists('validate'))
      * @param mixed $errors
      * @return mixed
      */
-    function validate($field, $label = '', $rules = [], $errors = null)
+    function validate($field = '', $label = '', $rules = [], $errors = null)
     {
-        ci()->form_validation->set_rules($field, $label, $rules, $errors);
+        if (!empty($field)) {
+            return ci()->form_validation->set_rules($field, $label, $rules, $errors);
+        }
+
+        return ci()->form_validation;
+
     }
 }
 
