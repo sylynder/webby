@@ -936,6 +936,74 @@ if ( ! function_exists('use_config'))
     }
 }
 
+if ( ! function_exists('use_package')) 
+{
+    /**
+     * Use a package from a specific directory
+     * and use it's available models, libraries etc
+     * the codeigniter way
+     *
+     * @param string $path
+     * @param string $file
+     * @param bool $file_content
+     * @param bool $view_cascade
+     * @return void
+     */
+    function use_thirdparty($path, $file = '', $file_content = false, $view_cascade = true)
+    {
+        return ci()->load->thirdparty($path, $file, $file_content, $view_cascade);
+    }
+}
+
+if ( ! function_exists('remove_thirdparty')) 
+{
+    /**
+     * Remove a package from a Third Party directory
+     * including it's available models, libraries etc
+     * the codeigniter way
+     *
+     * @param string $path
+     * @return void
+     */
+    function remove_thirdparty($path)
+    {
+        ci()->load->removeThirdparty($path);
+    }
+}
+
+if ( ! function_exists('use_package')) 
+{
+    /**
+     * Use a package from a specific directory
+     * and use it's available models, libraries etc
+     * the codeigniter way
+     *
+     * @param string $path
+     * @param bool $view_cascade
+     * @return void
+     */
+    function use_package($path, $view_cascade = true)
+    {
+        ci()->load->package($path, $view_cascade);
+    }
+}
+
+if ( ! function_exists('remove_package')) 
+{
+    /**
+     * Remove a package from a specific directory
+     * including it's available models, libraries etc
+     * the codeigniter way
+     *
+     * @param string $path
+     * @return void
+     */
+    function remove_package($path)
+    {
+        ci()->load->removePackage($path);
+    }
+}
+
 if ( ! function_exists('use_library')) 
 {
     /**

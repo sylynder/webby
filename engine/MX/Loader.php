@@ -305,6 +305,87 @@ class MX_Loader extends \CI_Loader
 		// return (method_exists($this, '_ci_object_to_array') ? $this->_ci_load(['_ci_view' => $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return]) : $this->_ci_load(['_ci_view' => $view, '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return]));
 	}
 
+	/**
+	 * Load a Package Path from Third Party directory
+	 * 
+	 * Make sure Third Party directory exists
+	 *
+	 * @param string $path Path to add
+	 * @param bool $view_cascade (default: true)
+	 * @return mixed
+	 */
+	public function thirdparty($path, $file = '', $show_content = false, $view_cascade = true)
+	{
+		$path = APPROOT . 'ThirdParty' . DIRECTORY_SEPARATOR . $path;
+		
+		if (!empty($file)) {
+			return $this->load->file($path . DIRECTORY_SEPARATOR . $file, $show_content);
+		}
+
+		$this->add_package_path($path, $view_cascade);
+	}
+
+	/**
+	 * Removes a Third Party Package from 
+	 * packages third party list
+	 *
+	 * @param string $path
+	 * @return void
+	 */
+	public function removeThirdparty($path = '')
+	{
+		if (empty($path)) {
+			return $this;
+		}
+
+		$path = APPROOT . 'ThirdParty' . DIRECTORY_SEPARATOR . $path;
+
+		return $this->removePackage($path);
+	}
+
+	/**
+	 * Add a Package Path
+	 *
+	 * Prepends a parent path to the library, 
+	 * model, helper and config path arrays.
+	 * 
+	 * @param string $path Path to add
+	 * @param bool $view_cascade (default: true)
+	 * @return void
+	 */
+	public function package($path, $view_cascade = true)
+	{
+		$this->add_package_path($path, $view_cascade);
+	}
+
+	/**
+	 * Get Package Paths
+	 *
+	 * Return a list of all package paths.
+	 *
+	 * @param	bool	$include_base	Whether to include CIPATH (default: false)
+	 * @return	array
+	 */
+	public function packages($include_base = false) 
+	{
+		return $this->get_package_paths($include_base);
+	}
+
+	/**
+	 * Remove Package Path
+	 *
+	 * Remove a path from the library, model, helper and/or config
+	 * path arrays if it exists. If no path is provided, the most recently
+	 * added path will be removed.
+	 *
+	 * @param	string	$path	Path to remove
+	 * @return	object
+	 */
+	public function removePackage($path = '') 
+	{
+		return $this->remove_package_path($path);
+	}
+
 	protected function &_ci_get_component($component)
 	{
 		return CI::$APP->$component;
