@@ -111,7 +111,7 @@ if (($_temp = realpath($ci_directory)) !== false) {
 // Is the system path correct?
 if (!is_dir($ci_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your ci_directory path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $ci_directory_line;
+    echo 'Your ci_directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $ci_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
@@ -126,7 +126,7 @@ if (($_temp = realpath($console_directory)) !== false) {
 // Is the Console path correct?
 if (!is_dir($console_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your console directory path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $console_directory_line;
+    echo 'Your console directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $console_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
@@ -141,7 +141,7 @@ if (($_temp = realpath($packages_directory)) !== false) {
 // Is the Packages path correct?
 if (!is_dir($packages_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your packages directory path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $packages_directory_line;
+    echo 'Your packages directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $packages_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
@@ -156,7 +156,7 @@ if (($_temp = realpath($api_directory)) !== false) {
 // Is the web path correct?
 if (!is_dir($api_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your api directory path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $api_directory_line;
+    echo 'Your api directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $api_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
@@ -171,7 +171,7 @@ if (($_temp = realpath($web_directory)) !== false) {
 // Is the web path correct?
 if (!is_dir($web_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your web directory path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $web_directory_line;
+    echo 'Your web directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $web_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
@@ -186,7 +186,7 @@ if (($_temp = realpath($composer_directory)) !== false) {
 // Is the composer path correct?
 if (!is_dir($composer_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your composer directory path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $composer_directory_line;
+    echo 'Your composer directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $composer_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
@@ -201,7 +201,7 @@ if (($_temp = realpath($writable_directory)) !== false) {
 // Is the writable path correct?
 if (!is_dir($writable_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your writable directory path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $writable_directory_line;
+    echo 'Your writable directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $writable_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
@@ -281,7 +281,7 @@ if (is_dir($core_directory)) {
 
     if (!is_dir(BASEPATH . $core_directory . DIRECTORY_SEPARATOR)) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
-        echo 'Your common directory path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $core_directory_line;
+        echo 'Your common directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $core_directory_line;
         exit(3); // EXIT_CONFIG
     }
 
@@ -303,7 +303,7 @@ if (!is_dir($view_directory)) {
         $view_directory = COREPATH . $view_directory;
     } elseif (!is_dir(COREPATH . 'views' . DIRECTORY_SEPARATOR)) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
-        echo 'Your view folder path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $view_directory_line;
+        echo 'Your view folder path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $view_directory_line;
         exit(3); // EXIT_CONFIG
     } else {
         $view_directory = COREPATH . 'views';
@@ -325,7 +325,7 @@ if (is_dir($asset_directory)) {
 
     if (!is_dir(CIPATH . $asset_directory . DIRECTORY_SEPARATOR) && !defined('STDIN')) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
-        echo 'Your assets folder path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line ' . $asset_directory_line;
+        echo 'Your assets folder path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $asset_directory_line;
         exit(3); // EXIT_CONFIG
     }
 
@@ -339,7 +339,7 @@ if (is_dir($upload_directory)) {
 
     if (!is_dir(CIPATH . $upload_directory . DIRECTORY_SEPARATOR)) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
-        echo 'Your uploads data folder path does not appear to be set correctly. Please open the public/index.php file and set a correct path on line '. $upload_directory_line;
+        echo 'Your uploads data folder path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line '. $upload_directory_line;
         exit(3); // EXIT_CONFIG
     }
 

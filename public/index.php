@@ -6,6 +6,13 @@ define('FCPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 // The name of this file
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
+// Use Webby Outside
+define('WEBBY_OUTSIDE',  filter_var(getenv('app.outside'), FILTER_VALIDATE_BOOLEAN));
+
+if (WEBBY_OUTSIDE) {
+    return;
+}
+
 /*
  *---------------------------------------------------------------
  * COMPOSER AUTOLOADING

@@ -43,6 +43,7 @@ class MX_Loader extends \CI_Loader
 	/** Initialize the loader variables **/
 	public function initialize($controller = null)
 	{
+		if (WEBBY_OUTSIDE == true) {return;}
 		/* set the module name */
 		$this->_module = CI::$APP->router->fetch_module();
 
