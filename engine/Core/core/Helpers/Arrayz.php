@@ -194,7 +194,7 @@ class Arrayz
 		$this->source = arrayfy($this->source);
 
 		if ($search != '') {
-			array_walk_recursive($this->source, function (&$value, &$key) use (&$search) {
+			array_walk_recursive($this->source, function ($value, $key) use (&$search) {
 
 				if (preg_match('/^' . $search . '/', $key)) {
 					$this->intersected[][$key] = $value;
@@ -428,7 +428,7 @@ class Arrayz
 
 		$this->source = arrayfy($this->source);
 
-		array_walk_recursive($this->source, function (&$value, &$key) use (&$option, &$empty_remove) {
+		array_walk_recursive($this->source, function ($value, $key) use (&$option, &$empty_remove) {
 
 			if ($empty_remove) {
 
