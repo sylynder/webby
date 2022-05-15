@@ -10,10 +10,6 @@ defined('COREPATH') or exit('No direct script access allowed');
  *	@author			Kwame Oteng Appiah-Nti
  */
 
-// ------------------------------------------------------------------------
-
-use Base\Helpers\TimeTravel;
-
 /* ------------------------------- Random Code Generation Functions ---------------------------------*/
 
 if ( ! function_exists('unique_code')) 
@@ -895,8 +891,7 @@ if ( ! function_exists('arrayz'))
      */
     function arrayz($array = [])
     {
-        $arrayz = new Base\Helpers\Arrayz($array);
-        return $arrayz;
+        return(new \Base\Helpers\Arrayz($array));
     }
 }
 
@@ -1283,7 +1278,7 @@ if ( ! function_exists('timezone'))
     }
 }
 
-if (!function_exists('datetime')) 
+if ( ! function_exists('datetime')) 
 {
     /**
      * Datetime from DATETIME Constants
@@ -1609,7 +1604,7 @@ if ( ! function_exists('travel'))
      */
     function travel()
     {
-        return (new TimeTravel);
+        return (new \Base\Helpers\TimeTravel);
     }
 }
 
@@ -1734,7 +1729,7 @@ if ( ! function_exists('honeypot'))
     }
 }
 
-if (!function_exists('honey_check')) 
+if ( ! function_exists('honey_check')) 
 {
     /**
      * Checks if the honeypot field 
