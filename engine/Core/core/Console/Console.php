@@ -9,75 +9,36 @@ namespace Base\Console;
 class Console 
 {
 
-    private static $phpCommand = 'php public/index.php ';
+    protected static $phpCommand = 'php public/index.php ';
 
-    private static $rootpath;
+    private static $rootpath = '';
 
-    private static $cliversion;
+    protected static $cliversion = '';
 
-    private static $env;
+    private static $env = '';
 
     private static $removeComposerDev = 'composer --no-dev update';
 
     private static $composerCommand = 'composer ';
 
-    /**
-     * Display console help
-     *
-     * @param array $args
-     * @return void
-     */
-    public static function showHelp($args = []): void
-    {
-        static::$cliversion = static::userConstants()->WEBBY_CLI_VERSION;
-
-        $output =   " \n";
-        $output .=  ConsoleColor::cyan(" Welcome to Webby CLI") . " " . ConsoleColor::green(static::$cliversion) . "\n";
-        $output .=  " \n";
-        $output .=  ConsoleColor::yellow(" Usage:") . " \n";
-        $output .=  ConsoleColor::cyan("    webby [options] [arguments] ") . "\n";
-        $output .=  " \n";
-
-        $output .=  ConsoleColor::green(" All commands start with 'php webby'") . " \n";
-        $output .=  ConsoleColor::green("     --help") .  ConsoleColor::cyan("     Help list for available commands if not specified will show by default")  . " \n";
-        $output .=  ConsoleColor::green("     serve --port") .  ConsoleColor::cyan("     Specify port number to be used to serve application, e.g --port 8080")  . " \n";
-
-        $output .=  " \n";
-        $output .=  ConsoleColor::yellow(" Available Commands:") . " \n";
-        $output .=  ConsoleColor::light_purple("    serve") .  ConsoleColor::cyan("            Serve your application with Webby Server")  . " \n";
-        $output .=  ConsoleColor::light_purple("    migrate") .  ConsoleColor::cyan("          Run all available migration files")  . " \n";
-        $output .=  ConsoleColor::light_purple("    list:routes") .  ConsoleColor::cyan("      List all available routes")  . " \n";
-        $output .=  ConsoleColor::light_purple("    app:off") .  ConsoleColor::cyan("          Turn maintenance mode on")  . " \n";
-        $output .=  ConsoleColor::light_purple("    app:on") .  ConsoleColor::cyan("           Turn maintenance mode off")  . " \n";
-        $output .=  ConsoleColor::light_purple("    resource:link") .  ConsoleColor::cyan("    Create a symlink for the resources folder in public")  . " \n";
-        $output .=  ConsoleColor::light_purple("    use:command") .  ConsoleColor::cyan("      Access console Controllers through cli to perform a cli task")  . " \n";
-        $output .=  ConsoleColor::light_purple("    git:init") .  ConsoleColor::cyan("         Enable your project with git")  . " \n";
-
-        $output .=  " \n";
-        $output .=  ConsoleColor::yellow(" Generator Commands:") . " \n";
-        $output .=  ConsoleColor::light_purple("    key:generate") .  ConsoleColor::cyan("        Generates an encryption key in the .env file")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:module") .  ConsoleColor::cyan("       Create a module by specifying which sub-directories to use e.g --mvc, --c, --m")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:package") .  ConsoleColor::cyan("      Create a package by specifying which sub-directories to use e.g --mvc, --c, --m, --s")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:controller") .  ConsoleColor::cyan("   Create a controller by specifying which module it belongs with")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:model") .  ConsoleColor::cyan("        Create a model by specifying which module it belongs with")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:service") .  ConsoleColor::cyan("      Create a service by specifying which module it belongs with")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:action") .  ConsoleColor::cyan("       Create an action by specifying which module it belongs with")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:library") .  ConsoleColor::cyan("      Create a library by specifying which module it belongs with")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:helper") .  ConsoleColor::cyan("       Create a helper by specifying which module it belongs with")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:form") .  ConsoleColor::cyan("         Create a form by specifying which module it belongs with")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:rule") .  ConsoleColor::cyan("         Create a rule by specifying which module it belongs with")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:middleware") .  ConsoleColor::cyan("   Create a middleware by specifying the name")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:enum") .  ConsoleColor::cyan("         Create an enum by specifying the name and the type e.g. --real, --fake")  . " \n";
-        
-        echo $output . "\n";
-    }
-
     /** 
      * Grab available defined user constants
     */
-    private static function userConstants()
+    protected static function userConstants()
     {
         return (object) get_defined_constants(true)['user'];
+    }
+
+    /**
+     * Webby Cli welcome message
+     *
+     * @return string
+     */
+    protected static function welcome()
+    {
+        static::$cliversion = static::userConstants()->WEBBY_CLI_VERSION;
+
+        return ConsoleColor::cyan("Welcome to Webby CLI") . " " . ConsoleColor::green(static::$cliversion) . "\n";
     }
 
     /**
@@ -90,12 +51,17 @@ class Console
     {
         static::$cliversion = static::userConstants()->WEBBY_CLI_VERSION;
         $output =   " \n";
-        $output .=  ConsoleColor::cyan(" Welcome to Webby CLI " . static::$cliversion . ":") . "\n\n";
-        $output .=  ConsoleColor::white(" Sorry the command is not known", 'light', 'red') . " \n";
+        $output .=  static::welcome() . "\n";
+        $output .=  ConsoleColor::white(" Sorry this command is not known", 'light', 'red') . " \n";
 
         echo $output . "\n";
     }
 
+    /**
+     * Execute cli command
+     *
+     * @return void
+     */
     public static function executeCommand()
     {
         $arguments = func_get_args();
@@ -143,6 +109,38 @@ class Console
 
         switch($arg1)
         {
+            case '--help':
+            case '-h':
+                static::consoleEnv();
+                
+                if (!empty($arg2)) {
+                    \Base\Console\Commands\Help::whichHelp($arg2);
+                    exit;
+                }
+
+                \Base\Console\Commands\Help::runHelp();
+            break;
+            case '--version':
+            case '-v':
+                static::consoleEnv();
+
+                if (!empty($arg2)) {
+                    \Base\Console\Commands\Help::whichHelp($arg2);
+                    exit;
+                }
+
+                \Base\Console\Commands\Help::runHelp();
+            break;
+            case '--env':
+                static::consoleEnv();
+
+                if (!empty($arg2)) {
+                    \Base\Console\Commands\Help::whichHelp($arg2);
+                    exit;
+                }
+
+                \Base\Console\Commands\Help::runHelp();
+            break;
             case 'key:generate':
                 static::consoleEnv();
                 static::runSystemCommand(static::$phpCommand . 'key/prepare');
@@ -681,12 +679,12 @@ class Console
             Console::serve();
         } else if (isset($args[1]) && $args[1] === 'set' && @$args[2] === '--env') {
             Console::setenv();
-        } else if (isset($args[1]) && $args[1] === '--help') {
+        } /*else if (isset($args[1]) && $args[1] === '--help') {
             Console::showHelp();
-        } else if (!empty($args[1])) {
+        }*/ else if (!empty($args[1])) {
             Console::executeCommand($args);
         } else if (!isset($args[1])) {
-            Console::showHelp();
+            \Base\Console\Commands\Help::showHelp();
         } else {
             Console::noCommand();
         }
