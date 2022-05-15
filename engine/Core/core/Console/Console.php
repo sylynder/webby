@@ -40,7 +40,7 @@ class Console
 
         $output .=  ConsoleColor::green(" All commands start with 'php webby'") . " \n";
         $output .=  ConsoleColor::green("     --help") .  ConsoleColor::cyan("     Help list for available commands if not specified will show by default")  . " \n";
-        // $output .=  ConsoleColor::green("     --port") .  ConsoleColor::cyan("     Specify port number to be used to serve application")  . " \n";
+        $output .=  ConsoleColor::green("     serve --port") .  ConsoleColor::cyan("     Specify port number to be used to serve application, e.g --port 8080")  . " \n";
 
         $output .=  " \n";
         $output .=  ConsoleColor::yellow(" Available Commands:") . " \n";
@@ -61,12 +61,13 @@ class Console
         $output .=  ConsoleColor::light_purple("    create:controller") .  ConsoleColor::cyan("   Create a controller by specifying which module it belongs with")  . " \n";
         $output .=  ConsoleColor::light_purple("    create:model") .  ConsoleColor::cyan("        Create a model by specifying which module it belongs with")  . " \n";
         $output .=  ConsoleColor::light_purple("    create:service") .  ConsoleColor::cyan("      Create a service by specifying which module it belongs with")  . " \n";
+        $output .=  ConsoleColor::light_purple("    create:action") .  ConsoleColor::cyan("       Create an action by specifying which module it belongs with")  . " \n";
         $output .=  ConsoleColor::light_purple("    create:library") .  ConsoleColor::cyan("      Create a library by specifying which module it belongs with")  . " \n";
         $output .=  ConsoleColor::light_purple("    create:helper") .  ConsoleColor::cyan("       Create a helper by specifying which module it belongs with")  . " \n";
         $output .=  ConsoleColor::light_purple("    create:form") .  ConsoleColor::cyan("         Create a form by specifying which module it belongs with")  . " \n";
         $output .=  ConsoleColor::light_purple("    create:rule") .  ConsoleColor::cyan("         Create a rule by specifying which module it belongs with")  . " \n";
         $output .=  ConsoleColor::light_purple("    create:middleware") .  ConsoleColor::cyan("   Create a middleware by specifying the name")  . " \n";
-        $output .=  ConsoleColor::light_purple("    create:enum") .  ConsoleColor::cyan("         Create an enum by specifying the name")  . " \n";
+        $output .=  ConsoleColor::light_purple("    create:enum") .  ConsoleColor::cyan("         Create an enum by specifying the name and the type e.g. --real, --fake")  . " \n";
         
         echo $output . "\n";
     }
@@ -213,6 +214,10 @@ class Console
             case 'create:service':
                 static::consoleEnv();
                 static::createService($arg2, $arg3, $arg4);
+            break;
+            case 'create:action':
+                static::consoleEnv();
+                static::createAction($arg2, $arg3, $arg4);
             break;
             case 'create:library':
                 static::consoleEnv();
@@ -390,6 +395,36 @@ class Console
 
         $module = str_replace('=', ':', $module);
         $command = static::$phpCommand . 'create/createservice/' . $module . '/' . $serviceName;
+        static::runSystemCommand($command);
+    }
+
+    protected static function createAction(...$args)
+    {
+        $module = $args[0];
+        $actionName = '';
+
+        $action = str_replace('=', ':', $args[1]);
+        $action = explode(':', $action);
+
+        $actionType = '';
+
+        if ($action[0] !== '--name') {
+            $output =   " \n";
+            $output .=  ConsoleColor::white(" Please check docs for correct syntax to create:action", 'light', 'red') . " \n";
+            echo $output . "\n";
+            exit;
+        }
+
+        if (isset($action[1])) {
+            $actionName = $action[1];
+        }
+
+        if (isset($args[2])) {
+            $actionType = $args[2];
+        }
+
+        $module = str_replace('=', ':', $module);
+        $command = static::$phpCommand . 'create/createaction/' . $module . '/' . $actionName . '/' . $actionType;
         static::runSystemCommand($command);
     }
 

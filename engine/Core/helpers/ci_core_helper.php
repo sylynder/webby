@@ -1045,6 +1045,23 @@ if ( ! function_exists('use_driver'))
     }
 }
 
+if ( ! function_exists('use_action')) 
+{
+    /**
+     * Use an action/actions and instantiate
+     *
+     * @param string|array $action
+     * @return object
+     */
+    function use_action($action)
+    {
+        $action = has_dot($action);
+
+        ci()->load->action($action);
+    }
+}
+
+
 if ( ! function_exists('use_service')) 
 {
     /**

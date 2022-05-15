@@ -56,6 +56,13 @@ class Create extends ConsoleController
     private $view = 'Views';
 
     /**
+     * Actions variable
+     *
+     * @var string
+     */
+    private $action = 'Actions';
+
+    /**
      * Services variable
      *
      * @var string
@@ -272,6 +279,11 @@ class Create extends ConsoleController
             case 'service':
                 return str_replace('{{SERVICE}}', $className, $fileContent);
             break;
+            case 'default_action':
+            case 'crud_action':
+            case 'job_action':
+                return str_replace('{{ACTION}}', $className, $fileContent);
+            break;
             case 'library':
                 return str_replace('{{LIBRARY}}', $className, $fileContent);
             break;
@@ -371,6 +383,10 @@ class Create extends ConsoleController
             static::createServicesDirectory($moduleDirectory);
         }
 
+        if ($with == '--a') {
+            static::createActionsDirectory($moduleDirectory);
+        }
+
         if ($with == '--l') {
             static::createLibrariesDirectory($moduleDirectory);
         }
@@ -396,10 +412,10 @@ class Create extends ConsoleController
             static::createControllersDirectory($moduleDirectory);
         }
 
-        if ($with === '--mvc') {
+        if ($with === '--mca') {
             static::createModelsDirectory($moduleDirectory);
-            static::createViewsDirectory($moduleDirectory);
             static::createControllersDirectory($moduleDirectory);
+            static::createActionsDirectory($moduleDirectory);
         }
 
         if ($with === '--mcs') {
@@ -408,17 +424,24 @@ class Create extends ConsoleController
             static::createServicesDirectory($moduleDirectory);
         }
 
-        if ($with === '--mcsh') {
+        if ($with === '--mcsa') {
             static::createModelsDirectory($moduleDirectory);
             static::createControllersDirectory($moduleDirectory);
             static::createServicesDirectory($moduleDirectory);
-            static::createHelpersDirectory($moduleDirectory);
+            static::createActionsDirectory($moduleDirectory);
+        }
+
+        if ($with === '--mvc') {
+            static::createModelsDirectory($moduleDirectory);
+            static::createViewsDirectory($moduleDirectory);
+            static::createControllersDirectory($moduleDirectory);
         }
 
         if ($with === '--all') {
             static::createModelsDirectory($moduleDirectory);
             static::createControllersDirectory($moduleDirectory);
             static::createServicesDirectory($moduleDirectory);
+            static::createActionsDirectory($moduleDirectory);
             static::createLibrariesDirectory($moduleDirectory);
             static::createHelpersDirectory($moduleDirectory);
             static::createViewsDirectory($moduleDirectory);
@@ -538,6 +561,29 @@ class Create extends ConsoleController
         ($exists)
             ? $this->failureOutput($moduleName . " Services folder exists already ")
             : $this->successOutput($moduleName . " Services folder created successfully ");
+    }
+
+    /**
+     * Create Actions Directory
+     *
+     * @param string $directoryPath
+     * @return void
+     */
+    private function createActionsDirectory($directoryPath)
+    {
+        $actions = $directoryPath . DS . $this->action;
+
+        $exists = file_exists($actions);
+
+        if (!is_dir($actions)) {
+            mkdir($actions, 0775, true) or die("Unable to create a action directory");
+        }
+
+        $moduleName = str_last_word($directoryPath, '/');
+
+        ($exists)
+            ? $this->failureOutput($moduleName . " Actions folder exists already ")
+            : $this->successOutput($moduleName . " Actions folder created successfully ");
     }
 
     /**
@@ -912,6 +958,68 @@ class Create extends ConsoleController
 
         if ($created) {
             $this->successOutput(ucfirst(substr($serviceName, 0, -7)) . " Service created successfully ");
+            return;
+        }
+    }
+
+    /**
+     * Create Action
+     *
+     * @param string $location
+     * @param string $actionName
+     * @param string $actionType
+     * @param string $removeAction
+     * @return void
+     */
+    public function createAction($location = '', $actionName = '', $actionType = '--default', $removeAction = '')
+    {
+
+        $module = explode(':', $location);
+        $moduleName = '';
+        $moduleType = '';
+        $created = '';
+
+        if (isset($module[0])) {
+            $moduleType = $module[0];
+        }
+
+        if (isset($module[1])) {
+            $moduleName = $module[1];
+        }
+
+        $moduleType = str_replace('-', '', $moduleType);
+        $moduleType = ucfirst($moduleType);
+
+        $moduleDirectory = $this->createModuleDirectory($moduleName, $moduleType);
+
+        $exists = file_exists($moduleDirectory);
+
+        if ($exists) {
+            $this->createSubDirectory($moduleDirectory, '--a');
+        }
+
+        $actionDirectory = $moduleDirectory . DS . $this->action;
+        $actionName = ucwords($actionName);
+
+        if ($removeAction == '--remove-action') {
+            $actionName = $actionName;
+        } else {
+            $actionName = Inflector::singularize($actionName) . 'Action';
+        }
+
+        if (file_exists($actionDirectory . DS . $actionName . $this->fileExtention)) {
+            $this->failureOutput(ucfirst($actionName) . " exists already in the " . ucfirst($moduleName) . " module");
+            return;
+        }
+
+        if ($actionDirectory && is_dir($actionDirectory)) {
+            $filePath = $actionDirectory . DS . $actionName;
+            $actionType = str_replace('-', '', $actionType);
+            $created = $this->createFile($filePath, strtolower($actionType . '_') . 'action', $this->action);
+        }
+
+        if ($created) {
+            $this->successOutput(ucfirst(substr($actionName, 0, -6)) . " " . ucfirst($actionType) . " Action created successfully ");
             return;
         }
     }

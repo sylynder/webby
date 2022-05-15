@@ -23,6 +23,22 @@ class Base_Loader extends MX_Loader {
     protected $_ci_service_paths = [];
 
 	/**
+	 * List of loaded actions
+	 *
+	 * @var array
+	 * @access protected
+	 */
+	protected $_webby_actions = [];
+
+	/**
+	 * List of paths to load actions from
+	 *
+	 * @var array
+	 * @access protected
+	 */
+	protected $_webby_action_paths = [];
+
+	/**
      * List of loaded rules
      *
      * @var array
@@ -73,6 +89,7 @@ class Base_Loader extends MX_Loader {
         parent::__construct();
 
         load_class('Service', 'core'); // Load service core class
+		load_class('Action', 'core'); // Load action core class
 
         // $this->_ci_service_paths = [COREPATH];
     }
@@ -130,6 +147,77 @@ class Base_Loader extends MX_Loader {
 	}
 
 	/**
+	 * Action Loader
+	 *
+	 * This function lets users load and instantiate actions.
+	 * It is designed to be called in a module's controllers.
+	 *
+	 *
+	 * @param string $action the name of the class
+	 * @return void
+	 */
+	public function action($action)
+	{
+
+		if (is_array($action)) return $this->actions($action);
+
+		$_action = basename($action);
+
+		if (isset($this->_webby_actions[$_action]) && $_alias = $this->_webby_actions[$_action]) {
+			return $this;
+		}
+
+		if ($action == '' or isset($this->_webby_actions[$_action])) {
+			return false;
+		}
+
+		$subdir = '';
+
+		// Is the action in a sub-folder? If so, parse out the filename and path.
+		if (($last_slash = strrpos($action, '/')) !== false) {
+			// The path is in front of the last slash
+			$subdir = substr($action, 0, $last_slash + 1);
+
+			// And the action name behind it
+			$action = substr($action, $last_slash + 1);
+		}
+
+		// Quick fix for PHP8.1
+		$_alias = $action;
+
+		$action_path = $subdir . $action . PHPEXT;
+
+		list($path, $_action) = Modules::find($action_path, $this->_module, 'Actions/');
+
+		if (!file_exists($path . $_action)) {
+			show_error($_action . ' was not found, Are you sure the action file exists?');
+		}
+
+		Modules::load_file($_action, $path);
+
+		$action = ucfirst($action);
+		CI::$APP->$_alias = new $action;
+
+		$this->_webby_actions[$action] = $_alias;
+
+		return $this;
+	}
+
+	/**
+	 * Load an array of actions
+	 *
+	 * @param array $actions
+	 * @return mixed
+	 */
+	public function actions(array $services)
+	{
+		foreach ($services as $service => $alias) {
+			(is_int($service)) ? $this->service($alias) : $this->service($service, null, $alias);
+		}
+		return $this;
+	}
+
+	/**
 	 * Service Loader
      *
      * This function lets users load and instantiate services.
@@ -141,7 +229,7 @@ class Base_Loader extends MX_Loader {
 	 * @param string $object_name an optional object name
 	 * @return void
 	 */
-	public function service($service, $params = NULL, $object_name = NULL)
+	public function service($service, $params = null, $object_name = null)
 	{
 		
 		if (is_array($service)) return $this->services($service);
@@ -181,14 +269,14 @@ class Base_Loader extends MX_Loader {
 		list($path, $_service) = Modules::find($service_path, $this->_module, 'Services/');
 		
 		// load service config file as params 
-		if ($params == NULL)
+		if ($params == null)
 		{
 			list($path2, $file) = Modules::find($_alias, $this->_module, 'Config/');
 			($path2) && $params = Modules::load_file($file, $path2, 'config');
 		}
 
 		if (!file_exists($path.$_service)) {
-			show_error($_service . 'was not found, Are you sure the service file exists');
+			show_error($_service . ' was not found, Are you sure the service file exists?');
 		}
 
 		Modules::load_file($_service, $path);

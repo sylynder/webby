@@ -1,0 +1,18 @@
+use Base\Actions\CrudAction;
+
+class {{ACTION}} extends CrudAction 
+{
+    // member varibales here
+    
+    public function __construct()
+    {
+        $this->useDatabase(); // enable to use database
+        // load models, libraries, other actions etc here
+    }
+
+    public function model() {}
+
+    // member methods here
+
+}
+/* End of {{ACTION}} file */
