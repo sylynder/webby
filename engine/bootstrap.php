@@ -250,7 +250,10 @@ define('ENGINEPATH', ROOTPATH . 'engine' . DIRECTORY_SEPARATOR);
  * deferentiate the two
  * Please do not relocate this folder
  */
-define('APPROOT', ROOTPATH . 'app/');
+define('APPROOT', ROOTPATH . 'app' . DIRECTORY_SEPARATOR);
+
+// Path to the ThirdParty folder
+define('THIRDPARTYPATH', APPROOT . 'ThirdParty' . DIRECTORY_SEPARATOR);
 
 // Name of the "codeigniter folder"
 define('SYSDIR',
