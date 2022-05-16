@@ -1,8 +1,8 @@
-namespace App\Middlewares;
+namespace App\Middleware;
 
-use Base\Controllers\ApiController;
+use Base\Controllers\WebController;
 
-class {{MIDDLEWARE}} extends ApiController
+class {{MIDDLEWARE}} extends WebController
 {
     public $validate;
 

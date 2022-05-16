@@ -1,12 +1,16 @@
-namespace App\Middlewares;
+namespace App\Middleware;
 
-use Base\Controllers\ConsoleController;
+use Base\Controllers\ApiController;
 
-class {{MIDDLEWARE}} extends ConsoleController
+class {{MIDDLEWARE}} extends ApiController
 {
+    public $validate;
+
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('form_validation');
+        $this->validate = $this->form_validation;
     }
 
     /**

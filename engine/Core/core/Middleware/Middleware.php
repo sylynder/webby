@@ -11,7 +11,7 @@
  * @version 1.0
  */
 
-namespace Base\Middlewares;
+namespace Base\Middleware;
 
 use Base\Controllers\Controller;
 
@@ -69,8 +69,8 @@ class Middleware extends Controller
             $filename = ucfirst(camelize($middlewareName)) . 'Middleware';
 
             if ($runMiddleware == true) {
-                if (file_exists(APPROOT . 'Middlewares/' . $filename . '.php')) {
-                    require APPROOT . 'Middlewares/' . $filename . '.php';
+                if (file_exists(APPROOT . 'Middleware/' . $filename . '.php')) {
+                    require APPROOT . 'Middleware/' . $filename . '.php';
 
                     $ci = &get_instance();
 

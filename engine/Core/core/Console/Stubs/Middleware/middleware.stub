@@ -1,16 +1,12 @@
-namespace App\Middlewares;
+namespace App\Middleware;
 
-use Base\Controllers\WebController;
+use Base\Controllers\Controller;
 
-class {{MIDDLEWARE}} extends WebController
+class {{MIDDLEWARE}} extends Controller
 {
-    public $validate;
-
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('form_validation');
-        $this->validate = $this->form_validation;
     }
 
     /**

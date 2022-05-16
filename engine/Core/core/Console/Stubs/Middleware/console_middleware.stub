@@ -1,8 +1,8 @@
-namespace App\Middlewares;
+namespace App\Middleware;
 
-use Base\Controllers\Controller;
+use Base\Controllers\ConsoleController;
 
-class {{MIDDLEWARE}} extends Controller
+class {{MIDDLEWARE}} extends ConsoleController
 {
     public function __construct()
     {
