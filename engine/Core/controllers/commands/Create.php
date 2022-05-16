@@ -103,7 +103,7 @@ class Create extends ConsoleController
      *
      * @var string
      */
-    private $middleware = 'Middlewares';
+    private $middleware = 'Middleware';
 
     /**
      * Enums variable
@@ -1274,7 +1274,9 @@ class Create extends ConsoleController
             $middlewareName = ucfirst(substr($middlewareName, 0, -10));
         }
 
-        $middlewareName = Inflector::singularize($middlewareName) . 'Middleware';
+        $middlewareName = ($middlewareName == 'Api') 
+            ? ucwords($middlewareName) . 'Middleware'  
+            : Inflector::singularize($middlewareName) . 'Middleware';
 
         if (file_exists($middlewareDirectory . DS . $middlewareName . $this->fileExtention)) {
             $this->failureOutput(ucfirst($middlewareName) . " exists already in the middlewares directory");
