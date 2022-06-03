@@ -36,7 +36,7 @@ class Console
      */
     protected static function welcome()
     {
-        static::$cliversion = static::userConstants()->WEBBY_CLI_VERSION;
+        static::$cliversion = defined('WEBBY_VERSION') ? WEBBY_VERSION : static::userConstants()->WEBBY_CLI_VERSION;
 
         return ConsoleColor::cyan("Welcome to Webby CLI") . " " . ConsoleColor::green(static::$cliversion) . "\n";
     }
@@ -49,7 +49,6 @@ class Console
      */
     public static function noCommand(): void
     {
-        static::$cliversion = static::userConstants()->WEBBY_CLI_VERSION;
         $output =   " \n";
         $output .=  static::welcome() . "\n";
         $output .=  ConsoleColor::white(" Sorry this command is not known", 'light', 'red') . " \n";
