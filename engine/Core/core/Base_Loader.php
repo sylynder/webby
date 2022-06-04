@@ -209,10 +209,10 @@ class Base_Loader extends MX_Loader {
 	 * @param array $actions
 	 * @return mixed
 	 */
-	public function actions(array $services)
+	public function actions(array $actions)
 	{
-		foreach ($services as $service => $alias) {
-			(is_int($service)) ? $this->service($alias) : $this->service($service, null, $alias);
+		foreach ($actions as $action => $alias) {
+			(is_int($action)) ? $this->action($alias) : $this->action($action, null, $alias);
 		}
 		return $this;
 	}
