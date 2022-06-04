@@ -475,6 +475,10 @@ if ( ! function_exists('has_file'))
      */
     function has_file($file)
     {
+        if ($file !== '' && isset($_FILES[$file])) {
+            $file = $_FILES[$file];
+        }
+
         return (empty($file['name']))
             ? false
             : true;
@@ -489,11 +493,15 @@ if ( ! function_exists('is_file_empty'))
      * expects $_FILES as $file
      * 
      * @param string $file
-     * @return boolean
+     * @return bool
      */
     function is_file_empty($file)
     {
-        return (empty($file['name']))
+        if (is_bool($file)) {
+            throw new \Exception('Only $_FILES can be checked');
+        }
+
+        return (empty($file['size']))
             ? true
             : false;
     }
@@ -684,7 +692,7 @@ if ( ! function_exists('old_checkbox'))
      * when returning form validation 
      * with input fields in a session
      *
-     * @param [type] $field
+     * @param string $field
      * @param string $value
      * @param boolean $default
      * @return string
@@ -761,9 +769,16 @@ if ( ! function_exists('use_form_validation'))
      * 
      * @return object
      */
-    function use_form_validation()
+    function use_form_validation($name = null)
     {
+
+        if ($name !== null) {
+            ci()->load->library('form_validation', null, $name);
+            return ci()->{$name};
+        }
+
         ci()->load->library('form_validation');
+
         return ci()->form_validation;
     }
 }
