@@ -91,8 +91,8 @@ class Base_Form_validation extends \CI_Form_validation
       */
      public function set_error_message($message)
      {
-          $this->CI->lang->load('upload');
-          return ($this->CI->lang->line($message) == false) ? $message : $this->CI->lang->line($message);
+          $this->ci->lang->load('upload');
+          return ($this->ci->lang->line($message) == false) ? $message : $this->ci->lang->line($message);
      }
 
      public function _execute($row, $rules, $postdata = null, $cycles = 0)
@@ -114,14 +114,17 @@ class Base_Form_validation extends \CI_Form_validation
                }
 
                // before doing anything check for errors
-
                if ($postdata['error'] !== UPLOAD_ERR_OK) {
-                    // If the error it's 4 (ERR_NO_FILE) and the file required it's deactivated don't call an error
+                    
+                    // If the error it's 4 (ERR_NO_FILE) and the 
+                    // file required it's deactivated don't call an error
                     if ($postdata['error'] != UPLOAD_ERR_NO_FILE) {
+                         
                          $this->_error_array[$row['field']] = $this->file_upload_error_message($row['label'], $postdata['error']);
                          $this->_field_data[$row['field']]['error'] = $this->file_upload_error_message($row['label'], $postdata['error']);
 
                          return false;
+
                     } elseif ($postdata['error'] == UPLOAD_ERR_NO_FILE and in_array('file_required', $rules)) {
                          $this->_error_array[$row['field']] = $this->file_upload_error_message($row['label'], $postdata['error']);
                          $this->_field_data[$row['field']]['error'] = $this->file_upload_error_message($row['label'], $postdata['error']);
@@ -172,12 +175,12 @@ class Base_Form_validation extends \CI_Form_validation
                     // Call the function that corresponds to the rule
                     if ($callback or $callable) {
                          if ($callback) {
-                              if (! method_exists($this->CI, $rule)) {
+                              if (! method_exists($this->ci, $rule)) {
                                    log_message('debug', 'Unable to find callback validation rule: ' . $rule);
                                    $result = false;
                               } else {
                                    // Run the function and grab the result
-                                   $result = $this->CI->$rule($postdata, $param);
+                                   $result = $this->ci->$rule($postdata, $param);
                               }
                          } else {
                               $result = is_array($rule)
@@ -223,37 +226,51 @@ class Base_Form_validation extends \CI_Form_validation
                     }
 
                     // Did the rule test negatively?  If so, grab the error.
+                    $line = '';
+                    
                     if ($result === false) {
-                         // Check if a custom message is defined
-                         if (isset($this->_field_data[$row['field']]['errors'][$rule])) {
-                              $line = $this->_field_data[$row['field']]['errors'][$rule];
-                         } elseif (!isset($this->_error_messages[$rule])) {
-                              if (
-                                   false === ($line = $this->CI->lang->line('form_validation_' . $rule))
-                                   // DEPRECATED support for non-prefixed keys
-                                   && false === ($line = $this->CI->lang->line($rule, false))
-                              ) {
+
+                         if (!isset($this->_error_messages[$rule])) {
+
+                              if (false === ($line = $this->ci->lang->line($rule))) {
                                    $line = 'Unable to access an error message corresponding to your field name.';
                               }
+
                          } else {
                               $line = $this->_error_messages[$rule];
                          }
 
+                         // Check if a custom message is defined
+                         if (isset($this->_field_data[$row['field']]['errors'][$rule])) {
+                              $line = $this->_field_data[$row['field']]['errors'][$rule];
+                         }
+
                          // Is the parameter we are inserting into the error message the name
-                         // of another field? If so we need to grab its "field label"
-                         if (isset($this->_field_data[$param], $this->_field_data[$param]['label'])) {
-                              $param = $this->_translate_fieldname($this->_field_data[$param]['label']);
+                         // of another field?  If so we need to grab its "field label"
+                         if (isset($this->_field_data[$param]) and isset($this->_field_data[$param]['label'])) {
+                              $param = $this->_field_data[$param]['label'];
                          }
 
                          // Build the error message
-                         $message = $this->_build_error_msg($line, $this->_translate_fieldname($row['label']), $param);
+                         $message = sprintf($line, $this->_translate_fieldname($row['label']), $param);
+
+                         if (strpos($message, '{field}') !== false) {
+                              $message = str_replace('{field}', $row['label'], $message);
+                         }
+
+                         if (strpos($message, '{param}') !== false) {
+                              $message = str_replace('{param}', $param, $message);
+                         }
 
                          // Save the error message
-                         $this->_field_data[$row['field']]['error'][] = $message;
+                         $this->_field_data[$row['field']]['error'] = $message;
 
-                         $this->_error_array[$row['field']][] = $message;
+                         if (!isset($this->_error_array[$row['field']])) {
+                              $this->_error_array[$row['field']] = $message;
+                         }
                     }
                }
+
           } else {
                log_message('debug', 'Called parent::_execute');
                parent::_execute($row, $rules, $postdata, $cycles);
@@ -273,28 +290,28 @@ class Base_Form_validation extends \CI_Form_validation
 
           switch ($error_code) {
                case UPLOAD_ERR_INI_SIZE:
-                    $message = $this->CI->lang->line('error_max_filesize_phpini');
+                    $message = $this->ci->lang->line('error_max_filesize_phpini');
                     break;
                case UPLOAD_ERR_FORM_SIZE:
-                    $message = $this->CI->lang->line('error_max_filesize_form');
+                    $message = $this->ci->lang->line('error_max_filesize_form');
                     break;
                case UPLOAD_ERR_PARTIAL:
-                    $message = $this->CI->lang->line('error_partial_upload');
+                    $message = $this->ci->lang->line('error_partial_upload');
                     break;
                case UPLOAD_ERR_NO_FILE:
-                    $message = $this->CI->lang->line('file_required');
+                    $message = $this->ci->lang->line('file_required');
                     break;
                case UPLOAD_ERR_NO_TMP_DIR:
-                    $message = $this->CI->lang->line('error_temp_dir');
+                    $message = $this->ci->lang->line('error_temp_dir');
                     break;
                case UPLOAD_ERR_CANT_WRITE:
-                    $message = $this->CI->lang->line('error_disk_write');
+                    $message = $this->ci->lang->line('error_disk_write');
                     break;
                case UPLOAD_ERR_EXTENSION:
-                    $message = $this->CI->lang->line('error_stopped');
+                    $message = $this->ci->lang->line('error_stopped');
                     break;
                default:
-                    return $this->_build_error_msg($this->CI->lang->line('error_unexpected'), $this->_translate_fieldname($field), $param) . $error_code;
+                    return $this->_build_error_msg($this->ci->lang->line('error_unexpected'), $this->_translate_fieldname($field), $param) . $error_code;
           }
 
           return $this->_build_error_msg($message, $this->_translate_fieldname($field), $param);
