@@ -48,7 +48,7 @@ class Arrayz
 	 * @var string
 	 */
 	private $cachePath = 'arrayz';
-	
+
 	/**
 	 * Arrayz cache item name
 	 *
@@ -116,10 +116,9 @@ class Arrayz
 
 			$data = $this->cache->getCacheItem($item);
 
-			$data = is_object($data) ? arrayfy($data): $data;
+			$data = is_object($data) ? arrayfy($data) : $data;
 
 			$this->source = $data;
-			
 		}
 
 		return $this;
@@ -141,7 +140,6 @@ class Arrayz
 		$this->cache->setCacheItem($this->cacheItem, $data);
 
 		return $this;
-
 	}
 
 	/**
@@ -155,7 +153,6 @@ class Arrayz
 		$this->cache->setCachePath($this->cachePath);
 
 		return $this->cache->isCached($item);
-		
 	}
 
 	/**
@@ -182,10 +179,10 @@ class Arrayz
 	}
 
 	/**
-	* Match and return the array. supports regex
-	* 
-	* @return Base\Helpers\Arrayz
-	*/
+	 * Match and return the array. supports regex
+	 * 
+	 * @return Base\Helpers\Arrayz
+	 */
 	public function pluck()
 	{
 		$arguments = func_get_args();
@@ -231,6 +228,8 @@ class Arrayz
 			$searchValue = $arguments[1];
 		}
 
+		$this->source = arrayfy($this->source);
+		
 		$option = array_filter($this->source, function ($src) use ($searchKey, $searchValue, $operator) {
 			return $this->operatorCheck($src[$searchKey], $operator, $searchValue);
 		}, ARRAY_FILTER_USE_BOTH);
@@ -285,6 +284,8 @@ class Arrayz
 			$searchValue = '%%empty%%';
 		}
 
+		$this->source = arrayfy($this->source);
+		
 		$option = array_filter($this->source, function ($value) use ($searchValue) {
 			return $this->filterArray($searchValue, $value);
 		});
@@ -335,6 +336,8 @@ class Arrayz
 			$searchValue = $arguments[1];
 		}
 
+		$this->source = arrayfy($this->source);
+		
 		foreach ($this->source as $key => $value) {
 			if (
 				@array_key_exists($searchKey, $value)
@@ -458,6 +461,8 @@ class Arrayz
 		$offset = !empty($arguments[1]) ? $arguments[1] : 0;
 		$option = [];
 
+		$this->source = arrayfy($this->source);
+		
 		$count = count($this->source);
 
 		if ($limit > $count) {
@@ -503,8 +508,11 @@ class Arrayz
 		$select = explode(",", $select);
 
 		$count = 0;
+		
+		$this->source = arrayfy($this->source);
+		
 		foreach ($this->source as $key => $value) {
-			
+
 			foreach ($value as $item => $string) {
 
 				if (in_array($item, $select)) {
@@ -532,7 +540,7 @@ class Arrayz
 		$arguments = func_get_args();
 		$groupBy = $arguments[0];
 		$option = [];
-		
+
 		$this->source = arrayfy($this->source);
 
 		foreach ($this->source as $data) {
@@ -635,7 +643,6 @@ class Arrayz
 				json_encode($this->source)
 			);
 		}
-
 	}
 
 	/**
@@ -727,6 +734,8 @@ class Arrayz
 			$searchValue = $arguments[1];
 		}
 
+		$this->source = arrayfy($this->source);
+		
 		foreach ($this->source as $key => $value) {
 			if (@array_key_exists($searchKey, $value) && @!in_array($value[$searchKey], $searchValue)) {
 				$option[] = $value;
@@ -747,7 +756,7 @@ class Arrayz
 		$arguments = func_get_args();
 
 		$this->source = arrayfy($this->source);
-		
+
 		$array = $this->source;
 		$searchKey = $arguments[0];
 
@@ -792,6 +801,8 @@ class Arrayz
 
 		$key = $arguments[0];
 
+		$this->source = arrayfy($this->source);
+		
 		$this->select($key);
 		$this->source = array_sum($this->source);
 
