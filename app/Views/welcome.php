@@ -142,8 +142,7 @@
                                 </h1>
 
                                 <p class="text-gray-500 dark:text-gray-600">
-                                    🐘 A collection of PHP resources to enable beginners gain clear understanding on how PHP can be written and used to
-                                    develop real word applications without complexities.
+                                    🐘 A Community for PHP developers, especially beginners to learn and know more about the PHP programming language and also presents guidance to develop real word applications without complexities.
                                 </p>
 
                             </div>
@@ -161,7 +160,7 @@
                                 </h1>
 
                                 <p class="text-gray-500 dark:text-gray-600">
-                                    A resource to know about what is going on in the webby development world in the form of tutorials and news.
+                                    A resource to know about what happens in the webby development labs in the form of tutorials, blogs and news.
                                 </p>
 
                             </div>
@@ -180,7 +179,7 @@
                     </div>
 
                     <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-                        <?php echo (ENVIRONMENT === 'development') ?  'Webby <strong>' . WEBBY_VERSION . ' (PHP v' . phpversion() . ')</strong>' : '' ?>
+                        <?php echo (ENVIRONMENT === 'development') ?  'Webby <strong>v' . WEBBY_VERSION . ' (PHP v' . phpversion() . ')</strong>' : '' ?>
                     </div>
                 </div>
             </div>
