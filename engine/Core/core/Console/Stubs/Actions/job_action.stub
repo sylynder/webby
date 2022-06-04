@@ -12,4 +12,4 @@ class {{ACTION}} extends JobAction
     // member methods here
 
 }
-/* End of {{ACTION}} file */
+/* End of  Job {{ACTION}} file */

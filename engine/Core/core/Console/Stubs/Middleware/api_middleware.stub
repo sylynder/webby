@@ -9,8 +9,7 @@ class {{MIDDLEWARE}} extends ApiController
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('form_validation');
-        $this->validate = $this->form_validation;
+        $this->validate = use_form_validation();
     }
 
     /**

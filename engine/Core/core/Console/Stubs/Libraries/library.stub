@@ -1,7 +1,7 @@
 class {{LIBRARY}} 
 {
     // member varibales here
-    public $somevariahle;
+    public $someVariable;
 
     // member methods here
     public function somefunction() 
