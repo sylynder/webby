@@ -174,6 +174,21 @@ if ( ! function_exists('service')) {
             return ci()->{$class_name};
         }
 
+        if (is_object($class) && !empty($alias)) {
+            class_alias(get_class($class), $alias);
+            return new $alias;
+        }
+
+        if (is_object(new $class()) && !empty($alias)) {
+            $class = new $class($params);
+            class_alias(get_class($class), $alias);
+            return new $alias;
+        }
+
+        if (is_object(new $class())) {
+            return new $class;
+        }
+
         (!empty($alias)) ? use_service($class_name, $alias) : use_service($class_name);
 
         return (!empty($alias)) ? ci()->{$alias} : ci()->{$class_name};
