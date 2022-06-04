@@ -1054,6 +1054,18 @@ class Route
 	}
 
 	/**
+	 * Group Module routes
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * 
+	 */
+	public static function module($name, Closure $callable = null)
+	{
+		static::prefix($name, $callable);
+	}
+
+	/**
 	 * Set a name for defined route
 	 * 
 	 * @param string $name
