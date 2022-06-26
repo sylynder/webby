@@ -148,7 +148,8 @@ class Base_URI extends \CI_URI
 
 			http_response_code(503); // Set response code
 			header('Retry-After: 3600'); // Set retry time
-			include_once(APP_MAINTENANCE_PATH . $maintenance_view. PHPEXT);
+			include_once(APP_MAINTENANCE_PATH . $maintenance_view);
+
 			exit;
 		} 
 	}

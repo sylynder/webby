@@ -128,7 +128,7 @@ define('APP_ON', "true");
 define('APP_MAINTENANCE_PATH', ROOTPATH . 'writable/maintenance/');
 
 // Set Maintenance Mode View
-define('APP_MAINTENANCE_VIEW', 'maintenance');
+define('APP_MAINTENANCE_VIEW', 'maintenance.php');
 
 /*
 |--------------------------------------------------------------------------
@@ -311,7 +311,7 @@ define('TODAY', date('Y-m-d')); // today()
  */
 
 define('PHPEXT', '.php');
-define('BREAK', '<br/>');
+define('BREAKLINE', '<br/>');
 define('ADD_S', 's');
 define('DOT', '.');
 define('AT', '@');
