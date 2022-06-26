@@ -150,6 +150,7 @@ class Plates
 		'include',
 		'partial',
 		'section',
+		'component',
 		'extends',
 		'yield',
 		'show',
@@ -503,7 +504,7 @@ class Plates
 
 		ob_start();
 
-		$template = $this->replaceExecs($template);
+		$template = $this->replaceBlacklisted($template);
 
 		eval(' ?>' . $template . '<?php ');
 
@@ -514,24 +515,27 @@ class Plates
 		return $content;
 	}
 
-	private function replaceExecs($template)
+	private function replaceBlacklisted($template)
 	{
-		$execs = [
-			'phpinfo(',
-			'escapeshellarg(',
-			'escapeshellcmd(',
-			'exec(',
-			'passthru(',
-			'proc_close(',
-			'proc_get_status(',
-			'proc_nice(',
-			'proc_open(',
-			'proc_terminate(',
-			'shell_exec(',
-			'system(',
+		$blacklists = [
+			'exec(', 'shell_exec(', 'pcntl_exec(', 'passthru(', 'proc_open(', 'system(',
+			'posix_kill(', 'posix_setsid(', 'pcntl_fork(', 'posix_uname(', 'php_uname(',
+			'phpinfo(', 'popen(', 'file_get_contents(', 'file_put_contents(', 'rmdir(',
+			'mkdir(', 'unlink(', 'highlight_contents(', 'symlink(',
+			'apache_child_terminate(', 'apache_setenv(', 'define_syslog_variables(',
+			'escapeshellarg(', 'escapeshellcmd(', 'eval(', 'fp(', 'fput(',
+			'ftp_connect(', 'ftp_exec(', 'ftp_get(', 'ftp_login(', 'ftp_nb_fput(',
+			'ftp_put(', 'ftp_raw(', 'ftp_rawlist(', 'highlight_file(', 'ini_alter(',
+			'ini_get_all(', 'ini_restore(', 'inject_code(', 'mysql_pconnect(',
+			'openlog(', 'passthru(', 'php_uname(', 'phpAds_remoteInfo(',
+			'phpAds_XmlRpc(', 'phpAds_xmlrpcDecode(', 'phpAds_xmlrpcEncode(',
+			'posix_getpwuid(', 'posix_kill(', 'posix_mkfifo(', 'posix_setpgid(',
+			'posix_setsid(', 'posix_setuid(', 'posix_uname(', 'proc_close(',
+			'proc_get_status(', 'proc_nice(', 'proc_open(', 'proc_terminate(',
+			'syslog(', 'xmlrpc_entity_decode('
 		];
-		
-		return str_replace($execs, '', $template);
+
+		return str_replace($blacklists, '', $template);
 	}
 
 	// --------------------------------------------------------------------------
@@ -592,6 +596,23 @@ class Plates
 	 *  @return   string
 	 */
 	protected function section($template, $data = null)
+	{
+		$data = isset($data) ? array_merge($this->plateData, $data) : $this->plateData;
+
+		//	Compile and execute the template
+		return $this->run($this->compile($template), $data);
+	}
+
+	/**
+	 *  Gets the content of a template to use inside the current template
+	 * 	This stands in as just a name to use to set contents as components
+	 *  It will inherit all the Global data
+	 *
+	 *  @param    string   $template
+	 *  @param    array    $data
+	 *  @return   string
+	 */
+	protected function component($template, $data = null)
 	{
 		$data = isset($data) ? array_merge($this->plateData, $data) : $this->plateData;
 
@@ -1139,6 +1160,18 @@ class Plates
 		return preg_replace($pattern, '$1<?php echo $this->section$2; ?>', $content);
 	}
 
+	/**
+	 *  Rewrites Plates @component statement into valid PHP
+	 *
+	 *  @param    string   $content
+	 *  @return   string
+	 */
+	protected function compile_component($content)
+	{
+		$pattern = '/(\s*)@section(\s*\(.*\))/';
+
+		return preg_replace($pattern, '$1<?php echo $this->component$2; ?>', $content);
+	}
 	// --------------------------------------------------------------------------
 
 	/**
