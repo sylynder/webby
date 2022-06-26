@@ -104,10 +104,10 @@
 	<p class="w-p error-hover"><span class="w-title">Type:</span> <?php echo get_class($exception); ?></p>
 	<p class="w-p error-hover"><span class="w-title">Message:</span> <span class="w-message"><?php echo $message; ?></span></p>
 
-	<?php if (strpos($exception->getFile(), "eval()'d code") !== false) : ?>
-		<p class="w-p"><span class="w-title error-hover">Error Location:</span><span class="w-message"><?php echo "Can possibly be from the current {View}, found in the current Controller: {" . ucwords($GLOBALS['class']) . "} inside the {" . ucwords($GLOBALS['method']) . "()} method." ?></span></p>
+	<?php if ($evaluated) : ?>
+		<p class="w-p"><span class="w-title">Current Controller: </span><span class="w-message"><?php echo " from the " . ucwords($GLOBALS['class']) . ".php file located at: </span>  <span style='color:red; font-weight:bold;'><code>" . rtrim($location, '/') . "</code></span> </span></p>" ?>
+		<p class="w-p"><span class="w-title">Error Location: </span><span class="w-message"><?php echo "found on line number: <span style='color:red; font-weight:bold;'><code>" . $line . "<code></span> in the <span style='color:red; font-weight:bold;'><code> view file </code></span> returned in the <span style='color:red; font-weight:bold;'><code>" .  strtolower($GLOBALS['method']) . "()</code></span> method  </span></p>" ?>
 	<?php else : ?>
-
 		<p class="w-p error-hover"><span class="w-title error-hover">Filename:</span><span class="w-message"><?php echo $exception->getFile(); ?></span></p>
 		<p class="w-p error-hover w-mark"><span class="w-title error-hover"> MarkLine Number:</span> <span class="w-digit"><?php echo $exception->getLine(); ?></span></p>
 
