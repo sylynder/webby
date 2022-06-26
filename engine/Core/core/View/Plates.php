@@ -364,11 +364,86 @@ class Plates
 		//	Compile and execute the template
 		$content = $this->run($this->compile($template), $this->plateData);
 
+		if (config_item('compress_content')) {
+			$content = $this->minifyHtml($content);
+		}
+
 		if (!$return) {
 			$this->ci->output->append_output($content);
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Minify compiled html
+	 *
+	 * @param string $text
+	 * @param bool $removeComments
+	 * @return void
+	 */
+	protected function minifyHtml($text, $removeComments = true)
+	{
+		$key = md5(mt_rand()) . '-';
+
+		// processing pre tag (saving its contents)
+		$preCount = preg_match_all('|(<pre[^>]*>.*?</pre>)|is', $text, $preMatches);
+		for ($i = 0; $i < $preCount; $i++) $text = str_replace($preMatches[0][$i], '<PRE|' . $i . '|' . $key . '>', $text);
+
+		// processing code tag
+		$codeCount = preg_match_all('|(<code[^>]*>.*?</code>)|is', $text, $codeMatches);
+		for ($i = 0; $i < $codeCount; $i++) $text = str_replace($codeMatches[0][$i], '<CODE|' . $i . '|' . $key . '>', $text);
+
+		// processing script tag
+		$scriptCount = preg_match_all('|(<script[^>]*>.*?</script>)|is', $text, $scriptMatches);
+		for ($i = 0; $i < $scriptCount; $i++) $text = str_replace($scriptMatches[0][$i], '<SCRIPT|' . $i . '|' . $key . '>', $text);
+
+		// processing textarea tag
+		$textareaCount = preg_match_all('|(<textarea[^>]*>.*?</textarea>)|is', $text, $textareaMatches);
+		for ($i = 0; $i < $textareaCount; $i++) $text = str_replace($textareaMatches[0][$i], '<TEXTAREA|' . $i . '|' . $key . '>', $text);
+
+		// processing comments if they not to be removed
+		if (!$removeComments) {
+			$commentCount = preg_match_all('|(<!--.*?-->)|s', $text, $commentMatches);
+			for ($i = 0; $i < $commentCount; $i++) $text = str_replace($commentMatches[0][$i], '<COMMENT|' . $i . '|' . $key . '>', $text);
+		}
+
+		// removing comments if need
+		if ($removeComments) {
+			$text = preg_replace('|(<!--.*?-->)|s', '', $text);
+		}
+
+		// replacing html entities
+		$text = preg_replace('|&nbsp;|', ' ', $text); // replacing with non-breaking space (symbol 160 in Unicode)
+		$text = preg_replace('|&mdash;|', '—', $text);
+		$text = preg_replace('|&ndash;|', '–', $text);
+		$text = preg_replace('|&laquo;|', '«', $text);
+		$text = preg_replace('|&raquo;|', '»', $text);
+		$text = preg_replace('|&bdquo;|', '„', $text);
+		$text = preg_replace('|&ldquo;|', '“', $text);
+
+		$text = preg_replace('|(</?\w+[^>]+?)\s+(/?>)|s', '$1$2', $text); // removing all contunous spaces
+
+		while (preg_match('|<(/?\w+[^>]+/?)>\s+<(/?\w+?)|s', $text)) {
+			$text = preg_replace('|<(/?\w+[^>]+/?)>\s+<(/?\w+?)|s', '<$1><$2', $text); // removing all spaces and newlines between tags
+		}
+
+		$text = preg_replace('|\s\s+|s', ' ', $text); // removing all contunous spaces
+
+		// restoring processed comments
+		if (!$removeComments) {
+			for ($i = 0; $i < $commentCount; $i++) $text = str_replace('<COMMENT|' . $i . '|' . $key . '>', $commentMatches[0][$i], $text);
+		}
+		// restoring textarea tag
+		for ($i = 0; $i < $textareaCount; $i++) $text = str_replace('<TEXTAREA|' . $i . '|' . $key . '>', $textareaMatches[0][$i], $text);
+		// restoring script tag
+		for ($i = 0; $i < $scriptCount; $i++) $text = str_replace('<SCRIPT|' . $i . '|' . $key . '>', $scriptMatches[0][$i], $text);
+		// restoring code tag
+		for ($i = 0; $i < $codeCount; $i++) $text = str_replace('<CODE|' . $i . '|' . $key . '>', $codeMatches[0][$i], $text);
+		// restoring pre tag
+		for ($i = 0; $i < $preCount; $i++) $text = str_replace('<PRE|' . $i . '|' . $key . '>', $preMatches[0][$i], $text);
+
+		return $text;
 	}
 
 	// --------------------------------------------------------------------------
@@ -1168,7 +1243,7 @@ class Plates
 	 */
 	protected function compile_component($content)
 	{
-		$pattern = '/(\s*)@section(\s*\(.*\))/';
+		$pattern = '/(\s*)@component(\s*\(.*\))/';
 
 		return preg_replace($pattern, '$1<?php echo $this->component$2; ?>', $content);
 	}
