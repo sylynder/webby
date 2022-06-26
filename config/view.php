@@ -14,6 +14,34 @@ $config['view'] = [
     
     /*
     |--------------------------------------------------------------------------
+    | Route Views
+    |--------------------------------------------------------------------------
+    |
+    | Here you specify and implement how route views
+    | can be accessed directly through Route::view(). 
+    |
+    | You will have to implement a method in a dedicated
+    | Controller, preferably the Web/App/AppController class
+    |
+    |   public function show($view = '')
+    |   {
+    |       return view($view);
+    |   }
+    |
+    | 'route_views_through' => 'Module/Controller/MethodName/',
+    |
+    | e.g. 'route_views_through' => 'App/App/show/',
+    |
+    | Anytime you use Route::view('a-view-name')
+    | It will be routed using the name of the view as it's route
+    | 
+    | Note: always end specified path with a trailing slash
+    |
+    */
+    'route_views_through' => '',
+
+    /*
+    |--------------------------------------------------------------------------
     | View Path
     |--------------------------------------------------------------------------
     |

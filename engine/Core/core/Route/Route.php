@@ -147,6 +147,16 @@ class Route
 	// --------------------------- Utility functions ----------------------------------
 
 	/**
+	 * Get path to display Route:view()
+	 *
+	 * @return string
+	 */
+	private static function routeView()
+	{
+		return $GLOBALS['CFG']->config['view']['route_views_through'];
+	}
+
+	/**
 	 * Replace dot to slash
 	 *
 	 * @param string $string
@@ -667,6 +677,18 @@ class Route
 	}
 
 	/**
+	 * Simple route to get views
+	 * from the Views folder
+	 *
+	 * @param  $name  view name to use as route
+	 * @return void
+	 */
+	public static function view($name = '')
+	{
+		static::any($name, static::routeView().$name);
+	}
+
+	/**
 	 * Web Resource method
 	 * Creates resource routes
 	 *
@@ -716,19 +738,6 @@ class Route
 	public static function web($name, $hasController = true)
 	{
 		static::webResource($name, $hasController);
-	}
-
-	/**
-	 * Simple route to get views
-	 * from module/controller
-	 *
-	 * @param  $name route name to use
-	 * @param [type] $route module/controller path
-	 * @return void
-	 */
-	public static function view($name, $route)
-	{
-		static::any($name, $route);
 	}
 
 	/**
@@ -869,7 +878,7 @@ class Route
 	 * @param string $signature
 	 * @return void
 	 */
-	public static function http($route, $httpMethod, $signature)
+	public static function http($httpMethod, $route, $signature)
 	{
 		static::setRouteHttpMethod($route, $httpMethod, $signature);
 	}
