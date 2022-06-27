@@ -196,52 +196,54 @@ if ( ! function_exists('service')) {
     }
 }
 
-if ( ! function_exists('env'))
+if ( ! function_exists('env')) 
 {
-	/**
-	 * Allows user to retrieve values from the environment
-	 * variables that have been set. Especially useful for
-	 * retrieving values set from the .env file for
-	 * use in config files.
-	 *
-	 * @param string $key
-	 * @param null   $default
-	 *
-	 * @return mixed
-	 */
-	function env(string $key, $default = null)
-	{
-		$value = getenv($key);
-		if ($value === false)
-		{
-			$value = $_ENV[$key] ?? $_SERVER[$key] ?? false;
-		}
+    /**
+     * Allows user to retrieve values from the environment
+     * variables that have been set. Especially useful for
+     * retrieving values set from the .env file for
+     * use in config files.
+     *
+     * @param string $key
+     * @param null   $default
+     *
+     * @return mixed
+     */
+    function env(string $key, $default = null, $set = false)
+    {
+        $value = getenv($key);
+        if ($value === false) {
+            $value = $_ENV[$key] ?? $_SERVER[$key] ?? false;
+        }
 
-		// Not found? Return the default value
-		if ($value === false)
-		{
-			return $default;
-		}
+        // Not found? Return the default value
+        if ($value === false && $set === false) {
+            return $default;
+        }
+
+        // Not found? Then set to $_ENV
+        if ($value === false && $set === true) {
+            $value = $_ENV[$key] = $default;
+        }
 
         $env = new DotEnv(ROOTPATH);
 
         $value = $env->prepareVariable($value);
 
-		// Handle any boolean values
-		switch (strtolower($value))
-		{
-			case 'true':
-				return true;
-			case 'false':
-				return false;
-			case 'empty':
-				return '';
-			case 'null':
-				return null;
-		}
+        // Handle any boolean values
+        switch (strtolower($value)) {
+            case 'true':
+                return true;
+            case 'false':
+                return false;
+            case 'empty':
+                return '';
+            case 'null':
+                return null;
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }
 
 /* ------------------------------- Uri Functions ---------------------------------*/
