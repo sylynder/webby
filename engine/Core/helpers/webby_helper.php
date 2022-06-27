@@ -1189,9 +1189,13 @@ if ( ! function_exists('arrayfy'))
     function arrayfy($object)
     {
 
-        if ($object) {
+        if (is_object($object)) {
             $json = json_encode($object);
             return json_decode($json, true);
+        }
+
+        if (is_array($object)) {
+            return $object;
         }
 
         throw new \Exception("Parameter must be an object or supporting type", 1);
