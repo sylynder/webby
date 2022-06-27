@@ -16,6 +16,13 @@ class Cache extends \Base_Output
      */
     public $expireAfter = 1800;
 
+    public $serializeWith = 'serialize';
+
+    private const JSON = 'json';
+    private const IGBINARY = 'igbinary';
+    private const SERIALIZE = 'serialize';
+
+    public $cacheExtension = '.cache';
 
     public function __construct()
     {
@@ -28,14 +35,14 @@ class Cache extends \Base_Output
 
     // Credit https://github.com/colettesnow/Simple-Cache-for-CodeIgniter
 
-	/**
-	 * Caches an item which can be retrieved by key
-	 *
-	 * @param string $key identitifer to retrieve the data later
-	 * @param mixed $value to be cached
-	 */
+    /**
+     * Caches an item which can be retrieved by key
+     *
+     * @param string $key identitifer to retrieve the data later
+     * @param mixed $value to be cached
+     */
     public function cacheItem($key, $value = null)
-	{
+    {
         if (is_string($key) && $value !== null) {
             $this->setCacheItem($key, $value);
             return true;
@@ -46,7 +53,7 @@ class Cache extends \Base_Output
         }
         
         return null;
-	}   
+    }   
 
     /**
      * Set Custom Path
@@ -69,27 +76,27 @@ class Cache extends \Base_Output
         return $this;
     }
 
-	/**
-	 * Check's whether an item is cached or not
-	 *
-	 * @param string $key containing the identifier of the cached item
-	 * @return bool whether the item is currently cached or not
-	 */
-	public function isCached($key)
-	{
-		$key = sha1($key);
+    /**
+     * Check's whether an item is cached or not
+     *
+     * @param string $key containing the identifier of the cached item
+     * @return bool whether the item is currently cached or not
+     */
+    public function isCached($key)
+    {
+        $key = sha1($key);
 
         $this->setCachePath(); // Set the correct cache path
 
         $cachePath = $this->filesCachePath();
         
         // checks if the cached item exists and that it has not expired.
-        $fileExpires = file_exists($cachePath .$key. '.cache') 
-                            ? (filectime($cachePath .$key. '.cache') + $this->expireAfter)
+        $fileExpires = file_exists($cachePath .$key. $this->cacheExtension) 
+                            ? (filectime($cachePath .$key. $this->cacheExtension) + $this->expireAfter)
                             : (time() - 10);
 
         return ($fileExpires >= time()) ? true : false;
-	}
+    }
 
     public function setCacheItem($key, $value)
     {
@@ -101,58 +108,87 @@ class Cache extends \Base_Output
         // is stored with an appropriate file name in the file system.
         $key = sha1($key);
 
-        // serializes the contents so that they can be stored in plain text
-        $value = serialize($value);
+        // serializes or compress the contents so that they can 
+        // be stored in plain text
+        if ($this->serializeWith === self::JSON) {
+            $value = json_encode($value);
+        }
 
+        if (
+            $this->serializeWith === self::IGBINARY
+            && function_exists('igbinary_serialize')
+        ) {
+            $value = \igbinary_serialize($value);
+        }
+
+        if ($this->serializeWith === self::SERIALIZE) {
+            $value = serialize($value);
+        }
+        
         try { 
-            file_put_contents($cachePath . $key . '.cache', $value);
+            file_put_contents($cachePath . $key . $this->cacheExtension, $value);
         } catch(\Exception $e) {
             log_message('error', $e->message);
         }
 
     }
 
-	/**
-	 * Retrieve's the cached item
-	 *
-	 * @param string $key containing the identifier of the item to retrieve
-	 * @return mixed the cached item or items
-	 */
+    /**
+     * Retrieve's the cached item
+     *
+     * @param string $key containing the identifier of the item to retrieve
+     * @return mixed the cached item or items
+     */
     public function getCacheItem($key)
-	{
+    {
         $this->setCachePath(); // Set the correct cache path
 
         $cachePath = $this->filesCachePath();
 
-		$key = sha1($key);
+        $key = sha1($key);
 
-        $exists = file_exists($cachePath . $key . '.cache');
+        $exists = file_exists($cachePath . $key . $this->cacheExtension);
 
         if (!$exists) {
             return false;
         }
 
-		$item = file_get_contents($cachePath .$key. '.cache');
-		$items = unserialize($item);
+        $items = file_get_contents($cachePath .$key. $this->cacheExtension);
 
-		return $items;
-	}
+        // unserializes or uncompress the contents so that they can
+        // be read in array or object
+        if ($this->serializeWith === self::JSON) {
+            $items = json_decode($items);
+        }
 
-	/**
-	 * Delete's the cached item
-	 *
-	 * @param string $key containing the identifier of the item to delete.
-	*/
+        if ( $this->serializeWith === self::IGBINARY
+            && function_exists('igbinary_unserialize')
+        ) {
+            $items = \igbinary_unserialize($items);
+        }
+
+        if ($this->serializeWith === self::SERIALIZE) {
+            $items = unserialize($items);
+        }
+        
+
+        return $items;
+    }
+
+    /**
+     * Delete's the cached item
+     *
+     * @param string $key containing the identifier of the item to delete.
+    */
     public function deleteCacheItem($key)
-	{
+    {
         $this->setCachePath(); // Set the correct cache path
 
         $cachePath = $this->filesCachePath();
-
-		@unlink($cachePath .sha1($key). '.cache');
+        @unlink($cachePath .sha1($key). $this->cacheExtension);
 
         return true;
-	}
+    }
 
     /* ----------------------------- For Checking and Pruning Cached Files ---------------------- */
 
@@ -268,7 +304,7 @@ class Cache extends \Base_Output
     /**
      * Write Cache for web pages
      *
-     * @param	string	$output	Output data to cache
+     * @param   string  $output Output data to cache
      * @return mixed
      */
     public function writeWebCache(string $output)
@@ -279,8 +315,8 @@ class Cache extends \Base_Output
     /**
      * Delete cache for web pages
      *
-     * @param	string	$uri	URI string
-     * @return	bool
+     * @param   string  $uri    URI string
+     * @return  bool
      */
     public function deleteWebCache(string $uri = '') : bool
     {
