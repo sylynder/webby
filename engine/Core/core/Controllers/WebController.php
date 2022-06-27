@@ -78,6 +78,10 @@ class WebController extends Controller
         if (in_array(uri_segment(1), config_item('forbidden_routes'))) {
             redirect(config('route_outside'), 'refresh');
         }
+
+        if (!in_array(uri_segment(1), config_item('forbidden_routes'))) {
+            redirect(config('route_outside'), 'refresh');
+        }
     }
     
 }

@@ -181,7 +181,7 @@ $upload_directory_line = __LINE__ - __ONE__;
 require_once __DIR__ . '/bootstrap.php';
 
 // Use Webby Outside
-define('WEBBY_OUTSIDE',  filter_var(getenv('app.outside'), FILTER_VALIDATE_BOOLEAN));
+define('WEBBY_OUTSIDE',  filter_var(getenv('app.use.outside'), FILTER_VALIDATE_BOOLEAN));
 
 define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : $_ENV['app.env']);
 
