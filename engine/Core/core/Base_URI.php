@@ -39,9 +39,9 @@ class Base_URI extends \CI_URI
 	 * Note: In order for this to work, you must include the following 2 characters in $config['permitted_uri_chars']: ";" and "="
 	 * 
 	 * @access public
-	 * @param Integer $n The number of the segment to retrieve
-	 * @param Array $default Array of default values
-	 * @return Array
+	 * @param integer $n The number of the segment to retrieve
+	 * @param array $default Array of default values
+	 * @return array
 	 */
 	public function segment_to_assoc($n = 3, $default = [])
 	{
@@ -52,9 +52,9 @@ class Base_URI extends \CI_URI
 	 * Identical to segment_to_assoc() only it uses the re-routed segment
 	 *
 	 * @access 	public
-	 * @param Integer $n The number of the segment to retrieve
-	 * @param Array $default Array of default values
-	 * @return Array
+	 * @param integer $n The number of the segment to retrieve
+	 * @param array $default Array of default values
+	 * @return array
 	 *
 	 */
 	public function rsegment_to_assoc($n = 3, $default = [])
@@ -67,10 +67,10 @@ class Base_URI extends \CI_URI
 	 * Use a semi-colon as an argument separator if using multiple arguments
 	 *
 	 * @access private
-	 * @param Integer $n The number of the segment to retrieve
-	 * @param Array $default Array of default values
-	 * @param String $which 'segment' or 'rsegment', used internally
-	 * @return Array
+	 * @param integer $n The number of the segment to retrieve
+	 * @param array $default Array of default values
+	 * @param string $which 'segment' or 'rsegment', used internally
+	 * @return array
 	 */
 	public function _segment_to_assoc($n = 3, $default = [], $which = 'segment')
 	{
@@ -148,7 +148,12 @@ class Base_URI extends \CI_URI
 
 			http_response_code(503); // Set response code
 			header('Retry-After: 3600'); // Set retry time
-			include_once(APP_MAINTENANCE_PATH . $maintenance_view);
+
+			if (file_exists(APP_MAINTENANCE_PATH . $maintenance_view)) {
+				include_once(APP_MAINTENANCE_PATH . $maintenance_view);
+			} else {
+				show_error('Please make sure the maintenance view exists and that you have added a file extension e.g(.html,.php) to maintenance view', 500);
+			}
 
 			exit;
 		} 
