@@ -14,13 +14,14 @@
  * 
  * @author  Kwame Oteng Appiah-Nti <developerkwame@gmail.com>
  * @license MIT
- * @version 0.1.0
+ * @version 1.0.0
+ * 
  */
 
 namespace Base\View;
 
-use CI_Exceptions;
 use Exception;
+use ParseError;
 
 class Plates
 {
@@ -118,6 +119,14 @@ class Plates
 	 */
 	protected $i18nLoaded 	= [];
 
+	/**
+	 * if true then, if the operation fails, 
+	 * and it is critic, then it throws an error
+	 *
+	 * @var bool
+	 */
+	public $throwOnError = false;
+	
 	// --------------------------------------------------------------------------
 
 	/**
@@ -158,8 +167,15 @@ class Plates
 		'close_section',
 		'php',
 		'endphp',
+		'json',
+		'endhtml',
+		'doctype',
+		'script',
+		'endscript',
+		'javascript',
 		'lang',
-		'choice'
+		'choice',
+		'csrf',
 	];
 
 	private $cacheExtension = '.plates';
@@ -378,72 +394,72 @@ class Plates
 	/**
 	 * Minify compiled html
 	 *
-	 * @param string $text
+	 * @param string $content
 	 * @param bool $removeComments
 	 * @return void
 	 */
-	protected function minifyHtml($text, $removeComments = true)
+	protected function minifyHtml($content, $removeComments = true)
 	{
 		$key = md5(mt_rand()) . '-';
 
 		// processing pre tag (saving its contents)
-		$preCount = preg_match_all('|(<pre[^>]*>.*?</pre>)|is', $text, $preMatches);
-		for ($i = 0; $i < $preCount; $i++) $text = str_replace($preMatches[0][$i], '<PRE|' . $i . '|' . $key . '>', $text);
+		$preCount = preg_match_all('|(<pre[^>]*>.*?</pre>)|is', $content, $preMatches);
+		for ($i = 0; $i < $preCount; $i++) $content = str_replace($preMatches[0][$i], '<PRE|' . $i . '|' . $key . '>', $content);
 
 		// processing code tag
-		$codeCount = preg_match_all('|(<code[^>]*>.*?</code>)|is', $text, $codeMatches);
-		for ($i = 0; $i < $codeCount; $i++) $text = str_replace($codeMatches[0][$i], '<CODE|' . $i . '|' . $key . '>', $text);
+		$codeCount = preg_match_all('|(<code[^>]*>.*?</code>)|is', $content, $codeMatches);
+		for ($i = 0; $i < $codeCount; $i++) $content = str_replace($codeMatches[0][$i], '<CODE|' . $i . '|' . $key . '>', $content);
 
 		// processing script tag
-		$scriptCount = preg_match_all('|(<script[^>]*>.*?</script>)|is', $text, $scriptMatches);
-		for ($i = 0; $i < $scriptCount; $i++) $text = str_replace($scriptMatches[0][$i], '<SCRIPT|' . $i . '|' . $key . '>', $text);
+		$scriptCount = preg_match_all('|(<script[^>]*>.*?</script>)|is', $content, $scriptMatches);
+		for ($i = 0; $i < $scriptCount; $i++) $content = str_replace($scriptMatches[0][$i], '<SCRIPT|' . $i . '|' . $key . '>', $content);
 
 		// processing textarea tag
-		$textareaCount = preg_match_all('|(<textarea[^>]*>.*?</textarea>)|is', $text, $textareaMatches);
-		for ($i = 0; $i < $textareaCount; $i++) $text = str_replace($textareaMatches[0][$i], '<TEXTAREA|' . $i . '|' . $key . '>', $text);
+		$textareaCount = preg_match_all('|(<textarea[^>]*>.*?</textarea>)|is', $content, $textareaMatches);
+		for ($i = 0; $i < $textareaCount; $i++) $content = str_replace($textareaMatches[0][$i], '<TEXTAREA|' . $i . '|' . $key . '>', $content);
 
 		// processing comments if they not to be removed
 		if (!$removeComments) {
-			$commentCount = preg_match_all('|(<!--.*?-->)|s', $text, $commentMatches);
-			for ($i = 0; $i < $commentCount; $i++) $text = str_replace($commentMatches[0][$i], '<COMMENT|' . $i . '|' . $key . '>', $text);
+			$commentCount = preg_match_all('|(<!--.*?-->)|s', $content, $commentMatches);
+			for ($i = 0; $i < $commentCount; $i++) $content = str_replace($commentMatches[0][$i], '<COMMENT|' . $i . '|' . $key . '>', $content);
 		}
 
 		// removing comments if need
 		if ($removeComments) {
-			$text = preg_replace('|(<!--.*?-->)|s', '', $text);
+			$content = preg_replace('|(<!--.*?-->)|s', '', $content);
 		}
 
 		// replacing html entities
-		$text = preg_replace('|&nbsp;|', ' ', $text); // replacing with non-breaking space (symbol 160 in Unicode)
-		$text = preg_replace('|&mdash;|', '—', $text);
-		$text = preg_replace('|&ndash;|', '–', $text);
-		$text = preg_replace('|&laquo;|', '«', $text);
-		$text = preg_replace('|&raquo;|', '»', $text);
-		$text = preg_replace('|&bdquo;|', '„', $text);
-		$text = preg_replace('|&ldquo;|', '“', $text);
+		$content = preg_replace('|&nbsp;|', ' ', $content); // replacing with non-breaking space (symbol 160 in Unicode)
+		$content = preg_replace('|&mdash;|', '—', $content);
+		$content = preg_replace('|&ndash;|', '–', $content);
+		$content = preg_replace('|&laquo;|', '«', $content);
+		$content = preg_replace('|&raquo;|', '»', $content);
+		$content = preg_replace('|&bdquo;|', '„', $content);
+		$content = preg_replace('|&ldquo;|', '“', $content);
 
-		$text = preg_replace('|(</?\w+[^>]+?)\s+(/?>)|s', '$1$2', $text); // removing all contunous spaces
+		$content = preg_replace('|(</?\w+[^>]+?)\s+(/?>)|s', '$1$2', $content); // removing all contunous spaces
 
-		while (preg_match('|<(/?\w+[^>]+/?)>\s+<(/?\w+?)|s', $text)) {
-			$text = preg_replace('|<(/?\w+[^>]+/?)>\s+<(/?\w+?)|s', '<$1><$2', $text); // removing all spaces and newlines between tags
+		while (preg_match('|<(/?\w+[^>]+/?)>\s+<(/?\w+?)|s', $content)) {
+			$content = preg_replace('|<(/?\w+[^>]+/?)>\s+<(/?\w+?)|s', '<$1><$2', $content); // removing all spaces and newlines between tags
 		}
 
-		$text = preg_replace('|\s\s+|s', ' ', $text); // removing all contunous spaces
+		$content = preg_replace('|\s\s+|s', ' ', $content); // removing all contunous spaces
 
 		// restoring processed comments
 		if (!$removeComments) {
-			for ($i = 0; $i < $commentCount; $i++) $text = str_replace('<COMMENT|' . $i . '|' . $key . '>', $commentMatches[0][$i], $text);
+			for ($i = 0; $i < $commentCount; $i++) $content = str_replace('<COMMENT|' . $i . '|' . $key . '>', $commentMatches[0][$i], $content);
 		}
 		// restoring textarea tag
-		for ($i = 0; $i < $textareaCount; $i++) $text = str_replace('<TEXTAREA|' . $i . '|' . $key . '>', $textareaMatches[0][$i], $text);
+		for ($i = 0; $i < $textareaCount; $i++) $content = str_replace('<TEXTAREA|' . $i . '|' . $key . '>', $textareaMatches[0][$i], $content);
 		// restoring script tag
-		for ($i = 0; $i < $scriptCount; $i++) $text = str_replace('<SCRIPT|' . $i . '|' . $key . '>', $scriptMatches[0][$i], $text);
+		for ($i = 0; $i < $scriptCount; $i++) $content = str_replace('<SCRIPT|' . $i . '|' . $key . '>', $scriptMatches[0][$i], $content);
 		// restoring code tag
-		for ($i = 0; $i < $codeCount; $i++) $text = str_replace('<CODE|' . $i . '|' . $key . '>', $codeMatches[0][$i], $text);
+		for ($i = 0; $i < $codeCount; $i++) $content = str_replace('<CODE|' . $i . '|' . $key . '>', $codeMatches[0][$i], $content);
 		// restoring pre tag
-		for ($i = 0; $i < $preCount; $i++) $text = str_replace('<PRE|' . $i . '|' . $key . '>', $preMatches[0][$i], $text);
+		for ($i = 0; $i < $preCount; $i++) $content = str_replace('<PRE|' . $i . '|' . $key . '>', $preMatches[0][$i], $content);
 
-		return $text;
+		return $content;
 	}
 
 	// --------------------------------------------------------------------------
@@ -532,10 +548,11 @@ class Plates
 		$viewPath	= $this->exists($template, true);
 		$cacheName	= md5($viewPath) . $this->cacheExtension;
 		$platesPath = $this->ci->config->item('plates_cache_path') . DIRECTORY_SEPARATOR;
+		
 		// Save cached files to cache/web/plates folder
 		$this->ci->config->set_item('cache_path', $platesPath);
 
-		//	Verifies if exists a cached version of the file
+		//	Verifies if a cached version of the file exists
 		if ($cachedVersion = $this->ci->cache->file->get($cacheName)) {
 			if (ENVIRONMENT == 'production') {
 				return $cachedVersion;
@@ -577,17 +594,75 @@ class Plates
 			extract($data);
 		}
 
+		$oblevel = ob_get_level();
+		
 		ob_start();
 
 		$template = $this->replaceBlacklisted($template);
 
-		eval(' ?>' . $template . '<?php ');
+		try {
+			shush();
+				eval(' ?' . '>' . $template . '<'. '?'. 'php ');
+			speak_up();
+		} catch (Exception $e) {
+			while (ob_get_level() > $oblevel) {
+				ob_end_clean();
+			}
+			throw $e;
+		} catch (ParseError $e) { // PHP >= 7
+			while (ob_get_level() > $oblevel) {
+				ob_end_clean();
+			}
+			$this->showError('run', $e->getMessage() . ' ' . $e->getCode(), true);
+			return '';
+		}
 
 		$content = ob_get_clean();
-
+// dd($content);
 		$this->ci->benchmark->mark('plate_execution_time_end');	//	Stop the timer
 
 		return $content;
+	}
+
+	/**
+	 * Show an error in the web.
+	 *
+	 * @param string $id          Title of the error
+	 * @param string $message        Message of the error
+	 * @param bool   $critic      if true then the compilation is ended, otherwise it continues
+	 * @param bool   $alwaysThrow if true then it always throws a runtime exception.
+	 * @return string
+	 * @throws \RuntimeException
+	 */
+	private function showError($id, $message, $critic = false, $alwaysThrow = false): string
+	{
+		ob_get_clean();
+
+		if ($this->throwOnError || $alwaysThrow || $critic === true) {
+			throw new \RuntimeException("Plates Error [$id] $message");
+		}
+
+		$msg = "<div 
+					style=
+						'background-color: #6d00cc; 
+						color: white; 
+						font-weight: bold; 
+						padding: 15px; 
+						border: solid 1px black;
+						box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+						margin-top: 50px;
+					'>
+				";
+		$msg .= "Plates Error [$id]:<br>";
+		$msg .= "<span style='color:white'>$message</span><br></div>\n";
+
+		echo $msg;
+
+		if ($critic) {
+			die(1);
+		}
+
+		return $msg;
 	}
 
 	private function replaceBlacklisted($template)
@@ -801,6 +876,43 @@ class Plates
 		}
 
 		return $line;
+	}
+
+	/**
+	 *  Returns a json_encoded string
+	 *
+	 *  @param    array     $array        Source of javascript file
+	 *  @return   string
+	 */
+	public function jsonEncode($array = [])
+	{
+		if (empty($array)) {
+			return "";
+		}
+
+		return ' ' . json_encode($array);
+	}
+
+	/**
+	 *  Returns a script tag with src and given attributes
+	 *
+	 *  @param    string    $src   Source of javascript file
+	 *  @param    string|array    $attributes  Additional attributes in a string
+	 *  @return   string
+	 */
+	public function javascript($src = '', $attributes = '')
+	{
+		$line = '';
+
+		if (!empty($src)) {
+			$line = 'src="'.$src.'"';
+		}
+
+		if (!empty($attributes)) {
+			$line = $line .' '. $attributes;
+		}
+
+		return $line = "\n<script " . $line . "></script>\n";
 	}
 
 	// --------------------------------------------------------------------------
@@ -1247,6 +1359,7 @@ class Plates
 
 		return preg_replace($pattern, '$1<?php echo $this->component$2; ?>', $content);
 	}
+
 	// --------------------------------------------------------------------------
 
 	/**
@@ -1359,6 +1472,88 @@ class Plates
 	// --------------------------------------------------------------------------
 
 	/**
+	 *  Rewrites Plates @doctype statement into valid PHP
+	 *
+	 *  @param    string   $content
+	 *  @return   string
+	 */
+	protected function compile_doctype($content)
+	{
+		return str_replace('@doctype', '<!DOCTYPE html>', $content);
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 *  Rewrites Plates @endhtml statement into valid PHP
+	 *
+	 *  @param    string   $content
+	 *  @return   string
+	 */
+	protected function compile_endhtml($content)
+	{
+		return str_replace('@endhtml', '</html>', $content);
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 *  Rewrites Plates @json statement into valid PHP
+	 *
+	 *  @param    string   $content
+	 *  @return   string
+	 */
+	protected function compile_json($content)
+	{
+		$pattern = '/(\s*)@json(\s*\(.*\))/';
+
+		return preg_replace($pattern, '<?php echo $this->jsonEncode$2; ?>', $content);
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 *  Rewrites Plates @script statement into valid PHP
+	 *
+	 *  @param    string   $content
+	 *  @return   string
+	 */
+	protected function compile_script($content)
+	{
+		return str_replace('@script', '<script>', $content);
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 *  Rewrites Plates @endscript statement into valid PHP
+	 *
+	 *  @param    string   $content
+	 *  @return   string
+	 */
+	protected function compile_endscript($content)
+	{
+		return str_replace('@endscript', '</script>', $content);
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 *  Rewrites Plates @script statement into valid PHP
+	 *
+	 *  @param    string   $content
+	 *  @return   string
+	 */
+	protected function compile_javascript($content)
+	{
+		$pattern = '/(\s*)@javascript(\s*\(.*\))/';
+
+		return preg_replace($pattern, '<?php echo $this->javascript$2; ?>', $content);
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
 	 *  Rewrites Plates @lang statement into valid PHP
 	 *
 	 *  @param    string   $content
@@ -1384,6 +1579,19 @@ class Plates
 		$pattern = '/(\s*)@choice(\s*\(.*\))/';
 
 		return preg_replace($pattern, '<?php echo $this->inflector$2; ?>', $content);
+	}
+
+	// --------------------------------------------------------------------------
+
+	/**
+	 *  Rewrites Plates @csrf statement into valid PHP
+	 *
+	 *  @param    string   $content
+	 *  @return   string
+	 */
+	protected function compile_csrf($content)
+	{
+		return str_replace('@csrf', '<?php echo csrf() ?>', $content);
 	}
 
 	// --------------------------------------------------------------------------
