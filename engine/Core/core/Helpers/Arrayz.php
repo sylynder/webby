@@ -43,6 +43,13 @@ class Arrayz
 	private $cache;
 
 	/**
+	 * Cache as (json|serialize|igbinary)
+	 * 
+	 * @var
+	 */
+	private $cacheAs = 'serialize';
+
+	/**
 	 * Arrayz cache path variable
 	 *
 	 * @var string
@@ -96,6 +103,45 @@ class Arrayz
 	}
 
 	/**
+	 * Use Serialize Type
+	 *
+	 * @param string $type
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function use($type = 'serialize'): Arrayz
+	{
+		$this->cacheAs = $type;
+
+		return $this;
+	}
+
+	/**
+	 * Serialize With Json
+	 *
+	 * @param string $type
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function json(): Arrayz
+	{
+		$this->use('json');
+
+		return $this;
+	}
+
+	/**
+	 * Serialize With Igbinary
+	 *
+	 * @param string $type
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function igbinary(): Arrayz
+	{
+		$this->use('igbinary');
+		
+		return $this;
+	}
+
+	/**
 	 * Get cache data with item name
 	 *
 	 * @param string $item
@@ -108,6 +154,7 @@ class Arrayz
 			throw new \Exception("cache() only expects a string to be used");
 		}
 
+		$this->cache->serializeWith = $this->cacheAs;
 		$this->cache->setCachePath($this->cachePath);
 
 		$this->cacheItem = $item;
@@ -137,8 +184,22 @@ class Arrayz
 			$this->cache->expireAfter = $ttl;
 		}
 
+		$this->cache->serializeWith = $this->cacheAs;
 		$this->cache->setCacheItem($this->cacheItem, $data);
 
+		return $this;
+	}
+
+	/**
+	 * Delete an arrayz cache item
+	 *
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function delete(): Arrayz
+	{
+		if ($this->cache->isCached($this->cacheItem)) {
+			$this->cache->deleteCacheItem($this->cacheItem);
+		}
 		return $this;
 	}
 
@@ -161,7 +222,7 @@ class Arrayz
 	 * @param string $key
 	 * @return Base\Helpers\Arrayz
 	 */
-	public function pick($key)
+	public function pick($key): Arrayz
 	{
 		$values = [];
 
@@ -183,7 +244,7 @@ class Arrayz
 	 * 
 	 * @return Base\Helpers\Arrayz
 	 */
-	public function pluck()
+	public function pluck(): Arrayz
 	{
 		$arguments = func_get_args();
 		$search = $arguments[0];
@@ -229,7 +290,7 @@ class Arrayz
 		}
 
 		$this->source = arrayfy($this->source);
-		
+
 		$option = array_filter($this->source, function ($src) use ($searchKey, $searchValue, $operator) {
 			return $this->operatorCheck($src[$searchKey], $operator, $searchValue);
 		}, ARRAY_FILTER_USE_BOTH);
@@ -285,7 +346,7 @@ class Arrayz
 		}
 
 		$this->source = arrayfy($this->source);
-		
+
 		$option = array_filter($this->source, function ($value) use ($searchValue) {
 			return $this->filterArray($searchValue, $value);
 		});
@@ -305,7 +366,7 @@ class Arrayz
 	 * @param string $needle
 	 * @param array $haystack
 	 * 
-	 * @return boolean
+	 * @return bool
 	 */
 	public function filterArray($needle, $haystack): bool
 	{
@@ -337,7 +398,7 @@ class Arrayz
 		}
 
 		$this->source = arrayfy($this->source);
-		
+
 		foreach ($this->source as $key => $value) {
 			if (
 				@array_key_exists($searchKey, $value)
@@ -462,7 +523,7 @@ class Arrayz
 		$option = [];
 
 		$this->source = arrayfy($this->source);
-		
+
 		$count = count($this->source);
 
 		if ($limit > $count) {
@@ -489,6 +550,35 @@ class Arrayz
 	}
 
 	/**
+	 * Paginate array content
+	 *
+	 * @param  array $array
+	 * @param int $page
+	 * @param int $perPage
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function paginate($array, $page = 1, $perPage = 100): Arrayz
+	{
+		$pagination = [
+			'length' => $perPage,
+			'total' => sizeof($array),
+			'currentPage' => $page 
+		];
+
+		$pagination['pages'] = ceil($pagination['total'] / $pagination['length']);
+		$pagination['offset'] = ($pagination['currentPage'] * $pagination['length']) - $pagination['length'];
+
+		$results = array_slice($array, $pagination['offset'], $pagination['length'], true);
+		
+		$this->source = $results;
+		$this->results = $results;
+		$this->pager = (object) $pagination;
+		
+		return $this;
+
+	}
+
+	/**
 	 * Select keys and return only them
 	 * By selecting single array will return flat array
 	 * @param1: 'id, name, address', must be comma seperated.
@@ -508,9 +598,9 @@ class Arrayz
 		$select = explode(",", $select);
 
 		$count = 0;
-		
+
 		$this->source = arrayfy($this->source);
-		
+
 		foreach ($this->source as $key => $value) {
 
 			foreach ($value as $item => $string) {
@@ -535,7 +625,7 @@ class Arrayz
 	/*
 	* Group by a key value 
 	*/
-	public function groupBy()
+	public function groupBy(): Arrayz
 	{
 		$arguments = func_get_args();
 		$groupBy = $arguments[0];
@@ -562,7 +652,7 @@ class Arrayz
 	 * @param string $retrieved
 	 * @param string $operator
 	 * @param string $value
-	 * @return void
+	 * @return mixed
 	 */
 	private function operatorCheck($retrieved, $operator, $value)
 	{
@@ -595,7 +685,7 @@ class Arrayz
 	 * @param array $array
 	 * @return bool
 	 */
-	private function checkArray($array)
+	private function checkArray($array): bool
 	{
 		if (is_array($array) && count($array) > 0) {
 			return true;
@@ -633,7 +723,7 @@ class Arrayz
 	/**
 	 * Return output
 	 *
-	 * @param boolean $returnObject
+	 * @param bool $returnObject
 	 * @return array|object
 	 */
 	public function get($returnObject = true)
@@ -710,7 +800,7 @@ class Arrayz
 	 * @param  mixed $ink What should replace the censored data
 	 * @return Base\Helpers\Arrayz
 	 */
-	public function ink($ink = '**********')
+	public function ink($ink = '**********'): Arrayz
 	{
 		$this->ink = is_callable($ink) ? $ink() : $ink;
 		return $this;
@@ -735,7 +825,7 @@ class Arrayz
 		}
 
 		$this->source = arrayfy($this->source);
-		
+
 		foreach ($this->source as $key => $value) {
 			if (@array_key_exists($searchKey, $value) && @!in_array($value[$searchKey], $searchValue)) {
 				$option[] = $value;
@@ -749,7 +839,7 @@ class Arrayz
 	/**
 	 * Search the key exists and return true if found.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function has()
 	{
@@ -802,7 +892,7 @@ class Arrayz
 		$key = $arguments[0];
 
 		$this->source = arrayfy($this->source);
-		
+
 		$this->select($key);
 		$this->source = array_sum($this->source);
 
@@ -850,7 +940,7 @@ class Arrayz
 	 * Determine if the given array is associative or non-associative
 	 *
 	 * @param  array  $array
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function isAssocArray(array $array)
 	{
@@ -862,11 +952,12 @@ class Arrayz
 	 * Check if the string received is valid json
 	 *
 	 * @param  string $string Assumed json string
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function isValidJson($string)
 	{
 		return is_json($string);
 	}
+	
 }
 /* End of the file Arrayz.php */
