@@ -104,14 +104,14 @@ class Base_Exceptions extends \CI_Exceptions
 		}
 
 		// @Todo
-		/* $currentClass = $currentMethod = $source = '';
+		$currentClass = $currentMethod = $source = '';
 		
 		if (isset($GLOBALS['CI']) && isset($GLOBALS['method'])) {
 			$currentClass = $GLOBALS['CI'];
 			$currentMethod = $GLOBALS['method'];
 			$source = $this->getSource($currentMethod, $currentClass);
-		} */
-		
+		}
+
 		$line = $exception->getLine();
 		$location = str_replace('../', '', get_instance()->router->directory);
 		$message = $exception->getMessage();
