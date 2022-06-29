@@ -42,7 +42,7 @@ $config['forbidden_routes'] = [
 | that can handle your routes here
 |
 */
-$config['default_outside_route'] = 'app/outside';
+$config['default_outside_route'] = 'error/handle/outside';
 
 /* 
 | -------------------------------------------------------------------------
