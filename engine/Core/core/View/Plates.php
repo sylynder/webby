@@ -601,68 +601,37 @@ class Plates
 		$template = $this->replaceBlacklisted($template);
 
 		try {
-			shush();
-				eval(' ?' . '>' . $template . '<'. '?'. 'php ');
-			speak_up();
-		} catch (Exception $e) {
+			eval(' ?' . '>' . $template . '<'. '?'. 'php ');
+		} catch (\Exception $e) {
+			dd($e);
 			while (ob_get_level() > $oblevel) {
 				ob_end_clean();
 			}
-			throw $e;
-		} catch (ParseError $e) { // PHP >= 7
+			dd($e);
+			include_once(COREPATH . 'core/Base_Exceptions.php');
+
+			$exception = new \Base_Exceptions;
+
+			return $exception->show_exception($e);
+
+		} catch (\ParseError $error) {
+
 			while (ob_get_level() > $oblevel) {
 				ob_end_clean();
 			}
-			$this->showError('run', $e->getMessage() . ' ' . $e->getCode(), true);
-			return '';
+
+			include_once(COREPATH . 'core/Base_Exceptions.php');
+
+			$exception = new \Base_Exceptions;
+			
+			return $exception->show_exception($error);
 		}
 
 		$content = ob_get_clean();
-// dd($content);
+
 		$this->ci->benchmark->mark('plate_execution_time_end');	//	Stop the timer
 
 		return $content;
-	}
-
-	/**
-	 * Show an error in the web.
-	 *
-	 * @param string $id          Title of the error
-	 * @param string $message        Message of the error
-	 * @param bool   $critic      if true then the compilation is ended, otherwise it continues
-	 * @param bool   $alwaysThrow if true then it always throws a runtime exception.
-	 * @return string
-	 * @throws \RuntimeException
-	 */
-	private function showError($id, $message, $critic = false, $alwaysThrow = false): string
-	{
-		ob_get_clean();
-
-		if ($this->throwOnError || $alwaysThrow || $critic === true) {
-			throw new \RuntimeException("Plates Error [$id] $message");
-		}
-
-		$msg = "<div 
-					style=
-						'background-color: #6d00cc; 
-						color: white; 
-						font-weight: bold; 
-						padding: 15px; 
-						border: solid 1px black;
-						box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-						margin-top: 50px;
-					'>
-				";
-		$msg .= "Plates Error [$id]:<br>";
-		$msg .= "<span style='color:white'>$message</span><br></div>\n";
-
-		echo $msg;
-
-		if ($critic) {
-			die(1);
-		}
-
-		return $msg;
 	}
 
 	private function replaceBlacklisted($template)
@@ -912,7 +881,7 @@ class Plates
 			$line = $line .' '. $attributes;
 		}
 
-		return $line = "\n<script " . $line . "></script>\n";
+		return $line = "\n\n\t<script " . $line . "></script>\n";
 	}
 
 	// --------------------------------------------------------------------------

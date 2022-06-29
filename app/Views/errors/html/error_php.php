@@ -104,9 +104,9 @@
 	<p class="w-p error-hover"><span class="w-title">Severity:</span> <?php echo $severity; ?></p>
 	<p class="w-p error-hover"><span class="w-title">Message:</span> <span class="w-message"><?php echo $message; ?></span></p>
 
-	<?php if ($evaluted) : ?>
-		<p class="w-p"><span class="w-title">Current Controller: </span><span class="w-message"><?php echo " from the " . ucwords($GLOBALS['class']) . ".php file located at: </span>  <span style='color:red; font-weight:bold;'><code>" . rtrim($location, '/') . "</code></span> </span></p>" ?>
-		<p class="w-p"><span class="w-title">Error Location: </span><span class="w-message"><?php echo "found on line number: <span style='color:red; font-weight:bold;'><code>" . $line . "<code></span> in the <span style='color:red; font-weight:bold;'><code> view file </code></span> returned in the <span style='color:red; font-weight:bold;'><code>" .  strtolower($GLOBALS['method']) . "()</code></span> method  </span></p>" ?>
+	<?php if ($evaluated) : ?>
+		<p class="w-p error-hover"><span class="w-title">Current Controller: </span><span class="w-message"><?php echo " from the " . ucwords($GLOBALS['class']) . ".php file located at: </span>  <span style='color:red; font-weight:bold;'><code>" . rtrim($location, '/') . "</code></span> </span></p>" ?>
+		<p class="w-p error-hover"><span class="w-title">Error Location: </span><span class="w-message"><?php echo "found on line number: <span style='color:red; font-weight:bold;'><code>" . $line . "<code></span> in a <span style='color:red; font-weight:bold;'><code> view file </code></span> returned in the <span style='color:red; font-weight:bold;'><code>" .  strtolower($GLOBALS['method']) . "()</code></span> method  </span></p>" ?>
 	<?php else : ?>
 		<p class="w-p error-hover"><span class="w-title error-hover">Filename:</span><span class="w-message"><?php echo $filepath; ?></span></p>
 		<p class="w-p error-hover w-mark"><span class="w-title error-hover"> Line Number:</span> <span class="w-digit"><?php echo $line; ?></span></p>

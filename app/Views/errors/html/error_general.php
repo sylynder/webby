@@ -48,7 +48,7 @@
     ">
 		<div class="w-flex-center w-position-r full-height">
 			<div class="w-code-error" style="color: red;">
-				<?php echo http_response_code(); ?>
+				<?php echo http_response_code(500); ?>
 			</div>
 			
 			<div class="w-message-error w-webby-color" style="padding: 10px;">
