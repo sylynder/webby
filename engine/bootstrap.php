@@ -266,11 +266,6 @@ define('SYSDIR',
     )
 );
 
-// Path to Stubs APPROOT . 'cli/Commands' . DIRECTORY_SEPARATOR;
-// define('STUBSPATH', ENGINEPATH . 'Sylynder/Views/Console/stubs' . DIRECTORY_SEPARATOR);
-
-// define('COMMANDPATH', APPROOT . 'Cli/Commands' . DIRECTORY_SEPARATOR);
-
 // This used to be the "application" folder for codeigniter
 // The path to "core" folder
 if (is_dir($core_directory)) {
@@ -354,7 +349,7 @@ if (is_dir($upload_directory)) {
  * DEFINE WEBBY VERSION
  * --------------------------------------------------------------------
  */
-define('WEBBY_VERSION', '1.3.0');
+define('WEBBY_VERSION', '1.4.0');
 
 // Load environment settings from .env files
 // into $_SERVER and $_ENV
