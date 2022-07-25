@@ -246,6 +246,8 @@ class Base_Output extends \CI_Output
             $uri = md5($ci->config->item('base_url') . $ci->config->slash_item('index_page') . ltrim($uri, '/'));
         }
 
+        $uri = md5($ci->config->item('base_url') . $ci->config->slash_item('index_page') . ltrim($uri, '/'));
+
         $cachePath .= $uri;
 
         if (!@unlink($cachePath)) {
