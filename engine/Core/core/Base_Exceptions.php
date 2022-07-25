@@ -72,11 +72,11 @@ class Base_Exceptions extends \CI_Exceptions
 			$currentMethod = $GLOBALS['method'];
 		}
 
-		if ($currentMethod == 'handle' && get_class($currentClass) == 'Error') {
+		if (!is_string($currentMethod) && $currentMethod == 'handle' && get_class($currentClass) == 'Error') {
 			show_404();
-		} 
-		
-		if (get_class($currentClass) == 'Error') {
+		}
+
+		if (!is_string($currentClass) && get_class($currentClass) == 'Error') {
 			show_404();
 		}
 
