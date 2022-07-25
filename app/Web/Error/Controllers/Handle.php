@@ -19,6 +19,8 @@ class Handle extends WebController
      */
     public function index()
     {
+        $this->console404();
+        $this->api404();
         $this->page404();
     }
 
@@ -39,12 +41,53 @@ class Handle extends WebController
     }
 
     /**
-     * Custom Error 404 
+     * Custom Error 404 for Web
      *
      * @return void
      */
     public function page404()
     {
-        return view('errors.app.error404', $this->data);
+        return view(config_item('app_error_view'), $this->data);
+    }
+
+     /**
+     * Custom Error 404 for Console
+     *
+     * @return void
+     */
+    public function console404()
+    {
+        if (is_cli()) {
+            show_404();
+        }
+    }
+
+     /**
+     * Custom Error 404 for Api
+     *
+     * @return void
+     */
+    public function api404()
+    {
+        // implement your code here
+        // check your api routes
+        // make sure you exit at the end of your checks' logic
+        // The code below can used anyway
+        if (contains('api/v1', current_url())) {
+
+			header("Content-Type: application/json");
+
+			$this->json([
+				'status' => false,
+				'error' => [
+					"code" => Base\Http\HttpStatus::NOT_FOUND,
+					"message" => "End Point Not Found"
+				],
+				'reason' => "End Point Not Found"
+			], Base\Http\HttpStatus::NOT_FOUND);
+
+			exit;
+		}
+        
     }
 }
