@@ -45,7 +45,7 @@ class Session extends \CI_Session
     public function cleanFileSessions()
     {
 
-        $sessionPath = WRITABLEPATH . 'session' . DIRECTORY_SEPARATOR;
+        $sessionPath = SESSION_SAVE_PATH . DS;
 
         $handle = opendir($sessionPath);
 
@@ -56,6 +56,7 @@ class Session extends \CI_Session
             }
 
             $lastmodified = filemtime($sessionPath . $file);
+            
             //24 hours in a day * 3600 seconds per hour
             if ((time() - $lastmodified) > config_item('sess_expiration')) {
                 @unlink($sessionPath . $file);
