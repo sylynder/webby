@@ -21,11 +21,39 @@ use Exception;
 class TimeTravel
 {
     /**
+     * Default Seconds
+     *
+     * @var int
+     */
+    private $defaultSeconds = (60 * 60);
+
+    /**
      * Default minutes
      *
      * @var string
      */
     private $defaultMinutes = "30 minutes";
+
+    /**
+     * Default Time Format
+     *
+     * @var string
+     */
+    public $defaultFormat = 'Y-m-d H:i:s';
+
+    /**
+     * Start Time for strtotime
+     *
+     * @var mixed
+     */
+    private $startTime = null;
+
+    /**
+     * End Time for strtotime
+     *
+     * @var mixed
+     */
+    private $endTime = null;
 
     /**
      * Start Date Time for a
@@ -56,6 +84,20 @@ class TimeTravel
      * @var array
      */
     public $periods = [];
+
+    /**
+     * Day with hour constant
+     * 
+     * @var string
+     */
+    private const DAY_WITH_HOUR = '%a Days and %h hours';
+
+    /**
+     * Only Days constant
+     * 
+     * @var string
+     */
+    private const ONLY_DAYS = '%a Days';
 
     /**
      * Set DateTime Interval
@@ -136,7 +178,7 @@ class TimeTravel
     public function to($date = '', $interval = ''): TimeTravel
     {
         if (empty($date)) {
-            $date = date('Y-m-d H:i:s');
+            $date = date($this->defaultFormat);
         }
 
         $datetime = new DateTime($date);
@@ -162,7 +204,7 @@ class TimeTravel
     public function for($interval = '1 minute'): TimeTravel
     {
 
-        $date = date('Y-m-d H:i:s');
+        $date = date($this->defaultFormat);
 
         $datetime = new DateTime($date);
 
@@ -197,7 +239,7 @@ class TimeTravel
      */
     public function every($interval = '1 minute'): TimeTravel
     {
-        $date = date('Y-m-d H:i:s');
+        $date = date($this->defaultFormat);
 
         $ranges = null;
 
@@ -255,6 +297,90 @@ class TimeTravel
     }
 
     /**
+     * Grab datetimes and convert to date strings
+     *
+     * @return TimeTravel
+     */
+    public function strToTime()
+    {
+        $startDatetime = $this->startDatetime->format($this->defaultFormat);
+        $endDatetime = $this->endDatetime->format($this->defaultFormat);
+
+        $this->startTime = strtotime($startDatetime);
+        $this->endTime = strtotime($endDatetime);
+
+        return $this;
+    }
+
+    /**
+     * Return Days With Hours
+     *
+     * @return string
+     */
+    public function dayWithHour()
+    {
+        $difference = $this->endDatetime->diff($this->startDatetime);
+
+        return $difference->format(TimeTravel::DAY_WITH_HOUR);
+    }
+
+    /**
+     * Return Day Difference
+     *
+     * @return string
+     */
+    public function dayDifference()
+    {
+        $difference = $this->endDatetime->diff($this->startDatetime);
+
+        return $difference->format(TimeTravel::ONLY_DAYS);
+    }
+
+    /**
+     * Return Hour Difference
+     *
+     * @param bool $hrs
+     * @return string
+     */
+    public function hourDifference($hrs = false)
+    {
+        $this->strToTime();
+
+        $difference = ($this->endTime - $this->startTime);
+        $hours = abs($difference / $this->defaultSeconds);
+
+        return ($hrs) ? $hours . ' hrs' : $hours . ' hours';
+    }
+
+    /**
+     * Return Time Duration
+     *
+     * @param string $format
+     * @return string
+     */
+    public function duration($format = 'hours')
+    {
+
+        switch ($format) {
+            case 'hours':
+                return $this->hourDifference();
+            break;
+
+            case 'days':
+                return $this->dayDifference();
+            break;
+
+            case 'day_hour':
+                return $this->dayWithHour();
+            break;
+
+            default:
+                return $this->hourDifference();
+            break;
+        }
+    }
+
+    /**
      * Format Datetime
      *
      * @param string $format
@@ -263,6 +389,17 @@ class TimeTravel
     public function format($format = 'Y-m-d H:i:s')
     {
         return $this->datetime->format($format);
+    }
+
+    /**
+     * Show Time using $this->format()
+     *
+     * @param string $format
+     * @return string
+     */
+    public function showTime($format = 'Y-m-d H:i:s')
+    {
+        return $this->format($format);
     }
 
     /**
@@ -287,5 +424,16 @@ class TimeTravel
         }
 
         return false;
+    }
+
+    /**
+     * Show Times using $this->formatTo()
+     *
+     * @param string $format
+     * @return mixed
+     */
+    public function showTimes($format = 'Y-m-d H:i:s')
+    {
+        return $this->formatTo($format);
     }
 }
