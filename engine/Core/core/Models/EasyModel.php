@@ -125,6 +125,19 @@ class EasyModel extends Model
         return $this->db->last_query();
     }
 
+    /**
+     * Debug query made and get it's results
+     *
+     * @return void
+     */
+    public function dd()
+    {
+        $result = $this->get(null);
+        $query = $this->db->last_query();
+
+        dd($result, $query);
+    }
+
     //--------- All functions below are used for retrieving information from the database -----
 
     /**
