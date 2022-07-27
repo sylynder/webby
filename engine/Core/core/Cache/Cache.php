@@ -59,7 +59,7 @@ class Cache extends \Base_Output
      * Set Custom Path
      *
      * @param string $path
-     * @return string
+     * @return object
      */
     public function setCachePath($path = '')
     {
@@ -164,7 +164,9 @@ class Cache extends \Base_Output
         if ( $this->serializeWith === self::IGBINARY
             && function_exists('igbinary_unserialize')
         ) {
-            $items = \igbinary_unserialize($items);
+            shush();
+                $items = \igbinary_unserialize($items);
+            speak_up();
         }
 
         if ($this->serializeWith === self::SERIALIZE) {
@@ -219,12 +221,12 @@ class Cache extends \Base_Output
     public function clearAllCache()
     {
 
-        $cachePath = $this->filesCachePath();;
+        $cachePath = $this->filesCachePath();
 
         $handle = opendir($cachePath);
 
         while (($file = readdir($handle)) !== false) {
-            //Leave the directory protection alone
+            // Leave the directory protection alone
             if ($file != '.htaccess' && $file != 'index.html') {
                 @unlink($cachePath . '/' . $file);
             }
