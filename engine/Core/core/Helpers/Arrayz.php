@@ -5,7 +5,7 @@
  * 
  * Credit: https://github.com/nobitadore/Arrayz
  * 
- * Version - 0.1
+ * Version - 1.0.0
  */
 
 namespace Base\Helpers;
@@ -690,6 +690,8 @@ class Arrayz
 		if (is_array($array) && count($array) > 0) {
 			return true;
 		}
+
+		return false;
 	}
 
 	/**
