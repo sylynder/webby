@@ -1694,10 +1694,10 @@ if ( ! function_exists('honeypot'))
     function honeypot($name = '', $template = '', $container = '')
     {
         $data = [
-            'hidden' => env('honeypot.hidden', 'text'),
-            'name' => env('honeypot.name', $name),
-            'template' => env('honeypot.template', $template),
-            'container' => env('honeypot.container', $container),
+            'hidden' => env('honeypot.hidden'),
+            'name' => (!empty($name)) ? $name : env('honeypot.name'),
+            'template' => (!empty($template)) ? $template : env('honeypot.template'),
+            'container' => (!empty($container)) ? $container : env('honeypot.container'),
             'honeyfield' => env('honeypot.timefield')
         ];
 
@@ -1759,24 +1759,41 @@ if ( ! function_exists('honey_time'))
      * Checks the time it takes a 
      * form to be submitted
      *
-     * @param integer $time
+     * @param string $field
+     * @param int $time
      * @return bool
      */
-    function honey_time($field = '', $time = 10)
+    function honey_time($field = '', $time = '')
     {
         $honeytime = base64_decode(session('honeytime'));
-        $field = $field;
+
+        $time =  (int) $time ?: (int) env('honeypot.time');
+
         $seconds = time() - $honeytime;
-
-        if (empty($time)) {
-            $time = env('honeypot.time', $time);
-        }
-
+        
         if ($seconds < $time) {
             return false;
         } else {
             return true;
         }
+    }
+}
+
+if ( ! function_exists('honey_style')) 
+{
+    /**
+     * Styles the honey_pot container
+     *
+     * @param string $custom_style
+     * @return bool
+     */
+    function honey_style($custom_style = '')
+    {
+        if (empty($custom_style)) {
+            return env('honeypot.style');
+        }
+        
+        return $custom_style;
     }
 }
 
