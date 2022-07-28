@@ -603,11 +603,11 @@ class Plates
 		try {
 			eval(' ?' . '>' . $template . '<'. '?'. 'php ');
 		} catch (\Exception $e) {
-			dd($e);
+
 			while (ob_get_level() > $oblevel) {
 				ob_end_clean();
 			}
-			dd($e);
+
 			include_once(COREPATH . 'core/Base_Exceptions.php');
 
 			$exception = new \Base_Exceptions;
