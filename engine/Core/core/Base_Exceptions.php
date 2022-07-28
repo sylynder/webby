@@ -9,45 +9,6 @@ class Base_Exceptions extends \CI_Exceptions
 		parent::__construct();
 	}
 
-	/**
-	 * Get source of method that 
-	 * caught an exception or error
-	 * 
-	 * @param string $method
-	 * @param object $class
-	 * @return string
-	 */
-	private function getSource($method, $class = null)
-	{
-
-		if (!empty($class)) {
-			$method = new ReflectionMethod($class, $method);
-		} else {
-			$method = new ReflectionFunction($method);
-		}
-		
-		$file = $method->getFileName();
-		$startLine = $method->getStartLine() - 1;
-		$endLine = $method->getEndLine();
-		$length = $startLine - $endLine;
-
-		$source = file($file);
-		/* 		$source = implode('', array_slice($source, 0, count($source)));
-				$source = preg_split("/" . PHP_EOL . "/", $source);
-
-				$body = '';
-
-				for ($i = $start_line; $i < $end_line; $i++)
-					$body .= "{$source[$i]}\n";
-		*/
-		return [
-			'file' => $file,
-			'body' => implode("", array_slice($source, $startLine, $length))
-		];
-
-		// return $body;
-	}
-
 	public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
 		$templates_path = config_item('error_views_path');
@@ -109,7 +70,14 @@ class Base_Exceptions extends \CI_Exceptions
 		if (isset($GLOBALS['CI']) && isset($GLOBALS['method'])) {
 			$currentClass = $GLOBALS['CI'];
 			$currentMethod = $GLOBALS['method'];
-			$source = $this->getSource($currentMethod, $currentClass);
+		}
+
+		if ($currentMethod == 'handle' && get_class($currentClass) == 'Error') {
+			show_404();
+		} 
+		
+		if (get_class($currentClass) == 'Error') {
+			show_404();
 		}
 
 		$line = $exception->getLine();
@@ -199,5 +167,6 @@ class Base_Exceptions extends \CI_Exceptions
 		
 		echo $buffer;
 	}
+
 }
 /* end of file Base_Exceptions.php */
