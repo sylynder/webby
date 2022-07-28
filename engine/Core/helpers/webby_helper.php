@@ -1194,11 +1194,12 @@ if ( ! function_exists('arrayfy'))
             return json_decode($json, true);
         }
 
-        if (is_array($object)) {
-            return $object;
+        if ($object) {
+            $json = json_encode($object);
+            return json_decode($json, true);
         }
 
-        throw new \Exception("Parameter must be an object or supporting type", 1);
+        throw new \Exception("Parameter must be an object or a supporting type", 1);
 
         return false;
     }
