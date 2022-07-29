@@ -256,6 +256,10 @@ class Console
             // case 'publish:package':
             //     static::consoleEnv();
             // break;
+            case 'clear:cache':
+                static::consoleEnv();
+                static::clearCache($arg2, $arg3, $arg4);
+            break;
             case 'update:composer':
                 static::consoleEnv();
                 static::runSystemCommand(static::$composerCommand .'self-update');
@@ -707,6 +711,60 @@ class Console
 
         $output =   " \n";
         $output .=  ConsoleColor::white(" Please check docs for correct syntax to use for run:migration", 'light', 'red') . " \n";
+        echo $output . "\n";
+        exit;
+    }
+
+    protected static function clearCache(...$args)
+    {
+        $type = $args[0];
+        $file = $args[1];
+
+        if ($type == null) {
+            $output =   " \n";
+            $output .=  ConsoleColor::white(" Please check docs for correct syntax to use for clear:cache", 'light', 'red') . " \n";
+            echo $output . "\n";
+            exit;
+        }
+
+        if ($type == '--files') {
+
+            $type = str_replace('-', '', $type);
+
+            $command = static::$phpCommand . 'cache/clearpath/' . $type;
+            static::runSystemCommand($command);
+            exit;
+        }
+
+        if ($type == '--arrayz') {
+
+            $type = str_replace('-', '', $type);
+
+            $command = static::$phpCommand . 'cache/clearpath/' . $type;
+            static::runSystemCommand($command);
+            exit;
+        }
+
+        if ($type == '--plates') {
+
+            $type = str_replace('-', '', $type);
+
+            $command = static::$phpCommand . 'cache/clearpath/' . $type;
+            static::runSystemCommand($command);
+            exit;
+        }
+
+        if ($type == '--web') {
+
+            $type = str_replace('-', '', $type);
+
+            $command = static::$phpCommand . 'cache/clearpath/' . $type;
+            static::runSystemCommand($command);
+            exit;
+        }
+
+        $output =   " \n";
+        $output .=  ConsoleColor::white(" Please check docs for correct syntax to use for clear:cache", 'light', 'red') . " \n";
         echo $output . "\n";
         exit;
     }
