@@ -314,6 +314,13 @@ class Create extends ConsoleController
             case 'real_enum':
                 return str_replace('{{ENUM}}', $className, $fileContent);
             break;
+            case 'default_migration':
+                
+                $className = substr($className, strpos($className, "_") + 1);
+                $className = 'Migration_'. $className;
+
+                return str_replace('{{MIGRATION}}', $className, $fileContent);
+            break;
             default:
                 ConsoleColor::white(" Sorry no file was created", 'light', 'red');
             exit;
@@ -1332,6 +1339,41 @@ class Create extends ConsoleController
 
         if ($created) {
             $this->successOutput(ucfirst($enumName) . " Enum created successfully ");
+            return;
+        }
+    }
+
+    public function createMigration($name = '', $defaultType = '--default')
+    {
+        $migrationName = $name;
+        $created = '';
+
+        $defaultType = str_replace('-', '', $defaultType);
+        $defaultType = ucfirst($defaultType);
+
+        $migrationDirectory = ROOTPATH . 'database/migrations';
+
+        $migrationType = config_item('migration_type');
+            
+        if ($migrationType == 'timestamp') {
+            $migrationName = date('YmdHis') .'_'. ucfirst($migrationName);
+        } else {
+            $migrationName = 'Migration_' . ucfirst($migrationName);
+        }
+
+        if (file_exists($migrationDirectory . DS . $migrationName . $this->fileExtention)) {
+            $this->failureOutput(ucfirst($migrationName) . " Migration file exists already in the migrations directory");
+            return;
+        }
+
+        if ($migrationDirectory && is_dir($migrationDirectory)) {
+            $filePath = $migrationDirectory . DS . $migrationName;
+            $defaultType = str_replace('-', '', $defaultType);
+            $created = $this->createFile($filePath, strtolower($defaultType).'_migration', $this->migration);
+        }
+
+        if ($created) {
+            $this->successOutput($migrationName . " Migration file created successfully ");
             return;
         }
     }
