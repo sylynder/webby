@@ -1,0 +1,17 @@
+use Base\Migrations\Table;
+use Base\Migrations\Schema;
+use Base\Migrations\Migration;
+
+class {{MIGRATION}} extends Migration
+{
+    public function up()
+    {
+        //
+    }
+
+    public function down()
+    {
+        // 
+    }
+}
+/* End of {{MIGRATION}} Migration file */

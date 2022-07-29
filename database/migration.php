@@ -69,7 +69,7 @@ $migrate['migration_table'] = 'migrations';
 | in your code to have the latest migration.
 |
 */
-$migrate['migration_auto_latest'] = true;
+$migrate['migration_auto_latest'] = false;
 
 /*
 |--------------------------------------------------------------------------
