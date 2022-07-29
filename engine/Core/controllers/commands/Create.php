@@ -356,7 +356,7 @@ class Create extends ConsoleController
         try {
 
             if (!is_dir($fullpath)) {
-                mkdir($fullpath, 0775, true);
+                mkdir($fullpath, 0755, true);
             }
 
             return $fullpath;
@@ -468,7 +468,7 @@ class Create extends ConsoleController
         $exists = file_exists($config);
 
         if (!is_dir($config)) {
-            mkdir($config, 0775, true) or die("Unable to create a config directory");
+            mkdir($config, 0755, true) or die("Unable to create a config directory");
         }
         
         $moduleName = str_last_word($directoryPath, '/');
@@ -491,7 +491,7 @@ class Create extends ConsoleController
         $exists = file_exists($models);
 
         if (!is_dir($models)) {
-            mkdir($models, 0775, true) or die("Unable to create a model directory");
+            mkdir($models, 0755, true) or die("Unable to create a model directory");
         }
 
         $moduleName = str_last_word($directoryPath, '/');
@@ -514,7 +514,7 @@ class Create extends ConsoleController
         $exists = file_exists($controllers);
 
         if (!is_dir($controllers)) {
-            mkdir($controllers, 0775, true) or die("Unable to create a controller directory");
+            mkdir($controllers, 0755, true) or die("Unable to create a controller directory");
         }
 
         $moduleName = str_last_word($directoryPath, '/');
@@ -537,7 +537,7 @@ class Create extends ConsoleController
         $exists = file_exists($views);
 
         if (!is_dir($views)) {
-            mkdir($views, 0775, true) or die("Unable to create a view directory");
+            mkdir($views, 0755, true) or die("Unable to create a view directory");
         }
 
         $moduleName = str_last_word($directoryPath, '/');
@@ -560,7 +560,7 @@ class Create extends ConsoleController
         $exists = file_exists($services);
 
         if (!is_dir($services)) {
-            mkdir($services, 0775, true) or die("Unable to create a service directory");
+            mkdir($services, 0755, true) or die("Unable to create a service directory");
         }
 
         $moduleName = str_last_word($directoryPath, '/');
@@ -583,7 +583,7 @@ class Create extends ConsoleController
         $exists = file_exists($actions);
 
         if (!is_dir($actions)) {
-            mkdir($actions, 0775, true) or die("Unable to create a action directory");
+            mkdir($actions, 0755, true) or die("Unable to create a action directory");
         }
 
         $moduleName = str_last_word($directoryPath, '/');
@@ -606,7 +606,7 @@ class Create extends ConsoleController
         $exists = file_exists($libraries);
 
         if (!is_dir($libraries)) {
-            mkdir($libraries, 0775, true) or die("Unable to create a library directory");
+            mkdir($libraries, 0755, true) or die("Unable to create a library directory");
         }
 
         $moduleName = str_last_word($directoryPath, '/');
@@ -629,7 +629,7 @@ class Create extends ConsoleController
         $exists = file_exists($helpers);
 
         if (!is_dir($helpers)) {
-            mkdir($helpers, 0775, true) or die("Unable to create a helper directory");
+            mkdir($helpers, 0755, true) or die("Unable to create a helper directory");
         }
 
         $moduleName = str_last_word($directoryPath, '/');
@@ -652,7 +652,7 @@ class Create extends ConsoleController
         $exists = file_exists($forms);
 
         if (!is_dir($forms)) {
-            mkdir($forms, 0775, true) or die("Unable to create a form directory");
+            mkdir($forms, 0755, true) or die("Unable to create a form directory");
         }
 
         $moduleName = str_last_word($directoryPath, '/');
@@ -675,7 +675,7 @@ class Create extends ConsoleController
         $exists = file_exists($rules);
 
         if (!is_dir($rules)) {
-            mkdir($rules, 0775, true) or die("Unable to create a rule directory");
+            mkdir($rules, 0755, true) or die("Unable to create a rule directory");
         }
 
         $moduleName = str_last_word($directoryPath, '/');
@@ -699,7 +699,7 @@ class Create extends ConsoleController
         try {
 
             if (!is_dir($fullpath)) {
-                mkdir($fullpath, 0775, true);
+                mkdir($fullpath, 0755, true);
             }
 
             return $fullpath;
