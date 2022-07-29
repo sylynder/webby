@@ -240,6 +240,14 @@ class Console
                 static::consoleEnv();
                 static::createEnum($arg2, $arg3, $arg4);
             break;
+            case 'create:migration':
+                static::consoleEnv();
+                static::createMigration($arg2, $arg3, $arg4);
+            break;
+            case 'run:migration':
+                static::consoleEnv();
+                static::runMigration($arg2, $arg3, $arg4);
+            break;
             case 'install:package':
                 static::consoleEnv();
                 $installOption = 'require ';
@@ -581,6 +589,127 @@ class Console
         static::runSystemCommand($command);
     }
 
+    protected static function createMigration(...$args)
+    {
+        $name = '';
+        $type = '';
+
+        if (isset($args[0])) {
+            $name = $args[0];
+        }
+
+        if (isset($args[1])) {
+            $type = $args[1];
+        }
+
+        $name = str_replace(['-', '='], '', $name);
+
+        if ($name === '') {
+            $output =   " \n";
+            $output .=  ConsoleColor::white(" Please check docs for correct syntax to create:migration", 'light', 'red') . " \n";
+            echo $output . "\n";
+            exit;
+        }
+
+        $command = static::$phpCommand . 'create/createmigration/' . $name . '/' . $type;
+        static::runSystemCommand($command);
+    }
+
+    protected static function runMigration(...$args)
+    {
+        $key = $args[0];
+        $steps = $args[1];
+
+        if ($key == null) {
+            $command = static::$phpCommand . 'migration/run';
+            static::runSystemCommand($command);
+            exit;
+        }
+
+        if (!empty($steps)) {
+            $steps = explode('=', $steps);
+        }
+
+        if ($key === '--rollback') {
+
+            $step = 0;
+
+            if (!empty($steps[0]) && $steps[0] !== '--step') {
+                $output =   " \n";
+                $output .=  ConsoleColor::white(" Please check docs for correct syntax to use for run:migration --rollback", 'light', 'red') . " \n";
+                echo $output . "\n";
+                exit;
+            }
+            
+            if (!empty($steps[1]) && is_numeric($steps[1])) {
+                $step = $steps[1];
+            }
+
+            if (!empty($step) && !is_string($step) && is_infinite($step)) {
+                $command = static::$phpCommand . 'migration/rollback/' . $step;
+                static::runSystemCommand($command);
+                exit;
+            }
+  
+            if (!empty($step) && is_numeric($step)) {
+                $command = static::$phpCommand . 'migration/rollback/' . $step;
+                static::runSystemCommand($command);
+                exit;
+            }
+
+            $output =   " \n";
+            $output .=  ConsoleColor::white(" Please check docs for correct syntax to use for run:migration --rollback", 'light', 'red') . " \n";
+            echo $output . "\n";
+            exit;
+
+        }
+
+        if ($key === '--later') {
+            $command = static::$phpCommand . 'migration/future';
+            static::runSystemCommand($command);
+            exit;
+        }
+
+        if ($key === '--status') {
+            $command = static::$phpCommand . 'migration/status';
+            static::runSystemCommand($command);
+            exit;
+        }
+
+        if ($key === '--reset') {
+            $command = static::$phpCommand . 'migration/reset';
+            static::runSystemCommand($command);
+            exit;
+        }
+
+        if ($key === '--latest') {
+            $command = static::$phpCommand . 'migration/latest';
+            static::runSystemCommand($command);
+            exit;
+        }
+
+        if ($key === '--truncate') {
+            $command = static::$phpCommand . 'migration/truncate';
+            static::runSystemCommand($command);
+            exit;
+        }
+
+        if ($key != null ) {
+            $steps = explode('=', $key);
+        }
+        
+        if ($steps[0] === '--step' && !empty($steps[1]) && is_numeric($steps[1])) {
+            $steps = $steps[1];
+            $command = static::$phpCommand . 'migration/run/' . $steps;
+            static::runSystemCommand($command);
+            exit;
+        }
+
+        $output =   " \n";
+        $output .=  ConsoleColor::white(" Please check docs for correct syntax to use for run:migration", 'light', 'red') . " \n";
+        echo $output . "\n";
+        exit;
+    }
 
     /**
      * Check Console Environment
