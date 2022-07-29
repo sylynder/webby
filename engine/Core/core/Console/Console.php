@@ -1,7 +1,12 @@
 <?php
 
 /**
- * Webby Console 
+ * Webby Console
+ * 
+ * The CLI Engine for Webby
+ * 
+ * @author  Kwame Oteng Appiah-Nti <developerkwame@gmail.com> (Developer Kwame)
+ * 
  */
 
 namespace Base\Console;
@@ -565,6 +570,13 @@ class Console
             exit;
         }
 
+        if (strpos($name, '-') !== false) {
+            $output =   " \n";
+            $output .=  ConsoleColor::white(" Please check docs for correct syntax to create:middleware", 'light', 'red') . " \n";
+            echo $output . "\n";
+            exit;
+        }
+
         $command = static::$phpCommand . 'create/createmiddleware/' . $name . '/' . $type;
         static::runSystemCommand($command);
     }
@@ -583,6 +595,13 @@ class Console
         }
 
         if ($name === '') {
+            $output =   " \n";
+            $output .=  ConsoleColor::white(" Please check docs for correct syntax to create:enum", 'light', 'red') . " \n";
+            echo $output . "\n";
+            exit;
+        }
+
+        if (strpos($name, '-') !== false) {
             $output =   " \n";
             $output .=  ConsoleColor::white(" Please check docs for correct syntax to create:enum", 'light', 'red') . " \n";
             echo $output . "\n";
