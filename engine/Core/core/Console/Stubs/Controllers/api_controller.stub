@@ -5,8 +5,6 @@ class {{CONTROLLER}} extends ApiController
     public function __construct()
     {
         parent::__construct();
-        // $this->useDatabase(); // enable to use database
-
     }
 
     public function index_get()

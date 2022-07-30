@@ -5,16 +5,9 @@ class {{CONTROLLER}} extends Controller
     public function __construct()
     {
         parent::__construct();
-        // $this->useDatabase(); // enable to use database
-
     }
 
     public function index()
-    {
-        $this->list();
-    }
-
-    public function list()
     {
         // Sample Code Here ...
     }
