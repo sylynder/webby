@@ -55,6 +55,21 @@ class WebController extends Controller
         exit;
     }
 
+    protected function cachePage($ttl = 5)
+    {
+        $this->output->cache($ttl);
+    }
+
+    protected function removePageCache($page = '')
+    {
+        if (empty($page)) {
+            return $this->output->delete_cache();
+        }
+
+        $this->output->delete_cache($page);
+        
+    }
+
     /**
      * An implemented method to
      * send intruders outside 
