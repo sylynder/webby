@@ -677,6 +677,22 @@ class Route
 	}
 
 	/**
+	 * Cli route
+	 *
+	 * @param string $from
+	 * @param string $to
+	 * @param array $options
+	 * @param boolean $nested
+	 * @return void
+	 */
+	public static function cli($from, $to, $options = [], $nested = false)
+	{
+		if (is_cli()) {
+			static::createRoute($from, $to, $options, $nested);
+		}
+	}
+
+	/**
 	 * Simple route to get views
 	 * from the Views folder
 	 *
