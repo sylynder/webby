@@ -6,9 +6,9 @@
 
 ## About Webby
 
-**Webby** aims to be a "lego-like" PHP framework that allows you to build APIs, Console Applicatons and Web Applications in a modular architecture, that can also integrate other features from existing PHP frameworks or other PHP packages with ease. 
+**Webby** aims to be a "lego-like" PHP framework that allows you to build APIs, Console/Cli and Web Applications in a modular architecture, that can also integrate other features from existing PHP frameworks or other PHP packages with ease. 
 
-Build Awesome PHP applications with a Sweet Application Architecture. It is an extension of the CodeIgniter3 framework for easy web application development with an easy syntax (Syntactic Sugar) for beginners.
+Build Awesome PHP applications with a "Sweet Application Architecture". It is an extension of the CodeIgniter3 framework for easy web application development with an easy developer experience (DX) for beginners.
 
 ## Features
 
@@ -19,14 +19,14 @@ Build Awesome PHP applications with a Sweet Application Architecture. It is an e
 - Extend with Packages
 - Use "Plates" a blade-like templating engine for your views
 - Use "Services" to seperate business logic from Controllers
+- Use "Actions" instead of "Services" for CRUD functionalities or business logic
 - Use "Forms Or Rules" to validate input requests
 - A near "Service discovery" feature included
-
 
 ## Authors
 
 - [@otengkwame](https://www.github.com/otengkwame)
-
+- [All contributors][link-contributors]
 
 ## Installation
 
@@ -40,7 +40,6 @@ $ composer create-project sylynder/webby <project-name>
 ```
 
 Make sure to replace *project-name* with the name of your project
-
 
 ## Documentation
 
@@ -63,8 +62,11 @@ PHP 8.1 was released in November 2021 and so most of it's functionalities were n
 
 If you want to discover bugs and contribute, then you are welcome to use the PHP 8.1 version. 
 
+Currently it supports 8.1 but no issues have come up yet. We will be looking forward to that as 8.2 is to be released later.
 
-## FAQs
+
+
+## Quick FAQs
 
 #### Why did you decide to create Webby
 ---
@@ -72,7 +74,7 @@ Webby was created with PHP beginners in mind. Looking at how other frameworks ma
 
 #### Is it anything different from CodeIgniter 3 or 4?
 ---
-It uses the Core of the CodeIgniter3 framework and borrows some new features added from CodeIgniter 4. It is designed to move developers who are familiar with CI3 to easily to CI4.
+It uses the Core of the CodeIgniter3 framework and borrows some new features added from CodeIgniter 4. It is designed to move developers who are familiar with CI3 to easily move to CI4 with a little similar syntax or concept.
 
 ## Important Links
 
@@ -87,12 +89,16 @@ The links below will guide you to know more about how Webby Works
 ## What's Next
 There are lots of future plans for Webby
 
-* [x] Enable PHP 8.1 compatibility
-* [ ] Improve on cli or console feature
-* [ ] Implement database migrations
+* [x] Enable and Test for PHP 8.1 compatibility
+* [x] Improve and simplify CI3's database migrations
+* [x] Enable module based packages to use composer packages
+* [ ] Enable easy engine folder upgrade (Currently folder will have to be replaced when an update is available)
+* [ ] Write version two (v2) without a major class api change so as to reduce future upgrade headache. Unlike other major PHP Frameworks
+* [ ] Create a compatible HTTP and Routing feature (may be PSR-7 compatible)  that enables general integration with other frameworks
 * [ ] Improve and optimize speed
-* [ ] Write v2.0.0 without a major breaking change
-* [ ] And more to add
+* [ ] Improve on cli or console feature
+* [ ] Integrate asynchronous features (may be fibers) [as a package]
+* [ ] And many more to add (and many more to learn)
 
 
 ## Used By
@@ -101,6 +107,7 @@ This project is used by the following companies:
 
 - Seguah Dreams
 - Glomot Company
+- Wigal Vision
 
 ## Credits
 
@@ -117,7 +124,6 @@ This project is used by the following companies:
 
 ## License
 
-We are using the MIT License (MIT). Please see [LICENSE]((https://choosealicense.com/licenses/mit/)) for more information.
-## License
+We are using the MIT License (MIT). Please see our LICENSE.md file. If you want to know more about the license go to [LICENSE]((https://choosealicense.com/licenses/mit/)) for more information.
 
 [link-contributors]: https://github.com/sylynder/webby/contributors
