@@ -1,16 +1,17 @@
 {
     "name": "sylynder/webby",
     "type": "project",
-    "description": "Webby: An extension of CodeIgniter3 Framework for easy web application development",
+    "description": "Webby: A lego-like PHP Framework extended from the CodeIgniter3 Framework for easy web application development",
     "keywords": [
         "framework",
         "sylynder",
         "webby",
-        "codeigniter"
+        "codeigniter",
+        "php"
     ],
     "license": "MIT",
     "authors": [{
-        "name": "Oteng Kwame Appiah-Nti",
+        "name": "Kwame Oteng Appiah-Nti",
         "email": "developerkwame@gmail.com"
     }],
     "require": {
