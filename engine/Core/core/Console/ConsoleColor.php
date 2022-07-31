@@ -1,18 +1,17 @@
 <?php
 
 /**
- * PHP Colored CLI
+ * Originally Created By Jesse Donat
+ * 
+ * Console Color
  * Used to log strings with custom colors to console using php
  * Modified to work with Webby
  * 
- * @author  Oteng Kwame Appiah-Nti <developerkwame@gmail.com> (Developer Kwame)
+ * @author  Kwame Oteng Appiah-Nti <developerkwame@gmail.com> (Developer Kwame)
  * 
- * Copyright (C) 2013 Sallar Kaboli <sallar.kaboli@gmail.com>
- * MIT Liencesed
- * http://opensource.org/licenses/MIT
- *
- * Original colored CLI output script:
- * (C) Jesse Donat https://github.com/donatj
+ * Colored CLI Output is created by: (C) Jesse Donat
+ * https://gist.github.com/donatj/1315354
+ * 
  */
 
 namespace Base\Console;
@@ -78,7 +77,6 @@ class ConsoleColor
      */
     
     // ---------------------------------------------------------
-
 
     /**
      * Catches static calls (Wildcard)
