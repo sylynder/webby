@@ -274,6 +274,7 @@ class Create extends ConsoleController
             case 'easy_model':
             case 'base_model':
             case 'orm_model':
+            case 'json_model':
                 return str_replace('{{MODEL}}', $className, $fileContent);
             break;
             case 'service':

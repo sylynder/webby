@@ -1,0 +1,26 @@
+/**
+ * Make sure you have the "WebbyDb" Package
+ * to be able to use this type of model
+ */
+
+use App\Packages\WebbyDb\Db;
+use App\Packages\WebbyDb\JsonModel;
+
+class BaukModel extends Db implements JsonModel
+{
+    public $file = ''; // a json file name
+    public $database = ''; // a folder to store json file
+
+    public function __construct()
+    {
+        parent::__construct($this->database);
+        $this->useTable();
+    }
+
+    public function useTable()
+    {
+        $this->from($this->file);
+    }
+
+}
+/* End of BaukModel file */
