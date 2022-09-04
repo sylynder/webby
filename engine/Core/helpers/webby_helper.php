@@ -10,6 +10,10 @@ defined('COREPATH') or exit('No direct script access allowed');
  *	@author			Kwame Oteng Appiah-Nti
  */
 
+// ------------------------------------------------------------------------
+
+use Base\Helpers\TimeTravel;
+
 /* ------------------------------- Random Code Generation Functions ---------------------------------*/
 
 if ( ! function_exists('unique_code')) 
@@ -54,29 +58,29 @@ if ( ! function_exists('config'))
       * Fetch/Set a config file item
       *
       * @param array|string $key
-	  * @param mixed $value
-	  * @return mixed
+      * @param mixed $value
+      * @return mixed
       */
     function config($key = null, $value = null)
-	{
-		if (is_null($key)) {
-			return ci('config');
-		}
+    {
+        if (is_null($key)) {
+            return ci('config');
+        }
 
-		if (is_array($key)) {
-			foreach ($key as $item => $val) {
-				config($item, $val);
-			}
+        if (is_array($key)) {
+            foreach ($key as $item => $val) {
+                config($item, $val);
+            }
 
-			return '';
-		}
+            return '';
+        }
 
-		if ( ! is_null($value)) {
-			return ci('config')->set_item($key, $value);
-		}
+        if ( ! is_null($value)) {
+            return ci('config')->set_item($key, $value);
+        }
 
-		return ci('config')->item($key);
-	}
+        return ci('config')->item($key);
+    }
 }
 
 /* ------------------------------- Session Functions ---------------------------------*/
@@ -942,7 +946,7 @@ if ( ! function_exists('strtoarr'))
      *
      * @param string $symbol
      * @param string $string
-     * @return string
+     * @return array
      */
     function strtoarr($symbol, $string)
     {
@@ -1017,7 +1021,7 @@ if ( ! function_exists('add_associative_array'))
      */
     function add_associative_array($array, $key, $value, $multi = false)
     {
-        
+
         if ($multi === false) {
             $array[$key] = $value;
             return $array;
@@ -1092,14 +1096,14 @@ if ( ! function_exists('remove_from_array'))
      * @param string $element
      * @param string $symbol
      * @param boolean $return_string
-     * @return array
+     * @return mixed
      */
     function remove_from_array(
         $array, 
         $element, 
         $symbol = null, 
         $return_string = false
-    ) :array {
+    ) :mixed {
         if (!is_array($array) && $symbol != null) {
             $array = strtoarr($symbol, $array);
         }
@@ -1178,7 +1182,7 @@ if ( ! function_exists('object_array'))
 
 if ( ! function_exists('arrayfy')) 
 {
-
+    
     /**
      * Encode an array-object and retrieve
      * as an array
@@ -1188,7 +1192,7 @@ if ( ! function_exists('arrayfy'))
      */
     function arrayfy($object)
     {
-
+        
         if (is_object($object)) {
             $json = json_encode($object);
             return json_decode($json, true);
@@ -1197,6 +1201,10 @@ if ( ! function_exists('arrayfy'))
         if ($object) {
             $json = json_encode($object);
             return json_decode($json, true);
+        }
+
+        if (is_array($object)) {
+            return $object;
         }
 
         throw new \Exception("Parameter must be an object or a supporting type", 1);
@@ -1609,7 +1617,7 @@ if ( ! function_exists('travel'))
      */
     function travel()
     {
-        return (new \Base\Helpers\TimeTravel);
+        return (new TimeTravel);
     }
 }
 
@@ -1852,11 +1860,11 @@ if ( ! function_exists('ping_url'))
     {
         $url = parse_url($url);
 
-		if (!isset($url["host"])) { 
+        if (!isset($url["host"])) { 
             return false;
         }
 
-		return !(gethostbyname($url["host"]) == $url["host"]);
+        return !(gethostbyname($url["host"]) == $url["host"]);
     }
 }
 
