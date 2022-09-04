@@ -137,7 +137,7 @@ class Arrayz
 	public function igbinary(): Arrayz
 	{
 		$this->use('igbinary');
-		
+
 		return $this;
 	}
 
@@ -622,7 +622,7 @@ class Arrayz
 		return $this;
 	}
 
-	/*
+/*
 	* Group by a key value 
 	*/
 	public function groupBy(): Arrayz
@@ -690,8 +690,6 @@ class Arrayz
 		if (is_array($array) && count($array) > 0) {
 			return true;
 		}
-
-		return false;
 	}
 
 	/**
@@ -944,10 +942,39 @@ class Arrayz
 	 * @param  array  $array
 	 * @return bool
 	 */
-	protected function isAssocArray(array $array)
+	public function isAssocArray(array $array)
 	{
-		$keys = array_keys($array);
-		return array_keys($keys) !== $keys;
+		// An empty array is in theory a valid associative array
+		// so we return 'true' for empty.
+		if ([] === $array) {
+			return true;
+		}
+
+		$count = count($array);
+		
+		for ($i = 0; $i < $count; $i++) {
+			if(!array_key_exists($i, $array)) {
+				return true;
+			}
+		}
+
+		// Dealing with a Sequential array
+		return false;
+	}
+
+	/**
+	 * Determine if given array is multidimensional
+	 *
+	 * @param array $array
+	 * @return bool
+	 */
+	public function isMultiArray(array $array)
+	{
+		foreach ($array as $value) {
+			if (is_array($value)) return true;
+		}
+
+		return false;
 	}
 
 	/**
