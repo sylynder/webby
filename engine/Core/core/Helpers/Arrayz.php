@@ -937,6 +937,99 @@ class Arrayz
 	}
 
 	/**
+	 * Merge array
+	 *
+	 * @param array ...$array
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function merge(...$array)
+	{
+
+		$this->source = arrayfy($this->source);
+
+		$source = $this->source;
+
+		if (is_array($array) && $this->isMultiArray($array)) {
+			$source = array_merge($array, $source);
+		}
+
+		$this->source = $source;
+
+		return $this;
+	}
+
+	/**
+	 * Add more arrays by key-value
+	 * Or by two multidimensional array
+	 * 
+	 * @param string|array $key
+	 * @param string $value
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function push($key, $value = '', $asArray = false)
+	{
+
+		$this->source = arrayfy($this->source);
+
+		$array = $this->source;
+
+		if (is_array($key) && $this->isMultiArray($key)) {
+			$array = array_merge($key, $array);
+		}
+
+		if (is_string($key)) {
+			$array[$key] = $value;
+		}
+
+		$this->source = $array;
+
+		if (!$asArray) {
+			return $this->get();
+		}
+
+		return $this->toArray();
+	}
+
+	/**
+	 * Make array unique
+	 *
+	 * @return Base\Helpers\Arrayz
+	 */
+	public function unique()
+	{
+		if ($this->isMultiArray($this->source)) {
+			$this->source = array_unique($this->source, SORT_REGULAR);		
+		}
+
+		return $this;
+	}
+
+	/**
+	 *  Flatten a multi-dimensional array 
+	 *  into a single level
+	 *
+	 *  @param     array    $array
+	 *  @return    array
+	 */
+	public function flatten($toArray = false)
+	{
+		$result = [];
+
+		array_walk_recursive($this->source, function($array) use (&$result)
+		{
+			$result[] = $array;
+		});
+
+		$this->source = $result;
+
+		if ($toArray) {
+			$this->source = arrayfy($result);
+		}
+		
+		return $this;
+	}
+
+	/**
 	 * Determine if the given array is associative or non-associative
 	 *
 	 * @param  array  $array
