@@ -180,6 +180,13 @@ class Plates
 
 	private $cacheExtension = '.plates';
 
+	/**
+	 * Current View Path
+	 *
+	 * @var string
+	 */
+	public $viewPath;
+
 	// --------------------------------------------------------------------------
 
 	/**
@@ -549,6 +556,8 @@ class Plates
 		$cacheName	= md5($viewPath) . $this->cacheExtension;
 		$platesPath = $this->ci->config->item('plates_cache_path') . DIRECTORY_SEPARATOR;
 		
+		$this->viewPath = $viewPath;
+		
 		// Save cached files to cache/web/plates folder
 		$this->ci->config->set_item('cache_path', $platesPath);
 
@@ -601,6 +610,7 @@ class Plates
 		$template = $this->replaceBlacklisted($template);
 
 		try {
+			session('__view_path', $this->viewPath);
 			eval(' ?' . '>' . $template . '<'. '?'. 'php ');
 		} catch (\Exception $e) {
 
