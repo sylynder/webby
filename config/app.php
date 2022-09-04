@@ -99,5 +99,15 @@ $config['app_error_view'] = 'errors/app/error404';
  */
 $config['app_error_route'] = '404_override';
 
+/*
+| -------------------------------------------------------------------------
+| Enable Beautiful Error Handler View
+| -------------------------------------------------------------------------
+| Allows easy error handling when building 
+| your applications
+|
+| Set to true to enable this error handler view
+*/
+$config['beautiful_error_handler'] = false;
 
 // ------------------------- Custom Application Config Here --------------------------------
