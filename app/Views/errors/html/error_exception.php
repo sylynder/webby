@@ -106,10 +106,12 @@
 
 	<?php if ($evaluated) : ?>
 		<p class="w-p error-hover"><span class="w-title">Current Controller: </span><span class="w-message"><?php echo " from the " . ucwords($GLOBALS['class']) . ".php file located at: </span>  <span style='color:red; font-weight:bold;'><code>" . rtrim($location, '/') . "</code></span> </span></p>" ?>
-		<p class="w-p error-hover"><span class="w-title">Error Location: </span><span class="w-message"><?php echo "found on line number: <span style='color:red; font-weight:bold;'><code>" . $line . "<code></span> in a <span style='color:red; font-weight:bold;'><code> view file </code></span> returned in the <span style='color:red; font-weight:bold;'><code>" .  strtolower($GLOBALS['method']) . "()</code></span> method  </span></p>" ?>
+		<p class="w-p error-hover"><span class="w-title">Error Location: </span><span class="w-message"><?php echo "found on line number: <span style='color:red; font-weight:bold;'><code>" . $line . "<code></span> in a <span style='color:red; font-weight:bold;'><code> view file ".session('__view_path')."</code></span> returned in the <span style='color:red; font-weight:bold;'><code>" .  strtolower($GLOBALS['method']) . "()</code></span> method  </span></p>" ?>
+		<p class="w-p error-hover"><span class="w-title">Open in VSCode: </span><span class="w-message"><?php echo "<a href='vscode://file/".session('__view_path').":".$line."'>Click to open in VSCode" ?>
 	<?php else : ?>
 		<p class="w-p error-hover"><span class="w-title error-hover">Filename:</span><span class="w-message"><?php echo $exception->getFile(); ?></span></p>
 		<p class="w-p error-hover w-mark"><span class="w-title error-hover"> MarkLine Number:</span> <span class="w-digit"><?php echo $exception->getLine(); ?></span></p>
+		<p class="w-p error-hover"><span class="w-title">Open in VSCode: </span><span class="w-message"><?php echo "<a href='vscode://file/".$exception->getFile().":".$exception->getLine()."'>Click to open in VSCode</a>" ?>
 
 		<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE) : ?>
 
