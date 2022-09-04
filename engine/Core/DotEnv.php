@@ -306,7 +306,7 @@ class DotEnv
 	 */
 	public function prepareVariable(string $value): string
 	{
-		if (strpos($value, '$') !== false) {
+		if (strpos($value, '$') === 0) {
 			$value = str_replace(['$', '{', '}'], '', $value);
 			return $this->getVariable($value);
 		}
