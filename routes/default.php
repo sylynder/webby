@@ -42,5 +42,5 @@ use Base\Route\Route;
 */
 
 $route['default_controller'] = 'app';
-$route['404_override'] = 'error/handle';
+$route['404_override'] = 'errors/handle';
 $route['translate_uri_dashes'] = false;
