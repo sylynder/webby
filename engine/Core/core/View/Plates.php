@@ -138,6 +138,7 @@ class Plates
 	private $compilers 		= [
 		'directive',
 		'comment',
+		'html_comment',
 		'ternary',
 		'preserved',
 		'echo',
@@ -644,6 +645,12 @@ class Plates
 		return $content;
 	}
 
+	/**
+     * Blacklist known PHP functions
+     *
+     * @param string $template
+     * @return string
+     */
 	private function replaceBlacklisted($template)
 	{
 		$blacklists = [
@@ -999,6 +1006,20 @@ class Plates
 
 		return preg_replace($returnPattern, "<?php /* $1 */ ?>\n", $content);
 	}
+
+	/**
+     * Compile html view comments.
+     *
+     * @param string $view
+     * @return string
+     */
+    protected function compile_html_comment(string $view): string
+    {
+        return preg_replace_callback('/\!\#([^#]+)\#\!/', function ($matches) {
+            $comment = trim($matches[1]);
+            return "<?php /* {$comment} */ ?>";
+        }, $view);
+    }
 
 	// --------------------------------------------------------------------------
 
