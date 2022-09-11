@@ -152,6 +152,7 @@ class Base_Exceptions extends \CI_Exceptions
 		}
 
 		$location = str_replace('../', '', get_instance()->router->directory);
+		$filelocation = $filepath;
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
 
 		if (strpos($filepath, "eval()'d code") !== false) {
