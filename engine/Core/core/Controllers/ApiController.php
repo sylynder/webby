@@ -14,9 +14,9 @@ class ApiController extends ApiServerController // ApiServerController from the 
         parent::__construct();
         
         // Protection
-        $this->output->set_header('X-Content-Type-Options: nosniff');
-        $this->output->set_header('X-Frame-Options: DENY');
-        $this->output->set_header('X-XSS-Protection: 1; mode=block');
+        header('X-Content-Type-Options: nosniff');
+        header('X-Frame-Options: DENY');
+        header('X-XSS-Protection: 1; mode=block');
     }
 
     /**
@@ -48,11 +48,12 @@ class ApiController extends ApiServerController // ApiServerController from the 
      */
     protected function allowCors()
     {
-        $this->output->set_header('Access-Control-Allow-Origin: *');
-        $this->output->set_header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
-        $this->output->set_header('Access-Control-Allow-Headers: *');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
+        header('Access-Control-Allow-Headers: *');
         
         $method = $_SERVER['REQUEST_METHOD'];
+        
         if ($method == "OPTIONS") {
             die();
         }

@@ -15,9 +15,9 @@ class Base_Controller extends MX_Controller
         parent::__construct();
 
         // Protection
-        $this->output->set_header('X-Content-Type-Options: nosniff');
-        $this->output->set_header('X-Frame-Options: DENY');
-        $this->output->set_header('X-XSS-Protection: 1; mode=block');
+        header('X-Content-Type-Options: nosniff');
+        header('X-Frame-Options: DENY');
+        header('X-XSS-Protection: 1; mode=block');
     }
 
     protected function useDatabase() 
