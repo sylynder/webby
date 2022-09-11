@@ -828,7 +828,7 @@ if ( ! function_exists('contains'))
      *
      * @param string $needle
      * @param mixed $haystack
-     * @return void
+     * @return bool
      */
     function contains($needle, $haystack)
     {
@@ -1168,7 +1168,7 @@ if ( ! function_exists('object_array'))
      *
      * @param array $object_array
      * @param int|string $index
-     * @return void|object|array
+     * @return string|object|array
      */
     function object_array($object_array, $index)
     {
@@ -1386,7 +1386,7 @@ if ( ! function_exists('correct_date'))
      * and used easily
      * 
      * @param string $date
-     * @return void
+     * @return string
      */
     function correct_date($date)
     {

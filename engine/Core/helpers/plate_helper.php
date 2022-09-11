@@ -59,7 +59,7 @@ if ( ! function_exists('view'))
             return plates()->set($view_data)->view($view_path, $return);
         }
 
-        // Render view leaf/blade
+        // Render view blade views
         if (config('view')['view_engine'] === 'blade') {
 
             if (!function_exists('blade')) {
