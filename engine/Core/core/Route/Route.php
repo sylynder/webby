@@ -1226,4 +1226,23 @@ class Route
 						isset($_POST['_method']) &&
 						strtolower($_POST['_method']) == strtolower($method))));
 	}
+
+	/**
+	 * Include other route files
+	 *
+	 * @param string $routeFile
+	 * @return void
+	 */
+	public static function import(string $routeFile, $outsourced = false): void
+    {
+		if (!$outsourced) {
+        	include_once(ROOTPATH .'routes'.DS.$routeFile.EXT);
+		}
+
+		if ($outsourced) {
+        	include_once($routeFile);
+		}
+		
+    }
+
 }
