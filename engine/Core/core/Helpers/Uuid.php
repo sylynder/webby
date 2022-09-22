@@ -3,20 +3,20 @@
 /**
  * UUID Helper
  *
- * This implements the abilities to create UUID's for CodeIgniter.
+ * This implements the abilities to create UUID's for Webby.
  * Code has been borrowed from the following comments on php.net
- * and has been optimized for CodeIgniter use.
+ * and has been optimized for Webby use.
  * 
  * http://www.php.net/manual/en/function.uniqid.php#94959
  *
- * Modified to traits and static functions to use in Webby
+ * Modified to static functions to use in Webby
  * by Kwame Oteng Appiah-Nti
  * 
  * @category Helpers
  * @author Dan Storm
  * @link http://catalystcode.net/
  * @license GNU LPGL
- * @version 2.1 
+ * @version 2.1
  */
 
 namespace Base\Helpers;
