@@ -304,10 +304,18 @@ class Table
 
     public function addDefinitionRule($columnName, $rule, $options)
     {
-        // Yet to experiment
-        // if ($this->null === true) {
-        //     $this->definition['columns'][$columnName] = array_merge($rule, ['null' => true]);
-        // }
+        if (
+            array_key_exists('null', $options) 
+            || array_key_exists('null', $rule)
+        ) {
+            $options = array_merge(['default' => null], $options);
+        }
+
+        if (array_key_exists('length', $options) ) {
+            $options = array_merge(['constraint' => $options['length']], $options);
+            unset($options['length']);
+        }
+
         $this->definition['columns'][$columnName] = array_merge($rule, $options);
     }
 }
