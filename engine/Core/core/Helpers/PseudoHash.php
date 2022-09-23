@@ -192,4 +192,50 @@ class PseudoHash
         return $str_fixed;
     }
 
+    /**
+     * String to Hexadecimal
+     *
+     * @param string $str
+     * @return string
+     */
+    public static function toHex($str)
+    {
+        return static::fixStr($str);
+    }
+
+    /**
+     * Hexadecimal value to string
+     *
+     * @param mixed $str
+     * @return mixed
+     */
+    public static function fromHex($str)
+    {
+        if (!ctype_xdigit($str) ) {
+            throw new \Exception("Not A Valid Hexadecimal Value", 1);
+        }
+
+        return hex2bin(trim($str));
+    }
+
+    /**
+     * To Human String
+     * 
+     */
+    public static function toHumanString($number)
+    {
+        return implode(array_map('chr', str_split($number, 3)));
+    }
+
+    /**
+     * To Number String
+     *
+     */
+    public static function toNumberString($str)
+    {
+        return implode(array_map(function ($n) {
+             return sprintf('%03d', $n); 
+        }, unpack('C*', $str)));
+    }
+
 }
