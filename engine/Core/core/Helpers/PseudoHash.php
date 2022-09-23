@@ -120,7 +120,7 @@ class PseudoHash
      */
     public static function encode($num, $length = 5)
     {
-        $num = static::fixStr($num); // fix string to number
+        $num = static::fixStr($num, true); // fix string to number
         $ceil = bcpow(62, $length);
         $primes = array_keys(static::$golden_primes);
         $prime = $primes[$length];
@@ -136,16 +136,25 @@ class PseudoHash
      * @return string
      * @author Kwame Oteng Appiah-Nti (Developer Kwame)
      */
-    private static function fixExponential($str)
+    private static function fixExponential($str, $removeExponential = false)
     {
         // Convert $str to string 
         $str = (string) $str;
 
-        return preg_replace (
-            "/[+eE.]/u", 
-            "", 
-            $str
-        );
+        if (!contains('+eE', $str) && !contains('E+', $str)) {
+            return $str;
+        }
+
+        if ($removeExponential) {
+            return preg_replace (
+                "/[+eE.]/u", 
+                "", 
+                $str
+            );
+        }
+
+        return $str = number_format($str, 0, '', '');
+        
     }
 
     /**
@@ -157,7 +166,7 @@ class PseudoHash
      * @author Kwame Oteng Appiah-Nti 
      * (Developer Kwame)
      */
-    private static function fixStr($str)
+    private static function fixStr($str, $toDecimal = false)
     {       
         if (is_int($str)) {
             return $str;
@@ -170,9 +179,14 @@ class PseudoHash
 
         $str_fixed = null;
 
-        if ( is_string($str) ) {
-            $str = hexdec(bin2hex(trim($str)));
+        if ( is_string($str) && $toDecimal === false) {
+            $str = bin2hex(trim($str));
             $str_fixed = static::fixExponential($str);
+        }
+
+        if ( is_string($str) && $toDecimal === true) {
+            $str = hexdec(bin2hex(trim($str)));
+            $str_fixed = static::fixExponential($str, true);
         }
 
         return $str_fixed;
