@@ -25,6 +25,17 @@ class Base_Exceptions extends \CI_Exceptions
 		E_DEPRECATED => "Deprecated"
 	];
 
+	/**
+     * Parse Error Constant
+     */
+    private const PARSE_ERROR = 4;
+
+    /**
+     * Error Zero Constant
+     */
+    private const ERROR_ZERO = 0;
+
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -74,15 +85,11 @@ class Base_Exceptions extends \CI_Exceptions
 	public function show_exception($exception)
 	{
 		$evaluated = false;
-
+		$file = null;
 		$templates_path = config_item('error_views_path');
 
 		if (empty($templates_path)) {
 			$templates_path = VIEWPATH . 'errors' . DIRECTORY_SEPARATOR;
-		}
-
-		if (strpos($exception->getFile(), "eval()'d code") !== false) {
-			$evaluated = true;
 		}
 
 		// @Todo
@@ -101,14 +108,30 @@ class Base_Exceptions extends \CI_Exceptions
 			show_404();
 		}
 
-		$line = $exception->getLine();
 		$location = str_replace('../', '', get_instance()->router->directory);
+		
+		$filepath = session('__view_path') ?: $exception->getFile();
+		$line = $exception->getLine();
 		$message = $exception->getMessage();
+		$num = $exception->getCode();
 
 		if (empty($message)) {
 			$message = '(null)';
 		}
 
+		if (_evaluated($exception->getFile())) {
+
+			$evaluated = true;
+
+			if ($num == self::ERROR_ZERO) { 
+                $num = self::PARSE_ERROR;
+            }
+
+			$_error =& load_class('Exceptions', 'core');
+			$_error->log_exception($num, $message, $filepath, $line);
+
+		}
+		
 		if (is_cli()) {
 			$templates_path .= 'cli' . DIRECTORY_SEPARATOR;
 		} else {
@@ -155,8 +178,13 @@ class Base_Exceptions extends \CI_Exceptions
 		$filelocation = $filepath;
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
 
-		if (strpos($filepath, "eval()'d code") !== false) {
+		if (_evaluated($filepath)) {
+
 			$evaluated = true;
+			$file = session('__view_path');
+			$_error =& load_class('Exceptions', 'core');
+			$_error->log_exception($severity, $message, $file, $line);
+
 		}
 
 		// For safety reasons we don't show the full file path in non-CLI requests
