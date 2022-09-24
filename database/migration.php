@@ -23,7 +23,7 @@ $migrate = [];
 | and disable it back when you're done.
 |
 */
-$migrate['migration_enabled'] = true;
+$migrate['migration_enabled'] = false;
 
 /*
 |--------------------------------------------------------------------------

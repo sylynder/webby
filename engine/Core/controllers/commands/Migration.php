@@ -6,6 +6,14 @@ use Base\Migrations\Migration as Migrate;
 
 class Migration extends ConsoleController
 {
+
+	/**
+	 * Migrations Enabled Constant
+	 *
+	 * @var string
+	 */
+	private const ENABLED = MIGRATION_ENABLED;
+
 	/**
 	 * Table Constant
 	 *
@@ -83,6 +91,11 @@ class Migration extends ConsoleController
      */
 	private function migrationRequirements() 
 	{
+		if (!self::ENABLED) {
+			echo $this->error("Migrations is currently disabled, please enable it to continue...");
+			exit;
+		}
+
 		try {
 
 			$table = self::TABLE;
