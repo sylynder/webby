@@ -652,7 +652,7 @@ class HttpCurl
     /**
      * Return decoded response data from the last request
      * 
-     * @return array|null Response data
+     * @return string|array|null Response data
      */
     public function getLastResponse()
     {
