@@ -690,6 +690,8 @@ class Arrayz
 		if (is_array($array) && count($array) > 0) {
 			return true;
 		}
+
+		return false;
 	}
 
 	/**
