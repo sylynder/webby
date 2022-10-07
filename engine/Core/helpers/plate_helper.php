@@ -75,6 +75,20 @@ if ( ! function_exists('view'))
     }
 }
 
+if ( ! function_exists('blade')) 
+{
+    /**
+     * Blade object
+     *
+     * @param array $params
+     * @return Blade
+     */
+    function blade()
+    {
+        return (new App\Packages\Blade\View);
+    }
+}
+
 if ( ! function_exists('mail_view')) 
 {
     /**
