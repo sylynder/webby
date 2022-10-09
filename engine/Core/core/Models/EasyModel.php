@@ -328,9 +328,9 @@ class EasyModel extends Model
      * @param string $query
      * @return mixed
      */
-    public function query($query)
+    public function query($query, $binds = false, $returnObject = null)
     {
-        return $this->db->query($query);
+        return $this->db->query($query, $binds, $returnObject);
     }
 
     /**
