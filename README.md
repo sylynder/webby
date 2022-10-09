@@ -56,11 +56,11 @@ For developers who are very familiar with the CodeIgniter3 framework can still r
 
 ## Server Requirements
 
-PHP version 7.4 or newer is recommended.
+PHP version 8.0 or newer is recommended.
 
-PHP 8.1 was released in November 2021 and so most of it's functionalities were not known to be supported yet, this delayed the development of this project to work perfectly with the latest version 8.1 of PHP and the framework, we advise to stay between versions 7.4 and 8.0 for stable PHP appplication development. 
+PHP 8.1 was released in November 2021 and so most of it's functionalities were not known to be supported yet, this delayed the development of this project to work perfectly with the latest version 8.1 of PHP and the framework, ~~we advise to stay between versions 7.4 and 8.0 for stable PHP appplication development.~~ 
 
-If you want to discover bugs and contribute, then you are welcome to use the PHP 8.1 version. 
+~~If you want to discover bugs and contribute, then you are welcome to use the PHP 8.1 version.~~
 
 Currently it supports 8.1 but no issues have come up yet. We will be looking forward to that as 8.2 is to be released later.
 
@@ -70,7 +70,9 @@ Currently it supports 8.1 but no issues have come up yet. We will be looking for
 
 #### Why did you decide to create Webby
 ---
-Webby was created with PHP beginners in mind. Looking at how other frameworks makes it difficult for beginners to start.
+* Webby was created with PHP beginners in mind, to simplify how web applications can be built without complex concepts and functionalities
+* Looking at how other frameworks makes it difficult for beginners to start, we are making the approach different. 
+* Also CodeIgniter was not been updated for sometime and new PHP versions were not working until they updated to the recent version (3.1.13).
 
 #### Is it anything different from CodeIgniter 3 or 4?
 ---
@@ -93,12 +95,13 @@ There are lots of future plans for Webby
 * [x] Improve and simplify CI3's database migrations
 * [x] Enable module based packages to use composer packages
 * [ ] Enable easy engine folder upgrade (Currently folder will have to be replaced when an update is available)
-* [ ] Write version two (v2) without a major class api change so as to reduce future upgrade headache. Unlike other major PHP Frameworks
 * [ ] Create a compatible HTTP and Routing feature (may be PSR-7 compatible)  that enables general integration with other frameworks
 * [ ] Improve and optimize speed
 * [ ] Improve on cli or console feature
 * [ ] Integrate asynchronous features (may be fibers) [as a package]
 * [ ] And many more to add (and many more to learn)
+* [ ] Write version two (v2) without a major class api change so as to reduce future upgrade headache. Unlike other major PHP Frameworks
+
 
 
 ## Used By
