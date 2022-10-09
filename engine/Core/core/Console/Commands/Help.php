@@ -226,6 +226,69 @@ class Help extends Console
         APPOFF;
     }
 
+    private static function AppToDevelopment()
+    {
+        $welcome     = static::welcome();
+        $usage       = static::hereColor('Usage:', 'yellow');
+        $description = static::hereColor('Description:', 'yellow');
+        $examples    = static::hereColor('Examples:', 'yellow');
+
+        echo <<<APPTODEVELOPMENT
+            {$welcome}
+            {$description}
+                Make application ready for development mode.
+
+            {$usage}
+                php webby app:to-development 
+
+            {$examples}
+                php webby app:to-development
+
+        APPTODEVELOPMENT;
+    }
+
+    private static function AppToTesting()
+    {
+        $welcome     = static::welcome();
+        $usage       = static::hereColor('Usage:', 'yellow');
+        $description = static::hereColor('Description:', 'yellow');
+        $examples    = static::hereColor('Examples:', 'yellow');
+
+        echo <<<APPTOTESTING
+            {$welcome}
+            {$description}
+                Make application ready for testing mode.
+
+            {$usage}
+                php webby app:to-testing 
+
+            {$examples}
+                php webby app:to-testing
+
+        APPTOTESTING;
+    }
+
+    private static function AppToProduction()
+    {
+        $welcome     = static::welcome();
+        $usage       = static::hereColor('Usage:', 'yellow');
+        $description = static::hereColor('Description:', 'yellow');
+        $examples    = static::hereColor('Examples:', 'yellow');
+
+        echo <<<APPTOPRODUCTION
+            {$welcome}
+            {$description}
+                Make application ready for production mode.
+
+            {$usage}
+                php webby app:to-production 
+
+            {$examples}
+                php webby app:to-production
+
+        APPTOPRODUCTION;
+    }
+
     private static function resourceLink()
     {
         $welcome     = static::welcome();
@@ -650,6 +713,15 @@ class Help extends Console
             break;
             case 'app:off':
                 Help::AppOff();
+            break;
+            case 'app:to-development':
+                Help::AppToDevelopment();
+            break;
+            case 'app:to-testing':
+                Help::AppToTesting();
+            break;
+            case 'app:to-production':
+                Help::AppToProduction();
             break;
             case 'resource:link':
                 Help::resourceLink();
