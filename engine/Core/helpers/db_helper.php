@@ -15,16 +15,91 @@ defined('COREPATH') or exit('No direct script access allowed');
 
 /* ------------------------------- DB Functions ---------------------------------*/
 
-if ( ! function_exists( 'dbase' )) 
+if ( ! function_exists('use_table'))
+{
+	/**
+	 * Select and use any table by specifying
+	 * the table name
+	 * 
+	 * By default it uses the EasyModel class
+	 * 
+	 * @param string $table
+	 * @return object
+	 */
+	function use_table($table = '', $model_type = 'EasyModel')
+	{
+		if ($model_type === 'EasyModel') {
+			$model = new \Base\Models\EasyModel;
+		}
+
+		if ($model_type === 'BaseModel') {
+			$model = new \Base\Models\BaseModel();
+		}
+
+		if ($model_type === 'OrmModel') {
+			$model = new \Base\Models\OrmModel;
+		}
+
+		if ($model_type === 'Model') {
+			$model = new \Base\Models\Model;
+		}
+
+		// This will default to EasyModel unless 
+		// $model_type is changed appropriately
+        if (empty($table)) {
+			return $model;
+		}
+
+		$model->table = $table;
+
+		return $model;
+	}
+}
+
+if ( ! function_exists( 'use_db' ))
 {
     /**
      * CodeIgniter's database object
      *
      * @return object
      */
-    function dbase()
+    function use_db($database_name = null, $db_group = 'default')
 	{
-        ci()->load->database();
+		$db = null;
+
+		if (strstr($db_group, '.')) {
+			$db_group = str_replace('.', '/', $db_group);
+		}
+
+		if (contains('/', $db_group)) {
+
+			$module = $config_file = $config_name = null;
+
+			[$module, $config_file, $config_name] = explode('/', $db_group);
+
+			ci()->load->config(ucfirst($module).'/'.ucfirst($config_file));
+
+			$db_config = ci()->config->item($config_name);
+
+			$db = ci()->load->database($db_config, true);
+		}
+
+		if ($db_group === 'default' && $db === null) {
+			ci()->load->database($db_group);
+		} else if ($db_group !== 'default' && $db === null) {
+			ci()->load->database($db_group);
+		}
+
+		ci()->db = $db ?? ci()->db;
+
+		$exists = $database_name !== null && select_db($database_name);
+
+		if ($exists) {
+			return ci()->db;
+		} else {
+			ci()->load->database();
+		}
+		
         return ci()->db;
 	}
 }
@@ -40,21 +115,6 @@ if ( ! function_exists( 'select_db' ))
     function select_db(string $database_name)
 	{
         return ci()->db->db_select($database_name);
-	}
-}
-
-if ( ! function_exists( 'external_db' )) 
-{
-    /**
-     * Select a secondary or 
-     * external database to use
-     *
-     * @param string $db_group
-     * @return mixed
-     */
-    function external_db(string $db_group)
-	{
-        return ci()->load->database($db_group, true);
 	}
 }
 
@@ -92,7 +152,6 @@ if ( ! function_exists( 'max_id' ))
         return $maxid;
     }
 }
-
 
 if ( ! function_exists('add_foreign_key'))
 {
