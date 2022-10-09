@@ -280,6 +280,98 @@ class Arrayz
 		return array_map(null, ...$arguments);
 	}
 
+	// ------ Wrapper array_* methods ----------------
+
+	/**
+     * Wrapper method for array_map
+     *
+     * @param \Closure $closure
+     * @return array
+     */
+    public function map(\Closure $closure): array
+    {
+        return array_map($closure, $this->source);
+    }
+
+    /**
+     * Wrapper method for array_filter
+     *
+     * @param \Closure $closure
+     * @return array
+     */
+    public function filter(\Closure $closure): array
+    {
+        return array_filter($this->source, $closure);
+    }
+
+    /**
+     * Wrapper method for in_array
+     *
+     * @param mixed $item
+     * @return bool
+     */
+    public function exists(mixed $item): bool
+    {
+        return in_array($item, $this->source);
+    }
+
+    /**
+     * Wrapper method for array_values
+     *
+     * @return array
+     */
+    public function getValues(): array
+    {
+        return array_values($this->source);
+    }
+
+    /**
+     * Wrapper method for array_keys
+     *
+     * @return array
+     */
+    public function getKeys(): array
+    {
+        return array_keys($this->source);
+    }
+
+    /**
+     * Wrapper method for array_search
+     *
+     * @param mixed $searchParam
+     * @return false|int|string
+     */
+    public function search(mixed $searchParam, bool $strict = false): int|string|false
+    {
+        return array_search($searchParam, $this->source, $strict = false);
+    }
+
+    /**
+     * Wrapper method for array_reduce
+     *
+     * @param \Closure $callback
+     * @param mixed $initial
+     * 
+     * @return mixed
+     */
+    public function reduce(\Closure $callback, mixed $initial = null): mixed
+    {
+        return array_reduce($this->source, $callback, $initial);
+    }
+
+    /**
+     * Wrapper method for array_chunk
+     *
+     * @param int $length
+     * @param bool $preserve_keys
+     * 
+     * @return array
+     */
+    public function chunk(int $length, bool $preserve_keys = false): array
+    {
+        return array_chunk($this->source, $length, $preserve_keys);
+    }
+
 	/**
 	 * Like an SQL where clause
 	 * Supports operators. 
