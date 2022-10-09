@@ -16,7 +16,7 @@ class Base_Controller extends MX_Controller
 
         // Protection
         header('X-Content-Type-Options: nosniff');
-        header('X-Frame-Options: DENY');
+        header('X-Frame-Options: SAMEORIGIN');
         header('X-XSS-Protection: 1; mode=block');
     }
 
