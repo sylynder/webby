@@ -266,6 +266,21 @@ class Arrayz
 	}
 
 	/**
+	 * Merge more index arrays into 
+	 * a multidimensional array
+	 *
+	 * Takes multiple array params
+	 * 
+	 * @return array
+	 */
+	public function zip(): array
+	{
+		$arguments = func_get_args(); //get passed arguments
+
+		return array_map(null, ...$arguments);
+	}
+
+	/**
 	 * Like an SQL where clause
 	 * Supports operators. 
 	 * 
