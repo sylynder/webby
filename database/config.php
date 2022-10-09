@@ -78,7 +78,7 @@ $query_builder = true;
 //It is configured to use .env file as a quick setup
 
 $db['default'] = [
-    'dsn' => '',
+    'dsn' => APP_DB_DSN,
     'hostname' => APP_DB_HOSTNAME,
     'username' => APP_DB_USERNAME,
     'password' => APP_DB_PASSWORD,
@@ -100,7 +100,7 @@ $db['default'] = [
 ]; 
 
 $db['test'] = [
-    'dsn' => '',
+    'dsn' => TEST_DB_DSN,
     'hostname' => TEST_DB_HOSTNAME,
     'username' => TEST_DB_USERNAME,
     'password' => TEST_DB_PASSWORD,
@@ -122,7 +122,7 @@ $db['test'] = [
 ];
 
 $db['auth_db'] = [
-    'dsn' => '',
+    'dsn' => APP_DB_DSN,
     'hostname' => APP_DB_HOSTNAME,
     'username' => APP_DB_USERNAME,
     'password' => APP_DB_PASSWORD,

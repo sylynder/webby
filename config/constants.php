@@ -59,7 +59,12 @@ define('APP_ENCRYPTION_KEY', getenv('app.encryptionKey'));
 |
  */
 
-// Database Driver
+
+// Default Database Driver
+
+/* The dsn of your database server. */
+define('APP_DB_DSN', getenv('database.default.dsn') ?: '');
+
 define('APP_DB_DRIVER', getenv('database.default.DBDriver'));
 /* The hostname of your database server. */
 define('APP_DB_HOSTNAME', getenv('database.default.hostname'));
@@ -74,7 +79,11 @@ define('APP_DB_NAME', getenv('database.default.database'));
 */
 define('APP_AUTH_DB', getenv('database.default.authDB'));
 
-// Database Driver
+// Test Database Driver
+
+/* The dsn of your test database server. */
+define('TEST_DB_DSN', getenv('database.test.dsn') ?: '');
+
 define('TEST_DB_DRIVER', getenv('database.test.DBDriver'));
 /* The hostname of your database server. */
 define('TEST_DB_HOSTNAME', getenv('database.test.hostname'));
@@ -97,7 +106,7 @@ define('TEST_AUTH_DB', getenv('database.test.authDB'));
 */
 
 /* The dsn of your database server. */
-define('PGSQL_DB_DSN', getenv('database.pgsql.dsn'));
+define('PGSQL_DB_DSN', getenv('database.pgsql.dsn') ?: '');
 /* The hostname of your database server. */ //PGSQL_DB_DSN
 define('PGSQL_DB_HOSTNAME', getenv('database.pgsql.hostname'));
 //The database Driver to user to the database
