@@ -67,6 +67,11 @@ if ( ! function_exists( 'use_db' ))
 	{
 		$db = null;
 
+		if (contains('://', $database_name) || contains('=', $database_name)) {
+			$db = ci()->load->database($database_name, true);
+			return ci()->db =  $db;
+		}
+
 		if (strstr($db_group, '.')) {
 			$db_group = str_replace('.', '/', $db_group);
 		}
