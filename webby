@@ -16,7 +16,7 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Define Console Application Version
-define('WEBBY_CLI_VERSION', '1.6.0');
+define('WEBBY_CLI_VERSION', '1.6.1');
 
 // Define Webby Rootpath
 define('WEBBY_ROOTPATH', __DIR__);
