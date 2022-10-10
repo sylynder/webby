@@ -16,7 +16,7 @@
     }],
     "require": {
         "php": "^8.0",
-        "sylynder/codeigniter": "^0.2"
+        "sylynder/codeigniter": "^0.3"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.2"
