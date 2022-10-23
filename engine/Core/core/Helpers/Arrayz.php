@@ -1082,6 +1082,13 @@ class Arrayz
 
 		$array = $this->source;
 
+		$index = $this->count();
+
+		if (is_array($key) && $this->isAssocArray($key)) {
+			$index++;
+			$array[$index] = $key;
+		}
+
 		if (is_array($key) && $this->isMultiArray($key)) {
 			$array = array_merge($key, $array);
 		}
