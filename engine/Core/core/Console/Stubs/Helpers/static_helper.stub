@@ -1,8 +1,0 @@
-class {{HELPER}} 
-{
-	public static function somefunction($parameter) 
-	{
-		// Sample code here ...
-	}
-}
-/* End of {{HELPER}}_helper file */
