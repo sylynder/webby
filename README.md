@@ -94,7 +94,7 @@ There are lots of future plans for Webby
 * [x] Enable and Test for PHP 8.1 compatibility
 * [x] Improve and simplify CI3's database migrations
 * [x] Enable module based packages to use composer packages
-* [ ] Enable easy engine folder upgrade (Currently folder will have to be replaced when an update is available)
+* [x] Enable easy engine folder upgrade (Currently folder will have to be replaced when an update is available) (Done on 30th October 2022 18:22 PM)
 * [ ] Create a compatible HTTP and Routing feature (may be PSR-7 compatible)  that enables general integration with other frameworks
 * [ ] Improve and optimize speed
 * [ ] Improve on cli or console feature
