@@ -16,7 +16,8 @@
     }],
     "require": {
         "php": "^8.0",
-        "sylynder/codeigniter": "^0.3"
+        "sylynder/codeigniter": "^0.3",
+        "sylynder/engine": "^1.7"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.2"
@@ -26,8 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app",
-            "Base\\": "engine/Core/core"
+            "App\\": "app"
         }
     },
     "scripts": {
