@@ -25,12 +25,12 @@ require __DIR__ . '/../vendor/autoload.php';
 /*
  * Paths for needed directories
  */
-include_once __DIR__ . '/../engine/paths.php';
+include_once __DIR__ . '/../core/paths.php';
 
 /*
  * Bootstrap the application here
  */
-include_once __DIR__ . '/../engine/bootstrap.php';
+include_once __DIR__ . '/../core/bootstrap.php';
 
 /*
  * Function to detect application 
