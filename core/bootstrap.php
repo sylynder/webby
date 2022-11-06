@@ -111,11 +111,11 @@ if (($_temp = realpath($ci_directory)) !== false) {
 // Is the system path correct?
 if (!is_dir($ci_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your ci_directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $ci_directory_line;
+    echo 'Your ci_directory path does not appear to be set correctly. Please open the core/paths.php file and set a correct path on line ' . $ci_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
-//Set Console path correctly
+// Set Console path correctly
 if (($_temp = realpath($console_directory)) !== false) {
     $console_directory = $_temp . '/';
 } else {
@@ -126,11 +126,11 @@ if (($_temp = realpath($console_directory)) !== false) {
 // Is the Console path correct?
 if (!is_dir($console_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your console directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $console_directory_line;
+    echo 'Your console directory path does not appear to be set correctly. Please open the core/paths.php file and set a correct path on line ' . $console_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
-//Set Packages path correctly
+// Set Packages path correctly
 if (($_temp = realpath($packages_directory)) !== false) {
     $packages_directory = $_temp . '/';
 } else {
@@ -141,11 +141,11 @@ if (($_temp = realpath($packages_directory)) !== false) {
 // Is the Packages path correct?
 if (!is_dir($packages_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your packages directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $packages_directory_line;
+    echo 'Your packages directory path does not appear to be set correctly. Please open the core/paths.php file and set a correct path on line ' . $packages_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
-//Set api path correctly
+// Set api path correctly
 if (($_temp = realpath($api_directory)) !== false) {
     $api_directory = $_temp . '/';
 } else {
@@ -156,11 +156,11 @@ if (($_temp = realpath($api_directory)) !== false) {
 // Is the web path correct?
 if (!is_dir($api_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your api directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $api_directory_line;
+    echo 'Your api directory path does not appear to be set correctly. Please open the core/paths.php file and set a correct path on line ' . $api_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
-//Set web path correctly
+// Set web path correctly
 if (($_temp = realpath($web_directory)) !== false) {
     $web_directory = $_temp . '/';
 } else {
@@ -171,11 +171,11 @@ if (($_temp = realpath($web_directory)) !== false) {
 // Is the web path correct?
 if (!is_dir($web_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your web directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $web_directory_line;
+    echo 'Your web directory path does not appear to be set correctly. Please open the core/paths.php file and set a correct path on line ' . $web_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
-//Set Composer path correctly
+// Set Composer path correctly
 if (($_temp = realpath($composer_directory)) !== false) {
     $composer_directory = $_temp . '/';
 } else {
@@ -186,11 +186,11 @@ if (($_temp = realpath($composer_directory)) !== false) {
 // Is the composer path correct?
 if (!is_dir($composer_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your composer directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $composer_directory_line;
+    echo 'Your composer directory path does not appear to be set correctly. Please open the core/paths.php file and set a correct path on line ' . $composer_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
-//Set writable path correctly
+// Set writable path correctly
 if (($_temp = realpath($writable_directory)) !== false) {
     $writable_directory = $_temp . '/';
 } else {
@@ -201,7 +201,7 @@ if (($_temp = realpath($writable_directory)) !== false) {
 // Is the writable path correct?
 if (!is_dir($writable_directory)) {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your writable directory path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $writable_directory_line;
+    echo 'Your writable directory path does not appear to be set correctly. Please open the core/paths.php file and set a correct path on line ' . $writable_directory_line;
     exit(3); // EXIT_CONFIG
 }
 
@@ -214,13 +214,13 @@ if (!is_dir($writable_directory)) {
 // Path to the system (CodeIgniter) folder
 define('BASEPATH', str_replace('\\', DIRECTORY_SEPARATOR, $ci_directory));
 
-// Path to the packages folder
+// Path to the console module folder
 define('CONSOLEPATH', str_replace('\\', DIRECTORY_SEPARATOR, $console_directory));
 
-// Path to the packages folder
+// Path to the packages module folder
 define('PACKAGEPATH', str_replace('\\', DIRECTORY_SEPARATOR, $packages_directory));
 
-// Path to the web folder
+// Path to the web module folder
 define('WEBPATH', str_replace('\\', DIRECTORY_SEPARATOR, $web_directory));
 
 // Path to the api folder
@@ -255,7 +255,7 @@ define('APPROOT', ROOTPATH . 'app' . DIRECTORY_SEPARATOR);
 // Path to the ThirdParty folder
 define('THIRDPARTYPATH', APPROOT . 'ThirdParty' . DIRECTORY_SEPARATOR);
 
-// Name of the "codeigniter folder"
+// Name of the folder that has the "codeigniter framework"
 define('SYSDIR',
     trim(
         strrchr(
@@ -301,7 +301,7 @@ if (!is_dir($view_directory)) {
         $view_directory = COREPATH . $view_directory;
     } elseif (!is_dir(COREPATH . 'views' . DIRECTORY_SEPARATOR)) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
-        echo 'Your view folder path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $view_directory_line;
+        echo 'Your view folder path does not appear to be set correctly. Please open the core/paths.php file and set a correct path on line ' . $view_directory_line;
         exit(3); // EXIT_CONFIG
     } else {
         $view_directory = COREPATH . 'views';
@@ -323,7 +323,7 @@ if (is_dir($asset_directory)) {
 
     if (!is_dir(CIPATH . $asset_directory . DIRECTORY_SEPARATOR) && !defined('STDIN')) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
-        echo 'Your assets folder path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line ' . $asset_directory_line;
+        echo 'Your assets folder path does not appear to be set correctly. Please open the core/paths.php file and set a correct path on line ' . $asset_directory_line;
         exit(3); // EXIT_CONFIG
     }
 
@@ -337,7 +337,7 @@ if (is_dir($upload_directory)) {
 
     if (!is_dir(CIPATH . $upload_directory . DIRECTORY_SEPARATOR)) {
         header('HTTP/1.1 503 Service Unavailable.', true, 503);
-        echo 'Your uploads data folder path does not appear to be set correctly. Please open the engine/paths.php file and set a correct path on line '. $upload_directory_line;
+        echo 'Your uploads data folder path does not appear to be set correctly. Please open the core/paths.php file and set a correct path on line '. $upload_directory_line;
         exit(3); // EXIT_CONFIG
     }
 
