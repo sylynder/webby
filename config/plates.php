@@ -71,7 +71,7 @@ $config['helpers'] = [];
 |--------------------------------------------------------------------------
 |
 | Set to true and Plate helper file will be loaded in the initialization.
-| it is located at engine/Core/helpers/plate_helper.php
+| it is located at vendor/sylynder/engine/Core/helpers/plate_helper.php
 |
 */
 $config['enable_helper'] = true;
