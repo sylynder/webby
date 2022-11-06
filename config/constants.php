@@ -218,7 +218,7 @@ define('WEB_CACHE_PATH', CACHE_PATH . 'web/');
 | By default the database driver will be used.
 |
 | The Constants below have been made to control the values
-| of the $config['sess_|'] array variables in the engine/config/config.php
+| of the $config['sess_|'] array variables in the config/config.php
 |
 | For files session use this config:
 | define('SESS_DRIVER','files');
@@ -241,7 +241,7 @@ define('SESSION_REGENERATE_DESTROY', getenv('app.sessionRegenerateDestroy') ?: f
 |  Cookie Related Variables
 |
 |  The Constants below have been made to control the values
-|  of the $config['sess|'] array variables in the engine/config/config.php
+|  of the $config['sess|'] array variables in the vendor/sylynder/engine/config/config.php
 |
 |  'cookie_prefix'   = Set a cookie name prefix if you need to avoid collisions
 |  'cookie_domain'   = Set to .your-domain.com for site-wide cookies
