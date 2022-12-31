@@ -13,7 +13,7 @@ define('__ONE__', 1); // No special functionality with this. It is just a helper
  * This variable must contain the name of your "codigniter framework" directory.
  * Set the path if it is not in the same directory as this file.
  */
-$ci_directory = __DIR__ . '/../vendor/sylynder/codeigniter/framework';
+$ci_directory = __DIR__ . '/../vendor/sylynder/engine/CodeIgniter/Framework';
 $ci_directory_line = __LINE__ - __ONE__;
 
 /*
