@@ -1,6 +1,6 @@
-The MIT License (MIT)
+MIT License
 
-Copyright (c) Kwame Oteng Appiah-Nti
+Copyright (c) 2022 Sylynder Works, Kwame Oteng Appiah-Nti <developerkwame@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
