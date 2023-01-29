@@ -15,7 +15,7 @@
         "email": "developerkwame@gmail.com"
     }],
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "sylynder/engine": "^2.0"
     },
     "require-dev": {
