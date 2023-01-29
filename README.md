@@ -109,7 +109,7 @@ There are lots of future plans for Webby
 * [ ] Improve on cli or console feature
 * [ ] Integrate asynchronous features (may be fibers) [as a package]
 * [ ] And many more to add (and many more to learn)
-* [ ] Write version two (v2) without a major class api change so as to reduce future upgrade headache. Unlike other major PHP Frameworks
+* [ ] Write version three (v3) with a few major class api change but try to not make heavy breaking changes so as to reduce future upgrade headache. Unlike other major PHP Frameworks
 
 
 

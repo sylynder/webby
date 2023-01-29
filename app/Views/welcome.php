@@ -156,7 +156,7 @@
                                 </span>
 
                                 <h1 class="text-2xl  font-semibold text-gray-700 capitalize dark:text-gray-900">
-                                    <a href="https://webby.sylynder.com/blogs" target="_blank" class="underline text-gray-900 dark:text-gray-400">Know The Tips</a>
+                                    <a href="https://blog.webby.sylynder.com" target="_blank" class="underline text-gray-900 dark:text-gray-400">Know The Tips</a>
                                 </h1>
 
                                 <p class="text-gray-500 dark:text-gray-600">
