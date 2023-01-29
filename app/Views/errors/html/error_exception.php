@@ -106,7 +106,7 @@
 
 	<?php if ($evaluated) : ?>
 		<p class="w-p error-hover"><span class="w-title">Current Controller: </span><span class="w-message"><?php echo " from the " . ucwords($GLOBALS['class']) . ".php file located at: </span>  <span style='color:red; font-weight:bold;'><code>" . rtrim($location, '/') . "</code></span> </span></p>" ?>
-		<p class="w-p error-hover"><span class="w-title">Error Location: </span><span class="w-message"><?php echo "found on line number: <span style='color:red; font-weight:bold;'><code>" . $line . "<code></span> in a <span style='color:red; font-weight:bold;'><code> view file ".session('__view_path')."</code></span> returned in the <span style='color:red; font-weight:bold;'><code>" .  strtolower($GLOBALS['method']) . "()</code></span> method  </span></p>" ?>
+		<p class="w-p error-hover"><span class="w-title">Error Location: </span><span class="w-message"><?php echo "found on line number: <span style='color:red; font-weight:bold;'><code>" . $line . "<code></span> in a <span style='color:red; font-weight:bold;'><code> cached file ".session('__view_path')." </code></span> from a <span style='color:red; font-weight:bold;'><code>view</code></span> returned in the <span style='color:red; font-weight:bold;'><code>" .  strtolower($GLOBALS['method']) . "()</code></span> method  </span></p>" ?>
 		<p class="w-p error-hover"><span class="w-title">Open in VSCode: </span><span class="w-message"><?php echo "<a href='vscode://file/".session('__view_path').":".$line."'>Click to open in VSCode" ?>
 	<?php else : ?>
 		<p class="w-p error-hover"><span class="w-title error-hover">Filename:</span><span class="w-message"><?php echo $exception->getFile(); ?></span></p>
