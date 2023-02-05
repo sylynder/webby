@@ -1,7 +1,7 @@
 <?php defined('COREPATH') or exit('No direct script access allowed'); ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="utf-8">
@@ -9,6 +9,7 @@
     <script src="<?= APP_BASE_URL . 'assets/tailwind.css?plugins=typography' ?>"></script>
     <script>
         tailwind.config = {
+            // darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
