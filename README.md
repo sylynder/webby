@@ -2,7 +2,7 @@
     <img src="public/assets/webby-readme.png" width="600" alt="Webby">
 </p>
 
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs) ![Lines of code](https://img.shields.io/tokei/lines/github/sylynder/webby) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/sylynder/webby) ![Packagist Version](https://img.shields.io/packagist/v/sylynder/webby) ![Packagist Downloads (custom server)](https://img.shields.io/packagist/dt/sylynder/webby)
+[![MIT License](https://img.shields.io/github/license/sylynder/webby)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs) ![Lines of code](https://img.shields.io/tokei/lines/github/sylynder/webby) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/sylynder/webby) ![Packagist Version](https://img.shields.io/packagist/v/sylynder/webby) ![Packagist Downloads (custom server)](https://img.shields.io/packagist/dt/sylynder/webby)
 
 ## About Webby
 
