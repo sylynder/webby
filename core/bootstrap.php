@@ -252,6 +252,9 @@ define('ENGINEPATH', COMPOSERPATH . 'sylynder/engine' . DIRECTORY_SEPARATOR);
  */
 define('APPROOT', ROOTPATH . 'app' . DIRECTORY_SEPARATOR);
 
+// Path to the app/Controllers folder
+define('CONTROLLERPATH', APPROOT . 'Controllers' . DIRECTORY_SEPARATOR);
+
 // Path to the ThirdParty folder
 define('THIRDPARTYPATH', APPROOT . 'ThirdParty' . DIRECTORY_SEPARATOR);
 

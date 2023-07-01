@@ -54,6 +54,18 @@ $view_directory_line = __LINE__ - __ONE__;
 
 /*
  *---------------------------------------------------------------
+ * CONTROLLERS FOLDER NAME
+ *---------------------------------------------------------------
+ *
+ * This folder is where you will put controllers that you don't
+ * want to use in an HMVC manner. It needs to be located exactly
+ * where is has been specified below.
+ */
+$controllers_directory = __DIR__ . '/../app/Controllers';
+$controllers_directory_line = __LINE__ - __ONE__;
+
+/*
+ *---------------------------------------------------------------
  * ASSETS FOLDER NAME
  *---------------------------------------------------------------
  *
