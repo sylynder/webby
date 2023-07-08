@@ -22,6 +22,10 @@ define('WEBBY_ROOTPATH', __DIR__);
 // Leave this untouched since console depends on it
 define('ENVIRONMENT', 'development'); 
 
+
+// PHP CLI VERSION
+define('PHP_CLI_VERSION', 'php');
+
 // Use Console Class
 use Base\Console\Console;
 
