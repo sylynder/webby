@@ -21,7 +21,8 @@ $config['view'] = [
     | can be accessed directly through Route::view(). 
     |
     | You will have to implement the method below in a dedicated
-    | Controller, preferably the "Web/App/App" Controller class
+    | Controller, preferably the "Web/App/Pages" Controller class
+    | Which you will have to create in the Web/App Module
     |
     |   public function views($view = '')
     |   {
@@ -31,13 +32,20 @@ $config['view'] = [
     | A correct way to set the 'route_views_through' config is explained below
     |
     | 'route_views_through' => 'Module/Controller/MethodName/',
+    |                   OR
+    | 'route_views_through' => 'Controller/MethodName/',
+    |  the above is used in a non module controller
     |
-    | e.g. 'route_views_through' => 'App/App/views/',
+    | e.g. 'route_views_through' => 'App/Pages/views/',
+    |                   OR
+    | e.g. 'route_views_through' => 'Pages/views/',
+    | in a non module controller
     |
-    | Anytime you use Route::view('a-view-name')
+    | Note: always end specified path with a trailing slash
+    |
+    | Anytime you use Route::page('a-view-name')
     | It will be routed using the name of the view as it's route
     | 
-    | Note: always end specified path with a trailing slash
     |
     */
     'route_views_through' => '',
