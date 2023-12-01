@@ -139,7 +139,7 @@
                                 </span>
 
                                 <h1 class="text-2xl  font-semibold text-gray-700 capitalize dark:text-gray-900">
-                                    <a href="https://heartofphp.com" target="_blank" class="underline text-gray-900 dark:text-gray-400">Heart of PHP</a>
+                                    <a href="https://heartofphp.developerkwame.com" target="_blank" class="underline text-gray-900 dark:text-gray-400">Heart of PHP</a>
                                 </h1>
 
                                 <p class="text-gray-500 dark:text-gray-600">
