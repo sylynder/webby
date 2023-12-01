@@ -16,7 +16,7 @@
     }],
     "require": {
         "php": "^8.1",
-        "sylynder/engine": "^2.0"
+        "sylynder/engine": "^2.9"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.2"
