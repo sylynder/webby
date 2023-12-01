@@ -7,7 +7,8 @@ defined('COREPATH') or exit('No direct script access allowed');
 |--------------------------------------------------------------------------
 |
 | Allows you to choose which command type to use
-| Available currently is webby-console i.e by using controllers
+| Available currently is webby-console 
+| i.e by using controllers/command classes
 | 
 | There is an option to use Symfony/Console by setting 
 | command_type as 'symfony-console' (Currently not available)
