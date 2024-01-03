@@ -44,3 +44,20 @@ use Base\Route\Route;
 $route['default_controller'] = 'app';
 $route['404_override'] = 'errors/handle';
 $route['translate_uri_dashes'] = false;
+
+/*
+| -------------------------------------------------------------------------
+| Import Route Files
+| -------------------------------------------------------------------------
+| 
+| You can import routes from other files by using the following syntax
+| 
+| Note: you should not add the '.php' extension
+|
+| Route::get('route-pattern', 'module/controller/method/segment1/segment2/segment3');
+| Route::import('name/of/route/file');
+|
+| If route file is not found in the default routes directory, you can use the following syntax
+| Route::import('name/of/route/file.php', true);
+| Here you will need to specify the full path to the route file with '.php' extension
+*/
